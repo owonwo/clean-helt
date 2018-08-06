@@ -20,8 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'API'], function() {
 
-    Route::post('hospitals/login', 'Auth\LoginController@hospitalLogin');
+    Route::post('login/{guard}', 'Auth\LoginController@login');
+
     Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
         return $request->user();
     });
+
 });
