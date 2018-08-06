@@ -17,6 +17,7 @@ class CreateHospitalsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('chcode')->unique();
             $table->string('password');
             $table->string('director_mdcn');
             $table->string('phone');
