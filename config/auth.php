@@ -42,8 +42,28 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
+        ],
+
+        'hospital' => [
+            'driver' => 'session',
+            'provider' => 'hospitals'
+        ],
+
+        'hospital-api' => [
+            'driver' => 'passport',
+            'provider' => 'hospitals',
+        ],
+
+        'doctor' => [
+            'driver' => 'session',
+            'provider' => 'doctors'
+        ],
+
+        'doctor-api' => [
+            'driver' => 'passport',
+            'provider' => 'doctors',
         ],
     ],
 
@@ -68,6 +88,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'hospitals' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Hospital::class,
+        ],
+
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Doctor::class,
         ],
 
         // 'users' => [

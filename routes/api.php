@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['namespace' => 'API'], function() {
+
+    Route::post('hospitals/login', 'Auth\LoginController@hospitalLogin');
+    Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
+        return $request->user();
+    });
 });
