@@ -85,6 +85,16 @@ return [
             'driver' => 'passport',
             'provider' => 'admins',
         ],
+
+        'laboratory' => [
+            'driver' => 'session',
+            'provider' => 'laboratories'
+        ],
+
+        'laboratory-api' => [
+            'driver' => 'passport',
+            'provider' => 'laboratories',
+        ],
     ],
 
     /*
@@ -128,6 +138,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'laboratories' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Laboratory::class,
         ],
 
         // 'users' => [

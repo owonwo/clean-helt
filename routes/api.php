@@ -26,4 +26,8 @@ Route::group(['namespace' => 'API'], function() {
         return $request->user();
     });
 
+    Route::get('/admin/hospitals', 'Admin\HospitalController@index');
+    Route::post('/admin/hospitals', 'Admin\HospitalController@store');
+    Route::get('/admin/hospitals/{hospital}', 'Admin\HospitalController@show');
+
 });

@@ -12,7 +12,7 @@ class LoginController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
         if (Auth::guard($guard)->attempt($credentials)) {
-            $user = Auth::guard($guard)->user();
+            $user = auth()->guard($guard)->user();
             $token = $user->createToken(config('app.name'))->accessToken;
             return response()->json(['user' => $user, 'access_token' => $token], 200);
         }
