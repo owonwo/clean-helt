@@ -51,4 +51,42 @@ class ManagesHospitalTest extends TestCase
             ->get("/api/admin/hospitals/{$hospital->chcode}")
             ->assertSee($hospital->name);
     }
+
+    /** @test */
+    public function an_authenticated_admin_can_update_a_registered_hospital()
+    {
+        $this->signIn(null, 'admin');
+
+        $hospital = create(Hospital::class);
+
+        $update = [
+            'name' => "New Hospital Name"
+        ];
+
+        $this->makeAuthRequest()
+            ->patch("/api/admin/hospitals/{$hospital->chcode}", $update)
+            ->assertStatus(200);
+
+        $this->makeAuthRequest()
+            ->get("/api/admin/hospitals/{$hospital->chcode}")
+            ->assertSee($update['name']);
+    }
+
+    /** @test */
+    public function an_authenticated_admin_can_delete_a_registered_hospital()
+    {
+        $this->signIn(null, 'admin');
+
+        $hospital = create(Hospital::class);
+
+        $this->makeAuthRequest()
+            ->delete("/api/admin/hospitals/{$hospital->chcode}")
+            ->assertStatus(200);
+
+        $this->withExceptionHandling()
+            ->makeAuthRequest()
+            ->get("/api/admin/hospitals/{$hospital->chcode}")
+            ->assertDontSee($hospital->name)
+            ->assertStatus(404);
+    }
 }

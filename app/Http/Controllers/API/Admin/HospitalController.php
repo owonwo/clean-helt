@@ -63,7 +63,7 @@ class HospitalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Hospital $hospital
      * @return \Illuminate\Http\Response
      */
     public function show(Hospital $hospital)
@@ -88,23 +88,42 @@ class HospitalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Hospital $hospital
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Hospital $hospital)
     {
-        //
+        if ($hospital->update($request->all())) {
+            return response()->json([
+                'message' => 'Hospital updated successfully',
+                'hospital' => $hospital
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Hospital could not be updated'
+        ], 400);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Hospital $hospital
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Hospital $hospital)
     {
-        //
+        try {
+            $hospital->delete();
+            return response()->json([
+                'message' => 'Hospital deleted successfully',
+                'hospital' => $hospital
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 }

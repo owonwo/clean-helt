@@ -26,15 +26,14 @@ Route::group(['namespace' => 'API'], function() {
         return $request->user();
     });
 
-<<<<<<< HEAD
     Route::get('/admin/hospitals', 'Admin\HospitalController@index');
     Route::post('/admin/hospitals', 'Admin\HospitalController@store');
     Route::get('/admin/hospitals/{hospital}', 'Admin\HospitalController@show');
-
-=======
+    Route::patch('/admin/hospitals/{hospital}', 'Admin\HospitalController@update');
+    Route::delete('/admin/hospitals/{hospital}', 'Admin\HospitalController@destroy');
 });
-Route::group(['namespace' => 'Admin'],function(){
+
+Route::group(['namespace' => 'Admin'], function() {
    Route::get('admin/doctors','DoctorController@index');
    Route::get('admin/doctors/{id}','DoctorController@show');
->>>>>>> f7a5560ffea844b5fe3b99fd98682d09ab144f4a
 });
