@@ -27,3 +27,7 @@ Route::group(['namespace' => 'API'], function() {
     });
 
 });
+Route::group(['namespace' => 'Admin'],function(){
+   Route::get('admin/doctors','DoctorController@index');
+   Route::get('admin/doctors/{id}','DoctorController@show');
+});
