@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Laboratory::class, function (Faker $faker) {
+$factory->define(App\Models\Laboratory::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'licence_no' => str_random(15),
@@ -14,7 +14,7 @@ $factory->define(App\Laboratory::class, function (Faker $faker) {
         'state' => $faker->city,
         'country' => $faker->country,
         'lab_owner' => $faker->name,
-        'cac_reg' => $faker->str_random(15),
+        'cac_reg' => str_random(15),
         'fmoh_reg' => str_random(15),
         'offers' => $faker->paragraph('3'),
     ];
