@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\API\Admin;
 
-use App\Models\Hospital;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class HospitalController extends Controller
+class PharmacyController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:admin-api');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +15,9 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        $hospitals = Hospital::latest()->paginate(20);
+        $pharmacies = Pharmacy::latest()->paginate(20);
         return response()->json([
-            'hospitals' => $hospitals
+            'pharmacies' => $pharmacies
         ], 200);
     }
 
@@ -52,29 +47,29 @@ class HospitalController extends Controller
 
         $data['password'] = str_random(10);
 
-        if ($hospital = Hospital::create($data)) {
+        if ($pharmacy = Pharmacy::create($data)) {
             return response()->json([
-                'message' => 'Hospital created successfully',
-                'hospital' => $hospital
+                'message' => 'Pharmacy created successfully',
+                'pharmacy' => $pharmacy
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Hospital could not be created'
+            'message' => 'Pharmacy could not be created'
         ], 400);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Hospital $hospital
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Hospital $hospital)
+    public function show(Pharmacy $pharmacy)
     {
         return response()->json([
-            'message' => 'Hospital fetched successfully',
-            'hospital' => $hospital
+            'message' => 'Pharmacy fetched successfully',
+            'pharmacy' => $pharmacy
         ], 200);
     }
 
@@ -93,36 +88,36 @@ class HospitalController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Hospital $hospital
+     * @param Pharmacy $pharmacy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hospital $hospital)
+    public function update(Request $request, Pharmacy $pharmacy)
     {
-        if ($hospital->update($request->all())) {
+        if ($pharmacy->update($request->all())) {
             return response()->json([
-                'message' => 'Hospital updated successfully',
-                'hospital' => $hospital
+                'message' => 'Pharmacy updated successfully',
+                'pharmacy' => $pharmacy
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Hospital could not be updated'
+            'message' => 'Pharmacy could not be updated'
         ], 400);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Hospital $hospital
+     * @param Pharmacy $pharmacy
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hospital $hospital)
+    public function destroy(Pharmacy $pharmacy)
     {
         try {
-            $hospital->delete();
+            $pharmacy->delete();
             return response()->json([
-                'message' => 'Hospital deleted successfully',
-                'hospital' => $hospital
+                'message' => 'Pharmacy deleted successfully',
+                'pharmacy' => $pharmacy
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -132,16 +127,16 @@ class HospitalController extends Controller
     }
 
     /**
-     * Returns validation rules for hospital resource
+     * Returns validation rules for pharmacy resource
      * @return array
      */
     private function getRules()
     {
         return [
             'name' => 'required',
-            'email' => 'required|unique:hospitals,email|max:255',
-            'director_mdcn' => 'required',
+            'email' => 'required|unique:pharmacies,email|max:255',
             'phone' => 'required',
+            'chief_pharmacist_reg' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
