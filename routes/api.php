@@ -27,7 +27,11 @@ Route::group(['namespace' => 'API'], function() {
     });
 
 });
-Route::group(['namespace' => 'Admin'],function(){
+Route::group(['namespace' => 'API\Admin'],function(){
    Route::get('admin/doctors','DoctorController@index');
-   Route::get('admin/doctors/{id}','DoctorController@show');
+   Route::get('admin/doctors/{doctor}','DoctorController@show');
+   Route::patch('admin/doctors/verify/{doctor}','DoctorController@verify');
+   Route::patch('admin/doctors/activate/{doctor}','DoctorController@activate');
+   Route::patch('admin/doctors/deactivate/{doctor}','DoctorController@deactivate');
+//   Route::patch('')
 });
