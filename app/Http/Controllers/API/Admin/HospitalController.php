@@ -44,6 +44,10 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = $this->getRules();
+
+        $this->validate($request, $rules);
+
         $data = $request->all();
 
         $data['password'] = str_random(10);
@@ -125,5 +129,23 @@ class HospitalController extends Controller
                 'message' => $e->getMessage()
             ], 400);
         }
+    }
+
+    /**
+     * Returns validation rules for hospital resource
+     * @return array
+     */
+    private function getRules()
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required|unique:hospitals,email|max:255',
+            'director_mdcn' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required'
+        ];
     }
 }

@@ -89,4 +89,66 @@ class ManagesHospitalTest extends TestCase
             ->assertDontSee($hospital->name)
             ->assertStatus(404);
     }
+
+    /** @test */
+    public function a_hospital_registration_requires_a_name()
+    {
+        $this->signIn(null, 'admin');
+
+        $hospital = make(Hospital::class, ['name' => null])->toArray();
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->postJson('/api/admin/hospitals', $hospital)
+            ->assertStatus(422);
+    }
+
+    /** @test */
+    public function a_hospital_registration_requires_a_unique_email()
+    {
+        $this->signIn(null, 'admin');
+
+        $email = 'hospital@cleanhelt.com';
+
+        create(Hospital::class, ['email' => $email]);
+        $hospital = make(Hospital::class, ['email' => $email])->toArray();
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->postJson('/api/admin/hospitals', $hospital)
+            ->assertStatus(422);
+
+        $hospitalTwo = make(Hospital::class, ['email' => null])->toArray();
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->postJson('/api/admin/hospitals', $hospitalTwo)
+            ->assertStatus(422);
+    }
+
+    /** @test */
+    public function a_hospital_registration_requires_a_phone_number()
+    {
+        $this->signIn(null, 'admin');
+
+        $hospital = make(Hospital::class, ['phone' => null])->toArray();
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->postJson('/api/admin/hospitals', $hospital)
+            ->assertStatus(422);
+    }
+
+    /** @test */
+    public function a_hospital_registration_requires_the_director_mdcn()
+    {
+        $this->signIn(null, 'admin');
+
+        $hospital = make(Hospital::class, ['director_mdcn' => null])->toArray();
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->postJson('/api/admin/hospitals', $hospital)
+            ->assertStatus(422);
+    }
 }
