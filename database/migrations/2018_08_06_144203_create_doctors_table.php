@@ -26,6 +26,7 @@ class CreateDoctorsTable extends Migration
             $table->string('folio');
             $table->boolean('confirm')->default(false);
             $table->boolean('validation')->default(false);
+            $table->string('chcode')->unique();
             $table->string('token');
             $table->rememberToken();
             $table->softDeletes();

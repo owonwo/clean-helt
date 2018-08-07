@@ -43,13 +43,44 @@ class ManagesDoctorsTest extends TestCase
         $this->signIn(null, 'admin');
         $doctor = create(DoctorProfile::class);
 
-        $this->makeAuthRequest()->patchJson("/api/admin/doctors/deactivate/{$doctor->doctors_id}",['active' => false])->assertOk();
+        $this->makeAuthRequest()->patch("/api/admin/doctors/deactivate/{$doctor->doctors_id}",[$doctor->active => false]);
+        $this->assertDatabaseHas('doctor_profiles',['active' => false]);
     }
     /** @test */
-    public function an_admin_can_verify_a_doctor(){
+    public function an_authenticated_admin_can_activate_a_doctor(){
         $this->signIn(null, 'admin');
         $doctor = create(DoctorProfile::class);
 
-        $this->makeAuthRequest()->patchJson("/api/admin/doctors/verify/{$doctor->doctors_id}",['validation' => false])->assertOk();
+        $this->makeAuthRequest()->patch("/api/admin/doctors/activate/{$doctor->doctors_id}",['active' => true]);
+        $this->assertDatabaseHas('doctor_profiles',['active' => true]);
+    }
+
+    /** @test */
+    public function an_admin_can_verify_a_doctor(){
+        $this->signIn(null, 'admin');
+        $doctor = create(Doctor::class);
+
+        $this->makeAuthRequest()->patch("/api/admin/doctors/verify/{$doctor->id}",['validation' => true]);
+        $this->assertDatabaseHas('doctors',['validation' => true]);
+    }
+    /** @test */
+    public function an_admin_can_delete_a_doctor(){
+        $this->signIn(null, 'admin');
+        $doctor = create(Doctor::class);
+        $this->makeAuthRequest()->delete("/api/admin/doctors/destroy/{$doctor->id}");
+        $this->assertDatabaseMissing('doctors',['id' =>$doctor->id]);
+
+    }
+
+    /** @test */
+    public function an_admin_can_update_a_doctors_information(){
+        $this->signIn(null, 'admin');
+        $doctor = create(Doctor::class);
+        $update = [
+            'first_name' => 'Bread'
+        ];
+        $this->makeAuthRequest()->patch("/api/admin/doctors/update/{$doctor->id}",$update);
+        $this->assertDatabaseHas('doctors',$update);
+
     }
 }
