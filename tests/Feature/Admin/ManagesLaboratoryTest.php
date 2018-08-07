@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ManagesHospitalTest extends TestCase
+class ManagesLaboratoryTest extends TestCase
 {
     use RefreshDatabase;
 
