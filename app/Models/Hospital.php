@@ -9,4 +9,6 @@ use Laravel\Passport\HasApiTokens;
 class Hospital extends Authenticatable
 {
     use Notifiable, HasApiTokens;
+
+    protected $hidden = ['password'];
 }

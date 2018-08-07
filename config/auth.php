@@ -65,6 +65,16 @@ return [
             'driver' => 'passport',
             'provider' => 'doctors',
         ],
+
+        'pharmacy' => [
+            'driver' => 'session',
+            'provider' => 'pharmacies'
+        ],
+
+        'pharmacy-api' => [
+            'driver' => 'passport',
+            'provider' => 'pharmacies',
+        ],
     ],
 
     /*
@@ -98,6 +108,11 @@ return [
         'doctors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Doctor::class,
+        ],
+
+        'pharmacies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pharmacy::class,
         ],
 
         // 'users' => [
