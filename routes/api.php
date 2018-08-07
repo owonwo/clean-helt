@@ -26,6 +26,10 @@ Route::group(['namespace' => 'API'], function() {
         return $request->user();
     });
 
+    Route::get('/admin/hospitals', 'Admin\HospitalController@index');
+    Route::post('/admin/hospitals', 'Admin\HospitalController@store');
+    Route::get('/admin/hospitals/{hospital}', 'Admin\HospitalController@show');
+
 });
 Route::group(['namespace' => 'API\Admin'],function(){
    Route::get('admin/doctors','DoctorController@index');
@@ -33,5 +37,5 @@ Route::group(['namespace' => 'API\Admin'],function(){
    Route::patch('admin/doctors/verify/{doctor}','DoctorController@verify');
    Route::patch('admin/doctors/activate/{doctor}','DoctorController@activate');
    Route::patch('admin/doctors/deactivate/{doctor}','DoctorController@deactivate');
-//   Route::patch('')
+   Route::get('admin/doctors/{id}','DoctorController@show');
 });

@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class DoctorProfile extends Model
 {
     //
+    protected $fillable = ['active'];
 }

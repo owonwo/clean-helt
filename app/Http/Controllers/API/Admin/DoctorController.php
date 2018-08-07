@@ -39,7 +39,7 @@ class DoctorController extends Controller
 
         }
         public function deactivate(Doctor $doctor){
-            $doctor->profile->update([
+             $doctor->profile->update([
                 'active' => false
             ]);
         }
