@@ -19,8 +19,13 @@ class Doctor extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        self::creating(function($model) {
+        self::creating(function ($model) {
             $model->chcode = $model->generateUniqueCode();
         });
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(DoctorProfile::class,'doctors_id');
     }
 }

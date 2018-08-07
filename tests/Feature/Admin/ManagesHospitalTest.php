@@ -64,12 +64,8 @@ class ManagesHospitalTest extends TestCase
         ];
 
         $this->makeAuthRequest()
-            ->patch("/api/admin/hospitals/{$hospital->chcode}", $update)
-            ->assertStatus(200);
-
-        $this->makeAuthRequest()
-            ->get("/api/admin/hospitals/{$hospital->chcode}")
-            ->assertSee($update['name']);
+            ->patch("/api/admin/hospitals/{$hospital->chcode}", $update);
+        $this->assertDatabaseHas('hospitals',$update);
     }
 
     /** @test */
@@ -80,14 +76,10 @@ class ManagesHospitalTest extends TestCase
         $hospital = create(Hospital::class);
 
         $this->makeAuthRequest()
-            ->delete("/api/admin/hospitals/{$hospital->chcode}")
-            ->assertStatus(200);
+            ->delete("/api/admin/hospitals/{$hospital->chcode}");
+        $this->assertDatabaseMissing('hospitals',['chcode' => $hospital->chcode]);
 
-        $this->withExceptionHandling()
-            ->makeAuthRequest()
-            ->get("/api/admin/hospitals/{$hospital->chcode}")
-            ->assertDontSee($hospital->name)
-            ->assertStatus(404);
+
     }
 
     /** @test */

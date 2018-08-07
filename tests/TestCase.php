@@ -54,6 +54,8 @@ abstract class TestCase extends BaseTestCase
                 return create(Hospital::class);
             case 'admin':
                 return create(Admin::class);
+            case 'doctor':
+                return create(Doctor::class);
             default:
                 return create(User::class);
         }

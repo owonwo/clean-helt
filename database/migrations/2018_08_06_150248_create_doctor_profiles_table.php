@@ -14,6 +14,7 @@ class CreateDoctorProfilesTable extends Migration
     public function up()
     {
         Schema::create('doctor_profiles', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('doctors_id')->unsigned();
             $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('cascade');
             $table->string('address')->nullable();
