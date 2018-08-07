@@ -13,6 +13,7 @@ $factory->define(App\Models\Pharmacy::class, function (Faker $faker) {
         'city' => $faker->city,
         'state' => $faker->city,
         'country' => $faker->country,
-        'chief_pharmacist_reg' => $faker->word
+        'chief_pharmacist_reg' => $faker->word,
+        'avatar' => 'avatar/avatar.jpeg'
     ];
 });

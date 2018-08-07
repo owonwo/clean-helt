@@ -32,6 +32,8 @@ class CreatePharmaciesTable extends Migration
             $table->string('fmoh_reg')->nullable();
             $table->date('fmoh_date')->nullable();
             $table->string('chief_pharmacist_reg');
+            $table->boolean('active')->default(true);
+            $table->string('avatar')->nullable();
             $table->date('chief_pharmacist_reg_date')
                     ->nullable()->comment('MM/YYYY');
             $table->string('chief_pharmacist_name')->nullable();

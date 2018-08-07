@@ -27,6 +27,8 @@ class CreateLaboratoriesTable extends Migration
             $table->string('lab_owner')->nullable();
             $table->string('cac_reg')->nullbale();
             $table->string('fmoh_reg')->nullable();
+            $table->boolean('active')->default(true);
+            $table->string('avatar')->nullable();
             $table->text('offers');
             $table->timestamps();
         });

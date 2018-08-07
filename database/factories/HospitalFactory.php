@@ -13,6 +13,7 @@ $factory->define(App\Models\Hospital::class, function (Faker $faker) {
         'address' => $faker->address,
         'city' => $faker->city,
         'state' => $faker->city,
-        'country' => $faker->country
+        'country' => $faker->country,
+        'avatar' => 'avatar/avatar.jpeg'
     ];
 });

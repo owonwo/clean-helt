@@ -33,6 +33,8 @@ class CreateDoctorProfilesTable extends Migration
             $table->string('institution')->nullable();
             $table->longText('additional_degree')->nullable();
             $table->integer('years_in_practice')->nullable();
+            $table->boolean('active')->default(true);
+            $table->string('avatar')->nullable();
             $table->text('disability')->nullable();
             $table->timestamps();
         });

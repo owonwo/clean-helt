@@ -12,7 +12,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 $factory->define(App\Models\Doctor::class,function(Faker $faker){
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     return [
         'first_name' => $faker->firstName,
         'middle_name' => $faker->lastName,
@@ -22,7 +22,7 @@ $factory->define(App\Models\Doctor::class,function(Faker $faker){
         'phone' => $faker->phoneNumber,
         'gender' =>$faker->lastName,
         'specialization' => 'cardiologist',
-        'folio' => 'MB/12/20',
+        'folio' => 'MB/12/'.str_random(2),
         'confirm' => false,
         'token' => str_random(40),
     ];
