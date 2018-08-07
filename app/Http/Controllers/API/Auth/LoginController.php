@@ -14,9 +14,19 @@ class LoginController extends Controller
         if (Auth::guard($guard)->attempt($credentials)) {
             $user = auth()->guard($guard)->user();
             $token = $user->createToken(config('app.name'))->accessToken;
-            return response()->json(['user' => $user, 'access_token' => $token], 200);
+            return response()->json([
+                'user' => $user,
+                'access_token' => $token,
+                'expires_in' => $this->getTokenExpiration()
+            ], 200);
         }
 
         return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    // 6 hours in seconds
+    private function getTokenExpiration()
+    {
+        return 6 * 60 * 60;
     }
 }
