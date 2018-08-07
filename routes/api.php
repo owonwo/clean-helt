@@ -26,11 +26,19 @@ Route::group(['namespace' => 'API'], function() {
         return $request->user();
     });
 
-    Route::get('/admin/hospitals', 'Admin\HospitalController@index');
-    Route::post('/admin/hospitals', 'Admin\HospitalController@store');
-    Route::get('/admin/hospitals/{hospital}', 'Admin\HospitalController@show');
-    Route::patch('/admin/hospitals/{hospital}', 'Admin\HospitalController@update');
-    Route::delete('/admin/hospitals/{hospital}', 'Admin\HospitalController@destroy');
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
+        Route::get('hospitals', 'HospitalController@index');
+        Route::post('hospitals', 'HospitalController@store');
+        Route::get('hospitals/{hospital}', 'HospitalController@show');
+        Route::patch('hospitals/{hospital}', 'HospitalController@update');
+        Route::delete('hospitals/{hospital}', 'HospitalController@destroy');
+
+        Route::get('pharmacies', 'PharmacyController@index');
+        Route::post('pharmacies', 'PharmacyController@store');
+        Route::get('pharmacies/{pharmacy}', 'PharmacyController@show');
+        Route::patch('pharmacies/{pharmacy}', 'PharmacyController@update');
+        Route::delete('pharmacies/{pharmacy}', 'PharmacyController@destroy');
+    });
 });
 
 Route::group(['namespace' => 'Admin'], function() {
