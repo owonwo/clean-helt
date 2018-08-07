@@ -26,24 +26,32 @@ Route::group(['namespace' => 'API'], function() {
         return $request->user();
     });
 
-    Route::get('/admin/hospitals', 'Admin\HospitalController@index');
-    Route::post('/admin/hospitals', 'Admin\HospitalController@store');
-    Route::get('/admin/hospitals/{hospital}', 'Admin\HospitalController@show');
 
-});
-Route::group(['namespace' => 'API\Admin'],function(){
-    Route::patch('/admin/hospitals/{hospital}', 'HospitalController@update');
-    Route::delete('/admin/hospitals/{hospital}', 'HospitalController@destroy');
-    Route::get('admin/doctors','DoctorController@index');
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
+        Route::get('hospitals', 'HospitalController@index');
+        Route::post('hospitals', 'HospitalController@store');
+        Route::get('hospitals/{hospital}', 'HospitalController@show');
+        Route::patch('hospitals/{hospital}', 'HospitalController@update');
+        Route::delete('hospitals/{hospital}', 'HospitalController@destroy');
 
-    //Routes for doctors
-    Route::get('admin/doctors/{doctor}','DoctorController@show');
-    Route::patch('admin/doctors/verify/{doctor}','DoctorController@verify');
-    Route::patch('admin/doctors/activate/{doctor}','DoctorController@activate');
-    Route::patch('admin/doctors/deactivate/{id}','DoctorController@deactivate');
-    Route::delete('admin/doctors/destroy/{doctor}','DoctorController@destroy');
-    Route::get('admin/doctors/{id}','DoctorController@show');
-    Route::patch('admin/doctors/update/{doctor}','DoctorController@update');
+        Route::get('pharmacies', 'PharmacyController@index');
+        Route::post('pharmacies', 'PharmacyController@store');
+        Route::get('pharmacies/{pharmacy}', 'PharmacyController@show');
+        Route::patch('pharmacies/{pharmacy}', 'PharmacyController@update');
+        Route::delete('pharmacies/{pharmacy}', 'PharmacyController@destroy');
+
+
+
+        //Routes for doctors
+        Route::get('doctors','DoctorController@index');
+        Route::get('doctors/{doctor}','DoctorController@show');
+        Route::patch('doctors/verify/{doctor}','DoctorController@verify');
+        Route::patch('doctors/activate/{doctor}','DoctorController@activate');
+        Route::patch('doctors/deactivate/{id}','DoctorController@deactivate');
+        Route::delete('doctors/destroy/{doctor}','DoctorController@destroy');
+        Route::get('doctors/{id}','DoctorController@show');
+        Route::patch('doctors/update/{doctor}','DoctorController@update');
+    });
 });
 
 

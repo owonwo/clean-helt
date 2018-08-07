@@ -10,5 +10,12 @@ class Pharmacy extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    protected $guarded = [];
+
     protected $hidden = ['password'];
+
+    public function getRouteKeyName()
+    {
+        return 'chcode';
+    }
 }

@@ -2,10 +2,11 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Patient::class, function (Faker $faker) {
+$factory->define(App\Models\Patient::class, function (Faker $faker) {
     $gender = $faker->randomElements(['male', 'female']);
-    $religion = $faker->randomElements(['Christianity', 'Muslim', 'Witch']);
-    $marital_status = $faker->randomElements(['single', 'married', 'engage', 'divorce', 'stile_s']);
+    $religion = $faker->randomElements(['Christianity', 'Muslim']);
+    $marital_status = $faker->randomElements(['single', 'married', 'engaged', 'divorced']);
+
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -28,5 +29,5 @@ $factory->define(App\Patient::class, function (Faker $faker) {
         'nok_address' => $faker->address,
         'nok_city' => $faker->city,
         'nok_state' => $faker->city,
-        ];
+    ];
 });
