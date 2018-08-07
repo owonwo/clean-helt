@@ -32,11 +32,11 @@ class ManagesDoctorsTest extends TestCase
     {
         $this->signIn(null, 'admin');
 
-        $doctor = create(DoctorProfile::class);
+        $doctor = create(Doctor::class);
 
         $this->makeAuthRequest()
-            ->get("/api/admin/doctor/{$doctor}")
-            ->assertSee($doctor->id);
+            ->get("/api/admin/doctors/{$doctor->id}")
+            ->assertSee($doctor->first_name);
     }
     /** @test */
     public function an_authenticated_admin_can_deactivate_a_doctor(){

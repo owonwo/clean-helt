@@ -23,7 +23,6 @@ $factory->define(App\Models\Doctor::class,function(Faker $faker){
         'gender' =>$faker->lastName,
         'specialization' => 'cardiologist',
         'folio' => 'MB/12/'.str_random(2),
-        'chcode' => $faker->unique()->word,
         'confirm' => false,
         'token' => str_random(40),
     ];

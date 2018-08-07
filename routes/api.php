@@ -47,7 +47,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('doctors/{doctor}','DoctorController@show');
         Route::patch('doctors/verify/{doctor}','DoctorController@verify');
         Route::patch('doctors/activate/{doctor}','DoctorController@activate');
-        Route::patch('doctors/deactivate/{id}','DoctorController@deactivate');
+        Route::patch('doctors/deactivate/{doctor}','DoctorController@deactivate');
         Route::delete('doctors/destroy/{doctor}','DoctorController@destroy');
         Route::get('doctors/{id}','DoctorController@show');
         Route::patch('doctors/update/{doctor}','DoctorController@update');
