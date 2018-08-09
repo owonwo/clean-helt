@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/password/reset/doctors','API\Auth\ResetPasswordController@reset')->name('doctor.password.reset');
-Route::get('/password/reset/doctors/{token}','API\Auth\ResetPasswordController@showResetForm');
-Route::get('/password/email/doctors','API\Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::get('/password/reset/doctors/','API\Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('/password/reset/doctors','API\Doctor\ResetPasswordController@reset')->name('doctor.password.reset');
+Route::get('/password/reset/doctors/{token}','API\Doctor\ResetPasswordController@showResetForm');
+Route::get('/password/email/doctors','API\Doctor\ForgotPasswordController@sendResetLinkEmail');
+Route::get('/password/reset/doctors/','API\Doctor\ForgotPasswordController@showLinkRequestForm');
 
 Auth::routes();
 
