@@ -13,6 +13,7 @@ $factory->define(App\Models\Laboratory::class, function (Faker $faker) {
         'city' => $faker->city,
         'state' => $faker->city,
         'country' => $faker->country,
+        'lhcode' => str_random(15),
         'lab_owner' => $faker->name,
         'cac_reg' => str_random(15),
         'fmoh_reg' => str_random(15),

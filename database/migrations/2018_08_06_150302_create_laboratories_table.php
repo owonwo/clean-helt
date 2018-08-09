@@ -21,6 +21,7 @@ class CreateLaboratoriesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->uniuqe();
+            $table->string('lhcode')->uniuqe();
             $table->string('address');
             $table->string('city');
             $table->string('state');
