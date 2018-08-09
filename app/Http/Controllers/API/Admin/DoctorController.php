@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 
 use App\Models\Doctor;
-use App\Models\DoctorProfile;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use PhpParser\Comment\Doc;
-
 class DoctorController extends Controller
 {
     //
