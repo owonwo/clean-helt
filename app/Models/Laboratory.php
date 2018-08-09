@@ -6,6 +6,7 @@ use App\Traits\CodeGenerator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Notifications\LaboratoryResetPasswordNotification;
 
 class Laboratory extends Authenticatable
 {
@@ -21,5 +22,15 @@ class Laboratory extends Authenticatable
         self::creating(function($model) {
             $model->chcode = $model->generateUniqueCode();
         });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'chcode';
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new LaboratoryResetPasswordNotification($token));
     }
 }

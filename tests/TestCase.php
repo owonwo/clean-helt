@@ -4,6 +4,8 @@ namespace Tests;
 
 use App\Models\Admin;
 use App\Models\Hospital;
+use App\Models\Laboratory;
+use App\Models\Patient;
 use App\Models\User;
 use App\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -56,6 +58,10 @@ abstract class TestCase extends BaseTestCase
                 return create(Admin::class);
             case 'doctor':
                 return create(Doctor::class);
+            case 'laboratory':
+                return create(Laboratory::class);
+            case 'patience':
+                return create(Patient::class);
             default:
                 return create(User::class);
         }

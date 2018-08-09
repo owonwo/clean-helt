@@ -21,7 +21,6 @@ class CreateLaboratoriesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->uniuqe();
-            $table->string('lhcode')->uniuqe();
             $table->string('address');
             $table->string('city');
             $table->string('state');
@@ -32,6 +31,7 @@ class CreateLaboratoriesTable extends Migration
             $table->boolean('active')->default(true);
             $table->string('avatar')->nullable();
             $table->text('offers');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

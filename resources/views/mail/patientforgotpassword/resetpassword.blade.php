@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Laboratory Reset Password</div>
+                    <div class="panel-heading">Patient Reset Password</div>
 
                     <div class="panel-body">
                         @if (session('status'))
@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('laboratory.password.request') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('patient.password.request') }}">
                             {{ csrf_field() }}
 
                             <input type="hidden" name="token" value="{{ $token }}">

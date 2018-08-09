@@ -95,6 +95,15 @@ return [
             'driver' => 'passport',
             'provider' => 'laboratories',
         ],
+        'patient' => [
+            'driver' => 'session',
+            'provider' => 'patients'
+        ],
+
+        'patient-api' => [
+            'driver' => 'passport',
+            'provider' => 'patients',
+        ],
     ],
 
     /*
@@ -144,6 +153,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Laboratory::class,
         ],
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -174,6 +187,16 @@ return [
         ],
         'doctors' => [
             'provider' => 'doctors',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'laboratories' => [
+            'provider' => 'laboratories',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'patients' => [
+            'provider' => 'patients',
             'table' => 'password_resets',
             'expire' => 60,
         ]

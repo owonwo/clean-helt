@@ -11,8 +11,9 @@ $factory->define(App\Models\Patient::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'middle_name' => $faker->lastName,
-        'avatar' => $faker->image(),
+        'avatar' => 'avatar/avatar.jpeg',
         'email' => $faker->unique()->safeEmail,
+        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
         'dob' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'gender' => $gender[0],
         'phone' => $faker->phoneNumber,
@@ -22,6 +23,7 @@ $factory->define(App\Models\Patient::class, function (Faker $faker) {
         'country' => $faker->country,
         'religion' => $religion[0],
         'marital_status' => $marital_status[0],
+
 
         'nok_name' => $faker->name,
         'nok_email' => $faker->safeEmail,

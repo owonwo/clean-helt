@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,5 +24,10 @@ class Patient extends Authenticatable
         self::creating(function($model) {
             $model->chcode = $model->generateUniqueCode();
         });
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PatientResetPasswordNotification($token));
     }
 }
