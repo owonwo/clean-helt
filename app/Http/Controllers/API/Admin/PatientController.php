@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API\Admin;
 
-use App\Models\Laboratory;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use App\Http\Controllers\Controller;
 
-class LaboratoryController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class LaboratoryController extends Controller
 
     public function index()
     {
-        $labs = Laboratory::latest()->paginate(15);
+        $labs = Patient::latest()->paginate(15);
         return response()->json([
             'labs' => $labs
         ], 200);
@@ -59,7 +59,7 @@ class LaboratoryController extends Controller
 
         $data['password'] = str_random(10);
 
-        if ($labs = Laboratory::create($data)) {
+        if ($labs = Patient::create($data)) {
             return response()->json([
                 'message' => 'Laboratory created successfully ',
             ], 200);
@@ -70,13 +70,13 @@ class LaboratoryController extends Controller
         ], 400);
     }
 
-    public function deactivate(Laboratory $laboratory){
-        $laboratory->profile->update([
+    public function deactivate(Patient $patient){
+        $patient->update([
             'active' => false,
         ]);
 
         return response()->json([
-            'doctor' => $laboratory,
+            'patient' => $patient,
             'message' => 'Deactivated successfully'
         ]);
     }
@@ -87,11 +87,11 @@ class LaboratoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Laboratory $laboratory)
+    public function show(Patient $patient)
     {
         return response()->json(
             ['message' => 'Laboratory fetched successfully',
-            'laboratory' => $laboratory
+            'patient' => $patient,
             ], 200
         );
     }
@@ -114,14 +114,14 @@ class LaboratoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  Laboratory $laboratory)
+    public function update(Request $request,  Patient $patient)
     {
 
 
-        if ($laboratory->update($request->all())) {
+        if ($patient->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $laboratory
+                'labs' => $patient
             ], 200);
         }
 
@@ -136,13 +136,13 @@ class LaboratoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Laboratory $laboratory)
+    public function destroy(Patient $patient)
     {
         try {
-            $laboratory->delete();
+            $patient->delete();
             return response()->json([
                 'message' => 'Laboratory was successfully deleted ',
-                'hospital' => $laboratory
+                'hospital' => $patient
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

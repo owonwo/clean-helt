@@ -22,19 +22,19 @@ trait CodeGenerator
 
     public function generateUniqueCode($model = null)
     {
-        $reference = $this->generateKey();
+        $code = $this->generateKey();
 
 
-        $query = $model ? $model::whereReference($reference) :
-            self::whereReference($reference);
+        $query = $model ? $model::whereChcode($code) :
+            self::whereChcode($code);
 
         // Ensure Code does not exist
         // Generate new one if Code already exists
         while ($query->count() > 0) {
-            $reference = $this->generateKey();
+            $code = $this->generateKey();
         }
 
-        return $reference;
+        return $code;
     }
 
     public static function generateCode()

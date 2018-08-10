@@ -3,90 +3,102 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Laboratory;
+use App\Models\Patient;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ManagesLaboratoryTest extends TestCase
+class ManagesPatientTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function an_authenticated_admin_can_view_all_registered_laboratories()
+    public function an_authenticated_admin_can_view_all_registered_patients()
     {
-        $laboratory = create(Laboratory::class);
+        $laboratory = create(Patient::class);
 
         $this->signIn(null, 'admin');
 
         $this->makeAuthRequest()
-            ->get('/api/admin/laboratories')
+            ->get('/api/admin/patients')
             ->assertStatus(200)
             ->assertSee($laboratory->name);
     }
 
     /** @test */
-    public function an_authenticated_admin_can_register_laboratories()
+    public function an_authenticated_admin_can_register_patients()
     {
         $this->signIn(null, 'admin');
 
-        $laboratory = make(Laboratory::class)->toArray();
+        $patient = make(Patient::class)->toArray();
 
         $this->makeAuthRequest()
-            ->post('/api/admin/laboratories', $laboratory)
+            ->post('/api/admin/patients', $patient)
             ->assertStatus(200);
 
         $this->makeAuthRequest()
-            ->get('/api/admin/laboratories')
-            ->assertSee($laboratory['name']);
+            ->get('/api/admin/patients')
+            ->assertSee($patient['first_name'].' '.$patient['last_name']);
     }
 
     /** @test */
-    public function an_authenticated_admin_can_view_a_registered_laboratories()
+    public function an_authenticated_admin_can_view_a_registered_patients()
     {
         $this->signIn(null, 'admin');
 
-        $laboratory = create(Laboratory::class);
+        $patient = create(Patient::class);
 
         $this->makeAuthRequest()
-            ->get("/api/admin/laboratories/{$laboratory->chcode}")
-            ->assertSee($laboratory->name);
+            ->get("/api/admin/patients/{$patient->chcode}")
+
+            //that is good
+            ->assertSee($patient->first_name);
     }
 
     /** @test */
-    public function an_authenticated_admin_can_update_a_registered_laboratories()
+    public function an_authenticated_admin_can_update_a_registered_patients()
     {
         $this->signIn(null, 'admin');
 
-        $laboratory = create(Laboratory::class);
+        $patient = create(Patient::class);
 
         $update = [
-            'name' => "New Laboratory Name"
+            'name' => "New Patient Name"
         ];
 
         $this->makeAuthRequest()
-            ->patch("/api/admin/laboratories/{$laboratory->chcode}/laboratories", $update)
+            ->patch("/api/admin/patients/{$patient->chcode}/patients", $update)
             ->assertStatus(200);
 
         $this->makeAuthRequest()
-            ->get("/api/admin/laboratories/{$laboratory->chcode}")
-            ->assertSee($update['name']);
+            ->get("/api/admin/patients/{$patient->chcode}")
+            ->assertSee($update['first_name']);
     }
 
     /** @test */
-    public function an_authenticated_admin_can_delete_a_registered_laboratories()
+    public function an_authenticated_admin_can_delete_a_registered_patients()
     {
         $this->signIn(null, 'admin');
 
-        $laboratory = create(Laboratory::class);
+        $patient = create(Patient::class);
 
         $this->makeAuthRequest()
-            ->delete("/api/admin/laboratories/{$laboratory->chcode}")
+            ->delete("/api/admin/patients/{$patient->chcode}")
             ->assertStatus(200);
 
         $this->withExceptionHandling()
             ->makeAuthRequest()
-            ->get("/api/admin/laboratories/{$laboratory->chcode}")
-            ->assertDontSee($laboratory->name)
+            ->get("/api/admin/patients/{$patient->chcode}")
+            ->assertDontSee($patient->name)
             ->assertStatus(404);
+    }
+
+    /** @test */
+    public function an_authenticated_admin_can_deactivate_a_patient(){
+        $this->signIn(null, 'admin');
+        $patient = create(Patient::class);
+
+        $this->makeAuthRequest()->patch("/api/admin/patients/deactivate/{$patient->chcode}",[$patient->active => false]);
+        $this->assertDatabaseHas('patients',['active' => false]);
     }
 }

@@ -19,7 +19,7 @@ class CreatePrescriptionItemsTable extends Migration
             $table->integer('frequency');
             $table->string('name');
             $table->string('comments');
-            $table->boolean('status')->default('false');
+            $table->boolean('status')->default(false);
             $table->integer('dispenser_id')->nullable();
             $table->timestamps();
         });

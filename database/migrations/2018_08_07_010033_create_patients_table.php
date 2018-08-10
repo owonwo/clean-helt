@@ -21,6 +21,7 @@ class CreatePatientsTable extends Migration
             $table->string('chcode')->unique();
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('phone')->unique();
@@ -28,6 +29,7 @@ class CreatePatientsTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullbale();
             $table->string('country')->nullable();
+            $table->boolean('active')->default(true);
             $table->string('religion')->nullable();
             $table->string('marital_status')->nullable();
 
@@ -38,6 +40,7 @@ class CreatePatientsTable extends Migration
             $table->string('nok_city')->nullable();
             $table->string('nok_state')->nullable();
             $table->string('nok_country')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

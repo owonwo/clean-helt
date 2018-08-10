@@ -39,6 +39,7 @@ class CreatePharmaciesTable extends Migration
             $table->string('chief_pharmacist_name')->nullable();
             $table->string('chief_pharmacist_phone')->nullable();
             $table->text('services')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
