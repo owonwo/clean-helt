@@ -1,4 +1,4 @@
-git<?php
+<?php
 
 /*
 |--------------------------------------------------------------------------
@@ -51,8 +51,5 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('/password/reset','PatientResestPassword@reset');
         Route::get('/password/reset/{token}','PatientResestPassword@showResetForm')->name('patient.password.reset');
     });
-
-
-
 });
 

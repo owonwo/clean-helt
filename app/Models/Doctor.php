@@ -25,6 +25,24 @@ class Doctor extends Authenticatable
         });
     }
 
+    public function profileShares()
+    {
+        return $this->morphMany(ProfileShare::class, 'provider');
+    }
+
+    /**
+     * Checks whether a doctor can view a patient's profile
+     * @param Patient $patient
+     * @return bool
+     */
+    public function canViewProfile(Patient $patient)
+    {
+        return $this->profileShares()
+            ->where('patient_id', $patient->id)
+            ->whereDate('expired_at', '<=', now())
+            ->first() !== null;
+    }
+
     public function profile()
     {
         return $this->hasOne(DoctorProfile::class,'doctors_id');

@@ -70,6 +70,11 @@ Route::group(['namespace' => 'API'], function() {
 
     });
 
+    Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
+        Route::get('patients', 'PatientController@index');
+        Route::post('patients/{patient}', 'DiagnosisController@store');
+    });
+
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function()
     {
         Route::get('/', 'PatientController@dashboard');

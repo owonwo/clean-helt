@@ -31,6 +31,11 @@ class Patient extends Authenticatable
         return 'chcode';
     }
 
+    public function profileShares()
+    {
+        return $this->hasMany(ProfileShare::class);
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PatientResetPasswordNotification($token));
