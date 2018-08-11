@@ -17,7 +17,7 @@ class CreateMedicalRecordsTable extends Migration
             $table->increments('id');
             $table->integer('patient_id');
             $table->integer('type')->comment('1 - Diagnosis, 2 - Drug Prescription, 3 - Test Prescription');
-            $table->string('issuer_type');
+            $table->string('issuer_type');//The type of person App\Models\Doctor
             $table->integer('issuer_id');//All service provides who issue reports
             $table->text('comment')->nullable();
             $table->timestamps();
