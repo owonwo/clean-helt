@@ -39,7 +39,7 @@ class Doctor extends Authenticatable
     {
         return $this->profileShares()
             ->where('patient_id', $patient->id)
-            ->whereDate('expired_at', '<=', now())
+            ->whereDate('expired_at', '>=', now())
             ->first() !== null;
     }
 

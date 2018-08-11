@@ -72,7 +72,8 @@ Route::group(['namespace' => 'API'], function() {
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::get('patients', 'PatientController@index');
-        Route::post('patients/{patient}', 'DiagnosisController@store');
+        Route::get('patients/{patient}', 'PatientController@show');
+        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store');
     });
 
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function()

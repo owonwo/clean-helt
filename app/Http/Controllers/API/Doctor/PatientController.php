@@ -22,4 +22,19 @@ class PatientController extends Controller
             'patients' => $patients
         ], 200);
     }
+
+    public function show(Patient $patient)
+    {
+        $doctor = auth()->guard('doctor')->user();
+        if ($patient && $doctor->canViewProfile($patient)) {
+            return response()->json([
+                'message' => 'Patient retrieved successfully',
+                'patient' => $patient
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Unauthorized access'
+        ], 400);
+    }
 }
