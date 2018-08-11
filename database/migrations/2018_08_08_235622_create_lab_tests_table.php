@@ -15,13 +15,14 @@ class CreateLabTestsTable extends Migration
     {
         Schema::create('lab_tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('schedule_id');
+            $table->integer('record_id');
             $table->integer('name');
             $table->text('description');
             $table->text('result')->nullable();
             $table->text('conclusion')->nullable();
             $table->boolean('status')->default(false);
             $table->string('taker')->nullable();
+            $table->integer('diagnosis_id')->nullable();
             $table->timestamps();
         });
     }

@@ -16,9 +16,10 @@ class CreateMedicalRecordsTable extends Migration
         Schema::create('medical_records', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('patient_id');
-            $table->integer('type');
+            $table->integer('type')->comment('1 - Diagnosis, 2 - Drug Prescription, 3 - Test Prescription');
             $table->string('issuer_type');
             $table->integer('issuer_id');
+            $table->text('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

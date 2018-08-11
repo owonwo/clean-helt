@@ -15,11 +15,15 @@ class CreatePrescriptionsTable extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('issuer_id');
-            $table->integer('issuer_type');
             $table->integer('record_id');
+            $table->integer('quantity');
+            $table->integer('frequency');
+            $table->string('name');
+            $table->integer('pharmacy_id')->nullable();
+            // Diagnosis ID at this level might not work
             $table->integer('diagnosis_id')->nullable();
             $table->text('comment')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
