@@ -41,7 +41,7 @@ class ManagesLaboratoryTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_admin_can_view_a_registered_laboratories()
+    public function an_authenticated_admin_can_view_a_registered_laboratory()
     {
         $this->signIn(null, 'admin');
 
@@ -53,7 +53,7 @@ class ManagesLaboratoryTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_admin_can_update_a_registered_laboratories()
+    public function an_authenticated_admin_can_update_a_registered_laboratory()
     {
         $this->signIn(null, 'admin');
 
@@ -64,7 +64,7 @@ class ManagesLaboratoryTest extends TestCase
         ];
 
         $this->makeAuthRequest()
-            ->patch("/api/admin/laboratories/{$laboratory->chcode}/laboratories", $update)
+            ->patch("/api/admin/laboratories/{$laboratory->chcode}", $update)
             ->assertStatus(200);
 
         $this->makeAuthRequest()

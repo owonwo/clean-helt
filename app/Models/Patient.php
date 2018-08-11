@@ -25,6 +25,11 @@ class Patient extends Authenticatable
             $model->chcode = $model->generateUniqueCode();
         });
     }
+    
+    public function getRouteKeyName()
+    {
+        return 'chcode';
+    }
 
     public function sendPasswordResetNotification($token)
     {

@@ -13,6 +13,8 @@ class Laboratory extends Authenticatable
     use Notifiable, HasApiTokens, CodeGenerator;
 
     protected $codePrefix = 'CHL';
+    
+    protected $guarded = [];
 
     protected $hidden = ['password'];
 

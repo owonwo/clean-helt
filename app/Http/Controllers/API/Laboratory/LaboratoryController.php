@@ -15,7 +15,7 @@ class LaboratoryController extends Controller
     public function login(Request $request, $guard)
     {
         $credentials = $request->only(['email', 'password']);
-        dd($credentials);
+        
         if (Auth::guard($guard)->attempt($credentials)) {
             $user = auth()->guard($guard)->user();
             $token = $user->createToken(config('app.name'))->accessToken;

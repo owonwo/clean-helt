@@ -47,10 +47,11 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|max:190',
-            'licence_no' => 'required|string|max:190|unique:laboratories',
-            'email' => 'required|string|max:190|unique:laboratories',
-            'phone' => 'required|number|unique:laboratories',
+            'first_name' => 'required|string|max:190',
+            'last_name' => 'required|string|max:190',
+            'middle_name' => 'required|string|max:190',
+            'email' => 'required|string|max:190|unique:patients',
+            'phone' => 'required|unique:patients',
         ];
 
         $this->validate($request,$rules);
@@ -142,7 +143,7 @@ class PatientController extends Controller
             $patient->delete();
             return response()->json([
                 'message' => 'Laboratory was successfully deleted ',
-                'hospital' => $patient
+                'patient' => $patient
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

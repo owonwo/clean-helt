@@ -55,18 +55,18 @@ Route::group(['namespace' => 'API'], function() {
         //Routes for laboratory
         Route::get('/laboratories', 'LaboratoryController@index');
         Route::post('/laboratories', 'LaboratoryController@store');
-        Route::get('/laboratories/{laboratories}', 'LaboratoryController@show');
-        Route::patch('/laboratories/{laboratories}/laboratories', 'LaboratoryController@update');
+        Route::get('/laboratories/{laboratory}', 'LaboratoryController@show');
+        Route::patch('/laboratories/{laboratory}', 'LaboratoryController@update');
         Route::patch('/laboratories/deactivate/{laboratory}','LaboratoryController@deactivate');
-        Route::delete('/laboratories/{laboratories}', 'LaboratoryController@destroy');
+        Route::delete('/laboratories/{laboratory}', 'LaboratoryController@destroy');
 
-        //admin access to patience
+        //admin access to patients
         Route::get('/patients', 'PatientController@index');
         Route::post('/patients', 'PatientController@store');
-        Route::get('/patients/{patints}', 'PatientController@show');
-        Route::patch('/patients/{patients}/patients', 'PatientController@update');
-        Route::patch('/patients/deactivate/{patients}','PatientController@deactivate');
-        Route::delete('/patients/{patients}', 'PatientController@destroy');
+        Route::get('/patients/{patient}', 'PatientController@show');
+        Route::patch('/patients/{patient}', 'PatientController@update');
+        Route::patch('/patients/{patient}/deactivate','PatientController@deactivate');
+        Route::delete('/patients/{patient}', 'PatientController@destroy');
 
     });
 

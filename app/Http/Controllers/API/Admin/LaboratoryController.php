@@ -50,7 +50,7 @@ class LaboratoryController extends Controller
             'name' => 'required|string|max:190',
             'licence_no' => 'required|string|max:190|unique:laboratories',
             'email' => 'required|string|max:190|unique:laboratories',
-            'phone' => 'required|number|unique:laboratories',
+            'phone' => 'required|unique:laboratories',
         ];
 
         $this->validate($request,$rules);

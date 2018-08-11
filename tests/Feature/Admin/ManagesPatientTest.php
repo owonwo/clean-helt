@@ -38,11 +38,12 @@ class ManagesPatientTest extends TestCase
 
         $this->makeAuthRequest()
             ->get('/api/admin/patients')
-            ->assertSee($patient['first_name'].' '.$patient['last_name']);
+            ->assertSee($patient['first_name'])
+            ->assertSee($patient['last_name']);
     }
 
     /** @test */
-    public function an_authenticated_admin_can_view_a_registered_patients()
+    public function an_authenticated_admin_can_view_a_registered_patient()
     {
         $this->signIn(null, 'admin');
 
@@ -56,18 +57,18 @@ class ManagesPatientTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_admin_can_update_a_registered_patients()
+    public function an_authenticated_admin_can_update_a_registered_patient()
     {
         $this->signIn(null, 'admin');
 
         $patient = create(Patient::class);
 
         $update = [
-            'name' => "New Patient Name"
+            'first_name' => "New First Name"
         ];
 
         $this->makeAuthRequest()
-            ->patch("/api/admin/patients/{$patient->chcode}/patients", $update)
+            ->patch("/api/admin/patients/{$patient->chcode}", $update)
             ->assertStatus(200);
 
         $this->makeAuthRequest()
@@ -76,7 +77,7 @@ class ManagesPatientTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_admin_can_delete_a_registered_patients()
+    public function an_authenticated_admin_can_delete_a_registered_patient()
     {
         $this->signIn(null, 'admin');
 
@@ -89,7 +90,7 @@ class ManagesPatientTest extends TestCase
         $this->withExceptionHandling()
             ->makeAuthRequest()
             ->get("/api/admin/patients/{$patient->chcode}")
-            ->assertDontSee($patient->name)
+            ->assertDontSee($patient->first_name)
             ->assertStatus(404);
     }
 
@@ -98,7 +99,7 @@ class ManagesPatientTest extends TestCase
         $this->signIn(null, 'admin');
         $patient = create(Patient::class);
 
-        $this->makeAuthRequest()->patch("/api/admin/patients/deactivate/{$patient->chcode}",[$patient->active => false]);
+        $this->makeAuthRequest()->patch("/api/admin/patients/{$patient->chcode}/deactivate", ['active' => false]);
         $this->assertDatabaseHas('patients',['active' => false]);
     }
 }
