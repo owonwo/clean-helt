@@ -9,7 +9,10 @@ $factory->define(App\Models\MedicalRecord::class, function (Faker $faker) {
             factory('App\Models\Patient')->create()->id;
         },
         'type' => 1,
-        'issuer_type' => $faker->colorName,
-        'issuer_id' => 2,
+        'issuer_type' => 'App\Models\Doctor',
+        'issuer_id' =>function(){
+            factory('App\Models\Doctor')->create()->id;   
+         },
+        'comment' => $faker->sentence
     ];
 });
