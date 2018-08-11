@@ -18,7 +18,8 @@ class CreatePrescriptionsTable extends Migration
             $table->integer('issuer_id');
             $table->integer('issuer_type');
             $table->integer('record_id');
-            $table->integer('diagnosis_id')->nullable();
+            $table->integer('diagnosis_id')->unsigned()->nullable();
+            $table->foreign('diagnosis_id')->references('id')->on('diagnoses')->onDelete('cascade');
             $table->text('comment')->nullable();
             $table->timestamps();
         });
