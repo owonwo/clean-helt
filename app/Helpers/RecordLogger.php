@@ -21,7 +21,7 @@ class RecordLogger
             'patient_id' => $patient->id,
             'type' => $this->getRecordType($type),
             'issuer_type' => get_class($issuer),
-            'issuer_id' => $issuer->id
+            'issuer_id' => $issuer->id //
         ];
 
         return MedicalRecord::create($recordData);

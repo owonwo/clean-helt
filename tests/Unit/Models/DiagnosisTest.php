@@ -18,4 +18,5 @@ class DiagnosisTest extends TestCase
         $diagnosis = create(Diagnosis::class);
         $this->assertInstanceOf(MedicalRecord::class, $diagnosis->record);
     }
+
 }

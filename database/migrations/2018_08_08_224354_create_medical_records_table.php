@@ -16,7 +16,8 @@ class CreateMedicalRecordsTable extends Migration
         Schema::create('medical_records', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reference')->unique();
-            $table->integer('patient_id');
+            $table->unsignedInteger('patient_id');
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->integer('type')->comment('1 - Diagnosis, 2 - Drug Prescription, 3 - Test Prescription');
             $table->string('issuer_type');//The type of person App\Models\Doctor
             $table->integer('issuer_id');//All service provides who issue reports

@@ -11,7 +11,6 @@ $factory->define(App\Models\MedicalRecord::class, function (Faker $faker) {
         'issuer_type' => 'App\Models\Doctor',
         'issuer_id' =>function() {
             return factory(\App\Models\Doctor::class)->create()->id;
-         },
-        'comment' => $faker->sentence
+         }
     ];
 });
