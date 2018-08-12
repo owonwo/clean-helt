@@ -72,6 +72,12 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('/create','AdminController@store')->name('admin.store');
     });
 
+    Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
+        Route::get('patients', 'PatientController@index');
+        Route::get('patients/{patient}', 'PatientController@show');
+        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store');
+    });
+
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function()
     {
         Route::get('/', 'PatientController@dashboard');

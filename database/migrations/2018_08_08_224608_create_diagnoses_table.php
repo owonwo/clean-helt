@@ -16,13 +16,16 @@ class CreateDiagnosesTable extends Migration
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id')->unsigned();
-            $table->foreign('record_id')->references('id')->on('medical_records')->onDelete('cascade');
             $table->string('complaint_history');
             $table->string('complaint_relationship');
             $table->enum('patient_condition', [1, 2, 3])->comment('1 - Improved, 2 - Worsened, 3 - Unchanged');
-            $table->text('symptoms');
-            $table->text('extras');
+
+            $table->text('symptoms')->nullable();
+            $table->text('extras')->nullable();
+            $table->text('comments');
             $table->timestamps();
+
+            $table->foreign('record_id')->references('id')->on('medical_records')->onDelete('cascade');
         });
     }
 
