@@ -20,14 +20,14 @@ class DoctorDiagnosesPatientsTest extends TestCase
         $doctor = create(Doctor::class);
 
         $patientOne = create(Patient::class);
-        $shareOne = create(ProfileShare::class, [
+        create(ProfileShare::class, [
             'patient_id' => $patientOne->id,
             'provider_id' => $doctor->id,
             'expired_at' => now()->subDays(2)
         ]);
 
         $patientTwo = create(Patient::class);
-        $shareTwo = create(ProfileShare::class, [
+        create(ProfileShare::class, [
             'patient_id' => $patientTwo->id,
             'provider_id' => $doctor->id,
             'expired_at' => now()->addDays(2)
@@ -35,7 +35,8 @@ class DoctorDiagnosesPatientsTest extends TestCase
 
         $this->signIn($doctor, 'doctor');
 
-        $this->get('/api/doctor/patients')
+        $this->makeAuthRequest()
+            ->get('/api/doctor/patients')
             ->assertSee($patientTwo->chcode)
             ->assertDontSee($patientOne->chcode);
     }
@@ -55,7 +56,8 @@ class DoctorDiagnosesPatientsTest extends TestCase
 
         $this->signIn($doctor, 'doctor');
 
-        $this->get("/api/doctor/patients/{$patient->chcode}")
+        $this->makeAuthRequest()
+            ->get("/api/doctor/patients/{$patient->chcode}")
             ->assertSee($patient->chcode);
     }
 
@@ -77,7 +79,8 @@ class DoctorDiagnosesPatientsTest extends TestCase
         $diagnosis = make(Diagnosis::class)->toArray();
         unset($diagnosis['record_id']);
 
-        $this->post("/api/doctor/patients/{$patient->chcode}/diagnose", $diagnosis)
+        $this->makeAuthRequest()
+            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", $diagnosis)
             ->assertStatus(200);
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);

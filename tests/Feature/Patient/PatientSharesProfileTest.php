@@ -1,0 +1,66 @@
+<?php
+
+namespace Tests\Feature\Patient;
+
+use App\Models\Patient;
+use App\Models\ProfileShare;
+use Carbon\Carbon;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class PatientSharesProfileTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function a_patient_can_view_a_log_of_his_profile_shares()
+    {
+        $patient = create(Patient::class);
+
+        $shareOne = create(ProfileShare::class, ['patient_id' => $patient->id]);
+
+        $this->signIn($patient, 'patient');
+
+        $this->makeAuthRequest()
+            ->get('/api/patient/profile/shares')
+            ->assertSee($shareOne->patient_id);
+    }
+
+    /** @test */
+    public function a_patient_can_expire_a_share()
+    {
+        $patient = create(Patient::class);
+
+        $shareOne = create(ProfileShare::class, ['patient_id' => $patient->id]);
+
+        $this->signIn($patient, 'patient');
+
+        $this->makeAuthRequest()
+            ->patch("/api/patient/profile/shares/{$shareOne->id}/expire");
+
+        $this->assertFalse($shareOne->fresh()->isActive);
+    }
+
+    /** @test */
+    public function a_patient_can_extend_a_share()
+    {
+        $patient = create(Patient::class);
+
+        $shareOne = create(ProfileShare::class, ['patient_id' => $patient->id]);
+
+        $this->signIn($patient, 'patient');
+
+        // New expiration
+        $expiration = $shareOne->expired_at->addDays(1)->format('Y-m-d h:i:s');
+
+        $update = ['extension' => $expiration];
+
+        $this->makeAuthRequest()
+            ->patch("/api/patient/profile/shares/{$shareOne->id}/extend", $update);
+
+        $this->assertDatabaseHas('profile_shares',['expired_at' => $update]);
+
+
+    }
+}
