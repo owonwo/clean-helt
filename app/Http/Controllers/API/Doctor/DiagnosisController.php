@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class DiagnosisController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:doctor-api');
+    }
+
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
         $rules = $this->getRules();

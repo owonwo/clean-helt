@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfileShare extends Model
 {
+    protected $guarded = [];
+
     protected $dates = ['expired_at'];
     /**
      * A profile share belongs to a patient
@@ -29,7 +31,9 @@ class ProfileShare extends Model
     {
         return $this->expired_at->gt(now());
     }
-
+    public function getHoursAttribute(){
+        return $this->expired_at->diffInHours($this->created_At);
+    }
     public function scopeActiveShares($query)
     {
         return $query->whereDate('expired_at', '>=', now());

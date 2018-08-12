@@ -76,14 +76,17 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store');
     });
 
-    Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function()
-    {
+    Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::get('/', 'PatientController@dashboard');
         Route::get('/login', 'PatientController@index');
         Route::get('/register','PatientController@register');
         Route::post('/register', 'PatientController@store');
-        Route::get('/patient/{patients}', 'PatientController@show');
-        Route::patch('/patient/{patient}/patient', 'PatientController@update');
+        Route::get('/patient/{patient}', 'PatientController@show');
+        Route::patch('/patient/{patient}', 'PatientController@update');
+
+        Route::get('/profile/shares', 'ProfileShareController@index');
+        Route::patch('/profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
+        Route::patch('/profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
 
     //Laboratory route
