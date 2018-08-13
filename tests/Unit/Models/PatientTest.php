@@ -31,4 +31,13 @@ class PatientTest extends TestCase
     {
         $this->assertInstanceOf(Collection::class, $this->patient->profileShares);
     }
+
+    /** @test */
+    public function a_patient_can_share_his_profile(){
+        $value = [
+          'patient_id' => $this->patient->id,
+
+        ];
+        $this->post('api/patient/profile/share',$value);
+    }
 }

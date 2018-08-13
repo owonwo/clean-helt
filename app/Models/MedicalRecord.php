@@ -21,7 +21,13 @@ class MedicalRecord extends Model
         });
     }
     // A medical Record Belong to a patient
-    public function patient(){
+    public function patient()
+    {
         return $this->belongsTo(Patient::class);
     }
+    public function issuer(){
+        return $this->morphTo();
+    }
+
+    //
 }

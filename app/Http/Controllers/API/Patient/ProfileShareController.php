@@ -12,7 +12,14 @@ class ProfileShareController extends Controller
     {
         $this->middleware('auth:patient-api');
     }
+    public function share(){
+        $patient = auth()->guard('patient')->user();
+        ProfileShare::forceCreate([
+            'patient_id' => $patient->id,
+            ''
 
+        ]);
+    }
     public function index()
     {
         $patient = auth()->guard('patient')->user();
