@@ -17,17 +17,19 @@ class MedicalRecord extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->reference = $model->generateUniqueCode();
+            $model->reference = $model->generateUniqueCode(null, 'reference');
         });
     }
+
     // A medical Record Belong to a patient
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
-    public function issuer(){
+
+    public function issuer()
+    {
         return $this->morphTo();
     }
 
-    //
 }
