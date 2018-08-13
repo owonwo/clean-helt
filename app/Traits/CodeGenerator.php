@@ -20,13 +20,13 @@ trait CodeGenerator
             ->generate(true);
     }
 
-    public function generateUniqueCode($model = null)
+    public function generateUniqueCode($model = null, $column = 'chcode')
     {
         $code = $this->generateKey();
 
 
-        $query = $model ? $model::whereChcode($code) :
-            self::whereChcode($code);
+        $query = $model ? $model::where($column, $code) :
+            self::where($column, $code);
 
         // Ensure Code does not exist
         // Generate new one if Code already exists
