@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -112,5 +113,13 @@ class PatientController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showRecords(Patient $patient){
+
+        return response()->json([
+            'message' => "Medical records successfully Loaded",
+            'records' => $patient->medicalRecords
+        ]);
     }
 }

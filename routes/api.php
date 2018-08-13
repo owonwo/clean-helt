@@ -67,6 +67,8 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('/patients/{patient}', 'PatientController@update');
         Route::patch('/patients/{patient}/deactivate','PatientController@deactivate');
         Route::delete('/patients/{patient}', 'PatientController@destroy');
+        //A patient can view all his medical records from this route
+
 
         //Admin can create an Admin
         Route::post('/create','AdminController@store')->name('admin.store');
@@ -83,6 +85,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/login', 'PatientController@index');
         Route::get('/register','PatientController@register');
         Route::post('/register', 'PatientController@store');
+        Route::get('/{patient}/medical-records','PatientController@showRecords');
         Route::get('/patient/{patient}', 'PatientController@show');
         Route::patch('/patient/{patient}', 'PatientController@update');
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\MedicalRecord;
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
@@ -39,5 +40,9 @@ class PatientTest extends TestCase
 
         ];
         $this->post('api/patient/profile/share',$value);
+    }
+    /** @test */
+    public function a_patient_has_many_medical_records(){
+        $this->assertInstanceOf(Collection::class,$this->patient->medicalRecords);
     }
 }

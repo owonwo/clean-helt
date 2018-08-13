@@ -20,7 +20,5 @@ class Diagnosis extends Model
     public function getPatientAttribute(){
         return $this->record->patient;
     }
-    //Get the issuer of the diagnostics
-
 
 }
