@@ -84,9 +84,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/patient/{patient}', 'PatientController@show');
         Route::patch('/patient/{patient}', 'PatientController@update');
 
-        Route::get('/profile/shares', 'ProfileShareController@index');
-        Route::patch('/profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
-        Route::patch('/profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
+        Route::get('profile/shares', 'ProfileShareController@index');
+        Route::post('profile/shares', 'ProfileShareController@store');
+        Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
+        Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
 
     //Laboratory route

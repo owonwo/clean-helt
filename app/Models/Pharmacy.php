@@ -11,7 +11,7 @@ class Pharmacy extends Authenticatable
 {
     use Notifiable, HasApiTokens, CodeGenerator;
 
-    protected $codePrefix = 'CHP';
+    protected $codePrefix = 'CHF';
 
     protected $guarded = [];
 

@@ -8,9 +8,45 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    private $patient;
+
     public function __construct()
     {
         $this->middleware('auth:patient-api');
+        $this->patient = auth()->guard('patient')->user();
+    }
+
+    public function store()
+    {
+        $rules = $this->getRules();
+
+        $this->validate(request(), $rules);
+
+        $chcode = request('chcode');
+
+        $providerClass = $this->getProvider($chcode);
+
+        if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
+
+            $share = $this->patient->profileShares()->create([
+                'provider_type' => $providerClass,
+                'provider_id' => $provider->id,
+                'expired_at' => request('expiration')
+            ]);
+
+            if ($share) {
+                return response()->json([
+                    'message' => 'Profile shared successfully',
+                    'share' => $share
+                ], 200);
+            }
+
+            return response()->json([
+                'message' => 'Profile could not be shared at this time'
+            ], 400);
+        }
+
+        return response()->json(['message' => 'Provider not found'], 400);
     }
 
     public function index()
@@ -54,5 +90,22 @@ class ProfileShareController extends Controller
         return response()->json([
             'message' => 'Share could not be extended at this time'
         ], 400);
+    }
+
+    private function getProvider($code)
+    {
+        $prefixes = config('ch.chcode_prefixes');
+
+        $prefix = substr($code, 0, 3);
+
+        return @$prefixes[$prefix];
+    }
+
+    private function getRules()
+    {
+        return [
+            'chcode' => 'required',
+            'expiration' => 'required|date|after_or_equal:today'
+        ];
     }
 }
