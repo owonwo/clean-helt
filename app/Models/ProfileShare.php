@@ -22,11 +22,13 @@ class ProfileShare extends Model
      * A profile share belongs to a service provider
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
+    
     public function provider()
     {
         return $this->morphTo();
     }
 
+    // Creates an active attribute for the profile share
     public function getIsActiveAttribute()
     {
         return $this->expired_at->gt(now());

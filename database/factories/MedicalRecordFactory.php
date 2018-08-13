@@ -4,7 +4,6 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\MedicalRecord::class, function (Faker $faker) {
     return [
-        //
         'patient_id' => function() {
             return factory(\App\Models\Patient::class)->create()->id;
         },

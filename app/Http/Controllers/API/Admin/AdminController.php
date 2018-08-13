@@ -15,9 +15,10 @@ class AdminController extends Controller
         return $admin;
     }
     public function store(){
+
         $admin =  Admin::forceCreate(request()->all());
 
-            return request()->json([
+        return response()->json([
                 'admin' => $admin,
                 'message' => 'Admin created Successfully'
             ]);

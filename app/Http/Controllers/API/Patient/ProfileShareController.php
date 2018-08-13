@@ -48,7 +48,14 @@ class ProfileShareController extends Controller
 
         return response()->json(['message' => 'Provider not found'], 400);
     }
+    public function share(){
+        $patient = auth()->guard('patient')->user();
+        ProfileShare::forceCreate([
+            'patient_id' => $patient->id,
+            ''
 
+        ]);
+    }
     public function index()
     {
         $patient = auth()->guard('patient')->user();

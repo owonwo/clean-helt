@@ -15,7 +15,8 @@ class CreateProfileSharesTable extends Migration
     {
         Schema::create('profile_shares', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('patient_id');
+            $table->integer('patient_id')->unsigned();
+            $table->foreign('patient_id')->references('id')->on('patients');
             $table->string('provider_type');
             $table->integer('provider_id');
             $table->dateTime('expired_at');

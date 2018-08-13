@@ -19,8 +19,8 @@ class CreateDiagnosesTable extends Migration
             $table->string('complaint_history');
             $table->string('complaint_relationship');
             $table->enum('patient_condition', [1, 2, 3])->comment('1 - Improved, 2 - Worsened, 3 - Unchanged');
-            $table->json('symptoms')->nullable();
-            $table->json('extras')->nullable();
+            $table->text('symptoms')->nullable();
+            $table->text('extras')->nullable();
             $table->text('comments');
             $table->timestamps();
 

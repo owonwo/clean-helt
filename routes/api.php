@@ -68,6 +68,8 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('/patients/{patient}/deactivate','PatientController@deactivate');
         Route::delete('/patients/{patient}', 'PatientController@destroy');
 
+        //Admin can create an Admin
+        Route::post('/create','AdminController@store')->name('admin.store');
     });
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {

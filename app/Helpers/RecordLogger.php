@@ -12,18 +12,22 @@ use App\Models\MedicalRecord;
 
 class RecordLogger
 {
+    // $patient param collects the patient
+    // $issuer collects the model  for the person who issued the record
+    // $type  checks if it is a diagnosis,prescription,test
     public function logMedicalRecord($patient, $issuer, $type)
     {
         $recordData = [
             'patient_id' => $patient->id,
             'type' => $this->getRecordType($type),
             'issuer_type' => get_class($issuer),
-            'issuer_id' => $issuer->id
+            'issuer_id' => $issuer->id //
         ];
 
         return MedicalRecord::create($recordData);
     }
 
+    //Gets the Record type for the patient
     private function getRecordType($type)
     {
         switch ($type) {
