@@ -48,7 +48,7 @@ class HospitalController extends Controller
 
         $this->validate($request, $rules);
 
-        $data = $request->all();
+        $data = $request->only(array_keys($rules));
 
         $data['password'] = str_random(10);
 

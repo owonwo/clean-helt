@@ -29,4 +29,22 @@ class Hospital extends Authenticatable
     {
         return 'chcode';
     }
+
+    public function profileShares()
+    {
+        return $this->morphMany(ProfileShare::class, 'provider');
+    }
+
+    public function scopePatients($query)
+    {
+        return $this->profileShares()
+            ->acceptedShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class);
+    }
 }

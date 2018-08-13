@@ -92,12 +92,22 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
 
-    //Laboratory route
-
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){
         Route::get('/', 'LaboratoryController@dashboard');
         Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
 
+    });
+
+    Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital'], function() {
+       Route::get('profile', 'ProfileController@index');
+       Route::patch('profile', 'ProfileController@update');
+
+       Route::get('patients', 'PatientController@index');
+       Route::get('patients/pending', 'ProfileShareController@pending');
+       Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept');
+       Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
+
+       Route::get('doctors', 'DoctorController@index');
     });
 });
 

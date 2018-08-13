@@ -1,0 +1,112 @@
+<?php
+
+namespace Tests\Feature\Hospital;
+
+use App\Models\Hospital;
+use App\Models\ProfileShare;
+use Carbon\Carbon;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class ManagesSharedProfilesTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function an_authenticated_hospital_can_view_shared_profiles()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 1
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertSee($share->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_hospital_can_accept_a_profile_share()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->patch("api/hospital/patients/pending/{$share->id}/accept")
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $share->id,
+            'status' => 1
+        ]);
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertSee($share->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_hospital_can_only_accept_an_active_profile_share()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'expired_at' => Carbon::now()->subDays(2)
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->patch("api/hospital/patients/pending/{$share->id}/accept")
+            ->assertStatus(400);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $share->id,
+            'status' => 0
+        ]);
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertDontSee($share->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_hospital_can_decline_a_profile_share()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->patch("api/hospital/patients/pending/{$share->id}/decline")
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $share->id,
+            'status' => 2
+        ]);
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertDontSee($share->patient->first_name);
+    }
+}

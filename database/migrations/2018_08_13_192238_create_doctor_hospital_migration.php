@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfileSharesTable extends Migration
+class CreateDoctorHospitalMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateProfileSharesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile_shares', function (Blueprint $table) {
+        Schema::create('doctor_hospital', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('patient_id')->unsigned();
-            $table->foreign('patient_id')->references('id')->on('patients');
-            $table->string('provider_type');
-            $table->integer('provider_id');
-            $table->dateTime('expired_at');
-            $table->integer('doctor_id')->nullable();
+            $table->integer('doctor_id')->unsigned();
+            $table->integer('hospital_id')->unsigned();
             $table->enum('status', [0, 1, 2])->default(0);
+            $table->enum('actor', [0, 1])->default(0)->comment('0 - Doctor, 1 - Hospital');
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ class CreateProfileSharesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profile_shares');
+        Schema::dropIfExists('doctor_hospital');
     }
 }
