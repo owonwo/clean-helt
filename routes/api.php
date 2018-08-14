@@ -75,11 +75,12 @@ Route::group(['namespace' => 'API'], function() {
     });
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
+        Route::post('create','DoctorController@store')->name('doctor.create');
+        Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
-        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store');
+        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
     });
-
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::get('/', 'PatientController@dashboard');
         Route::get('/login', 'PatientController@index');
@@ -100,7 +101,6 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){
         Route::get('/', 'LaboratoryController@dashboard');
         Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
-
     });
 });
 

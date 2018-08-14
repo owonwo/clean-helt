@@ -28,7 +28,7 @@ class CreatePrescriptionsTable extends Migration
             $table->text('comment')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
-        });
+            });
     }
 
     /**
