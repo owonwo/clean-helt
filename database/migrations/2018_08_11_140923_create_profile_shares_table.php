@@ -19,6 +19,8 @@ class CreateProfileSharesTable extends Migration
             $table->string('provider_type');
             $table->integer('provider_id');
             $table->dateTime('expired_at');
+            $table->integer('doctor_id')->nullable();
+            $table->enum('status', [0, 1, 2])->default(0);
             $table->timestamps();
         });
     }

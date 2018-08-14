@@ -11,7 +11,7 @@ $factory->define(App\Models\ProfileShare::class, function (Faker $faker) {
         'provider_id' => function() {
             return factory(App\Models\Doctor::class)->create()->id;
         },
-        'expired_at' => Carbon\Carbon::now()->addHours($faker->randomNumber()),
+        'expired_at' => Carbon\Carbon::tomorrow(),
         'created_at' => \Carbon\Carbon::now()
     ];
 });

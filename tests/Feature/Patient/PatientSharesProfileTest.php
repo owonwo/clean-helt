@@ -16,25 +16,22 @@ class PatientSharesProfileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_patient_can_share_his_profile()
+    public function a_patient_can_share_his_profile_to_anyone()
     {
         $patient = create(Patient::class);
-
         $provider = create(Doctor::class);
-
         $this->signIn($patient, 'patient');
-
         $this->makeAuthRequest()
-            ->post('/api/patient/profile/shares', [
+            ->post(route('patient.profile.share'), [
                 'chcode' => $provider->chcode,
                 'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
             ]);
 
-
         $this->assertDatabaseHas('profile_shares', [
             'patient_id' => $patient->id,
             'provider_id' => $provider->id,
-            'provider_type' => get_class($provider)
+            'provider_type' => get_class($provider),
+            'doctor_id' => $provider->id,
         ]);
     }
 
@@ -54,8 +51,6 @@ class PatientSharesProfileTest extends TestCase
                 'chcode' => $provider->chcode,
                 'expiration' => Carbon::now()->subDay()->format('Y-m-d h:i:s')
             ]);
-
-
     }
 
     /** @test */
