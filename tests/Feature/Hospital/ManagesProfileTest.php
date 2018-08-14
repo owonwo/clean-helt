@@ -41,4 +41,5 @@ class ManagesProfileTest extends TestCase
             'name' => $update['name']
         ]);
     }
+
 }

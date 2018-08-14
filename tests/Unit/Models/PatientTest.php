@@ -38,6 +38,7 @@ class PatientTest extends TestCase
           'patient_id' => $this->patient->id,
 
         ];
-        $this->post('api/patient/profile/share',$value);
+        $this->signIn($this->patient,'patient');
+        $this->post(route('patient.profile.share'),$value);
     }
 }

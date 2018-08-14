@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Hospital;
 
+use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\ProfileShare;
 use Carbon\Carbon;
@@ -109,4 +110,5 @@ class ManagesSharedProfilesTest extends TestCase
             ->get('api/hospital/patients')
             ->assertDontSee($share->patient->first_name);
     }
+
 }
