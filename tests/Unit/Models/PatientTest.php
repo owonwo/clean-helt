@@ -34,16 +34,9 @@ class PatientTest extends TestCase
     }
 
     /** @test */
-    public function a_patient_can_share_his_profile(){
-        $value = [
-          'patient_id' => $this->patient->id,
-
-        ];
-        $this->signIn($this->patient,'patient');
-        $this->post(route('patient.profile.share'),$value);
-    }
-    /** @test */
-    public function a_patient_has_many_medical_records(){
+    public function a_patient_has_many_medical_records()
+    {
         $this->assertInstanceOf(Collection::class,$this->patient->medicalRecords);
     }
+
 }

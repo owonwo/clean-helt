@@ -6,14 +6,13 @@ use App\Models\Doctor;
 use App\Models\DoctorProfile;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 
 
 
 class ManagesDoctorsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
 
     /** @test */
@@ -35,7 +34,7 @@ class ManagesDoctorsTest extends TestCase
         $doctor = create(Doctor::class);
 
         $this->makeAuthRequest()
-            ->get("/api/admin/doctors/{$doctor->id}")
+            ->get("/api/admin/doctors/{$doctor->chcode}")
             ->assertSee($doctor->first_name);
     }
     /** @test */
@@ -79,7 +78,7 @@ class ManagesDoctorsTest extends TestCase
         $update = [
             'first_name' => 'Bread'
         ];
-        $this->makeAuthRequest()->patch("/api/admin/doctors/update/{$doctor->id}",$update);
+        $this->makeAuthRequest()->patch("/api/admin/doctors/update/{$doctor->chcode}",$update);
         $this->assertDatabaseHas('doctors',$update);
 
     }

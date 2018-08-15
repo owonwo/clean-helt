@@ -12,7 +12,7 @@ class PatientController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('login, store');
+        //$this->middleware('auth:patient-api')->except('login, store');
     }
 
     public function login(Request $request, $guard)
@@ -79,6 +79,7 @@ class PatientController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**

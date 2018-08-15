@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PatientTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
     /** @test */
     public function a_patient_can_view_his_medical_records()
     {
