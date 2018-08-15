@@ -50,7 +50,8 @@ class ProfileShareController extends Controller
     }
 
     //A Patient can share his profile to whichever motherfucker he wants to
-    public function share(){
+    public function share()
+    {
         $patient = auth()->guard('patient')->user();
         $chcode = request('chcode');
 
@@ -131,7 +132,7 @@ class ProfileShareController extends Controller
     {
         return [
             'chcode' => 'required',
-            'expiration' => 'required|date|after_or_equal:today'
+            'expiration' => 'required|date|after_or_equal:now'
         ];
     }
 }

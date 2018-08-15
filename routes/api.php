@@ -90,7 +90,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('/patient/{patient}', 'PatientController@update');
 
         Route::get('profile/shares', 'ProfileShareController@index');
-        Route::post('profile/shares', 'ProfileShareController@share')->name('patient.profile.share');
+        Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
