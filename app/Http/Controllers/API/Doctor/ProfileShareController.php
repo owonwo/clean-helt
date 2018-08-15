@@ -21,18 +21,21 @@ class ProfileShareController extends Controller
 
         //steps one check the get the provider->id and use it to get all his patients and check his status column
     }
+
     public function accept(ProfileShare $profileShare)
     {
-            if($profileShare->update(['status' => request('accept')])){
-                return response()->json([
-                    'message' => 'Profile share has been accepted',
-                    'profileShare' => $profileShare
-                ]);
-            }
+        if($profileShare->exists && $profileShare->update(['status' => request('accept')])){
+
             return response()->json([
-                'message' => 'Profile share acceptance failed'
+                'message' => 'Profile share has been accepted',
+                'profileShare' => $profileShare
             ]);
+        }
+        return response()->json([
+            'message' => 'Profile share acceptance failed'
+        ]);
     }
+
     public function decline(ProfileShare $profileShare)
     {
         if($profileShare->update(['status' => request('decline')])){

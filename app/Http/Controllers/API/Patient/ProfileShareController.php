@@ -16,6 +16,15 @@ class ProfileShareController extends Controller
         $this->patient = auth()->guard('patient')->user();
     }
 
+    public function index()
+    {
+        $patient = auth()->guard('patient')->user();
+        return response()->json([
+            'message' => 'Shares retrieved successfully',
+            'shares' => $patient->profileShares
+        ], 200);
+    }
+
     public function store()
     {
         $rules = $this->getRules();
@@ -49,42 +58,6 @@ class ProfileShareController extends Controller
         return response()->json(['message' => 'Provider not found'], 400);
     }
 
-    //A Patient can share his profile to whichever motherfucker he wants to
-    public function share()
-    {
-        $patient = auth()->guard('patient')->user();
-        $chcode = request('chcode');
-
-        $providerClass = $this->getProvider($chcode);
-        if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()){
-            $profileShare = ProfileShare::forceCreate([
-                'patient_id' => $patient->id,
-                'provider_type' => $providerClass,
-                'provider_id' => $provider->id,
-                'expired_at' => request('expiration'),
-                'doctor_id' => $provider->id
-            ]);
-            return response()->json([
-                'message' => 'Profile shared successfully',
-                'share' => $profileShare
-            ], 200);
-        }
-        return response()->json(['message' => 'Provider not found'], 400);
-    }
-    public function index()
-    {
-        $patient = auth()->guard('patient')->user();
-        return response()->json([
-            'message' => 'Shares retrieved successfully',
-            'shares' => $patient->profileShares
-        ], 200);
-    }
-    public function pending(ProfileShare $profileShare){
-        dd(auth()->guard());
-        //select all pending request for a particular provider and view them
-
-        //steps one check the get the provider->id and use it to get all his patients and check his status column
-    }
     public function expire(ProfileShare $profileShare)
     {
         if ($profileShare && $profileShare->update(['expired_at' => now()->subSeconds(30)])) {
