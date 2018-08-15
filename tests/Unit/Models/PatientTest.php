@@ -38,5 +38,4 @@ class PatientTest extends TestCase
     {
         $this->assertInstanceOf(Collection::class,$this->patient->medicalRecords);
     }
-
 }
