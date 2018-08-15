@@ -62,6 +62,7 @@ class DoctorDiagnosesPatientsTest extends TestCase
             ->assertSee($patient->chcode);
     }
 
+
     /** @test */
     public function a_doctor_can_give_a_diagnosis_for_his_patient()
     {

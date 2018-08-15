@@ -12,7 +12,7 @@ class ProfileShareController extends Controller
     public function pending(){
         $doctor =  auth()->guard('doctor')->user();
         $pendingPatients = ProfileShare::where([['provider_id', $doctor->id],['status','=','0'],['']])->get();
-        $pendingPatients;
+
         return response()->json([
             'message' => 'All Pending patients loaded',
             'pendingPatients' => $pendingPatients
@@ -21,7 +21,8 @@ class ProfileShareController extends Controller
 
         //steps one check the get the provider->id and use it to get all his patients and check his status column
     }
-    public function accept(ProfileShare $profileShare){
+    public function accept(ProfileShare $profileShare)
+    {
             if($profileShare->update(['status' => request('accept')])){
                 return response()->json([
                     'message' => 'Profile share has been accepted',
@@ -32,7 +33,8 @@ class ProfileShareController extends Controller
                 'message' => 'Profile share acceptance failed'
             ]);
     }
-    public function decline(ProfileShare $profileShare){
+    public function decline(ProfileShare $profileShare)
+    {
         if($profileShare->update(['status' => request('decline')])){
             return response()->json([
                 'message' => 'Profile share has been accepted',

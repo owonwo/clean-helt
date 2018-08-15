@@ -14,13 +14,15 @@ class DoctorManagesSharedProfileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_doctor_can_view_all_pending_patient_profile(){
+    public function a_doctor_can_view_all_pending_patient_profile()
+    {
         $doctor = create(Doctor::class);
         $this->signIn($doctor,'doctor');
         $this->get(route('doctor.pending.patient'))->assertStatus(200);
     }
     /** @test */
-    public function a_doctor_can_accept_a_shared_profile(){
+    public function a_doctor_can_accept_a_shared_profile()
+    {
         $doctor = create(Doctor::class);
         $patient = create(Patient::class);
         $this->signIn($doctor,'doctor');
