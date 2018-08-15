@@ -85,6 +85,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
     });
+
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::get('/', 'PatientController@dashboard');
         Route::get('/login', 'PatientController@index');

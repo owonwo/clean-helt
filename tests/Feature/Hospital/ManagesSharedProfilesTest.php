@@ -109,5 +109,4 @@ class ManagesSharedProfilesTest extends TestCase
             ->get('api/hospital/patients')
             ->assertDontSee($share->patient->first_name);
     }
-
 }
