@@ -27,7 +27,7 @@ class CreateDoctorsTable extends Migration
             $table->boolean('confirm')->default(false);
             $table->boolean('validation')->default(false);
             $table->string('chcode')->unique();
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

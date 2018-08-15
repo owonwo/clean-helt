@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\Doctor ;
 
+use App\Http\Controllers\Controller;
 use App\Models\Doctor;
-use App\Models\DoctorProfile;
-use Illuminate\Http\Request;
-use PhpParser\Comment\Doc;
+
 
 class DoctorController extends Controller
 {
@@ -23,10 +22,9 @@ class DoctorController extends Controller
     ];
     public function store(){
 
-        request()->validate($this->rule);
+        request()->validate($this->rules);
 
         $data = request()->all();
-
         if($doctor = Doctor::forceCreate($data)){
             return response()->json([
                 'message' => "Doctor has been created successfully",
@@ -49,7 +47,13 @@ class DoctorController extends Controller
               'message' => "Fuck!! it failed to update",
           ],400);
     }
-
+    public function show(Doctor $doctor){
+        return response()->json([
+            'message' => 'Doctors Loaded successfully',
+            'doctor' => $doctor,
+            'doctorProfile' => $doctor->profile,
+        ]);
+    }
     public function passwordReset(){
 
     }

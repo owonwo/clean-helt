@@ -76,6 +76,7 @@ Route::group(['namespace' => 'API'], function() {
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::post('create','DoctorController@store')->name('doctor.create');
+        Route::get('{doctor}/profile','DoctorController@show')->name('doctor.profile');
         Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
@@ -111,7 +112,7 @@ Route::group(['namespace' => 'API'], function() {
 
        Route::get('patients', 'PatientController@index');
        Route::get('patients/pending', 'ProfileShareController@pending');
-       Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept');
+       Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('hospital.profile.accept');
        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
 
        Route::get('doctors', 'DoctorController@index');

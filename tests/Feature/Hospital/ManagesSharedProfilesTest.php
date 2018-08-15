@@ -36,8 +36,7 @@ class ManagesSharedProfilesTest extends TestCase
     public function an_authenticated_hospital_can_accept_a_profile_share()
     {
         $hospital = create(Hospital::class);
-
-        $share = create(ProfileShare::class, [
+        $profileShare = create(ProfileShare::class, [
             'provider_id' => $hospital->id,
             'provider_type' => get_class($hospital),
         ]);
@@ -45,17 +44,17 @@ class ManagesSharedProfilesTest extends TestCase
         $this->signIn($hospital, 'hospital');
 
         $this->makeAuthRequest()
-            ->patch("api/hospital/patients/pending/{$share->id}/accept")
+            ->patch("api/hospital/patients/pending/{$profileShare->id}/accept")
             ->assertStatus(200);
 
         $this->assertDatabaseHas('profile_shares', [
-            'id' => $share->id,
+            'id' => $profileShare->id,
             'status' => 1
         ]);
 
         $this->makeAuthRequest()
             ->get('api/hospital/patients')
-            ->assertSee($share->patient->first_name);
+            ->assertSee($profileShare->patient->first_name);
     }
 
     /** @test */

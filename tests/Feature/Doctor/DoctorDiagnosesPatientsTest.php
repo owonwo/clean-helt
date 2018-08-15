@@ -53,6 +53,7 @@ class DoctorDiagnosesPatientsTest extends TestCase
             'provider_id' => $doctor->id,
             'expired_at' => now()->addDays(2)
         ]);
+       // create(ProfileShare::class,['provider_id' => $doctor->id,'patient_id' => $patient->id]);
 
         $this->signIn($doctor, 'doctor');
 
@@ -71,16 +72,21 @@ class DoctorDiagnosesPatientsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $doctor->id,
-            'expired_at' => now()->addDays(2)
+            'expired_at' => now()->addDays(2),
+
         ]);
 
         $this->signIn($doctor, 'doctor');
 
-        $diagnosis = make(Diagnosis::class)->toArray();
+        $diagnosis = create(Diagnosis::class)->toArray();
+        $data = [
+            'quantity' => 5,
+            'frequency' =>5,
+            'name' => 'Panadol'
+        ];
         unset($diagnosis['record_id']);
-
         $this->makeAuthRequest()
-            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", $diagnosis)
+            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", array_merge($diagnosis,$data))
             ->assertStatus(200);
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);
