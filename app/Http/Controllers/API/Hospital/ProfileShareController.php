@@ -9,7 +9,6 @@ class ProfileShareController extends Controller
 {
     public function accept(ProfileShare $profileShare)
     {
-        dd('bread');
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['status' => 1]);
 

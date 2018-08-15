@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Doctor;
 
 use App\Helpers\RecordLogger;
 use App\Models\Diagnosis;
+use App\Models\LabTest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Prescription;
@@ -38,8 +39,10 @@ class DiagnosisController extends Controller
 
                 //TODO
                 //Step 3: Check if there are prescriptions and tests and save them
-                $this->createPrescriptions($record->id,null,$diagnosis->id);
-
+                if($request->input('prescription') && $request->input('test')){
+                    $this->createPrescriptions($record->id,null,$diagnosis->id);
+                    $this->createLabTest($record->id,$diagnosis->id);
+                }
                 DB::commit();
                 return response()->json([
                     'message' => 'Diagnosis made successfully',
@@ -80,7 +83,16 @@ class DiagnosisController extends Controller
                 'diagnosis_id' => $diagnosis
             ]);
     }
-    private function createLabTest(){
-
+    private function createLabTest($record,$diagnosis){
+            LabTest::forceCreate([
+               'record_id' => $record,
+                'name' => request('name'),
+                'description' => request('description'),
+                'result' => request('result'),
+                'conclusion' => request('conclusion'),
+                'status' => request('status'),
+                'taker' => request('taker'),
+                'diagnosis_id' => $diagnosis
+            ]);
     }
 }

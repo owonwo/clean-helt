@@ -16,8 +16,8 @@ class CreateLabTestsTable extends Migration
         Schema::create('lab_tests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id');
-            $table->integer('name');
-            $table->text('description');
+            $table->integer('test_name')->nullable();
+            $table->text('description')->nullable();
             $table->text('result')->nullable();
             $table->text('conclusion')->nullable();
             $table->boolean('status')->default(false);
