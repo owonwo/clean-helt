@@ -23,7 +23,6 @@ class ProfileShareController extends Controller
     }
     public function accept(ProfileShare $profileShare)
     {
-        dd($profileShare);
             if($profileShare->update(['status' => request('accept')])){
                 return response()->json([
                     'message' => 'Profile share has been accepted',

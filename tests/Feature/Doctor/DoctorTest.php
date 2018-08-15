@@ -33,14 +33,16 @@ class DoctorTest extends TestCase
         $this->post(route('doctor.create'),$dataField)->assertStatus(200);
     }
     /** @test */
-    public function a_doctor_can_update_his_profile(){
+    public function a_doctor_can_update_his_profile()
+    {
         $doctor  = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor');
         $this->withExceptionHandling()->patch(route('doctor.update',$doctor))->assertStatus(200);
     }
 
     /** @test */
-    public function a_doctor_can_create_a_diagnosis(){
+    public function a_doctor_can_create_a_diagnosis()
+    {
         $doctor = create('App\Models\Doctor');
         $patient = create('App\Models\Patient');
 
@@ -66,7 +68,8 @@ class DoctorTest extends TestCase
     }
 
     /** @test */
-    public function a_doctor_can_view_his_profile(){
+    public function a_doctor_can_view_his_profile()
+    {
         $doctor = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor');
         $this->get(route('doctor.profile',$doctor))->assertSee($doctor->first_name);

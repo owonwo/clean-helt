@@ -27,7 +27,6 @@ class DoctorManagesSharedProfileTest extends TestCase
         $patient = create(Patient::class);
         $this->signIn($doctor,'doctor');
         $profileShare = create(ProfileShare::class,['patient_id' => $patient->id,'provider_id' => $doctor->id]);
-        dd($profileShare);
         $this->patch(route('doctor.accept.patient', ['profileShare' => $profileShare->id]), ['accept' => 1]);
         
         $this->assertDatabaseHas('profile_shares',['status' => 1]);

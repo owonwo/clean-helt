@@ -80,7 +80,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
-        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
+        Route::post('patients/{patient}/diagnose', 'DiagnosisController@share')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
@@ -95,7 +95,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('/patient/{patient}', 'PatientController@update');
 
         Route::get('profile/shares', 'ProfileShareController@index');
-        Route::post('profile/shares', 'ProfileShareController@share')->name('patient.profile.share');
+        Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
