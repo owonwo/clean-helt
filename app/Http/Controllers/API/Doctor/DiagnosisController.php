@@ -6,6 +6,7 @@ use App\Helpers\RecordLogger;
 use App\Models\Diagnosis;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Models\Prescription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class DiagnosisController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:doctor-api');
+//        $this->middleware('auth:doctor-api');
     }
 
     public function store(Request $request, Patient $patient, RecordLogger $logger)
@@ -22,8 +23,8 @@ class DiagnosisController extends Controller
         $rules = $this->getRules();
 
         $this->validate($request, $rules);
-
         $doctor = auth()->guard('doctor')->user();
+
         if ($patient && $doctor->canViewProfile($patient)) {
             try {
                 DB::beginTransaction();
@@ -33,10 +34,11 @@ class DiagnosisController extends Controller
                 //Step 2: Save the actual data
                 $data = $request->only(array_keys($rules));
                 $data['record_id'] = $record->id;
-                $diagnosis = Diagnosis::create($data);
+                $diagnosis = Diagnosis::forceCreate($data);
 
                 //TODO
                 //Step 3: Check if there are prescriptions and tests and save them
+                $this->createPrescriptions($record->id,null,$diagnosis->id);
 
                 DB::commit();
                 return response()->json([
@@ -67,5 +69,18 @@ class DiagnosisController extends Controller
             'extras' => 'nullable',
             'comments' => 'required|string'
         ];
+    }
+    private function createPrescriptions($record,$pharmacy = null,$diagnosis){
+            Prescription::forceCreate([
+                'record_id' => $record,
+                'quantity' => request('quantity'),
+                'frequency' => request('frequency'),
+                'name' => request('name'),
+                'pharmacy_id' => $pharmacy,
+                'diagnosis_id' => $diagnosis
+            ]);
+    }
+    private function createLabTest(){
+
     }
 }

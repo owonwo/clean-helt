@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\MedicalRecord;
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
@@ -30,5 +31,11 @@ class PatientTest extends TestCase
     public function a_patient_has_many_profile_shares()
     {
         $this->assertInstanceOf(Collection::class, $this->patient->profileShares);
+    }
+
+    /** @test */
+    public function a_patient_has_many_medical_records()
+    {
+        $this->assertInstanceOf(Collection::class,$this->patient->medicalRecords);
     }
 }

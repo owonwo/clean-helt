@@ -40,4 +40,9 @@ class Patient extends Authenticatable
     {
         $this->notify(new PatientResetPasswordNotification($token));
     }
+    public function medicalRecords()
+    {
+        //A patient has many medical records
+        return $this->hasMany(MedicalRecord::class);
+    }
 }

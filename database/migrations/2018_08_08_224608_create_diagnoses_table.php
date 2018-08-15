@@ -16,8 +16,8 @@ class CreateDiagnosesTable extends Migration
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id')->unsigned();
-            $table->string('complaint_history');
-            $table->string('complaint_relationship');
+            $table->string('complaint_history')->nullable();
+            $table->string('complaint_relationship')->nullable();
             $table->enum('patient_condition', [1, 2, 3])->comment('1 - Improved, 2 - Worsened, 3 - Unchanged');
             $table->text('symptoms')->nullable();
             $table->text('extras')->nullable();

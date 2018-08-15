@@ -17,4 +17,8 @@ class MedicalRecordTest extends TestCase
         $record = create('App\Models\MedicalRecord');
         $this->assertInstanceOf('App\Models\Patient',$record->patient);
     }
+    public function a_medical_record_has_an_issuer(){
+        $record = create('App\Models\MedicalRecord');
+
+    }
 }

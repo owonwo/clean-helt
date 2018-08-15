@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diagnosis extends Model
 {
-
+    protected $fillable = ['complaint_history'];
 
     protected $guarded = [];
 
@@ -20,7 +20,5 @@ class Diagnosis extends Model
     public function getPatientAttribute(){
         return $this->record->patient;
     }
-    //Get the issuer of the diagnostics
-
 
 }

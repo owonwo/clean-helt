@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\Hospital;
 
 use App\Models\ProfileShare;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
     public function accept(ProfileShare $profileShare)
     {
+        dd('bread');
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['status' => 1]);
 
@@ -26,6 +26,7 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
+
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['status' => 2]);
 

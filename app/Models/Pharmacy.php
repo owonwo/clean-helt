@@ -29,4 +29,7 @@ class Pharmacy extends Authenticatable
     {
         return 'chcode';
     }
+    public function issuer(){
+        return $this->morphMany('App\Models\MedicalRecord','issuer');
+    }
 }

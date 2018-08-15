@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ class PatientController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('login, store');
+        //$this->middleware('auth:patient-api')->except('login, store');
     }
 
     public function login(Request $request, $guard)
@@ -78,6 +79,7 @@ class PatientController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -112,5 +114,13 @@ class PatientController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showRecords(Patient $patient){
+
+        return response()->json([
+            'message' => "Medical records successfully Loaded",
+            'records' => $patient->medicalRecords
+        ]);
     }
 }

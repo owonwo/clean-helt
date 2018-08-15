@@ -67,25 +67,30 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('/patients/{patient}', 'PatientController@update');
         Route::patch('/patients/{patient}/deactivate','PatientController@deactivate');
         Route::delete('/patients/{patient}', 'PatientController@destroy');
+        //A patient can view all his medical records from this route
+
 
         //Admin can create an Admin
         Route::post('/create','AdminController@store')->name('admin.store');
     });
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
+        Route::post('create','DoctorController@store')->name('doctor.create');
+        Route::get('{doctor}/profile','DoctorController@show')->name('doctor.profile');
+        Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
-        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store');
+        Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
     });
-
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::get('/', 'PatientController@dashboard');
         Route::get('/login', 'PatientController@index');
         Route::get('/register','PatientController@register');
         Route::post('/register', 'PatientController@store');
+        Route::get('/{patient}/medical-records','PatientController@showRecords');
         Route::get('/patient/{patient}', 'PatientController@show');
         Route::patch('/patient/{patient}', 'PatientController@update');
 
@@ -98,6 +103,7 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){
         Route::get('/', 'LaboratoryController@dashboard');
         Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
+
     });
 
     Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital'], function() {
@@ -106,10 +112,11 @@ Route::group(['namespace' => 'API'], function() {
 
        Route::get('patients', 'PatientController@index');
        Route::get('patients/pending', 'ProfileShareController@pending');
-       Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept');
+       Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('hospital.profile.accept');
        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
 
        Route::get('doctors', 'DoctorController@index');
+
     });
 });
 
