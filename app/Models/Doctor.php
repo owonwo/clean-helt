@@ -52,9 +52,9 @@ class Doctor extends Authenticatable
     public function canViewProfile(Patient $patient)
     {
         return $this->profileShares()
-            ->where('patient_id', $patient->id)
-            ->whereDate('expired_at', '>=', now())
-            ->first() !== null;
+                ->activeShares()
+                ->where('patient_id', $patient->id)
+                ->first() !== null;
     }
 
     public function profile()

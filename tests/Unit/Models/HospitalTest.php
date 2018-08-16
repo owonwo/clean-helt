@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Hospital;
+use App\Models\ProfileShare;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -45,5 +46,16 @@ class HospitalTest extends TestCase
     public function a_hospital_belongs_to_many_doctors()
     {
         $this->assertInstanceOf(Collection::class, $this->hospital->doctors);
+    }
+
+    /** @test */
+    public function a_hospital_might_own_a_profile_share()
+    {
+        $share = create(ProfileShare::class, [
+            'provider_id' => $this->hospital->id,
+            'provider_type' => get_class($this->hospital)
+        ]);
+
+        $this->assertTrue($this->hospital->ownsShare($share));
     }
 }

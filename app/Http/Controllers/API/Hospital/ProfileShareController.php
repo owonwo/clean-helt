@@ -7,9 +7,18 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    public function pending()
+    {
+        $hospital = auth()->guard('hospital')->user();
+
+        return response()->json([
+            'message' => 'Patients retrieved successfully',
+            'patients' => $hospital->pendingShares()->get()
+        ], 200);
+    }
+
     public function accept(ProfileShare $profileShare)
     {
-        dd('bread');
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['status' => 1]);
 

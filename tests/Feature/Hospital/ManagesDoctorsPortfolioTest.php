@@ -43,7 +43,7 @@ class ManagesDoctorsPortfolioTest extends TestCase
             'hospital_id' => $hospital->id,
             'doctor_id' => $doctor->id,
             'status' => 0,
-            'actor' => 1
+            'actor' => get_class($hospital)
         ]);
     }
 
@@ -124,6 +124,27 @@ class ManagesDoctorsPortfolioTest extends TestCase
             'hospital_id' => $hospital->id,
             'status' => 2,
             'doctor_id' => $doctor->id
+        ]);
+    }
+
+    /** @test */
+    public function a_hospital_can_remove_a_doctor_from_her_portfolio()
+    {
+        $hospital = create(Hospital::class);
+
+        $doctor = create(Doctor::class);
+
+        $hospital->doctors()->attach($doctor, ['status' => 1]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->delete("api/hospital/doctors/{$doctor->chcode}/delete");
+
+        $this->assertDatabaseMissing('doctor_hospital', [
+            'hospital_id' => $hospital->id,
+            'doctor_id' => $doctor->id,
+            'status' => 1
         ]);
     }
 }

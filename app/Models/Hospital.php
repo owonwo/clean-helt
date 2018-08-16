@@ -43,6 +43,35 @@ class Hospital extends Authenticatable
             ->with('patient');
     }
 
+    public function scopePendingShares($query)
+    {
+        return $this->profileShares()
+            ->pendingShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function ownsShare(ProfileShare $share)
+    {
+        return $this->chcode === $share->provider->chcode;
+    }
+
+
+    /**
+     * Checks whether a doctor can view a patient's profile
+     * @param Patient $patient
+     * @return bool
+     */
+    public function canViewProfile(Patient $patient)
+    {
+        return $this->profileShares()
+                ->activeShares()
+                ->where('patient_id', $patient->id)
+                ->first() !== null;
+    }
+
+    /** Doctors */
+
     public function doctors()
     {
         return $this->belongsToMany(Doctor::class);
@@ -65,6 +94,13 @@ class Hospital extends Authenticatable
     public function scopeActiveDoctors($query)
     {
         return $this->doctors()->wherePivot('status', 1);
+    }
+
+    public function isActiveDoctor(Doctor $doctor)
+    {
+        return $this->activeDoctors()
+                ->where('doctor_id', $doctor->id)
+                ->first() != null;
     }
 
     public function acceptDoctor(Doctor $doctor)

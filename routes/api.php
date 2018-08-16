@@ -115,6 +115,7 @@ Route::group(['namespace' => 'API'], function() {
        Route::get('patients/pending', 'ProfileShareController@pending');
        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('hospital.profile.accept');
        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
+       Route::patch('patients/{profileShare}/assign/{doctor}', 'PatientController@assign');
 
        Route::get('doctors', 'DoctorController@index');
        Route::get('doctors/pending', 'DoctorController@pending');
@@ -122,7 +123,7 @@ Route::group(['namespace' => 'API'], function() {
        Route::post('doctors/{doctor}/invite', 'DoctorController@invite');
        Route::patch('doctors/{doctor}/accept', 'DoctorController@accept');
        Route::patch('doctors/{doctor}/decline', 'DoctorController@decline');
-
+       Route::delete('doctors/{doctor}/delete', 'DoctorController@remove');
     });
 });
 

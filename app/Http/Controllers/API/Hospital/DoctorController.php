@@ -44,7 +44,7 @@ class DoctorController extends Controller
     {
         //TODO check if an invite exists already
         if ($doctor->exists && $this->hospital->doctors()
-                ->attach($doctor, ['actor' => 1])) {
+                ->attach($doctor, ['actor' => 'App\Models\Hospital'])) {
             return response()->json([
                 'message' => 'Doctor invite sent successfully'
             ], 200);
@@ -78,6 +78,19 @@ class DoctorController extends Controller
         }
         return response()->json([
             'message' => 'Doctor invite could not be declined'
+        ], 400);
+    }
+
+    public function remove(Doctor $doctor)
+    {
+        if ($doctor->exists && $this->hospital->doctors()->detach($doctor->id))
+        {
+            return response()->json([
+                'message' => 'Doctor removed successfully'
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Doctor could not be removed'
         ], 400);
     }
 }
