@@ -24,6 +24,7 @@ class DoctorManagesSharedProfileTest extends TestCase
     public function a_doctor_can_accept_a_shared_profile()
     {
         $doctor = create(Doctor::class);
+        $patient = create(Patient::class);
 
         $this->signIn($doctor,'doctor');
         $profileShare = create(ProfileShare::class,['patient_id' => $patient->id,'provider_id' => $doctor->id]);
