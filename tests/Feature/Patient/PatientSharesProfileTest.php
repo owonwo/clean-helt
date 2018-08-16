@@ -29,9 +29,6 @@ class PatientSharesProfileTest extends TestCase
 
         $this->assertDatabaseHas('profile_shares', [
             'patient_id' => $patient->id,
-            'provider_id' => $provider->id,
-            'provider_type' => get_class($provider),
-            'doctor_id' => $provider->id,
         ]);
     }
 

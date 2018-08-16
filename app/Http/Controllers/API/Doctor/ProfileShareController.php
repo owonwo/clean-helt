@@ -25,6 +25,7 @@ class ProfileShareController extends Controller
     public function accept(ProfileShare $profileShare)
     {
         if($profileShare->exists && $profileShare->update(['status' => request('accept')])){
+
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'profileShare' => $profileShare

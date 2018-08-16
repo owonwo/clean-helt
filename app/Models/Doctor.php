@@ -16,6 +16,9 @@ class Doctor extends Authenticatable
     protected $guarded = [];
 
     protected $hidden = ['password'];
+    protected $casts = [
+        'confirm' => 'boolean'
+    ];
 
     protected static function boot()
     {
@@ -57,6 +60,11 @@ class Doctor extends Authenticatable
                 ->first() !== null;
     }
 
+    public function confirm(){
+        $this->confirm = true;
+        $this->token = null;
+        $this->save();
+    }
     public function profile()
     {
         return $this->hasOne(DoctorProfile::class,'doctors_id');

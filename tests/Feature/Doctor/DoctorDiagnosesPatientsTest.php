@@ -85,9 +85,19 @@ class DoctorDiagnosesPatientsTest extends TestCase
             'frequency' =>5,
             'name' => 'Panadol'
         ];
+        $labData = [
+            'test_name' => 'Drug Test',
+            'description' => 'This is the description of the test',
+            'result' => 'This is the result of the test',
+            'conclusion' => 'We think you have just two weeks to live',
+            'status' => 1,
+            'taker' => 'Taker',
+
+        ];
+
         unset($diagnosis['record_id']);
         $this->makeAuthRequest()
-            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", array_merge($diagnosis,$data))
+            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", array_merge($diagnosis,$data,$labData))
             ->assertStatus(200);
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);

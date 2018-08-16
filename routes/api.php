@@ -21,8 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'API'], function() {
 
     Route::post('login/{guard}', 'Auth\LoginController@login');
-
-
+    Route::post('logout/{guard}','Auth\LoginController@logout');
     Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
         return $request->user();
     });
@@ -76,24 +75,25 @@ Route::group(['namespace' => 'API'], function() {
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::post('create','DoctorController@store')->name('doctor.create');
+        Route::get('register/confirm','RegistrationConfirmationController@index')->name('doctor.register.confirm');
         Route::get('{doctor}/profile','DoctorController@show')->name('doctor.profile');
         Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
-        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
+        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient')->where(['profileShare' => '[0-9]+']);
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
     });
 
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
-        Route::get('/', 'PatientController@dashboard');
-        Route::get('/login', 'PatientController@index');
-        Route::get('/register','PatientController@register');
         Route::post('/register', 'PatientController@store');
         Route::get('/{patient}/medical-records','PatientController@showRecords');
-        Route::get('/patient/{patient}', 'PatientController@show');
-        Route::patch('/patient/{patient}', 'PatientController@update');
+        Route::get('/{patient}/patient', 'PatientController@show');
+        Route::patch("/{patient}/patient", 'PatientController@update');
+        Route::get('/medical-record/{patient}', 'PatientController@showDate');
+        Route::get('/{patient}/labtest', 'PatientController@showLabtest');
+        Route::get('/{patient}/prescription', 'PatientController@showPrescription');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
