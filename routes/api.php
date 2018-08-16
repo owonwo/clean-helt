@@ -117,6 +117,11 @@ Route::group(['namespace' => 'API'], function() {
        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
 
        Route::get('doctors', 'DoctorController@index');
+       Route::get('doctors/pending', 'DoctorController@pending');
+       Route::get('doctors/sent', 'DoctorController@sent');
+       Route::post('doctors/{doctor}/invite', 'DoctorController@invite');
+       Route::patch('doctors/{doctor}/accept', 'DoctorController@accept');
+       Route::patch('doctors/{doctor}/decline', 'DoctorController@decline');
 
     });
 });

@@ -2,23 +2,82 @@
 
 namespace App\Http\Controllers\API\Hospital;
 
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class DoctorController extends Controller
 {
+    private $hospital;
+
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
+        $this->hospital = auth('hospital')->user();
     }
 
     public function index()
     {
-        $hospital = auth('hospital')->user();
-
         return response()->json([
             'message' => 'Doctors retrieved successfully',
-            'doctors' => $hospital->doctors
+            'doctors' => $this->hospital->activeDoctors()->get()
         ], 200);
+    }
+
+    public function pending()
+    {
+        return response()->json([
+            'message' => 'Doctors retrieved successfully',
+            'doctors' => $this->hospital->pendingDoctors()->get()
+        ], 200);
+    }
+
+    public function sent()
+    {
+        return response()->json([
+            'message' => 'Doctors retrieved successfully',
+            'doctors' => $this->hospital->sentDoctors()->get()
+        ], 200);
+    }
+
+    public function invite(Doctor $doctor)
+    {
+        //TODO check if an invite exists already
+        if ($doctor->exists && $this->hospital->doctors()
+                ->attach($doctor, ['actor' => 1])) {
+            return response()->json([
+                'message' => 'Doctor invite sent successfully'
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Doctor invite could not be sent'
+        ], 400);
+    }
+
+    public function accept(Doctor $doctor)
+    {
+        if ($doctor->exists && $this->hospital->acceptDoctor($doctor))
+        {
+            return response()->json([
+                'message' => 'Doctor approved successfully'
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Doctor invite could not be approved'
+        ], 400);
+    }
+
+    public function decline(Doctor $doctor)
+    {
+        if ($doctor->exists && $this->hospital->declineDoctor($doctor))
+        {
+            return response()->json([
+                'message' => 'Doctor declined successfully'
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Doctor invite could not be declined'
+        ], 400);
     }
 }

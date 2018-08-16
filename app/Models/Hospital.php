@@ -47,4 +47,35 @@ class Hospital extends Authenticatable
     {
         return $this->belongsToMany(Doctor::class);
     }
+
+    public function scopePendingDoctors($query)
+    {
+        return $this->doctors()
+            ->wherePivot('status','=', 0)
+            ->wherePivot('actor', '!=', get_class($this));
+    }
+
+    public function scopeSentDoctors($query)
+    {
+        return $this->doctors()
+            ->wherePivot('status','=', 0)
+            ->wherePivot('actor', '=', get_class($this));
+    }
+
+    public function scopeActiveDoctors($query)
+    {
+        return $this->doctors()->wherePivot('status', 1);
+    }
+
+    public function acceptDoctor(Doctor $doctor)
+    {
+        return $this->doctors()->wherePivot('doctor_id', $doctor->id)
+            ->updateExistingPivot($doctor->id, ['status' => 1]);
+    }
+
+    public function declineDoctor(Doctor $doctor)
+    {
+        return $this->doctors()->wherePivot('doctor_id', $doctor->id)
+            ->updateExistingPivot($doctor->id, ['status' => 2]);
+    }
 }
