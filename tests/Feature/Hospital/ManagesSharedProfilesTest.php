@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\ProfileShare;
 use Carbon\Carbon;
+use PhpParser\Comment\Doc;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class ManagesSharedProfilesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_authenticated_hospital_can_view_shared_profiles()
+    public function an_authenticated_hospital_can_view_accepted_shared_profiles()
     {
         $hospital = create(Hospital::class);
 
@@ -25,11 +26,43 @@ class ManagesSharedProfilesTest extends TestCase
             'status' => 1
         ]);
 
+        $pending = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 0
+        ]);
+
         $this->signIn($hospital, 'hospital');
 
         $this->makeAuthRequest()
             ->get('api/hospital/patients')
-            ->assertSee($share->patient->first_name);
+            ->assertSee($share->patient->first_name)
+            ->assertDontSee($pending->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_hospital_can_view_pending_shared_profiles()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 1
+        ]);
+
+        $pending = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 0
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients/pending')
+            ->assertDontSee($share->patient->first_name)
+            ->assertSee($pending->patient->first_name);
     }
 
     /** @test */
@@ -108,5 +141,31 @@ class ManagesSharedProfilesTest extends TestCase
         $this->makeAuthRequest()
             ->get('api/hospital/patients')
             ->assertDontSee($share->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_hospital_can_assign_a_shared_profile_to_their_doctor()
+    {
+        $hospital = create(Hospital::class);
+
+        $doctor = create(Doctor::class);
+
+        $hospital->doctors()->attach($doctor, ['status' => 1]);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 1
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->patch("api/hospital/patients/{$share->id}/assign/{$doctor->chcode}");
+
+        $this->assertDatabaseHas('profile_shares', [
+            'doctor_id' => $doctor->id,
+            'provider_id' => $hospital->id,
+        ]);
     }
 }

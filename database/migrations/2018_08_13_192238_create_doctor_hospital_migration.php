@@ -18,7 +18,7 @@ class CreateDoctorHospitalMigration extends Migration
             $table->integer('doctor_id')->unsigned();
             $table->integer('hospital_id')->unsigned();
             $table->enum('status', [0, 1, 2])->default(0);
-            $table->enum('actor', [0, 1])->default(0)->comment('0 - Doctor, 1 - Hospital');
+            $table->string('actor')->default('App\Models\Doctor');
             $table->timestamps();
         });
     }

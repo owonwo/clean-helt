@@ -46,4 +46,9 @@ class ProfileShare extends Model
     {
         return $query->where('status', 1);
     }
+
+    public function scopePendingShares($query)
+    {
+        return $query->where('status', 0);
+    }
 }
