@@ -18,7 +18,7 @@ $factory->define(App\Models\Doctor::class,function(Faker $faker){
         'middle_name' => $faker->lastName,
         'last_name' => $faker->lastName,
         'email' => $faker->email,
-        'password' => $faker->password,
+        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret,
         'phone' => $faker->phoneNumber,
         'gender' =>$faker->lastName,
         'specialization' => 'cardiologist',

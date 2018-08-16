@@ -21,8 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'API'], function() {
 
     Route::post('login/{guard}', 'Auth\LoginController@login');
-
-
+    Route::post('logout/{guard}','Auth\LoginController@logout');
     Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
         return $request->user();
     });
@@ -76,6 +75,7 @@ Route::group(['namespace' => 'API'], function() {
 
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::post('create','DoctorController@store')->name('doctor.create');
+        Route::get('register/confirm','RegistrationConfirmationController@index')->name('doctor.register.confirm');
         Route::get('{doctor}/profile','DoctorController@show')->name('doctor.profile');
         Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
         Route::get('patients', 'PatientController@index');
