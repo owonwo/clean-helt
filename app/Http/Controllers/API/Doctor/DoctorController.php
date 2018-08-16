@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Doctor ;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use Illuminate\Auth\Events\Registered;
 
 
 class DoctorController extends Controller
@@ -25,7 +26,9 @@ class DoctorController extends Controller
         request()->validate($this->rules);
 
         $data = request()->all();
-        if($doctor = Doctor::forceCreate($data)){
+        $token = ['token' => str_random(40)];
+        if($doctor = Doctor::forceCreate(array_merge($data,$token))){
+            event(new Registered($doctor));
             return response()->json([
                 'message' => "Doctor has been created successfully",
                 'doctor' => $doctor

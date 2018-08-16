@@ -25,6 +25,15 @@ class LoginController extends Controller
         return response()->json(['message' => 'Unauthorized'], 401);
     }
 
+    public function logout($guard){
+
+        auth()->guard($guard)->logout();
+
+        return redirect('/')->response()->json([
+            'Message' => 'Logout successful'
+        ]);
+    }
+
     // 6 hours in seconds
     private function getTokenExpiration()
     {
