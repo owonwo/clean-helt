@@ -44,15 +44,15 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-//        $this->validate($request, [
-//            'email' => 'required|max:190|unique:patients',
-//            'first_name' => 'required|max:60',
-//            'last_name' => 'required|max:60',
-//            'password' => 'required|max:60|confirmed',
-//        ]);
+        $rule = $this->getRegRule();
+
+        $this->validate($request, $rule);
 
         $data = $request->all();
-        if($patient = Patient::create($data)){
+
+        $token = ['token' => str_random(40)];
+
+        if($patient = Patient::create(array_merge($data, $token))){
 
             return response()->json([
                 'message' => 'Congratulation! you have successfully created patient record',
@@ -103,6 +103,11 @@ class PatientController extends Controller
         /**
          * @check if the patient is inserting an image of not
          */
+
+        $rule = $this->getUpdateRule();
+
+        $this->validate($request, $rule);
+
         if($request->hasFile('avatar'))
         {
             $avatarName = $request->avatar->store('public/avatar');
@@ -174,5 +179,30 @@ class PatientController extends Controller
             'message' => 'access medical record by date',
             'patient' => $patient,
         ], 200);
+    }
+
+    private function getRegRule()
+    {
+        return [
+            'email' => 'required|email|max:190|unique:patient',
+            'first_name' => 'required|string|max:60|min:2',
+            'last_name' => 'required|string|max:60|min:2',
+            'password' => 'required|confirmed|max:32|min:6',
+        ];
+    }
+
+    private function getUpdateRule()
+    {
+        return [
+            'email' => 'required|email|max:190|unique:patient',
+            'first_name' => 'required|string|max:60|min:2',
+            'last_name' => 'required|string|max:60|min:2',
+            'password' => 'required|confirmed|max:32|min:6',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'image' => 'image|mimes:jpg,jpeg,png|max:200',
+        ];
     }
 }
