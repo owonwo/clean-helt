@@ -21,15 +21,30 @@ class MedicalRecord extends Model
         });
     }
 
+    public function getRouteKeyName()
+    {
+        return 'reference';
+    }
+
     // A medical Record Belong to a patient
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
 
+    public function data()
+    {
+        return $this->hasMany($this->type, 'record_id');
+    }
+
     public function issuer()
     {
         return $this->morphTo();
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
     }
 
 }
