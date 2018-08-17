@@ -58,7 +58,7 @@ class Hospital extends Authenticatable
 
 
     /**
-     * Checks whether a doctor can view a patient's profile
+     * Checks whether a hospital can view a patient's profile
      * @param Patient $patient
      * @return bool
      */

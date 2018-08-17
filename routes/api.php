@@ -129,6 +129,16 @@ Route::group(['namespace' => 'API'], function() {
        Route::patch('doctors/{doctor}/decline', 'DoctorController@decline');
        Route::delete('doctors/{doctor}/delete', 'DoctorController@remove');
     });
+
+    Route::group(['prefix' => 'pharmacy', 'namespace' => 'Pharmacy'], function() {
+        Route::get('profile', 'ProfileController@index');
+        Route::patch('profile', 'ProfileController@update');
+
+        Route::get('patients', 'PatientController@index');
+        Route::get('patients/pending', 'ProfileShareController@pending');
+        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('pharmacy.profile.accept');
+        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
+    });
 });
 
 

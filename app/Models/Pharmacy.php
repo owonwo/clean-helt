@@ -29,7 +29,43 @@ class Pharmacy extends Authenticatable
     {
         return 'chcode';
     }
-    public function issuer(){
-        return $this->morphMany('App\Models\MedicalRecord','issuer');
+
+    /**
+     * Checks whether a pharmacy can view a patient's profile
+     * @param Patient $patient
+     * @return bool
+     */
+    public function canViewProfile(Patient $patient)
+    {
+        return $this->profileShares()
+                ->activeShares()
+                ->where('patient_id', $patient->id)
+                ->first() !== null;
+    }
+
+    public function profileShares()
+    {
+        return $this->morphMany(ProfileShare::class, 'provider');
+    }
+
+    public function scopePatients($query)
+    {
+        return $this->profileShares()
+            ->acceptedShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function scopePendingShares($query)
+    {
+        return $this->profileShares()
+            ->pendingShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function issuer()
+    {
+        return $this->morphMany(MedicalRecord::class,'issuer');
     }
 }
