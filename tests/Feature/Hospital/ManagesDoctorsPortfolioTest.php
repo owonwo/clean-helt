@@ -4,6 +4,7 @@ namespace Tests\Feature\Hospital;
 
 use App\Models\Doctor;
 use App\Models\Hospital;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -97,6 +98,10 @@ class ManagesDoctorsPortfolioTest extends TestCase
         $hospital->doctors()->attach($doctor);
 
         $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/doctors')
+            ->assertDontSee($doctor->first_name);
 
         $this->makeAuthRequest()
             ->patch("api/hospital/doctors/{$doctor->chcode}/accept");
