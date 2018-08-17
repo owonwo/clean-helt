@@ -2,23 +2,38 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\MedicalRecord;
+use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-
-
 
 class MedicalRecordTest extends TestCase
 {
     use RefreshDatabase;
+
+    private $record;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->record = create(MedicalRecord::class);
+    }
+
     /** @test */
     public function a_medical_record_belongs_to_a_patient()
     {
-        $record = create('App\Models\MedicalRecord');
-        $this->assertInstanceOf('App\Models\Patient',$record->patient);
+        $this->assertInstanceOf('App\Models\Patient',$this->record->patient);
     }
-    public function a_medical_record_has_an_issuer(){
-        $record = create('App\Models\MedicalRecord');
 
+    /** @test */
+    public function a_medical_record_generates_its_own_reference_code()
+    {
+        $this->assertNotNull($this->record->reference);
+    }
+
+    /** @test */
+    public function a_medical_record_has_associated_data()
+    {
+        $this->assertInstanceOf(Collection::class, $this->record->data);
     }
 }

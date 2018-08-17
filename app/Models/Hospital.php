@@ -80,20 +80,20 @@ class Hospital extends Authenticatable
     public function scopePendingDoctors($query)
     {
         return $this->doctors()
-            ->wherePivot('status','=', 0)
+            ->wherePivot('status','=', "0")
             ->wherePivot('actor', '!=', get_class($this));
     }
 
     public function scopeSentDoctors($query)
     {
         return $this->doctors()
-            ->wherePivot('status','=', 0)
+            ->wherePivot('status','=', "0")
             ->wherePivot('actor', '=', get_class($this));
     }
 
     public function scopeActiveDoctors($query)
     {
-        return $this->doctors()->wherePivot('status', 1);
+        return $this->doctors()->wherePivot('status', "1");
     }
 
     public function isActiveDoctor(Doctor $doctor)
@@ -106,7 +106,7 @@ class Hospital extends Authenticatable
     public function acceptDoctor(Doctor $doctor)
     {
         return $this->doctors()->wherePivot('doctor_id', $doctor->id)
-            ->updateExistingPivot($doctor->id, ['status' => 1]);
+            ->updateExistingPivot($doctor->id, ['status' => "1"]);
     }
 
     public function declineDoctor(Doctor $doctor)
