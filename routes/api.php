@@ -105,6 +105,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/', 'LaboratoryController@dashboard');
         Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
 
+        Route::get('patient', 'ProfileShareController@index');
+        Route::get('patient/pending', 'ProfileShareController@pending');
+        Route::patch('patient/{patient}/accept', 'ProfileShareController@accept');
+        Route::patch('patient/pending/{patient}/decline', 'ProfileShareController@decline');
     });
 
     Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital'], function() {
@@ -126,7 +130,4 @@ Route::group(['namespace' => 'API'], function() {
        Route::delete('doctors/{doctor}/delete', 'DoctorController@remove');
     });
 });
-
-
-
 
