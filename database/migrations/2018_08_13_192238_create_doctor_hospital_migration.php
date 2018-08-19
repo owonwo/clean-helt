@@ -20,7 +20,7 @@ class CreateDoctorHospitalMigration extends Migration
             $table->integer('hospital_id')->unsigned();
             $table->foreign('hospital_id')->references('id')->on('hospitals');
             $table->enum('status', [0, 1, 2])->default(0);
-            $table->string('actor')->nullable();
+            $table->string('actor')->default('App\Models\Doctor');
             $table->timestamps();
         });
     }

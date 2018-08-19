@@ -35,4 +35,41 @@ class Laboratory extends Authenticatable
     {
         $this->notify(new LaboratoryResetPasswordNotification($token));
     }
+
+    public function profileShares()
+    {
+        return $this->morphMany(ProfileShare::class, 'provider');
+    }
+
+    public function scopePatients($query)
+    {
+        return $this->profileShares()
+            ->acceptedShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function scopePendingShares($query)
+    {
+        return $this->profileShares()
+            ->pendingShares()
+            ->activeShares()
+            ->with('patient');
+    }
+
+    public function ownsShare(ProfileShare $share)
+    {
+        return $this->chcode === $share->provider->chcode;
+    }
+
+
+    public function canViewProfile(Patient $patient)
+    {
+        return $this->profileShares()
+                ->activeShares()
+                ->where('patient_id', $patient->id)
+                ->first() !== null;
+    }
+
+
 }
