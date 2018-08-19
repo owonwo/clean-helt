@@ -28,7 +28,6 @@ class SendEmailConfirmationRequest
      */
     public function handle(Registered $event)
     {
-        //
         Mail::to($event->user)->send(new DoctorConfirmEmail($event->user));
     }
 }

@@ -16,9 +16,11 @@ class CreateDoctorHospitalMigration extends Migration
         Schema::create('doctor_hospital', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('doctor_id')->unsigned();
+            $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->integer('hospital_id')->unsigned();
+            $table->foreign('hospital_id')->references('id')->on('hospitals');
             $table->enum('status', [0, 1, 2])->default(0);
-            $table->enum('actor', [0, 1])->default(0)->comment('0 - Doctor, 1 - Hospital');
+            $table->string('actor');
             $table->timestamps();
         });
     }

@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\API\Doctor;
 
+use App\Filters\PatientFilter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
 
 class PatientController extends Controller
 {
-    public function index()
+    public function index(PatientFilter $filter)
     {
         $doctor = auth()->guard('doctor')->user();
-
-        $patients = $doctor->profileShares()
+        $start = request('startDate');
+        $end = request('endDate');
+        $patients = $doctor->profileShares()->filter($filter,$filter->dateRange($start,$end))
                         ->activeShares()
                         ->with('patient')
                         ->get();

@@ -17,8 +17,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class DoctorTest extends TestCase
 {
     use RefreshDatabase;
-    /** @test */
-
 
     /** @test */
     public function a_doctor_can_register()
@@ -112,4 +110,60 @@ class DoctorTest extends TestCase
               $this->assertTrue($doctor->confirm);
         });
     }
+
+    /** @test */
+    public function a_doctor_can_add_hospital(){
+        // A doctor inputs or submits the chcode of the hospital
+        $doctor = create('App\Models\Doctor');
+        $hospital = create('App\Models\Hospital');
+        $this->signIn($doctor,'doctor');
+        $this->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
+
+        $this->assertDatabaseHas('doctor_hospital',['hospital_id' => $hospital->id]);
+
+    }
+
+    /** @test */
+    public function a_doctor_can_accept_a_hospital(){
+        //
+        $doctor = create('App\Models\Doctor');
+        $this->signIn($doctor,'doctor');
+        $hospital = create('App\Models\Hospital');
+        $this->makeAuthRequest()
+            ->get(route('doctor.hospital.active'))
+            ->assertDontSee($hospital);
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
+        $this->makeAuthRequest()->patch(route('doctor.hospital.accept',$hospital->chcode))->assertStatus(200);
+        $this->makeAuthRequest()
+            ->get(route('doctor.hospital.active'))
+            ->assertSee('activeHospital');
+    }
+
+    /** @test */
+    public function a_doctor_can_reject_a_hospital(){
+        $doctor = create('App\Models\Doctor');
+        $this->signIn($doctor,'doctor');
+        $hospital = create('App\Models\Hospital');
+        $this->makeAuthRequest()
+            ->get(route('doctor.hospital.sent'))
+            ->assertDontSee($hospital->name);
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
+        $this->makeAuthRequest()->patch(route('doctor.hospital.decline',$hospital->chcode))->assertStatus(200);
+        $this->makeAuthRequest()
+            ->get(route('doctor.hospital.sent'))
+            ->assertSee('sentHospitals');
+    }
+    /** @test */
+    public function a_doctor_can_remove_a_hospital(){
+        $doctor = create('App\Models\Doctor');
+        $this->signIn($doctor,'doctor');
+        $hospital = create('App\Models\Hospital');
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
+        $this->makeAuthRequest()->patch(route('doctor.hospital.accept',$hospital->chcode))->assertStatus(200);
+        $this->makeAuthRequest()
+            ->get(route('doctor.hospital.active'))
+            ->assertSee('activeHospital');
+        $this->makeAuthRequest()->patch(route('doctor.hospital.remove',$hospital->chcode))->assertStatus(200);
+    }
+
 }

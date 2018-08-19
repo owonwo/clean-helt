@@ -73,11 +73,20 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('/create','AdminController@store')->name('admin.store');
     });
 
+    //Start of all routes for doctor
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::post('create','DoctorController@store')->name('doctor.create');
         Route::get('register/confirm','RegistrationConfirmationController@index')->name('doctor.register.confirm');
-        Route::get('{doctor}/profile','DoctorController@show')->name('doctor.profile');
-        Route::patch('{doctor}/update','DoctorController@update')->name('doctor.update');
+        Route::get('profile','DoctorController@show')->name('doctor.profile');
+        Route::patch('update','DoctorController@update')->name('doctor.update');
+        Route::get('hospital','DoctorController@hospitals')->name('doctor.hospital');
+        Route::post('add-hospital','DoctorController@addHospital')->name('doctor.addHospital');
+        Route::patch('{hospital}/accept-hospital','DoctorController@accept')->name('doctor.hospital.accept');
+        Route::patch('{hospital}/decline-hospital','DoctorController@decline')->name('doctor.hospital.decline');
+        Route::patch('{hospital}/remove-hospital','DoctorController@remove')->name('doctor.hospital.remove');
+        Route::get('/active-hospitals','DoctorController@activeHospitals')->name('doctor.hospital.active');
+        Route::get('/pending-hospitals','DoctorController@pendingHospitals')->name('doctor.hospital.pending');
+        Route::get('/sent-hospitals','DoctorController@sentHospitals')->name('doctor.hospital.sent');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/{patient}', 'PatientController@show');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
@@ -85,6 +94,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient')->where(['profileShare' => '[0-9]+']);
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
     });
+    //End of all routes for doctor
 
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::get('/', 'PatientController@dashboard');

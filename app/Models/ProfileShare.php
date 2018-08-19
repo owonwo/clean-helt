@@ -41,7 +41,9 @@ class ProfileShare extends Model
     {
         return $query->whereDate('expired_at', '>=', now());
     }
-
+    public function scopeFilter($query,$filter){
+        return $filter->apply($query);
+    }
     public function scopeAcceptedShares($query)
     {
         return $query->where('status', 1);

@@ -41,7 +41,7 @@ class CreateHospitalsTable extends Migration
             $table->string('account_name')->nullable();
             $table->string('account_number')->nullable();
             $table->boolean('active')->default(true);
-            $table->boolean('avatar')->nullable();
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
