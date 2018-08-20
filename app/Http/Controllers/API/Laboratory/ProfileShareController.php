@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+
     function __construct()
     {
         $this->laboratory = auth()->guard('laboratory')->user();
@@ -17,17 +18,17 @@ class ProfileShareController extends Controller
     {
         return response()->json([
                 'message' => 'You can view patient update profile',
-                'laboratory' => $this->laboratory->profileShares()->name,
-            ], 200);
+                'laboratory' => $this->laboratory->patients()->get(),
+            ], 200
+        );
     }
 
     public function pending()
     {
-        $laboratory = auth()->guard('laboratory')->user();
 
         return response()->json([
            'message' => 'Patient Shared his medical record',
-            'laboratory' => $laboratory->pendingShares()->get(),
+            'laboratory' => $this->laboratory->pendingShares()->get(),
         ], 200);
     }
 
@@ -49,10 +50,9 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        if($profileShare->exists && $profileShare->isActive)
-        {
 
-            $profileShare->update(['status' => 2]);
+        if($profileShare->exists && $profileShare->update(['status' => 2]))
+        {
 
             return response()->json([
                 'message' => "You've just decline a patient profile share!",

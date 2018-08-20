@@ -118,7 +118,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('patient', 'ProfileShareController@index');
         Route::get('patient/pending', 'ProfileShareController@pending');
         Route::patch('patient/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
-        Route::patch('patient/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
+        Route::patch('patient/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
     });
 
     Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital'], function() {
