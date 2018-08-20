@@ -1,10 +1,10 @@
 @component('mail::message')
 # Introduction
 
-The body of your message.
+Thanks for registering to Clean Health, We'll Please need you to confirm your email.
 
 @component('mail::button', ['url' => route('doctor.register.confirm',['token' => $doctor->token])])
-Button Text
+Confirm Email
 @endcomponent
 
 Thanks,<br>
