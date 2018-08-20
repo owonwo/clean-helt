@@ -11,18 +11,16 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PatientSharedProfile implements ShouldBroadcast
+class ProfileShareExtended implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $provider;
     public $patient;
-
     /**
      * Create a new event instance.
      *
-     * @param $provider
-     * @param Patient $patient
+     * @return void
      */
     public function __construct($provider,Patient $patient)
     {
@@ -31,7 +29,7 @@ class PatientSharedProfile implements ShouldBroadcast
         $this->patient = $patient;
     }
 
-    /**s
+    /**
      * Get the channels the event should broadcast on.
      *
      * @return \Illuminate\Broadcasting\Channel|array

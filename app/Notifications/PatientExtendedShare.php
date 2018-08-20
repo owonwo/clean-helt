@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Patient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,15 +11,17 @@ use Illuminate\Notifications\Messages\MailMessage;
 class PatientExtendedShare extends Notification
 {
     use Queueable;
+    public $patient;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Patient $patient
      */
-    public function __construct()
+    public function __construct(Patient $patient)
     {
         //
+        $this->patient = $patient;
     }
 
     /**
@@ -29,7 +32,7 @@ class PatientExtendedShare extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**

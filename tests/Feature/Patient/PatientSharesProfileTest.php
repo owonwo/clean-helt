@@ -2,10 +2,13 @@
 
 namespace Tests\Feature\Patient;
 
+use App\Events\PatientSharedProfile;
+use App\Events\ProfileShareExtended;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\ProfileShare;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -43,8 +46,11 @@ class PatientSharesProfileTest extends TestCase
             'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
         ]);
         $this->assertCount(1,$provider->notifications);
-
-        // Then the provider receives a notification
+//        $logfileFullpath = storage_path("logs/laravel.log");
+//
+//        $file = readfile($logfileFullpath);
+//        $this->assertEventIsBroadcasted("App\Event\PatientSharedProfile",'private-channel-name');
+//        // Then the provider receives a notification
     }
 
     /** @test */
@@ -62,9 +68,9 @@ class PatientSharesProfileTest extends TestCase
 
         $this->makeAuthRequest()
             ->patch("/api/patient/profile/shares/{$shareOne->id}/extend", $update);
-
+        $provider = $shareOne->provider;
         $this->assertDatabaseHas('profile_shares',['expired_at' => $update]);
-        $this->assertCount('');
+        $this->assertCount(1,$provider->notifications);
     }
     /** @test */
     public function a_patient_can_not_share_his_profile_with_a_date_lesser_than_now()
