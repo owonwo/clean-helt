@@ -91,7 +91,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('patients/{patient}', 'PatientController@show');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
-        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient')->where(['profileShare' => '[0-9]+']);
+        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
     });
     //End of all routes for doctor
@@ -117,8 +117,8 @@ Route::group(['namespace' => 'API'], function() {
 
         Route::get('patient', 'ProfileShareController@index');
         Route::get('patient/pending', 'ProfileShareController@pending');
-        Route::patch('patient/{patient}/accept', 'ProfileShareController@accept');
-        Route::patch('patient/pending/{patient}/decline', 'ProfileShareController@decline');
+        Route::patch('patient/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
+        Route::patch('patient/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
     });
 
     Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital'], function() {

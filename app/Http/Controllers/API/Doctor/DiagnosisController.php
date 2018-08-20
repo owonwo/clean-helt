@@ -50,7 +50,6 @@ class DiagnosisController extends Controller
                 ], 200);
             } catch (\Exception $e) {
                 DB::rollBack();
-                dd($e->getMessage());
                 return response()->json([
                     'message' => 'Diagnosis creation failed. ' . $e->getMessage()
                 ], 400);
