@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 
+use App\Events\VerifyDoctor;
 use App\Models\Doctor;
 use App\Http\Controllers\Controller;
 class DoctorController extends Controller
@@ -33,6 +34,8 @@ class DoctorController extends Controller
             $doctor->update([
                 'validation' => true,
             ]);
+            //Send Email that doctor has been verified
+            event(new VerifyDoctor($doctor));
             return json_encode($doctor);
         }
         public function update(Doctor $doctor){

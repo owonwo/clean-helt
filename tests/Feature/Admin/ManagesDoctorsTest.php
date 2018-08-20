@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Events\VerifyDoctor;
+use App\Mail\DoctorVerificationEmail;
 use App\Models\Doctor;
 use App\Models\DoctorProfile;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -61,6 +64,18 @@ class ManagesDoctorsTest extends TestCase
 
         $this->makeAuthRequest()->patch("/api/admin/doctors/verify/{$doctor->chcode}",['validation' => true]);
         $this->assertDatabaseHas('doctors',['validation' => true]);
+    }
+    /** @test */
+    public function an_email_is_sent_to_doctor_after_verification(){
+        $this->signIn(null, 'admin');
+        $doctor = create(Doctor::class);
+
+        $this->makeAuthRequest()->patch("/api/admin/doctors/verify/{$doctor->chcode}",['validation' => true]);
+        $this->assertDatabaseHas('doctors',['validation' => true]);
+        Mail::fake();
+        event(new VerifyDoctor($doctor));
+        Mail::assertSent(DoctorVerificationEmail::class);
+
     }
     /** @test */
     public function an_admin_can_delete_a_doctor(){

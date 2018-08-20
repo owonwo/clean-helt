@@ -15,7 +15,6 @@ class ProfileShareController extends Controller
 
     public function index()
     {
-
         return response()->json([
                 'message' => 'You can view patient update profile',
                 'laboratory' => $this->laboratory->profileShares()->name,

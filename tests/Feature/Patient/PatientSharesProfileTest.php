@@ -31,7 +31,41 @@ class PatientSharesProfileTest extends TestCase
             'patient_id' => $patient->id,
         ]);
     }
+    /** @test */
+    public function a_notification_is_sent_to_providers_that_patient_profile_has_been_shared_with(){
+        //Given i have a patient who is signed in
+        $patient = create('App\Models\Patient');
+        $provider = create('App\Models\Doctor');
+        //And the type of provider who is profile is been shared with
+        $this->signIn($patient, 'patient');
+        $this->makeAuthRequest() ->post(route('patient.profile.share'), [
+            'chcode' => $provider->chcode,
+            'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
+        ]);
+        $this->assertCount(1,$provider->notifications);
 
+        // Then the provider receives a notification
+    }
+
+    /** @test */
+    public function a_provider_receives_a_notification_when_a_patient_extends_share(){
+        $patient = create(Patient::class);
+
+        $shareOne = create(ProfileShare::class, ['patient_id' => $patient->id]);
+
+        $this->signIn($patient, 'patient');
+
+        // New expiration
+        $expiration = $shareOne->expired_at->addDays(1)->format('Y-m-d h:i:s');
+
+        $update = ['extension' => $expiration];
+
+        $this->makeAuthRequest()
+            ->patch("/api/patient/profile/shares/{$shareOne->id}/extend", $update);
+
+        $this->assertDatabaseHas('profile_shares',['expired_at' => $update]);
+        $this->assertCount('');
+    }
     /** @test */
     public function a_patient_can_not_share_his_profile_with_a_date_lesser_than_now()
     {
