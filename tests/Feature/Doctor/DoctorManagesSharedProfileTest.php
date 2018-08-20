@@ -26,10 +26,6 @@ class DoctorManagesSharedProfileTest extends TestCase
     {
         $doctor = create(Doctor::class);
         $patient = create(Patient::class);
-<<<<<<< HEAD
-=======
-
->>>>>>> 04c50faf745194150f13e84cb8f82ad159033240
         $this->signIn($doctor,'doctor');
         $profileShare = create(ProfileShare::class,['patient_id' => $patient->id,'provider_id' => $doctor->id]);
         $this->patch(route('doctor.accept.patient', ['profileShare' => $profileShare->id]), ['accept' => 1]);

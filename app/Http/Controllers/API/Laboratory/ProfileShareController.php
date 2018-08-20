@@ -8,13 +8,29 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:laboratory-api');
+        $this->laboratory = auth()->guard('laboratory')->user();
+    }
+
+    public function index()
+    {
+        return response()->json(
+            [
+                'message' => 'You can view patient update profile',
+                'patient' => $this->laboratory->patients()->get(),
+            ], 200
+        );
+    }
+
+
     public function pending()
     {
-        $laboratory = auth()->guard('laboratory')->user();
 
         return response()->json([
            'message' => 'Patient Shared his medical record',
-            'laboratory' => $laboratory->pendingShares()->get(),
+            'laboratory' => $this->laboratory->pendingShares()->get(),
         ], 200);
     }
 
@@ -22,7 +38,6 @@ class ProfileShareController extends Controller
     {
         if($profileShare->exists && $profileShare->isActive)
         {
-
            $profileShare->update(['status' => 1]);
 
             return response()->json([
@@ -38,7 +53,8 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        dd($profileShare);
+
+
         if($profileShare->exists && $profileShare->isActive)
         {
 

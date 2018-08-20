@@ -36,7 +36,6 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        dd($profileShare);
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['status' => 2]);
 

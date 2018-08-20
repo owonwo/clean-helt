@@ -24,6 +24,7 @@ class LabProfileShareTest extends TestCase
             'status' => 1
         ]);
 
+
         $pending = create(ProfileShare::class, [
             'provider_id' => $laboratory->id,
             'provider_type' => get_class($laboratory),
@@ -48,15 +49,15 @@ class LabProfileShareTest extends TestCase
             'provider_id' => $laboratory->id,
             'provider_type' => get_class($laboratory),
             'expired_at' => Carbon::now()->subDays(2),
+            'status' => 1
         ]);
-
         $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
             ->patch("api/laboratories/patient/{$profileShare->id}/accept")
             ->assertStatus(400);
 
-        $this->assertDatabaseHas('profile_shares', ['status'=> 0, 'id' => $profileShare->id]);
+        $this->assertDatabaseHas('profile_shares', ['status'=> 1, 'id' => $profileShare->id]);
 
         $this->makeAuthRequest()
             ->get('api/hospital/patients')
@@ -65,28 +66,53 @@ class LabProfileShareTest extends TestCase
     }
 
     /** @test */
-//    public function an_authenticated_profile_can_decline_patient_profile_share()
-//    {
-//        $laboratory = create(Laboratory::class);
-//
-//        $share = create(ProfileShare::class, [
-//            'provider_id' => $laboratory->id,
-//            'provider_type' => get_class($laboratory),
-//        ]);
-//
-//        $this->signIn($laboratory, 'laboratory');
-//
-//        $this->makeAuthRequest()
-//            ->patch("api/laboratories/patient/pending/{$share->id}/decline")
-//            ->assertStatus(200);
-//
-//        $this->assertDatabaseHas('profile_shares', [
-//            'id' => $share->id,
-//            'status' => 2
-//        ]);
-//
-//        $this->makeAuthRequest()
-//            ->get('api/hospital/patients')
-//            ->assertDontSee($share->patient->first_name);
-//    }
+    public function an_authenticated_profile_can_decline_patient_profile_share()
+    {
+        $laboratory = create(Laboratory::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory),
+            'status' => 1
+        ]);
+
+        $this->signIn($laboratory, 'laboratory');
+
+        $this->makeAuthRequest()
+            ->patch("api/laboratories/patient/pending/{$share->id}/decline")
+            ->assertStatus(400);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $share->id,
+            'status' => 2
+        ]);
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertDontSee($share->patient->first_name);
+    }
+
+    /** @test */
+    public function an_authenticated_laboratory_can_view_access_to_share_profile()
+    {
+        $laboratory = create(Laboratory::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory),
+        ]);
+
+        $pending = create(ProfileShare::class, [
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory),
+            'status' => 0
+        ]);
+
+        $this->signIn($laboratory, 'laboratory');
+
+        $this->makeAuthRequest()
+            ->get('api/laboratories/patient')
+            ->assertSee($share->patient->first_name)
+            ->assertDontSee($pending->patient->first_name);
+    }
 }
