@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Events\PatientSharedProfile;
+use App\Events\ProfileShareExtended;
 use App\Models\ProfileShare;
+use App\Notifications\PatientProfileSharedNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,7 +45,8 @@ class ProfileShareController extends Controller
                 'provider_id' => $provider->id,
                 'expired_at' => request('expiration')
             ]);
-
+            //Fire an event that tells providers that patient has been shared
+            event(new PatientSharedProfile($provider,$this->patient));
             if ($share) {
                 return response()->json([
                     'message' => 'Profile shared successfully',
@@ -81,6 +85,7 @@ class ProfileShareController extends Controller
         $expired_at = request('extension');
 
         if ($profileShare && $profileShare->update(['expired_at' => $expired_at])) {
+            event(new ProfileShareExtended($profileShare->provider,$this->patient));
             return response()->json([
                 'message' => "Share extended successfully. Now expires " . $profileShare->fresh()->expired_at->diffForHumans(),
                 'share' => $profileShare

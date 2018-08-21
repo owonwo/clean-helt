@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\PatientSharedProfile;
+use App\Events\ProfileShareExtended;
+use App\Events\VerifyDoctor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,6 +22,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         Registered::class => [
             'App\Listeners\SendEmailConfirmationRequest'
+        ],
+        VerifyDoctor::class => [
+            'App\Listeners\SendDoctorVerificationRequest'
+        ],
+        PatientSharedProfile::class => [
+            'App\Listeners\SendProvidersNotificationRequest'
+        ],
+        ProfileShareExtended::class => [
+            'App\Listeners\ProfileShareExtension'
         ]
     ];
 
