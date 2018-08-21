@@ -132,7 +132,7 @@ class DoctorTest extends TestCase
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.active'))
             ->assertDontSee($hospital);
-        $doctor->hospitals()->attach($hospital, ['actor' => get_class('App\Models\Doctor')]);
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
         $this->makeAuthRequest()->patch(route('doctor.hospital.accept',$hospital->chcode))->assertStatus(200);
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.active'))
@@ -147,7 +147,7 @@ class DoctorTest extends TestCase
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.sent'))
             ->assertDontSee($hospital->name);
-        $doctor->hospitals()->attach($hospital, ['actor' => get_class('App\Models\Doctor')]);
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
         $this->makeAuthRequest()->patch(route('doctor.hospital.decline',$hospital->chcode))->assertStatus(200);
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.sent'))
@@ -158,7 +158,7 @@ class DoctorTest extends TestCase
         $doctor = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor');
         $hospital = create('App\Models\Hospital');
-        $doctor->hospitals()->attach($hospital, ['actor' => get_class('App\Models\Doctor')]);
+        $doctor->hospitals()->attach($hospital, ['actor' => get_class($doctor)]);
         $this->makeAuthRequest()->patch(route('doctor.hospital.accept',$hospital->chcode))->assertStatus(200);
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.active'))
