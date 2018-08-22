@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Mail\DoctorConfirmEmail;
 use App\Models\Doctor;
 use App\Models\ProfileShare;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -110,7 +111,23 @@ class DoctorTest extends TestCase
               $this->assertTrue($doctor->confirm);
         });
     }
+    /** @test */
+    public function a_doctor_can_mark_his_notifications_as_read(){
+        $patient = create('App\Models\Patient');
+        $provider = create('App\Models\Doctor');
+        //And the type of provider who is profile is been shared with
+        $this->signIn($patient, 'patient');
+        $this->makeAuthRequest() ->post(route('patient.profile.share'), [
+            'chcode' => $provider->chcode,
+            'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
+        ]);
+        $this->assertCount(1,$provider->notifications);
+        //When a doctor has a notification and he hits the endpoint route, his notifications get marked as read
 
+        $this->signIn($provider,'doctor');
+        $id = $provider->notifications->first()->id;
+        $this->delete(route('doctor.notifications.read',$id))->assertStatus(200);
+    }
     /** @test */
     public function a_doctor_can_add_hospital(){
         // A doctor inputs or submits the chcode of the hospital

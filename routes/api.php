@@ -93,6 +93,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
+        Route::delete('notification/{id}','NotificationController@delete')->name('doctor.notifications.read');
     });
     //End of all routes for doctor
 

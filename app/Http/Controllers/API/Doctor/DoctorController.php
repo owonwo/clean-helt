@@ -96,6 +96,12 @@ class DoctorController extends Controller
                 'message' => 'Something went wrong'
             ],400);
     }
+    public function readNotifications(Doctor $doctor){
+        dd($doctor->unreadNotifications);
+        foreach ($doctor->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+    }
     public function activeHospitals(){
         $activeHospitals = $this->doctor->activeHospitals()->get();
         return response()->json([
