@@ -74,6 +74,6 @@ class Pharmacy extends Authenticatable
         return $this->canViewProfile($patient) &&
             $medicalRecord->exists &&
             $prescription->exists &&
-            $prescription->record_id != $medicalRecord->id;
+            $prescription->record_id == $medicalRecord->id;
     }
 }

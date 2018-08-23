@@ -170,7 +170,7 @@ class ViewsMedicalRecordsTest extends TestCase
         ]);
 
         $update = [
-            "comments" => "Drug has been dispensed"
+            "comment" => "Drug has been dispensed"
         ];
 
         $this->signIn($pharmacy, 'pharmacy');
@@ -181,7 +181,8 @@ class ViewsMedicalRecordsTest extends TestCase
         $this->assertDatabaseHas('prescriptions', [
             'record_id' => $prescriptionRecord->id,
             'id' => $prescriptionOne->id,
-            'status' => true
+            'status' => true,
+            'comment' => $update["comment"]
         ]);
     }
 }
