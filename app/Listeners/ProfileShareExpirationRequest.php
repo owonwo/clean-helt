@@ -2,13 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Mail\DoctorConfirmEmail;
-use Illuminate\Auth\Events\Registered;
+use App\Events\ProfileShareExpired;
+use App\Notifications\ProfileShareExpirationNotification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Mail;
 
-class SendEmailConfirmationRequest
+class ProfileShareExpirationRequest
 {
     /**
      * Create the event listener.
@@ -23,11 +22,12 @@ class SendEmailConfirmationRequest
     /**
      * Handle the event.
      *
-     * @param  Registered  $event
+     * @param  ProfileShareExpired  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(ProfileShareExpired $event)
     {
-        Mail::to($event->user)->send(new DoctorConfirmEmail($event->user));
+        //
+        $event->provider->notify(new ProfileShareExpirationNotification($event->patient));
     }
 }

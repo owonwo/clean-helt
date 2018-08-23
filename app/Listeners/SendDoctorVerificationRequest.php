@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Mail\DoctorConfirmEmail;
-use Illuminate\Auth\Events\Registered;
+use App\Events\VerifyDoctor;
+use App\Mail\DoctorVerificationEmail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailConfirmationRequest
+class SendDoctorVerificationRequest
 {
     /**
      * Create the event listener.
@@ -23,11 +23,12 @@ class SendEmailConfirmationRequest
     /**
      * Handle the event.
      *
-     * @param  Registered  $event
+     * @param  VerifyDoctor  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(VerifyDoctor $event)
     {
-        Mail::to($event->user)->send(new DoctorConfirmEmail($event->user));
+        //
+        Mail::to($event->doctor)->send(new DoctorVerificationEmail($event->doctor));
     }
 }

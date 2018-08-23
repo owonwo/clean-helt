@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::post('/password/reset/doctors','API\Doctor\ResetPasswordController@reset')->name('doctor.password.reset');
-Route::get('/password/reset/doctors/{token}','API\Doctor\ResetPasswordController@showResetForm');
+Route::get('/password/reset/doctors/{token}','API\Doctor\ResetPasswordController@showResetForm')->name('doctor.password.show');
 Route::get('/password/email/doctors','API\Doctor\ForgotPasswordController@sendResetLinkEmail');
 Route::get('/password/reset/doctors/','API\Doctor\ForgotPasswordController@showLinkRequestForm');
 

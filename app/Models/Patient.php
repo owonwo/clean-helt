@@ -6,11 +6,12 @@ use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class Patient extends Authenticatable
 {
-    use HasApiTokens, CodeGenerator;
+    use HasApiTokens, CodeGenerator,Notifiable;
 
     protected $codePrefix = 'CHP';
 

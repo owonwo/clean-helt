@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class ProfileShare extends Model
 {
+    use Notifiable;
     protected $guarded = [];
 
     protected $dates = ['expired_at'];
@@ -41,7 +43,9 @@ class ProfileShare extends Model
     {
         return $query->whereDate('expired_at', '>=', now());
     }
-
+    public function scopeFilter($query,$filter){
+        return $filter->apply($query);
+    }
     public function scopeAcceptedShares($query)
     {
         return $query->where('status', 1);

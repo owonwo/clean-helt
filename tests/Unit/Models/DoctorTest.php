@@ -31,4 +31,8 @@ class DoctorTest extends TestCase
     {
         $this->assertInstanceOf(Collection::class, $this->doctor->profileShares);
     }
+    /** @test */
+    public function a_doctor_belongs_to_many_hospital(){
+        $this->assertInstanceOf(Collection::class,$this->doctor->hospitals);
+    }
 }
