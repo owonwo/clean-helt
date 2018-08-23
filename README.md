@@ -7,54 +7,37 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+## About Clean Helt 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+Clean helt is a web applications that allow patients, hospitals, pharmacies, doctors and laboratries to communicate in sync
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+Clean helt software is only accessible to people who buy the clean helt application.
 
-## Learning Laravel
+## Doctors API Endpoints Post Methods
+- **Doctor Login (https://domain.com/doctor/create) route('doctor.create')**
+- **Doctor Adds Hospital (https://domain.com/doctor/add-hospital) route('doctor.addHospital')**
+- **Doctor Creates Diagnosis For Patient (https://domain.com/doctor/patients/{patient}/diagnose)**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## Doctors API Endpoints Patch Methods
+- **Doctor Updates his profile (https://domain.com/doctor/update) route('doctor.update')**
+- **Doctor Accepts Hospital (https://domain.com/doctor/{hospital}/accept-hospital) route           ('doctor.hospital.accept')**
+- **Doctor Declines Hospital (https://domain.com/doctor/{hospital}/decline-hospital) route('doctor.hospital.decline')**
+- **Doctor removes Hospital (https://domain.com/doctor/{hospital}/remove-hospital) route('doctor.hospital.remove') // model binder for hospital is chcode**
+- **Doctor Accepts Patient (https://domain.com/doctor/patients/pending/{profileShare}/accept) route('doctor.accept.patient') // model binder for ProfileShare is chcode**
+- **Doctor Declines Patient (https://domain.com/doctor/patients/pending/{profileShare}/decline) route('doctor.decline.patient') //model binder for ProfileShare is chcode**
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## Doctors API Endpoints Get Methods
+- **Doctor Register Form (https://domain.com/doctor/register/confirm) route('doctor.register.confirm')**
+- **Doctor Profile (https://domain.com/doctor/profile) route('doctor.profile')**
+- **Doctor Hospitals (https://domain.com/doctor/hospital) route('doctor.hospital')**
+- **Doctor Active Hospitals (https://domain.com/doctor/active-hospitals) route('doctor.hospital.active')**
+- **Doctor Pending Hospitals (https://domain.com/doctor/pending-hospitals) route('doctor.hospital.pending')**
+- **Doctor sent Hospitals (https://domain.com/doctor/sent-hospitals) route('doctor.hospital.sent')**
+- **Doctor All Patients (https://domain.com/doctor/patients) route('doctor.patients')**
+- **Doctor Look on Patient (https://domain.com/doctor/patients/{patient}) route('doctor.patient')**
+- **Doctor Pending Patient (https://domain.com/doctor/patients/pending/patients) route('doctor.pending.patient')**
 
-## Laravel Sponsors
+## Doctors API Endpoints Delete Methods
+- **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
