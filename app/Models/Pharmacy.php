@@ -68,4 +68,12 @@ class Pharmacy extends Authenticatable
     {
         return $this->morphMany(MedicalRecord::class,'issuer');
     }
+
+    public function canUpdatePatientPrescription(Patient $patient, MedicalRecord $medicalRecord, Prescription $prescription)
+    {
+        return $this->canViewProfile($patient) &&
+            $medicalRecord->exists &&
+            $prescription->exists &&
+            $prescription->record_id != $medicalRecord->id;
+    }
 }

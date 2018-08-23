@@ -41,10 +41,14 @@ class Patient extends Authenticatable
         $this->notify(new PatientResetPasswordNotification($token));
     }
 
-    public function medicalRecords()
+    public function medicalRecords($type = null)
     {
-        //A patient has many medical records
-        return $this->hasMany(MedicalRecord::class);
+        $records = $this->hasMany(MedicalRecord::class);
+
+        if ($type)
+            $records = $records->where('type', $type);
+
+        return $records;
     }
 
     public function laboratoryRecords()

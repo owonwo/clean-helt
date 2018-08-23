@@ -138,6 +138,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('patients/pending', 'ProfileShareController@pending');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('pharmacy.profile.accept');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
+
+        Route::get('patients/{patient}/records', 'MedicalRecordController@index');
+        Route::get('patients/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
+        Route::patch('patients/{patient}/records/{medicalRecord}/{prescription}', 'MedicalRecordController@dispense');
     });
 });
 
