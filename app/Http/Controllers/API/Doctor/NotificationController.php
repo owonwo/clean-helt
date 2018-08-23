@@ -24,4 +24,5 @@ class NotificationController extends Controller
             'message' => 'Something went wrong'
         ],400);
     }
+
 }

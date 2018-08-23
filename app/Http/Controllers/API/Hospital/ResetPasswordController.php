@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API\Auth\Doctor;
+namespace App\Http\Controllers\API\Hospital;
 
-
-use App\Http\Controllers\Controller;
-//Auth Facade
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
-//Password Broker Facade
 use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
@@ -21,16 +17,16 @@ class ResetPasswordController extends Controller
     //returns authentication guard of seller
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.passwords.reset')->with(
+        return view('auth.hospital.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }
     protected function broker()
     {
-        return Password::broker('doctors');
+        return Password::broker('hospitals');
     }
     protected function guard()
     {
-        return Auth::guard('doctor');
+        return Auth::guard('hospital');
     }
 }
