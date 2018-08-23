@@ -76,11 +76,12 @@ class DoctorController extends Controller
        DoctorHospital::forceCreate([
            'hospital_id' => $hospital->id,
            'doctor_id' => $this->doctor->id,
-           'actor' => get_class(Doctor::class)
+           'actor' => get_class($this->doctor)
        ]);
 
        return response()->json([
-          'message' => 'Please wait for hospital to accept you'
+          'message' => 'Please wait for hospital to accept you',
+           'hospital' => $hospital
        ]);
         //doctor first submits
     }
@@ -94,6 +95,12 @@ class DoctorController extends Controller
             return response()->json([
                 'message' => 'Something went wrong'
             ],400);
+    }
+    public function readNotifications(Doctor $doctor){
+        dd($doctor->unreadNotifications);
+        foreach ($doctor->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
     }
     public function activeHospitals(){
         $activeHospitals = $this->doctor->activeHospitals()->get();

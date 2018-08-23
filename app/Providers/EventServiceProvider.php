@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\PatientSharedProfile;
+use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
 use App\Events\VerifyDoctor;
 use Illuminate\Auth\Events\Registered;
@@ -31,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProfileShareExtended::class => [
             'App\Listeners\ProfileShareExtension'
+        ],
+        ProfileShareExpired::class => [
+            'App\Listeners\ProfileShareExpirationRequest'
         ]
     ];
 

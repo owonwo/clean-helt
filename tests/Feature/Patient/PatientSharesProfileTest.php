@@ -7,8 +7,10 @@ use App\Events\ProfileShareExtended;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\ProfileShare;
+use App\Notifications\ProfileShareExpiredNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -72,6 +74,44 @@ class PatientSharesProfileTest extends TestCase
         $this->assertDatabaseHas('profile_shares',['expired_at' => $update]);
         $this->assertCount(1,$provider->notifications);
     }
+    /** @test */
+    public function a_provider_recieves_a_notification_when_a_profile_shared_has_been_canceled(){
+       // Notification::fake();
+        $patient = create(Patient::class);
+
+        $shareOne = create(ProfileShare::class, ['patient_id' => $patient->id]);
+
+        $this->signIn($patient, 'patient');
+
+        $this->makeAuthRequest()
+            ->patch("/api/patient/profile/shares/{$shareOne->id}/expire");
+
+        $this->assertFalse($shareOne->fresh()->isActive);
+        $provider = $shareOne->provider;
+        //Notification for a profile share has been cancelled
+        $this->assertCount(1,$provider->notifications);
+       // Notification::assertSentTo($provider,ProfileShareExpiredNotification::class);
+    }
+    /** @test */
+    public function a_provider_receives_a_notification_that_profile_share_is_about_to_expire(){
+
+        $patient = create('App\Models\Patient');
+        $provider = create('App\Models\Doctor');
+        //And the type of provider who is profile is been shared with
+        $this->signIn($patient, 'patient');
+        $expiration = Carbon::now()->addDay(1)->format('Y-m-d h:i:s');
+
+        $this->makeAuthRequest() ->post(route('patient.profile.share'), [
+            'chcode' => $provider->chcode,
+            'expiration' => $expiration
+        ]);
+        $new_expiration = Carbon::now()->addDay(1)->subHours(18);
+
+        $total_duration_remaining = $new_expiration->diffInHours($expiration);
+
+
+    }
+
     /** @test */
     public function a_patient_can_not_share_his_profile_with_a_date_lesser_than_now()
     {
