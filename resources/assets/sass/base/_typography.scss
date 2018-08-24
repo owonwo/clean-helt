@@ -1,0 +1,42 @@
+// font size
+$huge-font-size: 40px;
+$font-size-1: $huge-font-size / 1;
+$font-size-2: $huge-font-size / 2;
+$font-size-3: $huge-font-size / 3;
+$font-size-4: $huge-font-size / 4;
+
+$condensed: 'Dosis';
+$stylish-font: 'Molle-Italic','Kaushan Script','Kristen ITC';
+$default-font: 'Nunito', 'Raleway', 'Helvetica Neue', 'Noto Sans', 'Ubuntu', 'Tahoma', 'Arial', 'FontAwesome','Glyphicons', sans-serif;
+$alt-font: 'Raleway', 'Noto Sans','Arial','Helvetica Neue';
+$input-font: $default-font;
+$heading-font: 'Raleway', sans-serif;
+$default-font-family: $default-font;
+$base-font-family: $default-font;
+
+body {
+	font-weight: 400;
+	font-family: $default-font;
+
+	b {
+		font-weight: 700;
+	}
+}
+
+.bold {
+	font-family: $default-font;
+	font-weight: bold;
+
+	&-shadow {
+		text-shadow:  0 3px 3px rgba(0,0,0,0.3);
+	}
+}
+
+.light {
+	font-family: $default-font;
+	font-weight: 300,
+}
+
+%heading {
+	font-family: $heading-font;
+}

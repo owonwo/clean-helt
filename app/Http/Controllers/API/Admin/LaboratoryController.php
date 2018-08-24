@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Models\Laboratory;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
 use App\Http\Controllers\Controller;
 
 class LaboratoryController extends Controller
@@ -14,7 +13,6 @@ class LaboratoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function __construct()
     {
         $this->middleware('auth:admin-api');
@@ -23,8 +21,9 @@ class LaboratoryController extends Controller
     public function index()
     {
         $labs = Laboratory::latest()->paginate(15);
+
         return response()->json([
-            'labs' => $labs
+            'labs' => $labs,
         ], 200);
     }
 
@@ -35,13 +34,13 @@ class LaboratoryController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -53,7 +52,7 @@ class LaboratoryController extends Controller
             'phone' => 'required|unique:laboratories',
         ];
 
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
         $data = $request->all();
 
@@ -66,32 +65,34 @@ class LaboratoryController extends Controller
         }
 
         return response()->json([
-            'message' => 'All data were submitted'
+            'message' => 'All data were submitted',
         ], 400);
     }
 
-    public function deactivate(Laboratory $laboratory){
+    public function deactivate(Laboratory $laboratory)
+    {
         $laboratory->update([
             'active' => false,
         ]);
 
         return response()->json([
             'doctor' => $laboratory,
-            'message' => 'Deactivated successfully'
+            'message' => 'Deactivated successfully',
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Laboratory $laboratory)
     {
         return response()->json(
             ['message' => 'Laboratory fetched successfully',
-            'laboratory' => $laboratory
+            'laboratory' => $laboratory,
             ], 200
         );
     }
@@ -99,134 +100,55 @@ class LaboratoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  Laboratory $laboratory)
+    public function update(Request $request, Laboratory $laboratory)
     {
-
-
         if ($laboratory->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $laboratory
+                'labs' => $laboratory,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'All data were submitted'
+            'message' => 'All data were submitted',
         ], 400);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Laboratory $laboratory)
     {
         try {
             $laboratory->delete();
+
             return response()->json([
                 'message' => 'Laboratory was successfully deleted ',
-                'hospital' => $laboratory
+                'hospital' => $laboratory,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 400);
         }
     }

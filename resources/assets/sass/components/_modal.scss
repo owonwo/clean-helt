@@ -1,0 +1,51 @@
+.modal-dialog {
+	margin-top: 60px;
+}
+
+.modal {
+    &.slide-up {
+        opacity: 0;
+        transform: translate(0, 50%);
+        transition: all .25s linear;
+
+        &.in {
+            opacity: 1;
+            transform: translate3d(0, 0%);
+            transform: scale(1);
+        }
+    }
+
+    &-backdrop {
+        background-color: #fff;
+
+        &.in {
+            opacity: 0.8;
+        }
+    }
+
+    &-header {
+        border-bottom: none;
+
+        [data-toggle] {
+            position: absolute;
+            right: 0;
+        }
+    }
+
+    &-content {
+        border-radius: 30px;
+    }
+    
+	.modal-footer {
+		border-top-color: #dc143c;
+		background: #f8e7d8;
+    }
+}
+
+.modal-content {
+	// padding: 0 15px;
+	border-radius: 16px;
+	background: #feebca;
+	border: none;
+	box-shadow: 0 9px 43px fade-out(black, .63);
+}
