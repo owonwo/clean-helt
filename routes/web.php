@@ -19,7 +19,10 @@ Route::post('/password/reset/doctors','API\Doctor\ResetPasswordController@reset'
 Route::get('/password/reset/doctors/{token}','API\Doctor\ResetPasswordController@showResetForm')->name('doctor.password.show');
 Route::get('/password/email/doctors','API\Doctor\ForgotPasswordController@sendResetLinkEmail');
 Route::get('/password/reset/doctors/','API\Doctor\ForgotPasswordController@showLinkRequestForm');
-
+Route::post('/password/reset/hospitals','API\Hospital\ResetPasswordController@reset')->name('hospital.password.reset');
+Route::get('/password/reset/hospitals/{token}','API\Hospital\ResetPasswordController@showResetForm')->name('hospital.password.show');
+Route::post('/password/reset/pharmacies','API\Pharmacy\ResetPasswordController@reset')->name('pharmacy.password.reset');
+Route::get('/password/reset/pharmacies/{token}','API\Pharmacy\ResetPasswordController@showResetForm')->name('pharmacy.password.show');
 Auth::routes();
 
 Route::group(['namespace' => 'API'], function () {

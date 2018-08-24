@@ -180,10 +180,20 @@ return [
     */
 
     'passwords' => [
+        'hospitals' => [
+            'provider' => 'hospitals',
+            'table' => 'password_resets',
+            'expire' =>  60,
+        ],
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
+        ],
+        'pharmacies' => [
+            'provider' => 'pharmacies',
+            'table' => 'password_resets',
+            'expire' => 60
         ],
         'doctors' => [
             'provider' => 'doctors',

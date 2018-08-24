@@ -12,7 +12,6 @@ class NotificationController extends Controller
         $this->doctor = auth('doctor')->user();
     }
     public function delete($id){
-
         $notification = $this->doctor->notifications()->where('id',$id)->first();
         if ($notification)
         {
@@ -25,4 +24,5 @@ class NotificationController extends Controller
             'message' => 'Something went wrong'
         ],400);
     }
+
 }
