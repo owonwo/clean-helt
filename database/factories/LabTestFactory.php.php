@@ -13,7 +13,7 @@ $factory->define(App\Models\LabTest::class, function (Faker $faker) {
         'description' => $faker->paragraph(3),
         'result' => $faker->paragraph(3),
         'conclusion' => $faker->paragraph,
-        'status' => false,
+        'status' => true,
 
 
         'taker' => function () {

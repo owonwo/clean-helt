@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\LabTest;
+use App\Models\MedicalRecord;
 use App\Traits\CodeGenerator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,6 +71,21 @@ class Laboratory extends Authenticatable
                 ->activeShares()
                 ->where('patient_id', $patient->id)
                 ->first() !== null;
+    }
+
+    public function issuer()
+    {
+        return $this->morphMany(MedicalRecord::class, 'issuer');
+    }
+
+
+
+    public function canUpdatePatientPrescription(Patient $patient, MedicalRecord $medicalRecord,LabTest $labTest)
+    {
+        return $this->canViewProfile($patient) &&
+            $medicalRecord->exists &&
+            $labTest->exists &&
+            $labTest->record_id == $medicalRecord->id;
     }
 
 

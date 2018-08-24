@@ -1,13 +1,11 @@
 <?php
 
-namespace Tests\Feature\Pharmacy;
+namespace Tests\Feature\Laboratory;
 
-use App\Models\Diagnosis;
-use App\Models\Hospital;
+use App\Models\Laboratory;
+use App\Models\LabTest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
-use App\Models\Pharmacy;
-use App\Models\Prescription;
 use App\Models\ProfileShare;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,16 +17,16 @@ class ViewsMedicalRecordsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_pharmacy_can_view_only_her_patients_prescriptions()
+    public function an_authorize_laboratory_can_view_patient_medical_record()
     {
         $patient = create(Patient::class);
 
-        $pharmacy = create(Pharmacy::class);
+        $laboratory = create(Laboratory::class);
 
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
-            'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory)
         ]);
 
         $diagnosisRecord = create(MedicalRecord::class, [
@@ -36,35 +34,35 @@ class ViewsMedicalRecordsTest extends TestCase
             'type' => 'App\Models\Diagnosis'
         ]);
 
-        $prescriptionRecord = create(MedicalRecord::class, [
+        $testRecord = create(MedicalRecord::class, [
             'patient_id' => $patient->id,
-            'type' => 'App\Models\Prescription'
+            'type' => 'App\Models\LabTest'
         ]);
 
-        $this->signIn($pharmacy, 'pharmacy');
+        $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
-            ->get("api/pharmacy/patients/{$patient->chcode}/records")
-            ->assertSee($prescriptionRecord->reference)
+            ->get("api/laboratories/patient/{$patient->chcode}/records")
+            ->assertSee($testRecord->reference)
             ->assertDontSee($diagnosisRecord->reference);
     }
 
 
     /** @test */
-    public function a_pharmacy_can_filter_shared_patients_medical_records_by_start_date()
+    public function a_laboratory_can_filter_shared_patients_medical_records_by_start_date()
     {
-        $pharmacy = create(Pharmacy::class);
+        $laboratory = create(Laboratory::class);
 
         $patient = create(Patient::class);
 
         $recordOne = create(MedicalRecord::class, [
-            'type' => 'App\Models\Prescription',
+            'type' => 'App\Models\LabTest',
             'patient_id' => $patient->id,
             'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
         ]);
 
         $recordTwo = create(MedicalRecord::class, [
-            'type' => 'App\Models\Prescription',
+            'type' => 'App\Models\LabTest',
             'patient_id' => $patient->id,
             'created_at' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
         ]);
@@ -73,32 +71,31 @@ class ViewsMedicalRecordsTest extends TestCase
 
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
-            'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory)
         ]);
-
-        $this->signIn($pharmacy, 'pharmacy');
+        $this->signIn($laboratory, 'laboratory');
         $this->makeAuthRequest()
-            ->get("api/pharmacy/patients/{$patient->chcode}/records?start_date={$startDate}")
+            ->get("api/laboratories/patient/{$patient->chcode}/records?start_date={$startDate}")
             ->assertSee($recordTwo->reference)
             ->assertDontSee($recordOne->reference);
     }
 
     /** @test */
-    public function a_pharmacy_can_filter_shared_patients_medical_records_by_end_date()
+    public function a_laboratory_can_filter_shared_patients_medical_records_by_end_date()
     {
-        $pharmacy = create(Pharmacy::class);
+        $laboratory = create(Laboratory::class);
 
         $patient = create(Patient::class);
 
         $recordOne = create(MedicalRecord::class, [
-            'type' => 'App\Models\Prescription',
+            'type' => 'App\Models\LabTest',
             'patient_id' => $patient->id,
             'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
         ]);
 
         $recordTwo = create(MedicalRecord::class, [
-            'type' => 'App\Models\Prescription',
+            'type' => 'App\Models\LabTest',
             'patient_id' => $patient->id,
             'created_at' => Carbon::now()->subDays(3)->format('Y-m-d H:i:s')
         ]);
@@ -107,81 +104,81 @@ class ViewsMedicalRecordsTest extends TestCase
 
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
-            'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory)
         ]);
 
-        $this->signIn($pharmacy, 'pharmacy');
+        $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
-            ->get("api/pharmacy/patients/{$patient->chcode}/records?end_date={$endDate}")
+            ->get("api/laboratories/patient/{$patient->chcode}/records?end_date={$endDate}")
             ->assertDontSee($recordTwo->reference)
             ->assertSee($recordOne->reference);
     }
 
     /** @test */
-    public function a_pharmacy_can_view_shared_patients_single_medical_record()
+    public function a_laboratory_can_view_shared_patients_single_medical_record()
     {
-        $pharmacy = create(Pharmacy::class);
+        $laboratory = create(Laboratory::class);
 
         $patient = create(Patient::class);
 
         $record = create(MedicalRecord::class, [
-            'type' => 'App\Models\Prescription',
+            'type' => 'App\Models\LabTest',
             'patient_id' => $patient->id
         ]);
 
-        $prescription = create(Prescription::class, ['record_id' => $record->id]);
+        $prescription = create(LabTest::class, ['record_id' => $record->id]);
 
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
-            'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory)
         ]);
 
-        $this->signIn($pharmacy, 'pharmacy');
+        $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
-            ->get("api/pharmacy/patients/{$patient->chcode}/records/{$record->reference}")
+            ->get("api/laboratories/patient/{$patient->chcode}/records/{$record->reference}")
             ->assertSee($prescription->name);
     }
 
     /** @test */
-    public function a_pharmacy_can_dispense_prescriptions()
+    public function a_laboratory_can_update_add_Labtest_to_medical_record()
     {
         $patient = create(Patient::class);
 
-        $pharmacy = create(Pharmacy::class);
+        $laboratory = create(Laboratory::class);
 
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
-            'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_id' => $laboratory->id,
+            'provider_type' => get_class($laboratory)
         ]);
 
-        $prescriptionRecord = create(MedicalRecord::class, [
+        $labtestRecord = create(MedicalRecord::class, [
             'patient_id' => $patient->id,
-            'type' => 'App\Models\Prescription'
+            'type' => 'App\Models\LabTest'
         ]);
 
-        $prescriptionOne = create(Prescription::class, [
-            'record_id' => $prescriptionRecord->id
+        $labtestOne = create(LabTest::class, [
+            'record_id' => $labtestRecord->id
         ]);
 
         $update = [
-            "comment" => "Drug has been dispensed"
+            'result' => $labtestOne->result,
         ];
 
-        $this->signIn($pharmacy, 'pharmacy');
+        $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
-            ->patch("api/pharmacy/patients/{$patient->chcode}/records/{$prescriptionRecord->reference}/{$prescriptionOne->id}", $update);
+            ->patch("api/laboratories/patient/{$patient->chcode}/records/{$labtestRecord->reference}/{$labtestOne->id}", $update);
 
-        $this->assertDatabaseHas('prescriptions', [
-            'record_id' => $prescriptionRecord->id,
-            'id' => $prescriptionOne->id,
+        $this->assertDatabaseHas('lab_tests', [
+            'record_id' => $labtestRecord->id,
+            'id' => $labtestOne->id,
             'status' => true,
-            'comment' => $update["comment"]
+            'result' => $update['result']
         ]);
     }
 }
