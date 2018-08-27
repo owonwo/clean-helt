@@ -11,6 +11,13 @@ class NotificationController extends Controller
     public function __construct(){
         $this->doctor = auth('doctor')->user();
     }
+    public function show($id){
+        $notifications = $this->doctor->notifications;
+            return response()->json([
+                'message' => 'Marked as read',
+                'notifications' => $notifications
+            ],200);
+    }
     public function delete($id){
         $notification = $this->doctor->notifications()->where('id',$id)->first();
         if ($notification)

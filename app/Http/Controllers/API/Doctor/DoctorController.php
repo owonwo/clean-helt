@@ -123,6 +123,12 @@ class DoctorController extends Controller
             'sentHospitals' => $sentHospitals
         ]);
     }
+    public function hospitals(){
+        return response()->json([
+            'message' => 'This hospitals loaded successfully',
+            'hospitals' => $this->doctor->hospitals;
+        ])
+    }
     public function decline(Hospital $hospital){
         if($hospital->exists && $this->doctor->declineHospital($hospital)){
             return response()->json([
