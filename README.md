@@ -71,15 +71,48 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **Doctor Declines Patient (https://domain.com/doctor/patients/pending/{profileShare}/decline) route('doctor.decline.patient') //model binder for ProfileShare is chcode**
 
 ## Doctors API Endpoints Get Methods
-- **Doctor Register Form (https://domain.com/doctor/register/confirm) route('doctor.register.confirm')**
-- **Doctor Profile (https://domain.com/doctor/profile) route('doctor.profile')**
-- **Doctor Hospitals (https://domain.com/doctor/hospital) route('doctor.hospital')**
-- **Doctor Active Hospitals (https://domain.com/doctor/active-hospitals) route('doctor.hospital.active')**
-- **Doctor Pending Hospitals (https://domain.com/doctor/pending-hospitals) route('doctor.hospital.pending')**
-- **Doctor sent Hospitals (https://domain.com/doctor/sent-hospitals) route('doctor.hospital.sent')**
-- **Doctor All Patients (https://domain.com/doctor/patients) route('doctor.patients')**
-- **Doctor Look on Patient (https://domain.com/doctor/patients/{patient}) route('doctor.patient')**
-- **Doctor Pending Patient (https://domain.com/doctor/patients/pending/patients) route('doctor.pending.patient')**
+
+**GET /doctor/profile**
+
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`address`|string| true | Doctor address|
+|`city`|string|true|Doctor City|
+|`state`|string|true|Doctor state|
+|`country`|string|true|Doctor country|
+|`mode_of_contact`|boolean|true|Doctor mode of contact sms or phone|
+|`marital_status`|string|true|Doctor marital status|
+|`religion`|string|true|Doctor religion|
+|`kin_fullname`|string|true|Doctor Kin Full name|
+|`kin_address`|string|true|Doctor Kin Address|
+|`kin_phone`|string|true|Doctor Kin Full Phone number|
+|`kin_city`|string|true|Doctor Kin City|
+|`kin_state`|string|true|Doctor Kin State|
+|`kin_country`|string|true|Doctor Kin Country|
+|`name_of_degree`|string|true|Doctor Degree nam|
+|`institution`|string|true|Doctor Institution|
+|`additional_degree`|string|true|Doctor Additional Degree|
+|`years_in_practice`|integer|true|Doctor practice years|
+|`avatar`|string|true|Doctor Image|
+|`disablity`|string|true|Doctor Disability|
+
+**GET /doctor/hospital** [Doctors Hospitals]
+
+**GET /doctor/active-hospital** [Doctors Active Hospitals]
+
+**GET /doctor/pending-hospital** [Doctors Pending Hospitals]
+
+**GET /doctor/sent-hospital** [Doctors sent Hospitals]
+
+
+**GET /doctor/patients**  [Doctors Patients]
+
+**GET /doctor/patients/{patient}/** [Doctors views one Patient]
+
+**GET /doctor/patients/pending/patients** [Doctors views pending Patients]
+
+
+
 
 ## Doctors API Endpoints Delete Methods
 - **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
