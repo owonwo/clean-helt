@@ -1,0 +1,40 @@
+@mixin icon-maker($name) {
+	background-image: url("../assets/svgs/osq-#{$name}.svg");
+}
+
+$icons: hospital hospital-white 
+	department settings remove patient 
+	dashboard patient-white note
+	doctor doctor-white	pharmacy pharmacy-white 
+	lab lab-white search users bell bell-gray 
+	bell-green signout comment;
+ 
+.osf {
+	width: 24px;
+    height: 24px;
+	background-size: contain;
+	background-color: transparent;
+	background-position: center center;
+	background-repeat: no-repeat;
+    object-fit: cover;
+    margin-right: 5px;
+    margin-left: 5px;
+    vertical-align: middle;
+    display: inline-block;
+
+    &.osf-14px {
+    	width:14px;
+    	height:14px
+    }
+}
+
+@each $name in $icons {
+	.osf-#{$name} {
+		@include icon-maker(#{$name});
+		@if #{$name} == "bell-gray" {
+			&.hoverable:hover {
+				@include icon-maker(bell-green);				
+			}
+		}
+	}
+}

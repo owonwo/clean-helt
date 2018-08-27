@@ -32,3 +32,25 @@ dl {
 		}
 	}
 }
+
+.accord {
+    > .accord-heading {
+		padding: 15px 10px;
+    }
+
+    > article {
+        > section {
+	        padding: 10px 15px;	
+        }
+    }
+}
+
+.osq-list {
+	background: white;
+	ul { }
+
+	li {
+		text-indent: 10px;
+		border-bottom: solid 1px whitesmoke;
+	}
+}

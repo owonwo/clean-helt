@@ -1,5 +1,15 @@
-$accent-color: orange;
+$gray: #E5E5E5;
+$primary-color: #20B171;
+$accent-color: orange !default;
+$accent-color: #00E6A1;
+
+$tabs-link-active-color: $primary-color;
+$tabs-link-active-border-bottom-color: $primary-color;
+$tabs-dropdown-item-active-color: $primary-color;
+$modal-background-background-color: fade-out($primary-color, 0.86);
+
 $text-color: #636b6f;
+
 //darker shades
 $dark: #333;
 $black: #111;
@@ -12,7 +22,7 @@ $dark-gray: #555;
 //colors
 $link-color: yellowgreen;
 
-$gradient-one: linear-gradient(270deg, $dark-gray 0%, $dark-gray 10%, $dark 50%);
+$gradient-one: linear-gradient(270deg, #fff 0%, whitesmoke 50%);
 $primary-gradient: linear-gradient(190deg, #f85f53, crimson);
 
 //Images

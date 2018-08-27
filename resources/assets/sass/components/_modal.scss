@@ -1,17 +1,14 @@
-.modal-dialog {
-	margin-top: 60px;
-}
-
 .modal {
     &.slide-up {
-        opacity: 0;
-        transform: translate(0, 50%);
-        transition: all .25s linear;
+        .modal-content {
+            opacity: 0;
+            transform: translateY(-50%);
+            transition: all 1s cubic-bezier(0, 0, 0.1, 1.39) .3s;
+        }
 
-        &.in {
+        &.is-active .modal-content {
             opacity: 1;
-            transform: translate3d(0, 0%);
-            transform: scale(1);
+            transform: translateY(0%);
         }
     }
 
@@ -23,7 +20,7 @@
         }
     }
 
-    &-header {
+    &-card-head {
         border-bottom: none;
 
         [data-toggle] {
@@ -32,20 +29,25 @@
         }
     }
 
-    &-content {
-        border-radius: 30px;
-    }
-    
-	.modal-footer {
-		border-top-color: #dc143c;
-		background: #f8e7d8;
-    }
-}
+    &.is-note &-content {
+        position: relative;
+        box-shadow: 0 0 !important;
 
-.modal-content {
-	// padding: 0 15px;
-	border-radius: 16px;
-	background: #feebca;
-	border: none;
-	box-shadow: 0 9px 43px fade-out(black, .63);
+        &::after {
+            content: "";
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            display: block;
+            background: transparent url(../assets/pngs/paper-reap.png) repeat-x left / 40px 30px;
+            transform: translateY(-5px);
+        }
+    }
+
+	&-card-foot {
+		border-top-color: $primary-color;
+		background: white;
+    }
 }

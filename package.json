@@ -20,6 +20,8 @@
         "vuex": "^3.0.1"
     },
     "dependencies": {
+        "vue-form-wizard": "^0.8.4",
+        "vue-perfect-scrollbar": "^0.1.0",
         "vue-router": "^3.0.1"
     }
 }

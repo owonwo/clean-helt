@@ -53,4 +53,10 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
+Route::get('clients/{any}', function () { return view('all', ['user' => 'Patient']); })->where('any', '(.*){0,}');
+Route::get('doctors/{any}', function () { return view('all', ['user' => 'Doctor']); })->where('any', '(.*){0,}');
+Route::get('pharmacy/{any}', function () { return view('all', ['user' => 'Phamarcy']); })->where('any', '(.*){0,}');
+Route::get('lab/{any}', function () { return view('all', ['user' => 'Laboratory']); })->where('any', '(.*){0,}');
+Route::get('hospital/{any}', function () { return view('all', ['user' => 'Hospital']); })->where('any', '(.*){0,}');
+
 Auth::routes();

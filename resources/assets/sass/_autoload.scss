@@ -1,5 +1,4 @@
-@import './base/colors';
-// @import './base/mixins';
+@import './base/mixins';
 // @import './base/globals';
 @import './base/typography';
 // @import './components/shadows';
@@ -9,9 +8,9 @@
 @import './components/images';
 @import './components/modal';
 // @import './components/alerts';
-// @import './components/buttons';
+@import './components/buttons';
 // @import './components/drag-drop';
-// @import './components/list';
+@import './components/list';
 @import './components/box-models';
 @import './components/text';
 // @import './components/animations';

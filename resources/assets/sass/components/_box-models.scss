@@ -53,6 +53,17 @@ $start: 0;
 	.mb-i-#{$inc} {
 		margin-bottom: -#{$inc}px !important;
 	}
+
+	.px-#{$inc} {
+		padding-left: #{$inc}px !important;
+		padding-right: #{$inc}px !important;
+	}
+
+	.py-#{$inc} {
+		padding-top: #{$inc}px !important;
+		padding-bottom: #{$inc}px !important;
+	}
+
 	.p-#{$inc} {
 		padding: #{$inc}px !important;
 	}

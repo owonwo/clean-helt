@@ -1,13 +1,24 @@
-
 // Fonts
-// @import url("https://fonts.googleapis.com/css?family=Lato:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,600");
 
 // Variables
 @import "variables";
+@import './base/colors';
 
 // Bootstrap
 @import '~bulma/bulma';
 @import './autoload';
+@import './icons';
+@import './layout';
+
+
+%avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    border: solid 2px $primary-color;
+}
 
 :root {
     --primary-color: #20B171;
@@ -21,27 +32,31 @@
  
 body {
     margin: 0;
-    background-color: rgba(240, 240, 240, 1);
+    background-color: $body-bg;
     font-family: $default-font;
 } 
 
 h1, h2, h3, h4, h5, h6 {
-    // font-family: $default-font;
+    font-family: $default-font;
 }
 
-.icon {
-    width: 30px;
-    height: 30px;
-    background: #C4C4C4;
-    object-fit: cover;
-    margin-right: 5px;
-    margin-left: 5px;
-    vertical-align: middle;
-    display: inline-block;
+.notifications {
+    &.is-flat {
+        margin-bottom: 1em;
+
+       .notification {
+            margin-bottom: 0;
+            border-radius: 0;
+            padding: 1.5rem 2.5rem 1.5rem 1.5rem;
+
+            &:last-child {
+            }
+        }
+    }
 }
 
 .osq-content {
-    min-height: 1050vh;
+    min-height: 100vh;
 }
 
 %content-padding {
@@ -70,11 +85,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .avatar {
+        @extend %avatar;
+
         width: 40px;
         height: 40px;
-        object-fit: cover;
-        border-radius: 50%;
-        margin-right: 10px;
     }
 }
 
@@ -86,9 +100,32 @@ ul {
     border: none;
 }
 
+.is {
+    &-green {
+        background: $accent-color;
+        color: white;
+    }
+}
+
+.osq-grid-patients {
+    display: flex;
+    flex-flow: row wrap; 
+    justify-content: flex-start;
+
+    .osq-profile-card {
+        margin: 5px;
+    }
+}
+
 .osq-profile-card {
+    z-index: 5;
+    width: 425px;
     border: none;
-    box-shadow: 0 12px 16px 2px #ddd;
+    display: flex;
+    border-radius: 0;
+    position: relative;
+    padding-left: 30px;
+    box-shadow: 0 12px 10px -6px rgba(black, .27);
 
     ul {
         padding: 0;
@@ -100,19 +137,63 @@ ul {
             }
         }
     }
+    
+    button.is-text {
+        text-decoration: none;
+        color: darken($primary-color, 10%);
+
+        &:hover {
+            color: white;
+            background: transparent;
+        }
+    }
+
+    .profile-title {
+        font-size: 1.5rem;
+    }
 
     .avatar {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 120px;
         width: 120px;
         border-radius: 50%;
         height: 120px;
         object-fit: cover;
-        margin-left: 15px;
         background: whitesmoke;
+    }
+
+    .card-content {
+        flex: 1 calc(100% - 120px);
+    }
+
+    &.is-portriat {
+        width: 300px;
+        align-items: center;
+        justify-content: space-around;
+        flex-flow: column nowrap;
+
+        .avatar {
+            margin-top: 15px;
+            flex-basis: auto;
+        }
+
+        .card-content {
+            width: 100%;
+        }
+    }
+
+    &.is-fullwidth {
+        width: 100% !important;
+    }
+
+    &.is-landscape {
+        align-items: center;
     }
 }
 
 // SEARCH
-.osq-search {
+.osq-search-field {
     width: 330px;
 
     button {
@@ -121,11 +202,13 @@ ul {
         border-radius: 0;
     }
 
+    &[class*=has-icons] > .icon {
+        width: 1rem !important;
+    }
+
     input {
-        width: 280px;
         border: none;
         border-radius: 0;
-        margin-right: 50px;
         border-bottom: solid 1px $gray;
         box-shadow: none !important;
 
@@ -175,58 +258,31 @@ ul {
     }
 }
 
+.avatar {
+    @extend %avatar;
 
+    &.avatar-50 {
+        width: 50px;
+        height: 50px;
+    }
+}
 //TABLE STYLES
+.table {
+    tr:last-child {
+        > th,  > td { border-bottom: 0; }
+    }
+}
 .osq-table {
-    background: white;
-
-    thead {
-        z-index: 2;
+    table.is-hoverable {
+        cursor: pointer;
+    }
+    
+    .card-header {
+        z-index: 3;
         position: relative;
-        border-bottom: none;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-        
-        tr th, 
-        tr td {
-            color: var(--dark);
-            
-            &:first-child {
-                padding-left: 30px;
-            }
-        }
+        margin-bottom: 10px;
+        box-shadow: 0 5px 12px -1px rgba(0, 0, 0, 0.19);
     }
-
-    &.osq-large-head {
-        thead tr td,
-        thead tr th {
-            font-size: large;
-            padding-top: 20px;
-        }
-
-        tr:first-child td {
-            padding-top: 30px;
-        }
-
-        tr td {
-            padding: 15px 0;
-            
-        }
-    }
-
-    tbody {
-        font-size: smaller;
-        
-        tr {
-            border-bottom: solid 1px #ddd;
-
-            td {
-                &:first-child {
-                    padding-left: 30px;
-                }
-            }
-        }
-    }
-
 }
 
 
@@ -296,7 +352,48 @@ ul {
     }
 }
 
+.menu {
+    &.is-style-1 {
+        li {
+            padding: 8px 15px;
+            border: solid 2px black;
+        }
+    }
+}
 
+.osq-two-columns {
+    display: grid;
+    grid: "aside content" auto / 200px 1fr;
+    grid-gap: 15px;
+
+    aside {
+        background: #e5e5e5;
+        border-right: solid 1px $body-bg;
+    }
+}
+
+.osq-sidenav {
+    li {
+        > a { 
+            color: #7a7a7a;
+            border-radius: 0;
+            padding: 10px 5px;
+            border-bottom: solid 1px $body-bg;
+        }
+
+        &.active > a {
+            color: $primary-color;
+            border-bottom: solid 2px $primary-color;
+        }
+
+        &:last-child > a {
+            border-bottom: none;
+        }
+    }
+
+}
+
+/*** login & registration ***/
 #osq-login {
     display: flex; 
     justify-content: center;

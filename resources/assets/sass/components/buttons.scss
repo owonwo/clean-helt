@@ -1,7 +1,9 @@
 $btn-color: $primary-color !default;
+$link-color: dodgerblue !default;
 
-body button{
-  outline: none !important;
+
+button {
+	font-family: $input-font;
 }
 
 button.no-style, button[ghost]{
@@ -9,19 +11,23 @@ button.no-style, button[ghost]{
   background: transparent;
 }
 
+.button.is-outlined {
+	border-width: 2px !important;
+}
+
 .circular-btn, .circle-btn, .btn-circle {
 	$height : 50px;
 	@include square($height);
 	@include ease-out(all);
 
-	background: $white;
+	background: white;
 	color: $link-color;
 	line-height: $height;
 	border-radius: 50%;
 
 	&:hover, &.set {
 		background: fade-out($link-color, .55);
-		color: $white;
+		color: white
 	}
 }
 
@@ -30,9 +36,9 @@ button.no-style, button[ghost]{
 	@include ease-out(background);
 
 	background: $btn-color;
-	color: $whitesmoke;
+	color: white;
 	border: none;
-	border: solid 3px $white;
+	border: solid 3px white;
 	transform: translate3d(0,0,0);
 	box-shadow: 0 0 0 fade-out($black,1);
 	transition-property: color, box-shadow, transform;
@@ -46,7 +52,7 @@ button.no-style, button[ghost]{
 	}
 
 	&:hover {
-		color: $white;
+		color: white;
 		box-shadow: 0 3px 3px fade-out($dark, .65);
 		background: lighten($btn-color, 10%);
 	}
@@ -62,7 +68,6 @@ button.no-style, button[ghost]{
 	transition-property: color, box-shadow;
 
 	&:hover {
-		@include z-depth-bottom(2);
 		color: white;
 		background: $btn-color;
 	}
@@ -98,7 +103,6 @@ button.no-style, button[ghost]{
 	&:hover {
 		border-color: $primary-color;
 		color: $primary-color;
-
 	}
 }
 
