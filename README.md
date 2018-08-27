@@ -63,16 +63,45 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 
 ## Doctors API Endpoints Patch Methods
-- **Doctor Updates his profile (https://domain.com/doctor/update) route('doctor.update')**
-- **Doctor Accepts Hospital (https://domain.com/doctor/{hospital}/accept-hospital) route           ('doctor.hospital.accept')**
-- **Doctor Declines Hospital (https://domain.com/doctor/{hospital}/decline-hospital) route('doctor.hospital.decline')**
-- **Doctor removes Hospital (https://domain.com/doctor/{hospital}/remove-hospital) route('doctor.hospital.remove') // model binder for hospital is chcode**
-- **Doctor Accepts Patient (https://domain.com/doctor/patients/pending/{profileShare}/accept) route('doctor.accept.patient') // model binder for ProfileShare is chcode**
-- **Doctor Declines Patient (https://domain.com/doctor/patients/pending/{profileShare}/decline) route('doctor.decline.patient') //model binder for ProfileShare is chcode**
+
+**PATCH /doctor/update** [ Doctor Updates his profile ]
+
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`address`|string| true | Doctor address|
+|`city`|string|true|Doctor City|
+|`state`|string|true|Doctor state|
+|`country`|string|true|Doctor country|
+|`mode_of_contact`|boolean|true|Doctor mode of contact sms or phone|
+|`marital_status`|string|true|Doctor marital status|
+|`religion`|string|true|Doctor religion|
+|`kin_fullname`|string|true|Doctor Kin Full name|
+|`kin_address`|string|true|Doctor Kin Address|
+|`kin_phone`|string|true|Doctor Kin Full Phone number|
+|`kin_city`|string|true|Doctor Kin City|
+|`kin_state`|string|true|Doctor Kin State|
+|`kin_country`|string|true|Doctor Kin Country|
+|`name_of_degree`|string|true|Doctor Degree nam|
+|`institution`|string|true|Doctor Institution|
+|`additional_degree`|string|true|Doctor Additional Degree|
+|`years_in_practice`|integer|true|Doctor practice years|
+|`avatar`|string|true|Doctor Image|
+
+ **PATCH \doctor\{hospital}\accept-hospital** [ Doctor Accepts Hospitals ]
+
+ **PATCH \doctor\{hospital}\accept-hospital** [ Doctor Declines Hospitals ]
+
+ **PATCH \doctor\{hospital}\remove-hospital** [ Doctor Removes Hospitals]
+
+ **PATCH \doctor\patients\pending\{profileShare}\accept** [Doctor Accepts Patient]
+
+ **PATCH \doctor\patients\pending\{profileShare}\decline** [Doctor Declines Patient]
+
+
 
 ## Doctors API Endpoints Get Methods
 
-**GET /doctor/profile**
+**GET \doctor\profile**
 
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
@@ -96,20 +125,19 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`avatar`|string|true|Doctor Image|
 |`disablity`|string|true|Doctor Disability|
 
-**GET /doctor/hospital** [Doctors Hospitals]
+**GET \doctor\hospital** [Doctors Hospitals]
 
-**GET /doctor/active-hospital** [Doctors Active Hospitals]
+**GET \doctor\active-hospital** [Doctors Active Hospitals]
 
-**GET /doctor/pending-hospital** [Doctors Pending Hospitals]
+**GET \doctor\pending-hospital** [Doctors Pending Hospitals]
 
-**GET /doctor/sent-hospital** [Doctors sent Hospitals]
+**GET \doctor\sent-hospital** [Doctors sent Hospitals]
 
 
-**GET /doctor/patients**  [Doctors Patients]
+**GET \doctor\patients**  [Doctors Patients]
 
-**GET /doctor/patients/{patient}/** [Doctors views one Patient]
-
-**GET /doctor/patients/pending/patients** [Doctors views pending Patients]
+**GET \doctor\patients\{patient}\** [Doctors views one Patient]
+**GET \doctor\patients\pending\patients** [Doctors views pending Patients]
 
 
 
