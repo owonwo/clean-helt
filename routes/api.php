@@ -109,6 +109,7 @@ Route::group(['namespace' => 'API'], function() {
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
+
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
@@ -119,6 +120,11 @@ Route::group(['namespace' => 'API'], function() {
 
         Route::get('patient', 'ProfileShareController@index');
         Route::get('patient/pending', 'ProfileShareController@pending');
+
+        Route::get('patient/{patient}/records', 'MedicalRecordController@index');
+        Route::get('patient/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
+        Route::patch('patient/{patient}/records/{medicalRecord}/{prescription}', 'MedicalRecordController@testrecord');
+
         Route::patch('patient/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
         Route::patch('patient/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
     });

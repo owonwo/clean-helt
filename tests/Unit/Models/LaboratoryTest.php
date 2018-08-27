@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Laboratory;
+use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,4 +27,20 @@ class LaboratoryTest extends TestCase
         $laboratory = create(Laboratory::class);
         $this->assertNotNull($laboratory->chcode);
     }
+
+    /** @test */
+    public function a_laboratory_has_many_profile_shares()
+    {
+        $this->assertInstanceOf(Collection::class, $this->laboratory->profileShares);
+    }
+
+    /** @test */
+    public function a_laboratory_has_many_patients()
+    {
+        $this->assertInstanceOf(
+            Collection::class,
+            $this->laboratory->patients()->get()
+        );
+    }
+
 }
