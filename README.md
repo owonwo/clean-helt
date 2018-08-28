@@ -158,8 +158,10 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`state`|string| true | state|
 |`country`|string| true | country|
 
-- **POST \admin\laboratory** [should be able to laboratory]
-- 
+- **POST \admin\laboratory** [should be able to laboratory] 
+
+
+
 
 - **GET \admin\laborartory** [Admin show get all registered laboratory]
 - **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
