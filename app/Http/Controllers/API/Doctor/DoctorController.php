@@ -35,8 +35,10 @@ class DoctorController extends Controller
         $token = ['token' => str_random(40)];
         if($doctor = Doctor::forceCreate(array_merge($data,$token))){
             event(new Registered($doctor));
+            $accessToken = $doctor->createToken(config('app.name'))->accessToken;
             return response()->json([
                 'message' => "Doctor has been created successfully",
+                'accessToken' => $accessToken,
                 'doctor' => $doctor
             ],200);
         }
