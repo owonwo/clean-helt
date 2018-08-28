@@ -157,6 +157,7 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`city`|string| true | city|
 |`state`|string| true | state|
 |`country`|string| true | country|
+|`avatar`|string|null | avatar|
 
 - **POST \admin\laboratory** [should be able to laboratory] 
 
@@ -174,3 +175,22 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 
 - **DELETE \laboratories\{laboratory}** [admin delete laboratory]
+
+
+## LabTest API Endpoint (Lab Medical Records Usage)
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`test_name`|string|true|name of test|
+|`description`|text|true|test description|
+|`conclusion`|text|true|findings after test|
+|`status`|boolean|false|status of test|
+|`taker`|string|true|consultant name|
+
+- **GET \Laboratories** [Laboratory View Home Page]
+- **GET \Laboratories\patient** [Recieve Patient Profile share]
+- **GET \Laboratories\patient\pending** [pending profile share]
+- **GET \Laboratories\patient\{patient}\records** [View Medical record]
+- **GET \Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
+- **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
+- **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
+- **GET \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
