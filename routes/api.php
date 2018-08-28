@@ -114,7 +114,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });
 
-    Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){
+    Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){ 
         Route::get('/', 'LaboratoryController@dashboard');
         Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
 
