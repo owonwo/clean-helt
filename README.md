@@ -145,3 +145,18 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 ## Doctors API Endpoints Delete Methods
 - **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
 
+## Patient API EndPoint
+
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`name`|string| true | laboratory name|
+|`email`|string| true | email|
+|`password`|string| true | password|
+|`phone`|string| true | phone number|
+|`address`|string| true | adddress|
+|`city`|string| true | city|
+|`state`|string| true | state|
+|`country`|string| true | country|
+
+- **POST \patient\register **
+
