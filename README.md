@@ -193,4 +193,6 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **GET \Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
 - **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
 - **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
-- **GET \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+
+
+- **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
