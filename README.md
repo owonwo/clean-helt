@@ -159,4 +159,15 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`country`|string| true | country|
 
 - **POST \admin\laboratory** [should be able to laboratory]
+- 
 
+- **GET \admin\laborartory** [Admin show get all registered laboratory]
+- **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
+
+
+- ** PATCH \laboratories\{laboratory} ** [admin can update laboratory information]
+- ** PATCH \laboratories\deactivate\{laboratory}** [admin deactive an active laboratory]
+- 
+
+- **DELETE \laboratories\{laboratory}** [admin delete laboratory]
+- 
