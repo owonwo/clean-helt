@@ -13,9 +13,10 @@ class Doctor extends Authenticatable
 
     protected $codePrefix = 'CHD';
 
-    protected $guarded = [];
+    protected $guarded = ['deleted_at', 'created_at'];
 
     protected $hidden = ['password'];
+
     protected $casts = [
         'confirm' => 'boolean'
     ];
@@ -68,10 +69,12 @@ class Doctor extends Authenticatable
         $this->token = null;
         $this->save();
     }
+
     public function profile()
     {
         return $this->hasOne(DoctorProfile::class,'doctors_id');
     }
+
     public function hospitals(){
         return $this->belongsToMany(Hospital::class,'doctor_hospital','hospital_id','doctor_id')->withPivot('status','actor');
     }

@@ -6,8 +6,8 @@
       </div>
 
       <div class="avatar-holder">
-        <img :src="$root.avatar" alt="" class="avatar">
-        <span>Joseph Julius</span>
+        <span>{{ user.full_name }}</span>
+        <img :src="$root.avatar" alt="" class="avatar ml-15">
       </div>
     </header>
 
@@ -50,9 +50,15 @@
 
 <script>
 import routes from './routes';
+import LoggedIn from '@/Mixins/LoggedIn'
 
 export default {
-  name: 'Doctor',
-  router: routes.doctor,
+    name: 'Doctor',
+    props: ['id'],
+    router: routes.doctor,
+    mixins: [LoggedIn],
+    data() {return {
+        profile: {route: '/api/doctor/profile', key: 'doctor'},
+    }},
 }
 </script>

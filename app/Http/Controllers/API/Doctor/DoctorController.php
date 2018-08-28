@@ -25,7 +25,7 @@ class DoctorController extends Controller
         'folio' => 'required|string',//folio is that doctors bar
     ];
     public function __construct(){
-        $this->doctor = auth('doctor')->user();
+        $this->doctor = auth('doctor-api')->user();
     }
     public function store(){
 
@@ -57,16 +57,17 @@ class DoctorController extends Controller
           ],400);
     }
     public function show(){
+        $this->doctor->profile;
+
         return response()->json([
             'message' => 'Doctors Loaded successfully',
-            'doctor' => $this->doctor,
-            'doctorProfile' => $this->doctor->profile,
+            'doctor' => $this->doctor
         ]);
     }
-    public function passwordReset(){
+    public function passwordReset() {
 
     }
-    public function showDate(){
+    public function showDate() {
 
     }
     public function addHospital(){

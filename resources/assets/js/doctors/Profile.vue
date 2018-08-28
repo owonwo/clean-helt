@@ -6,36 +6,36 @@
 				<table class="table is-borderless is-fullwidth">
 					<tr>
 						<th width="20%">Full Name:</th>
-						<td>Dr. Joseph Owonwvon</td>
+						<td>{{ user.full_name }}</td>
 					</tr>
 					<tr>
 						<th>Specialization:</th>
-						<td>Specialist Dermatologist and Vereologist.</td>
+						<td>{{ user.specialization | ucfirst }}</td>
 					</tr>
 					<tr>
 						<th>Email:</th>
-						<td>Jose.owonwo@gmail.com</td>
+						<td>{{ user.email }}</td>
 					</tr>
 					<tr>
 						<th>Gender:</th>
-						<td>Female</td>
+						<td>{{ user.gender }}</td>
 					</tr>
 					<tr>
 						<th>MDCN:</th>
-						<td>0093949</td>
+						<td>{{ user.folio }}</td>
 					</tr>
 					<tr>
 						<th>Address</th>
-						<td>1 Khana Street, D/Line, Port Harcourt</td>
+						<td>{{ user.profile.address || null }}</td>
 					</tr>
 					<tr>
 						<th>State</th>
-						<td>Rivers State</td>
+						<td>{{ user.profile.state }}</td>
 					</tr>
 					<tr>
 						<th>ID</th>
 						<td>
-							CHD-909-399 
+							{{ user.chcode }}
 							<button class="button is-small is-text">COPY</button>
 						</td>
 					</tr>
@@ -85,6 +85,7 @@ export default {
 		currentHospital: "",
 		hospitals: ['UPTH', 'BMH', 'Ken Saro Hospital', 'Javenic Rick Hospital']
 	}},
+    computed: { user() { return this.$parent.user }},
 	methods: {
 		showAlert(a) {
 			this.currentHospital = a;

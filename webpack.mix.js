@@ -11,7 +11,7 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.webpackConfig({
+mix.version().sourceMaps().webpackConfig({
     resolve: {
 		extensions: ['.vue', '.js', '.sass','.scss'],
     	alias: {
@@ -22,6 +22,5 @@ mix.webpackConfig({
 	.js('resources/assets/js/app.js', 'public/js')
 	.js('resources/assets/js/admin.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
-   // .sass('resources/assets/sass/admin.scss', 'public/css');
-mix.sourceMaps();
+   // .sass('resources/assets/sass/admin.scss', 'public/css');;
 // mix.disableNotifications();
