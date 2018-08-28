@@ -167,8 +167,10 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
 
 
-- ** PATCH \laboratories\{laboratory} ** [admin can update laboratory information]
-- ** PATCH \laboratories\deactivate\{laboratory}** [admin deactive an active laboratory]
+
+
+- ** PATCH \laboratories\{laboratory}**  [admin can update laboratory information]
+- ** PATCH \laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
 
 
 - **DELETE \laboratories\{laboratory}** [admin delete laboratory]
