@@ -194,5 +194,8 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
 - **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
 
-
+- **PATCH \Laboratories\{laboratories}\laboratories** [Update Profile share ]
 - **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+- **PATCH \Laboratories\patient\{profileShare}\accept** [accept patient profile share]
+- **PATCH \Laboratories\patient\{profileShare}\decline** [decline profile share]
+- 
