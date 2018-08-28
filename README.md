@@ -167,7 +167,6 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 - ** PATCH \laboratories\{laboratory} ** [admin can update laboratory information]
 - ** PATCH \laboratories\deactivate\{laboratory}** [admin deactive an active laboratory]
-- 
+
 
 - **DELETE \laboratories\{laboratory}** [admin delete laboratory]
-- 
