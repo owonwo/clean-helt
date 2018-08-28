@@ -128,7 +128,7 @@ class DoctorController extends Controller
     public function hospitals(){
         return response()->json([
             'message' => 'This hospitals loaded successfully',
-            'hospitals' => $this->doctor->hospitals;
+            'hospitals' => $this->doctor->hospitals,
         ])
     }
     public function decline(Hospital $hospital){
