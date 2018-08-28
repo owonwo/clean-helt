@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Pharmacy;
 use Illuminate\Database\Seeder;
 
 class PharmacySeeder extends Seeder
@@ -12,6 +13,7 @@ class PharmacySeeder extends Seeder
     public function run()
     {
         //
-        factory(\App\Models\Pharmacy::class,30)->create();
+        Pharmacy::truncate();
+        factory("App\Models\Pharmacy",10)->create();
     }
 }

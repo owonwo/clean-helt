@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Doctor;
 use App\Models\DoctorProfile;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +14,7 @@ class DoctorSeeder extends Seeder
     public function run()
     {
         //
-        factory(DoctorProfile::class)->create();
-    }
-
+        Doctor::truncate();
+            factory("App\Models\Doctor")->create(['email' => 'joebro@gmail.com']);
+        }
     }

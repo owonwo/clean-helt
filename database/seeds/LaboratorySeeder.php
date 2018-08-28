@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Laboratory;
 use Illuminate\Database\Seeder;
 
 class LaboratorySeeder extends Seeder
@@ -12,6 +13,7 @@ class LaboratorySeeder extends Seeder
     public function run()
     {
         //
-        factory(\App\Models\Laboratory::class,30)->create();
+        Laboratory::truncate();
+        factory(\App\Models\Laboratory::class,10)->create();
     }   
 }

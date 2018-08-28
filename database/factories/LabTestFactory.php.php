@@ -15,14 +15,12 @@ $factory->define(App\Models\LabTest::class, function (Faker $faker) {
         'conclusion' => $faker->paragraph,
         'status' => true,
 
-
         'taker' => function () {
             return factory('App\Models\Laboratory')->create()->id;
         },
 
-
         'diagnosis_id' => function () {
-        return factory('App\Models\Diagnosis')->create()->id;
+            return factory('App\Models\Diagnosis')->create()->id;
         }
     ];
 });

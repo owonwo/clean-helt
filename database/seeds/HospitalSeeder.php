@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Hospital;
 use Illuminate\Database\Seeder;
 
 class HospitalSeeder extends Seeder
@@ -11,7 +12,7 @@ class HospitalSeeder extends Seeder
      */
     public function run()
     {
-        //
-        factory(\App\Models\Hospital::class,30)->create();
+        Hospital::truncate();
+        factory(App\Models\Hospital::class,10)->create();
     }
 }
