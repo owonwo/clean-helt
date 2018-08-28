@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import Router from 'vue-router';
-import Admin from '@/Admin'
-import Doctor from '@/Doctor'
-import Hospital from '@/Hospital'
-import Patient from '@/Patient'
+import Router from 'vue-router'
+import Admin from '@/Admin.vue'
+import Doctor from '@/Doctor.vue'
+import Hospital from '@/Hospital.vue'
+import Patient from '@/Patient.vue'
  
 Vue.use(Router)
-Vue.config.productionTip = false
+Vue.prototype.$http = axios;
 
 window.preloadClass = ['slide', 'content-preloader'];
 
@@ -79,11 +79,19 @@ Vue.directive('preload', {
     }
 });
 
+Vue.mixin({
+    filters: {
+        ucfirst (value) {
+            return _.capitalize(value);
+        }
+    }
+});
+
 new Vue({
 	el: "#app",
 	components: {Admin, Doctor, Hospital, Patient},
-	// template: "<Admin/>",
 	data: {
+	    user: {},
 		sidebars: {nav : false, notif: true}
 	},
 	methods: {
