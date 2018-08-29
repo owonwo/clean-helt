@@ -198,4 +198,38 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
 - **PATCH \Laboratories\patient\{profileShare}\accept** [accept patient profile share]
 - **PATCH \Laboratories\patient\{profileShare}\decline** [decline profile share]
-- 
+
+## Patient API EndPoint (Admin ViewPoint)
+
+- **GET /api/admin/patients** [admin view all patient with pagination]
+- **GET /api/admin/patients/{patient}** [admin can view a singular thread of a patient]
+
+
+- **POST /api/admin/patients** [admin can signup a new user]
+
+
+
+- **PATCH /api/admin/patients/{patient}/patients** [Admin can update patient information]
+
+- **PATCH /api/admin/patients/deactivate/{patient}** [Admin can deactivate a patient]
+
+
+
+- **DELETE /api/admin/patients/{patient}** [admin can delete patient info]
+
+
+## Patient API EndPopint (Patient View Point)
+
+- **GET api/patient/{patient}/patient** [Patient can view his basic info]
+- **GET api/patient/medical-record/{patient}**  [Patient Medical Record by date]
+- **GET api/patient/{patient}/labtest**  [Patient Labtest]
+- **GET api/patient/{patient}/prescription** [Patient Pharmacy record or labtest]
+- **GET api/patient/{patient}/medical-records** [Medical record of a Patient]
+
+
+
+
+- **POST api/patient/register** [Patient signup from clean helt]
+
+
+- **PATCH api/patient/{patient}/patient** [Patient can Update his profile]
