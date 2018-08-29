@@ -145,3 +145,57 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 ## Doctors API Endpoints Delete Methods
 - **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
 
+## Laboratory API EndPoint (Basics Data)
+
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`name`|string| true | laboratory name|
+|`email`|string| true | email|
+|`password`|string| true | password|
+|`phone`|string| true | phone number|
+|`address`|string| true | adddress|
+|`city`|string| true | city|
+|`state`|string| true | state|
+|`country`|string| true | country|
+|`avatar`|string|null | avatar|
+
+- **POST \admin\laboratory** [should be able to laboratory] 
+
+
+
+
+- **GET \admin\laborartory** [Admin show get all registered laboratory]
+- **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
+
+
+
+
+- **PATCH \laboratories\{laboratory}**  [admin can update laboratory information]
+- **PATCH \laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
+
+
+- **DELETE \laboratories\{laboratory}** [admin delete laboratory]
+
+
+## LabTest API Endpoint (Lab Medical Records Usage)
+| Attribute | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+|`test_name`|string|true|name of test|
+|`description`|text|true|test description|
+|`conclusion`|text|true|findings after test|
+|`status`|boolean|false|status of test|
+|`taker`|string|true|consultant name|
+
+- **GET \Laboratories** [Laboratory View Home Page]
+- **GET \Laboratories\patient** [Recieve Patient Profile share]
+- **GET \Laboratories\patient\pending** [pending profile share]
+- **GET \Laboratories\patient\{patient}\records** [View Medical record]
+- **GET \Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
+- **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
+- **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
+
+- **PATCH \Laboratories\{laboratories}\laboratories** [Update Profile share ]
+- **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+- **PATCH \Laboratories\patient\{profileShare}\accept** [accept patient profile share]
+- **PATCH \Laboratories\patient\{profileShare}\decline** [decline profile share]
+- 
