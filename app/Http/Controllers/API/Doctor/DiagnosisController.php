@@ -24,7 +24,7 @@ class DiagnosisController extends Controller
         $rules = $this->getRules();
 
         $this->validate($request, $rules);
-        $doctor = auth()->guard('doctor')->user();
+        $doctor = auth()->guard('doctor-api')->user();
 
         if ($patient && $doctor->canViewProfile($patient)) {
             try {
