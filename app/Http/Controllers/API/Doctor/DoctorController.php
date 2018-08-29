@@ -48,7 +48,7 @@ class DoctorController extends Controller
             ],400);
     }
     public function update(){
-        $doctor = auth('doctor')->user();
+       $doctor =  auth()->guard('doctor-api')->user();
       if($doctor->profile->update(request()->all()) || $doctor->update(request()->all())){
          return response()->json([
               'message' => 'Doctor updated successfully',
@@ -74,7 +74,7 @@ class DoctorController extends Controller
 
     }
     public function addHospital(){
-        $doctor = auth('doctor')->user();
+        $doctor =  auth()->guard('doctor-api')->user();
        $chcode = request('chcode');
        $hospital = Hospital::whereChcode($chcode)->get()->first();
 
@@ -92,7 +92,7 @@ class DoctorController extends Controller
     }
 
     public function accept(Hospital $hospital){
-       $doctor =  auth('doctor')->user();
+       $doctor =  auth()->guard('doctor-api')->user();
         if($hospital->exists && $doctor->acceptHospital($hospital)){
             return response()->json([
                 'message' => 'You have successfully accepted'
@@ -109,7 +109,7 @@ class DoctorController extends Controller
         }
     }
     public function activeHospitals(){
-       $doctor =  auth('doctor')->user();
+       $doctor =  auth()->guard('doctor-api')->user();
         $activeHospitals = $doctor->activeHospitals()->get();
         return response()->json([
             'message' => 'Active Hospitals loaded successfully',
@@ -117,7 +117,7 @@ class DoctorController extends Controller
         ]);
     }
     public function pendingHospitals(){
-       $doctor =  auth('doctor')->user();
+      $doctor =  auth()->guard('doctor-api')->user();
         $pendingHospitals = $doctor->pendingHospitals()->get();
         return response()->json([
            'message' => 'Pending hospitals Loaded Successfully',
@@ -125,7 +125,7 @@ class DoctorController extends Controller
         ]);
     }
     public function sentHospitals(){
-        $doctor = auth('doctor')->user();
+        $doctor =  auth()->guard('doctor-api')->user();
         $sentHospitals = $doctor->sentHospitals()->get();
         return response()->json([
            'message' => 'Sent Hospitals loaded successfully',
@@ -140,7 +140,7 @@ class DoctorController extends Controller
         ]);
     }
     public function decline(Hospital $hospital){
-        $doctor = auth('doctor')->user();
+        $doctor =  auth()->guard('doctor-api')->user();
         if($hospital->exists && $doctor->declineHospital($hospital)){
             return response()->json([
                 'message' => 'You have successfully declined'
@@ -151,7 +151,7 @@ class DoctorController extends Controller
         ],400);
     }
     public function remove(Hospital $hospital){
-        $doctor = auth('doctor')->user();
+       $doctor =  auth()->guard('doctor-api')->user();
         if($hospital->exists && $doctor->hospitals()->detach($hospital->id)){
             return response()->json([
                 'message' => 'You have successfully Removed'
