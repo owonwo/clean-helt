@@ -48,7 +48,7 @@ class DoctorTest extends TestCase
     {
         $doctor  = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor');
-        $this->withExceptionHandling()->patch(route('doctor.update',$doctor))->assertStatus(200);
+        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update',$doctor))->assertStatus(200);
     }
 
     /** @test */
@@ -143,7 +143,7 @@ class DoctorTest extends TestCase
         $doctor = create('App\Models\Doctor');
         $hospital = create('App\Models\Hospital');
         $this->signIn($doctor,'doctor');
-        $this->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
 
         $this->assertDatabaseHas('doctor_hospital',['hospital_id' => $hospital->id]);
 
