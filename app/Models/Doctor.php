@@ -73,7 +73,7 @@ class Doctor extends Authenticatable
         return $this->hasOne(DoctorProfile::class,'doctors_id');
     }
     public function hospitals(){
-        return $this->belongsToMany(Hospital::class,'doctor_hospital','hospital_id','doctor_id')->withPivot('status','actor');
+        return $this->belongsToMany(Hospital::class);
     }
     public function acceptHospital(Hospital $hospital){
         return $this->hospitals()->wherePivot('hospital_id',$hospital->id)

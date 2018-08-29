@@ -11,7 +11,7 @@ class PatientController extends Controller
 {
     public function index(PatientFilter $filter)
     {
-        $doctor = auth()->guard('doctor')->user();
+        $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
         $patients = $doctor->profileShares()->filter($filter,$filter->dateRange($start,$end))
@@ -27,7 +27,7 @@ class PatientController extends Controller
 
     public function show(Patient $patient)
     {
-        $doctor = auth()->guard('doctor')->user();
+        $doctor = auth()->guard('doctor-api')->user();
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient retrieved successfully',
