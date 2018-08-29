@@ -163,24 +163,24 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`country`|string| true | country|
 |`avatar`|string|null | avatar|
 
-- **POST \admin\laboratory** [should be able to laboratory] 
+- **POST api\admin\laboratory** [should be able to laboratory] 
 
 
 
 
-- **GET \admin\laborartory** [Admin show get all registered laboratory]
+- **GET api\admin\laborartory** [Admin show get all registered laboratory]
 
-- **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
-
-
+- **GET api\admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
 
 
-- **PATCH \laboratories\{laboratory}**  [admin can update laboratory information]
-
-- **PATCH \laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
 
 
-- **DELETE \laboratories\{laboratory}** [admin delete laboratory]
+- **PATCH api\laboratories\{laboratory}**  [admin can update laboratory information]
+
+- **PATCH api\laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
+
+
+- **DELETE api\laboratories\{laboratory}** [admin delete laboratory]
 
 
 ## LabTest API Endpoint (Lab Medical Records Usage)
@@ -192,42 +192,42 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`status`|boolean|false|status of test|
 |`taker`|string|true|consultant name|
 
-- **GET \Laboratories** [Laboratory View Home Page]
+- **GET api/Laboratories** [Laboratory View Home Page]
 
-- **GET \Laboratories\patient** [Recieve Patient Profile share]
+- **GET api/Laboratories/patient** [Recieve Patient Profile share]
 
-- **GET \Laboratories\patient\pending** [pending profile share]
+- **GET api\Laboratories\patient\pending** [pending profile share]
 
-- **GET \Laboratories\patient\{patient}\records** [View Medical record]
+- **GET api\Laboratories\patient\{patient}\records** [View Medical record]
 
-- **GET \Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
+- **GET api\Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
 
-- **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
+- **GET api\Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
 
-- **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
+- **GET api\Laboratories\patient\{patient}\records\{records}** [get patient medical record]
 
-- **PATCH \Laboratories\{laboratories}\laboratories** [Update Profile share ]
+- **PATCH api\Laboratories\{laboratories}\laboratories** [Update Profile share ]
 
-- **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+- **PATCH api\Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
 
-- **PATCH \Laboratories\patient\{profileShare}\accept** [accept patient profile share]
+- **PATCH api\Laboratories\patient\{profileShare}\accept** [accept patient profile share]
 
-- **PATCH \Laboratories\patient\{profileShare}\decline** [decline profile share]
+- **PATCH api\Laboratories\patient\{profileShare}\decline** [decline profile share]
 
 ## Patient API EndPoint (Admin ViewPoint)
 
-- **GET /api/admin/patients** [admin view all patient with pagination]
+- **GET api/admin/patients** [admin view all patient with pagination]
 
-- **GET /api/admin/patients/{patient}** [admin can view a singular thread of a patient]
-
-
-- **POST /api/admin/patients** [admin can signup a new user]
+- **GET api/admin/patients/{patient}** [admin can view a singular thread of a patient]
 
 
+- **POST api/admin/patients** [admin can signup a new user]
 
-- **PATCH /api/admin/patients/{patient}/patients** [Admin can update patient information]
 
-- **PATCH /api/admin/patients/deactivate/{patient}** [Admin can deactivate a patient]
+
+- **PATCH api/admin/patients/{patient}/patients** [Admin can update patient information]
+
+- **PATCH api/admin/patients/deactivate/{patient}** [Admin can deactivate a patient]
 
 
 
