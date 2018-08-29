@@ -133,7 +133,7 @@ class DoctorController extends Controller
         ]);
     }
     public function hospitals(){
-       $doctor =  auth('doctor')->user();
+       $doctor =  auth()->guard('doctor-api')->user();
         return response()->json([
             'message' => 'This hospitals loaded successfully',
             'hospitals' => $doctor->hospitals,
