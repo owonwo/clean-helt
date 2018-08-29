@@ -7,6 +7,9 @@ use App\Models\Doctor;
 use App\Models\DoctorHospital;
 use App\Models\Hospital;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
 
 
 class DoctorController extends Controller
@@ -27,9 +30,17 @@ class DoctorController extends Controller
     public function __construct(){
 
     }
-    public function store(){
-        request()->validate($this->rules);
 
+    public function store(){
+
+        try {
+            request()->validate($this->rules);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'errors' => $e->errors(),
+                'message' =>$e->getMessage(),
+            ], 422);
+        }
         $data = request()->all();
         $data['password'] = bcrypt($data['password']);
         $token = ['token' => str_random(40)];
