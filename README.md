@@ -136,7 +136,11 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 **GET \doctor\patients**  [Doctors Patients]
 
+
+
 **GET \doctor\patients\{patient}\** [Doctors views one Patient]
+
+
 **GET \doctor\patients\pending\patients** [Doctors views pending Patients]
 
 
@@ -165,12 +169,14 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 
 - **GET \admin\laborartory** [Admin show get all registered laboratory]
+
 - **GET \admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
 
 
 
 
 - **PATCH \laboratories\{laboratory}**  [admin can update laboratory information]
+
 - **PATCH \laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
 
 
@@ -187,21 +193,31 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`taker`|string|true|consultant name|
 
 - **GET \Laboratories** [Laboratory View Home Page]
+
 - **GET \Laboratories\patient** [Recieve Patient Profile share]
+
 - **GET \Laboratories\patient\pending** [pending profile share]
+
 - **GET \Laboratories\patient\{patient}\records** [View Medical record]
+
 - **GET \Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
+
 - **GET \Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
+
 - **GET \Laboratories\patient\{patient}\records\{records}** [get patient medical record]
 
 - **PATCH \Laboratories\{laboratories}\laboratories** [Update Profile share ]
+
 - **PATCH \Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+
 - **PATCH \Laboratories\patient\{profileShare}\accept** [accept patient profile share]
+
 - **PATCH \Laboratories\patient\{profileShare}\decline** [decline profile share]
 
 ## Patient API EndPoint (Admin ViewPoint)
 
 - **GET /api/admin/patients** [admin view all patient with pagination]
+
 - **GET /api/admin/patients/{patient}** [admin can view a singular thread of a patient]
 
 
@@ -221,9 +237,15 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 ## Patient API EndPopint (Patient View Point)
 
 - **GET api/patient/{patient}/patient** [Patient can view his basic info]
+
 - **GET api/patient/medical-record/{patient}**  [Patient Medical Record by date]
+
+- **GET api/patient/profile/shares**  [A patient can view log of his share profile]
+
 - **GET api/patient/{patient}/labtest**  [Patient Labtest]
+
 - **GET api/patient/{patient}/prescription** [Patient Pharmacy record or labtest]
+
 - **GET api/patient/{patient}/medical-records** [Medical record of a Patient]
 
 
@@ -231,5 +253,13 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 - **POST api/patient/register** [Patient signup from clean helt]
 
+- **POST api/patient/profile/shares** [Patient share his profile base on date]
 
-- **PATCH api/patient/{patient}/patient** [Patient can Update his profile]
+
+
+
+- **PATCH api/patient/{profileShare}/patient** [Patient can Update his profile]
+
+- **PATCH api/patient/profile/shares/{shareOne}/expire**  [Patient can cancel share]
+
+- **PATCH api/patient/profile/shares/{profileShare}/extend** [Patient can extend or add extra tim]
