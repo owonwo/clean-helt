@@ -15,7 +15,6 @@ $factory->define(App\Models\LabTest::class, function (Faker $faker) {
         'conclusion' => $faker->paragraph,
         'status' => true,
 
-
         'taker' => function () {
             return factory('App\Models\Laboratory')->create()->id;
         },
