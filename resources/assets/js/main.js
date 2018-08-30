@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
+import VueMoment from 'vue-moment'
 import Router from 'vue-router'
 import Admin from '@/Admin.vue'
 import Doctor from '@/Doctor.vue'
@@ -6,6 +8,10 @@ import Hospital from '@/Hospital.vue'
 import Patient from '@/Patient.vue'
  
 Vue.use(Router)
+Vue.use(VueMoment)
+
+import store from '@/store/';
+
 Vue.prototype.$http = axios;
 
 window.preloadClass = ['slide', 'content-preloader'];
@@ -89,6 +95,7 @@ Vue.mixin({
 
 new Vue({
 	el: "#app",
+    store,
 	components: {Admin, Doctor, Hospital, Patient},
 	data: {
 	    user: {},

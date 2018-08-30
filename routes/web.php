@@ -53,8 +53,6 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
-
-
 Route::get('clients/{any}', function () { return view('all', ['user' => 'Patient']); })->where('any', '(.){0,}');
 
 Route::get('doctors/{any}', function (Request $request) {
@@ -65,17 +63,18 @@ Route::get('pharmacy/{any}', function () { return view('all', ['user' => 'Phamar
 Route::get('lab/{any}', function () { return view('all', ['user' => 'Laboratory']); })->where('any', '(.){0,}');
 Route::get('hospital/{any}', function () { return view('all', ['user' => 'Hospital']); })->where('any', '(.){0,}');
 
-
-Route::get('/make-fake-session', function(Request $request) {
-    if(auth()->guard('doctor')->attempt(["email" => 'kaia72@gmail.com', 'password' => 'secret'], false)) {
+Route::get('/make-fake-session', function (Request $request) {
+    if (auth()->guard('doctor')->attempt(['email' => 'dessie.conroy@gmail.com', 'password' => 'secret'], false)) {
         session()->regenerate();
+
         return redirect()->route('doctor.dashboard', 'dashboard');
     }
 });
 
-Route::get('/remove-fake-session', function(Request $request) {
+Route::get('/remove-fake-session', function (Request $request) {
     auth()->guard('doctor')->logout();
     session()->invalidate();
+
     return redirect('login');
 });
 

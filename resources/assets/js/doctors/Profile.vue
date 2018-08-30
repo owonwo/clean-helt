@@ -6,36 +6,36 @@
 				<table class="table is-borderless is-fullwidth">
 					<tr>
 						<th width="20%">Full Name:</th>
-						<td>{{ user.full_name }}</td>
+						<td>{{ $store.state.user.full_name }}</td>
 					</tr>
 					<tr>
 						<th>Specialization:</th>
-						<td>{{ user.specialization | ucfirst }}</td>
+						<td>{{ $store.state.user.specialization | ucfirst }}</td>
 					</tr>
 					<tr>
 						<th>Email:</th>
-						<td>{{ user.email }}</td>
+						<td>{{ $store.state.user.email }}</td>
 					</tr>
 					<tr>
 						<th>Gender:</th>
-						<td>{{ user.gender }}</td>
+						<td>{{ $store.state.user.gender }}</td>
 					</tr>
 					<tr>
 						<th>MDCN:</th>
-						<td>{{ user.folio }}</td>
+						<td>{{ $store.state.user.folio }}</td>
 					</tr>
 					<tr>
 						<th>Address</th>
-						<td>{{ user.profile.address || null }}</td>
+						<td>{{ $store.state.user.profile.address || "" }}</td>
 					</tr>
 					<tr>
 						<th>State</th>
-						<td>{{ user.profile.state }}</td>
+						<td>{{ $store.state.user.profile.state }}</td>
 					</tr>
 					<tr>
 						<th>ID</th>
 						<td>
-							{{ user.chcode }}
+							{{ $store.state.user.chcode }}
 							<button class="button is-small is-text">COPY</button>
 						</td>
 					</tr>

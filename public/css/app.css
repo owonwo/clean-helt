@@ -16256,6 +16256,7 @@ ul {
       flex-basis: 120px;
   width: 120px;
   border-radius: 50%;
+  overflow: hidden;
   height: 120px;
   -o-object-fit: cover;
      object-fit: cover;

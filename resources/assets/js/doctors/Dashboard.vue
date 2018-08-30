@@ -2,11 +2,11 @@
     <section class="">
         <div class="level">
             <div class="card osq-profile-card level is-green">
-                <img  class="avatar" :src="user.profile" alt="">
+                <img  class="avatar" :src="$store.state.user.profile" alt="">
                 <div class="card-content">
                     <div class="osq-text-center">
-                        <h4 class="profile-title">Dr. {{ user.first_name }} {{ user.last_name }}</h4>
-                        <p class="mb-15">{{ user.specialization | ucfirst }}</p>
+                        <h4 class="profile-title">Dr. {{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h4>
+                        <p class="mb-15">{{ $store.state.user.specialization | ucfirst }}</p>
                         <div class="buttons is-right">
                             <router-link to="/profile" tag="button" class="button is-text is-pulled-right">View Profile</router-link>
                         </div>
@@ -68,6 +68,5 @@ import Modal from '@/components/Modal.vue'
 export default {
 	components: {Modal},
 	name: 'Dashboard',
-    computed: { user() { return this.$parent.user }},
 }
 </script>

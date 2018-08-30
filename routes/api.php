@@ -77,7 +77,7 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
         Route::post('create','DoctorController@store')->name('doctor.create');
         Route::get('register/confirm','RegistrationConfirmationController@index')->name('doctor.register.confirm');
-        Route::get('profile','DoctorController@show')->name('doctor.profile');
+        Route::get('profile/{doctor}','DoctorController@show')->name('doctor.profile');
         Route::patch('update','DoctorController@update')->name('doctor.update');
         Route::get('hospital','DoctorController@hospitals')->name('doctor.hospital');
         Route::post('add-hospital','DoctorController@addHospital')->name('doctor.addHospital');
@@ -87,13 +87,14 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/active-hospitals','DoctorController@activeHospitals')->name('doctor.hospital.active');
         Route::get('/pending-hospitals','DoctorController@pendingHospitals')->name('doctor.hospital.pending');
         Route::get('/sent-hospitals','DoctorController@sentHospitals')->name('doctor.hospital.sent');
-        Route::get('patients', 'PatientController@index');
-        Route::get('patients/{patient}', 'PatientController@show');
+        Route::get('patients', 'PatientController@index')->name('doctor.patients');
+        Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
         Route::delete('notification/{id}','NotificationController@delete')->name('doctor.notifications.read');
+        Route::get('notifications','NotificationController@show')->name('doctor.notifications.show');
     });
     //End of all routes for doctor
 

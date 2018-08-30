@@ -11,32 +11,32 @@ class PatientController extends Controller
 {
     public function index(PatientFilter $filter)
     {
-        $doctor = auth()->guard('doctor')->user();
+        $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
-        $patients = $doctor->profileShares()->filter($filter,$filter->dateRange($start,$end))
+        $patients = $doctor->profileShares()->filter($filter, $filter->dateRange($start, $end))
                         ->activeShares()
                         ->with('patient')
                         ->get();
 
         return response()->json([
             'message' => 'Patients retrieved successfully',
-            'patients' => $patients
+            'patients' => $patients,
         ], 200);
     }
 
     public function show(Patient $patient)
     {
-        $doctor = auth()->guard('doctor')->user();
+        $doctor = auth()->guard('doctor-api')->user();
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient retrieved successfully',
-                'patient' => $patient
+                'patient' => $patient,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Unauthorized access'
+            'message' => 'Unauthorized access',
         ], 400);
     }
 }

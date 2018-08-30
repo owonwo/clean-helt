@@ -4,10 +4,10 @@
 			<div class="column is-half">
 				<h5 class="osq-group-subtitle-alt mb-15">Patient Profile</h5>
 				<div class="card osq-profile-card is-fullwidth is-green is-landscape">
-						<img src="$root.avatar" alt="" class="avatar">
+						<img :src="profile.patient.avatar" class="avatar">
 						<div class="card-content has-text-right">
-							<h3 class="profile-title">Mrs. Anita Lucas</h3>
-							<p>FEMALE</p>
+							<h3 class="profile-title">{{ profile.patient.full_name }}</h3>
+							<p>{{ profile.patient.gender.toUpperCase() }}</p>
 							<div class="mt-30">
 								<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
 								<button class="button ml-10 is-outlined is-rounded is-dark">Add Record</button>
@@ -24,14 +24,15 @@
 						</section>
 					</accordion>
 				    <accordion class="menu">
-						<template slot="heading">Emergency Contact</template>
+						<template slot="heading">Next of Kin<!-- Emergency Contact --></template>
 						<section slot="content" class="content">
-							<table class="table is-bordered table-hoverable">
-								<tr>
-									<td>Brother</td>
-									<td>+039958839288</td>
-								</tr>
-							</table>
+							<h1 class="title is-5 mb-0">{{ profile.patient.nok_name }}</h1>
+							<div>
+								<small>Email Address: {{ profile.patient.nok_email }}</small>
+							</div>
+							<div>
+								<small>Phone Number: {{ profile.patient.nok_phone }}</small>
+							</div>
 						</section>
 					</accordion>
 				</section>
@@ -39,13 +40,13 @@
 				<h1 class="osq-group-subtitle-alt mb-10">Medical History</h1>
 				<div class="columns content is-multiline">
 					<div class="column is-half is-fullheight">
-						<router-link :to="recordRoute('doctor')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
+						<router-link :to="recordsRoute('doctor')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
 					</div>
 					<div class="column is-half">
-						<router-link :to="recordRoute('laboratory')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
+						<router-link :to="recordsRoute('laboratory')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
 					</div>
 					<div class="column is-half">
-						<router-link :to="recordRoute('pharmacy')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
+						<router-link :to="recordsRoute('pharmacy')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
 					</div>
 				</div>
 			</div>
@@ -59,35 +60,39 @@
 		</section>
 
 		<modal class="is-note" :show="showProfile" :show-header="true" @closed="showProfile = false">
-			<template slot="modal-title"><b>Bio-Data</b>: Mrs. Anita Lucas</template>
+			<template slot="modal-title"><b>Bio-Data</b>: {{ profile.patient.fullname() }}</template>
 			<table class="table is-borderless is-fullwidth">
 				<tr>
-					<td>Full Name</td>
-					<td>Mrs. Anita Morrison</td>
+					<td width="150">Full Name</td>
+					<td>{{ profile.patient.fullname() }}</td>
 				</tr>
 				<tr>
 					<td>Phone Number</td>
-					<td>080121313414</td>
+					<td>{{ profile.patient.phone }}</td>
+				</tr>
+				<tr>
+					<td>Age</td>
+					<td>{{ profile.patient.dob | moment("from") }}</td>
 				</tr>
 				<tr>
 					<td>Gender</td>
-					<td>Female</td>
+					<td>{{ profile.patient.gender | ucfirst }}</td>
 				</tr>
 				<tr>
 					<td>Address</td>
-					<td>24 Gbani Street, Diobu, Port-Harcourt.</td>
+					<td>{{ profile.patient.address }}</td>
 				</tr>
 				<tr>
 					<td>City</td>
-					<td>Port Harcourt</td>
+					<td>{{ profile.patient.city }}</td>
 				</tr>
 				<tr>
 					<td>State</td>
-					<td>Rivers State</td>
+					<td>{{ profile.patient.state }}</td>
 				</tr>
 				<tr>
 					<td>Country</td>
-					<td>Nigeria</td>
+					<td>{{ profile.patient.country }}</td>
 				</tr>
 			</table>
 		</modal>
@@ -99,23 +104,33 @@
 	import vScrollbar from 'vue-perfect-scrollbar'
 	import Accordion from '@/components/Accordion.vue'
 	import DoctorNote from '@/components/DoctorNote.vue'
+	import {mapGetters} from 'vuex'
 
 	export default {
 		components: {Accordion, DoctorNote, Modal, vScrollbar},
 		name: "PatientProfile",
 		methods: {
-			recordRoute(type = "all") {
+			recordsRoute(type = "all") {
 				const {params} =this.$route,
 				      query = {type};
-
 				return {name: 'patient-records', query}
 			}
+		},
+		mounted() {
+			const {$route} = this;
+			const {patient_id} = $route.params
+			!_.isNull(patient_id) || $route.back()
+			this.profile = this.$store.getters.getProfileByPatientId(parseInt(patient_id))
 		},
 		data() {return {
 			settings: {
 				 maxScrollbarLength: 60
 			},
+			profile: {},
 			showProfile: false,
 		}},
+		computed: {
+			// ...mapGetters(['getProfileByPatientId'])
+		}
 	}
 </script>

@@ -6,7 +6,7 @@
       </div>
 
       <div class="avatar-holder">
-        <span>{{ user.full_name }}</span>
+        <span>{{ $store.state.user.full_name }}</span>
         <img :src="$root.avatar" alt="" class="avatar ml-15">
       </div>
     </header>
@@ -49,16 +49,20 @@
 </template>
 
 <script>
-import routes from './routes';
+import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
+
 
 export default {
     name: 'Doctor',
     props: ['id'],
     router: routes.doctor,
-    mixins: [LoggedIn],
+    mixins: [LoggedIn], // comes with all mutations and getters
     data() {return {
-        profile: {route: '/api/doctor/profile', key: 'doctor'},
+      settings : {
+        profile: { route: '/api/doctor/profile', key: 'doctor' },
+        patients: { route : '/api/doctor/patients', key: 'patients'}
+      }
     }},
 }
 </script>
