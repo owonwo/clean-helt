@@ -15,10 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-<<<<<<< HEAD
-        Schema::disableForeignKeyConstraints();
-        $this->call(DoctorSeeder::class);
-=======
         // $this->call(UsersTableSeeder::class);
         Schema::disableForeignKeyConstraints();
         $this->call(PatientSeeder::class);
@@ -26,7 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HospitalSeeder::class);
         $this->call(PharmacySeeder::class);
         $this->call(MedicalRecordSeeder::class);
->>>>>>> 362a66920447aa0d66e21527a2f6c974ea78e1f9
         Schema::enableForeignKeyConstraints();
     }
 }

@@ -43,7 +43,6 @@ class DoctorController extends Controller
         $token = ['token' => str_random(40)];
         if ($doctor = Doctor::forceCreate(array_merge($data, $token))) {
             event(new Registered($doctor));
-<<<<<<< HEAD
 
             $accessToken = $doctor->createToken(config('app.name'))->accessToken;
 
@@ -52,14 +51,6 @@ class DoctorController extends Controller
                 'accessToken' => $accessToken,
                 'doctor' => $doctor,
             ], 200);
-=======
-            $accessToken = $doctor->createToken(config('app.name'))->accessToken;
-            return response()->json([
-                'message' => "Doctor has been created successfully",
-                'accessToken' => $accessToken,
-                'doctor' => $doctor
-            ],200);
->>>>>>> 362a66920447aa0d66e21527a2f6c974ea78e1f9
         }
 
         return response()->json([
