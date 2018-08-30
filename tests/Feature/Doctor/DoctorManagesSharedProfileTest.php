@@ -36,9 +36,8 @@ class DoctorManagesSharedProfileTest extends TestCase
         $start = Carbon::now();
         $doctor = create(Doctor::class,['created_at' => $start]);
         $this->signIn($doctor,'doctor');
-
-        $end = $start->addDay();
-        $this->makeAuthRequest()->get("api/doctor/patients?startDate={$start}&endDate={$end}")->assertStatus(200);
+        $end = $start->addDay()->format('Y-m-d');
+        $this->makeAuthRequest()->get("api/doctor/patients?startDate={$start->format('Y-m-d')}&endDate={$end}")->assertStatus(200);
     }
 
     /** @test */

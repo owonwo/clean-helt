@@ -9,8 +9,12 @@ use App\Models\Patient;
 
 class PatientController extends Controller
 {
+    public function __construct(){
+         $this->middleware('auth:doctor-api');
+    }
     public function index(PatientFilter $filter)
     {
+
         $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');

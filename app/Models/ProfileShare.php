@@ -46,7 +46,7 @@ class ProfileShare extends Model
     public function scopeFilter($query,$filter){
         return $filter->apply($query);
     }
-    public function scopeAcceptedShares($query)
+    public function scopeAcceptedShare  s($query)
     {
         return $query->where('status', 1);
     }

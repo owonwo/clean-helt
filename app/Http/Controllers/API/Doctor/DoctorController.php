@@ -15,6 +15,9 @@ use Illuminate\Validation\ValidationException;
 class DoctorController extends Controller
 {
     //
+    public functon __construct(){
+        $this->middleware('auth:doctor-api');
+    }
     private $doctor;
     protected $rules = [
         'first_name' => 'required|string|min:3|max:255',

@@ -9,7 +9,7 @@ class NotificationController extends Controller
 {
     //
     public function __construct(){
-
+         $this->middleware('auth:doctor-api');
     }
     public function show(){
         $doctor = auth('doctor-api')->user();

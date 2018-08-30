@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    public function __construct(){
+         $this->middleware('auth:doctor-api');
+    }
     //
     public function pending(){
         $doctor =  auth()->guard('doctor')->user();
