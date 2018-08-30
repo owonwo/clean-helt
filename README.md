@@ -149,19 +149,11 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 ## Doctors API Endpoints Delete Methods
 - **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
 
+
+
+
 ## Laboratory API EndPoint (Basics Data)
 
-| Attribute | Type | Required | Description |
-| --------- | ---- | -------- | ----------- |
-|`name`|string| true | laboratory name|
-|`email`|string| true | email|
-|`password`|string| true | password|
-|`phone`|string| true | phone number|
-|`address`|string| true | adddress|
-|`city`|string| true | city|
-|`state`|string| true | state|
-|`country`|string| true | country|
-|`avatar`|string|null | avatar|
 
 - **POST api\admin\laboratory** [should be able to laboratory] 
 
@@ -184,13 +176,6 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 
 ## LabTest API Endpoint (Lab Medical Records Usage)
-| Attribute | Type | Required | Description |
-| --------- | ---- | -------- | ----------- |
-|`test_name`|string|true|name of test|
-|`description`|text|true|test description|
-|`conclusion`|text|true|findings after test|
-|`status`|boolean|false|status of test|
-|`taker`|string|true|consultant name|
 
 - **GET api/Laboratories** [Laboratory View Home Page]
 
@@ -263,3 +248,7 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **PATCH api/patient/profile/shares/{shareOne}/expire**  [Patient can cancel share]
 
 - **PATCH api/patient/profile/shares/{profileShare}/extend** [Patient can extend or add extra time]
+<<<<<<< HEAD
+=======
+
+>>>>>>> 362a66920447aa0d66e21527a2f6c974ea78e1f9
