@@ -13,11 +13,12 @@ class Doctor extends Authenticatable
 
     protected $codePrefix = 'CHD';
 
-    protected $guarded = [];
+    protected $guarded = ['deleted_at', 'created_at'];
 
     protected $hidden = ['password'];
+
     protected $casts = [
-        'confirm' => 'boolean'
+        'confirm' => 'boolean',
     ];
 
     protected static function boot()
@@ -26,17 +27,20 @@ class Doctor extends Authenticatable
         self::creating(function ($model) {
             $model->chcode = $model->generateUniqueCode();
         });
-        self::created(function ($model){
-           DoctorProfile::forceCreate([
-               'doctors_id' => $model->id
-           ]);
-        });
+        // self::created(function ($model){
+        //    DoctorProfile::forceCreate([
+        //        'doctors_id' => $model->id
+        //    ]);
+        // });
     }
+
     public function getRouteKeyName()
     {
         return 'chcode';
     }
-    public function scopeFilter($query,$filter){
+
+    public function scopeFilter($query, $filter)
+    {
         return $filter->apply($query);
     }
 
@@ -51,54 +55,72 @@ class Doctor extends Authenticatable
     }
 
     /**
-     * Checks whether a doctor can view a patient's profile
+     * Checks whether a doctor can view a patient's profile.
+     *
      * @param Patient $patient
+     *
      * @return bool
      */
     public function canViewProfile(Patient $patient)
     {
-        return $this->profileShares()
+        return null !== $this->profileShares()
                 ->activeShares()
                 ->where('patient_id', $patient->id)
-                ->first() !== null;
+                ->first();
     }
 
-    public function confirm(){
+    public function confirm()
+    {
         $this->confirm = true;
         $this->token = null;
         $this->save();
     }
+
     public function profile()
     {
-        return $this->hasOne(DoctorProfile::class,'doctors_id');
+        return $this->hasOne(DoctorProfile::class, 'doctors_id');
     }
-    public function hospitals(){
+
+    public function hospitals()
+    {
         return $this->belongsToMany(Hospital::class);
     }
-    public function acceptHospital(Hospital $hospital){
-        return $this->hospitals()->wherePivot('hospital_id',$hospital->id)
-            ->updateExistingPivot($hospital->id,['status' => '1']);
+
+    public function acceptHospital(Hospital $hospital)
+    {
+        return $this->hospitals()->wherePivot('hospital_id', $hospital->id)
+            ->updateExistingPivot($hospital->id, ['status' => '1']);
     }
-    public function declineHospital(Hospital $hospital){
-        return $this->hospitals()->wherePivot('hospital_id',$hospital->id)
-            ->updateExistingPivot($hospital->id,['status' => 2]);
+
+    public function declineHospital(Hospital $hospital)
+    {
+        return $this->hospitals()->wherePivot('hospital_id', $hospital->id)
+            ->updateExistingPivot($hospital->id, ['status' => 2]);
     }
-    public function scopeActiveHospitals($query){
-        return $this->hospitals()->wherePivot('status','1');
+
+    public function scopeActiveHospitals($query)
+    {
+        return $this->hospitals()->wherePivot('status', '1');
     }
-    public function scopeSentHospitals($query){
+
+    public function scopeSentHospitals($query)
+    {
         return $this->hospitals()
-            ->wherePivot('status','=',0)
-            ->wherePivot('actor','!=',get_class($this));
+            ->wherePivot('status', '=', 0)
+            ->wherePivot('actor', '!=', get_class($this));
     }
-    public function scopePendingHospitals($query){
+
+    public function scopePendingHospitals($query)
+    {
         return $this->hospitals()
-            ->wherePivot('status','=',0)
-            ->wherePivot('actor','=',get_class($this));
+            ->wherePivot('status', '=', 0)
+            ->wherePivot('actor', '=', get_class($this));
     }
-    public function isActiveHospital(Hospital $hospital){
-        return $this->activeHospitals()
-                    ->where('hospital_id',$hospital->id)
-                    ->first() != null;
+
+    public function isActiveHospital(Hospital $hospital)
+    {
+        return null != $this->activeHospitals()
+                    ->where('hospital_id', $hospital->id)
+                    ->first();
     }
 }

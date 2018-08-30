@@ -2,7 +2,6 @@
 
 use Faker\Generator as Faker;
 
-
 $factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -11,8 +10,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
-$factory->define(App\Models\Doctor::class,function(Faker $faker){
-
+$factory->define(App\Models\Doctor::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'middle_name' => $faker->lastName,
@@ -20,17 +18,16 @@ $factory->define(App\Models\Doctor::class,function(Faker $faker){
         'email' => $faker->email,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret,
         'phone' => $faker->phoneNumber,
-        'gender' =>$faker->lastName,
+        'gender' => $faker->randomElement(['male', 'female']),
         'specialization' => 'cardiologist',
         'folio' => 'MB/12/'.str_random(2),
         'confirm' => false,
         'token' => str_random(40),
     ];
 });
-$factory->define(App\Models\DoctorProfile::class,function(Faker $faker){
-
+$factory->define(App\Models\DoctorProfile::class, function (Faker $faker) {
     return [
-        'doctors_id' => function(){
+        'doctors_id' => function () {
             return factory('App\Models\Doctor')->create()->id;
         },
         'address' => $faker->address,
@@ -48,7 +45,7 @@ $factory->define(App\Models\DoctorProfile::class,function(Faker $faker){
         'kin_country' => $faker->country,
         'name_of_degree' => 'Doctrate Degree',
         'institution' => 'Rivers State university',
-        'additional_degree' =>  'Bachelor of Science',
+        'additional_degree' => 'Bachelor of Science',
         'years_in_practice' => 4,
         'active' => true,
         'avatar' => 'avatar/avatar.jpg',
