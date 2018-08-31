@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Mail\PatientVerifyEmail;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 
 class PatientController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('store');
+        $this->middleware('auth:patient-api')->except('store', 'verify');
     }
 
 
@@ -46,17 +51,33 @@ class PatientController extends Controller
     {
         $rule = $this->getRegRule();
 
-        $this->validate($request, $rule);
+        try {
+            $this->validate($request, $rule);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ]);
+        }
 
         $data = $request->all();
 
+        $data['password'] = bcrypt($data['password']);
+
         $token = ['token' => str_random(40)];
 
+        $data['verifyToken'] = Str::random(40);
+
         if($patient = Patient::create(array_merge($data, $token))){
+
+            $accessToken = $patient->createToken(config('app.name'))->accessToken;
+
+            $this->sendConfirmationMail($patient);
 
             return response()->json([
                 'message' => 'Congratulation! you have successfully created patient record',
                 'patients' => $patient,
+                'accessToken' => $accessToken,
             ], 200);
         }
 
@@ -65,6 +86,32 @@ class PatientController extends Controller
         ]);
     }
 
+    public function verify($email, $verifyToken)
+    {
+
+        if($patient = Patient::where(['email' => $email, 'verifyToken' => $verifyToken])->first())
+        {
+            $data['status'] = 1;
+            $data['verifyToken'] = '';
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'Congratulation you have just verified you account, login to continue',
+                    'patient' => $patient,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Your account was not verified'
+        ], 401);
+
+    }
+
+    public function sendConfirmationMail($patient)
+
+    {
+        Mail::to($patient['email'])->send(new PatientVerifyEmail($patient));
+    }
     /**
      * Display the specified resource.
      *
@@ -184,10 +231,10 @@ class PatientController extends Controller
     private function getRegRule()
     {
         return [
-            'email' => 'required|email|max:190|unique:patient',
+            'email' => 'required|email|max:190|unique:patients',
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
-            'password' => 'required|confirmed|max:32|min:6',
+            'password' => 'required|max:32|min:6',
         ];
     }
 

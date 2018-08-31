@@ -16,7 +16,7 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->increments('id');
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('chcode')->unique();
             $table->string('avatar')->nullable();
@@ -32,13 +32,15 @@ class CreatePatientsTable extends Migration
             $table->boolean('active')->default(true);
             $table->string('religion')->nullable();
             $table->string('marital_status')->nullable();
-
+            $table->string('token')->nullable();
             $table->string('nok_name')->nullable();
             $table->string('nok_phone')->nullable();
             $table->string('nok_email')->nullable();
             $table->string('nok_address')->nullable();
             $table->string('nok_city')->nullable();
             $table->string('nok_state')->nullable();
+            $table->string('verifyToken');
+            $table->boolean('status')->default(false);
             $table->string('nok_country')->nullable();
             $table->rememberToken();
             $table->timestamps();

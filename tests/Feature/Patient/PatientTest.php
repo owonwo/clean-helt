@@ -46,7 +46,7 @@ class PatientTest extends TestCase
             ->withExceptionHandling()
 
             ->post('api/patient/register')
-            ->assertStatus(302);
+            ->assertStatus(200);
     }
 
     /** @test */

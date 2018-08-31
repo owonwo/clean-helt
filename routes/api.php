@@ -106,10 +106,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/medical-record/{patient}', 'PatientController@showDate');
         Route::get('/{patient}/labtest', 'PatientController@showLabtest');
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
+        Route::get('/verify/{email}/{verifyToken}', 'PatientController@verify')->name('patient.confirmation.mail');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
-
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
     });

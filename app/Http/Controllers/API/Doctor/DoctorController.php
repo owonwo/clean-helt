@@ -16,6 +16,7 @@ class DoctorController extends Controller
 {
     //
     private $doctor;
+
     protected $rules = [
         'first_name' => 'required|string|min:3|max:255',
         'last_name' => 'required|string|min:3|max:255',
