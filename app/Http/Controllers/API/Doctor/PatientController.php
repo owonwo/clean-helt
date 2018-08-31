@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Doctor;
 
 use App\Filters\PatientFilter;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
@@ -18,17 +19,24 @@ class PatientController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
-        $patients = optional($doctor->profileShares(),function($doctor){
-                return $doctor->filter($filter,$filter->dateRange($start,$end))
-                        ->activeShares()
-                        ->with('patient')
-                        ->get();
-            })
 
-         return response()->json([
-            'message' => 'Patients retrieved successfully',
-            'patients' => $patients
-        ], 200);
+        try {
+            $patients = optional($doctor->profileShares(), function ($doctor) use ($end, $start, $filter) {
+                return $doctor->filter($filter, $filter->dateRange($start, $end))
+                    ->activeShares()
+                    ->with('patient')
+                    ->get();
+            });
+
+            return response()->json([
+                'message' => 'Patients retrieved successfully',
+                'patients' => $patients
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function show(Patient $patient)
