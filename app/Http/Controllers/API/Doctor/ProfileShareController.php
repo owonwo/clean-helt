@@ -24,7 +24,7 @@ class ProfileShareController extends Controller
         } 
              return response()->json([
                 'message' => 'Shit!! get outta here'
-             ]);
+             ],403);
        
         //select all pending request for a particular provider and view them
 

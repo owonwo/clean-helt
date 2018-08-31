@@ -79,11 +79,17 @@ class DoctorController extends Controller
     public function show(Doctor $doctor)
     {
 
-        return response()->json([
-            'message' => 'Doctors Loaded successfully',
-            'doctor' => $doctor,
-            'doctorProfile' => $doctor->profile,
-        ]);
+        try {
+            return response()->json([
+                'message' => 'Doctors Loaded successfully',
+                'doctor' => $doctor,
+                'doctorProfile' => $doctor->profile,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ],403);
+        }
     }
 
     public function addHospital()
@@ -102,7 +108,7 @@ class DoctorController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'Theres an Error' . $e->getMessage()
-            ]);
+            ],403);
         }
 
         return response()->json([
@@ -135,7 +141,7 @@ class DoctorController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ]);
+            ],403);
         }
     }
 
@@ -168,7 +174,7 @@ class DoctorController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ]);
+            ],403);
         }
     }
 
@@ -184,7 +190,7 @@ class DoctorController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ]);
+            ],403);
         }
     }
 
