@@ -1,0 +1,22 @@
+@mixin square($dimension) {
+    width: $dimension;
+    height: $dimension;
+    box-sizing: border-box;
+}
+
+@mixin border-radius ($radius) {
+    border-radius: $radius;
+}
+
+@mixin centralize(){
+    margin: 0 auto;
+    display: block;
+}
+
+@mixin ease-out($prop, $duration : .3s) {
+    transition: $prop $duration ease-out 0s;
+}
+
+@mixin col($number) {
+    width: (100% / 12 ) * $number;
+}

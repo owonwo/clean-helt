@@ -19,7 +19,6 @@ class PatientController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
-
         try {
             $patients = optional($doctor->profileShares(), function ($doctor) use ($end, $start, $filter) {
                 return $doctor->filter($filter, $filter->dateRange($start, $end))
@@ -37,6 +36,7 @@ class PatientController extends Controller
                 'error' => $e->getMessage()
             ],403);
         }
+
     }
 
     public function show(Patient $patient)
@@ -45,12 +45,12 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient retrieved successfully',
-                'patient' => $patient
+                'patient' => $patient,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Unauthorized access'
+            'message' => 'Unauthorized access',
         ], 400);
     }
 }

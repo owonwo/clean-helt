@@ -8,13 +8,11 @@ use App\Models\DoctorHospital;
 use App\Models\Hospital;
 use Exception;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
-
 
 class DoctorController extends Controller
 {
+
     //
     public function __construct()
     {
@@ -30,12 +28,11 @@ class DoctorController extends Controller
         'phone' => 'required|unique:doctors',
         'gender' => 'required|string',
         'specialization' => 'required|string',
-        'folio' => 'required|string',//folio is that doctors bar
+        'folio' => 'required|string', //folio is that doctors bar
     ];
 
     public function store()
     {
-
         try {
             request()->validate($this->rules);
         } catch (ValidationException $e) {
@@ -51,8 +48,9 @@ class DoctorController extends Controller
             event(new Registered($doctor));
 
             $accessToken = $doctor->createToken(config('app.name'))->accessToken;
+
             return response()->json([
-                'message' => "Doctor has been created successfully",
+                'message' => 'Doctor has been created successfully',
                 'accessToken' => $accessToken,
                 'doctor' => $doctor
             ], 200);
@@ -72,8 +70,8 @@ class DoctorController extends Controller
             ], 200);
         }
         return response()->json([
-            'message' => "Fuck!! it failed to update",
-        ], 400);
+                'message' => 'There was an error',
+            ], 400);
     }
 
     public function show(Doctor $doctor)
@@ -88,10 +86,10 @@ class DoctorController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
-    }
 
+    }
     public function addHospital()
     {
         $doctor = auth()->guard('doctor-api')->user();
@@ -115,6 +113,7 @@ class DoctorController extends Controller
             'message' => 'Please wait for hospital to accept you',
             'hospital' => $hospital
         ]);
+
         //doctor first submits
     }
 
@@ -129,11 +128,11 @@ class DoctorController extends Controller
         return response()->json([
             'error' => 'Something went wrong'
         ], 400);
+
     }
 
     public function readNotifications(Doctor $doctor)
     {
-
         try {
             foreach ($doctor->unreadNotifications as $notification) {
                 $notification->markAsRead();
@@ -142,6 +141,7 @@ class DoctorController extends Controller
             return response()->json([
                 'error' => $e->getMessage()
             ],403);
+
         }
     }
 
@@ -159,6 +159,7 @@ class DoctorController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+
     }
 
     public function pendingHospitals()
@@ -176,11 +177,13 @@ class DoctorController extends Controller
                 'error' => $e->getMessage()
             ],403);
         }
+
     }
 
     public function sentHospitals()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
         try {
             $sentHospitals = optional($doctor)->sentHospitals()->get();
             return response()->json([
@@ -207,6 +210,7 @@ class DoctorController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+
     }
 
     public function decline(Hospital $hospital)
@@ -230,6 +234,7 @@ class DoctorController extends Controller
                 'message' => 'You have successfully Removed'
             ], 200);
         }
+
         return response()->json([
             'message' => 'Something went wrong'
         ], 400);

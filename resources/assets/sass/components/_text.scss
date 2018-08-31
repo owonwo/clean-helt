@@ -1,0 +1,34 @@
+.heading {
+    -webkit-font-smoothing: anti-aliased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+//bootstrap badges
+.tag {
+	@extend .p-5;
+
+	background: $primary-color;
+	color: $accent-color;
+	border-radius: 3px;
+	line-height: 30px;
+}
+
+.osq {
+    &-text-primary {
+        color: $primary-color !important;
+    }
+    &-text-accent {
+        color: $accent-color !important;
+    }
+    &-small-caps {
+        font-variant: all-small-caps;
+    }
+}
+
+a {
+    &[ghost] {
+        outline: none;
+        color: inherit;
+        text-decoration: none;
+    }
+}

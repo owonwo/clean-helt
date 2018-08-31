@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Hospital::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->name.' Hospital',
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
         'director_mdcn' => $faker->word,
@@ -13,6 +13,6 @@ $factory->define(App\Models\Hospital::class, function (Faker $faker) {
         'city' => $faker->city,
         'state' => $faker->city,
         'country' => $faker->country,
-        'avatar' => 'avatar/avatar.jpeg'
+        'avatar' => 'avatar/avatar.jpeg',
     ];
 });

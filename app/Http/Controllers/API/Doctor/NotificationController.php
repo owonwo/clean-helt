@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\Doctor;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
+
     //
     public function __construct()
     {
@@ -16,6 +16,7 @@ class NotificationController extends Controller
     public function show()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
         try {
             $notifications = optional($doctor)->notifications;
             return response()->json([
@@ -25,8 +26,9 @@ class NotificationController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
+
     }
 
     public function delete($id)
@@ -48,5 +50,4 @@ class NotificationController extends Controller
             ],403);
         }
     }
-
 }
