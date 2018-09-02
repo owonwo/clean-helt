@@ -8,6 +8,7 @@ use App\Models\DoctorHospital;
 use App\Models\Hospital;
 use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class DoctorController extends Controller
@@ -95,14 +96,20 @@ class DoctorController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
         $hospital = Hospital::whereChcode($chcode)->get()->first();
-
-
+        $exists = DB::table('doctor_hospital')->where('hospital_id',$hospital->id)->where('doctor_id',$doctor->id)->first();
         try {
-            DoctorHospital::forceCreate([
-                'hospital_id' => $hospital->id,
-                'doctor_id' => $doctor->id,
-                'actor' => get_class($doctor)
-            ]);
+            if(!$exists){
+                DoctorHospital::forceCreate([
+                    'hospital_id' => $hospital->id,
+                    'doctor_id' => $doctor->id,
+                    'actor' => get_class($doctor)
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'sorry please you have added this hospital already'
+                ],409);
+            }
+
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'Theres an Error' . $e->getMessage()

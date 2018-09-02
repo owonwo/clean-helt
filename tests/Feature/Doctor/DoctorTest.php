@@ -177,7 +177,23 @@ class DoctorTest extends TestCase
             ->get(route('doctor.hospital.active'))
             ->assertSee('activeHospital');
     }
+    /** @test */
+    public function a_doctor_should_not_add_a_hospital_more_than_once(){
+        //we'll add a doctor
+        $doctor = create('App\Models\Doctor');
+        $hospital = create('App\Models\Hospital');
 
+        $this->signIn($doctor,'doctor-api');
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
+
+        $this->assertDatabaseHas('doctor_hospital',['hospital_id' => $hospital->id]);
+        //we'll check that the doctor has been added
+        //we'll add a doctor again and
+
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertStatus(409);
+
+        //we'll make sure we recieve an error
+    }
     /** @test */
     public function a_doctor_can_reject_a_hospital()
     {

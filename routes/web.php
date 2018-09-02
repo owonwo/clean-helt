@@ -66,7 +66,6 @@ Route::get('hospital/{any}', function () { return view('all', ['user' => 'Hospit
 Route::get('/make-fake-session', function (Request $request) {
     if (auth()->guard('doctor')->attempt(['email' => 'dessie.conroy@gmail.com', 'password' => 'secret'], false)) {
         session()->regenerate();
-
         return redirect()->route('doctor.dashboard', 'dashboard');
     }
 });
