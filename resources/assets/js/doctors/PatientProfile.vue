@@ -3,7 +3,7 @@
 		<section class="columns">
 			<div class="column is-half">
 				<h5 class="osq-group-subtitle-alt mb-15">Patient Profile</h5>
-				<div class="card osq-profile-card is-fullwidth is-green is-landscape">
+				<div v-show="profile" class="card osq-profile-card is-fullwidth is-green is-landscape">
 						<img :src="profile.patient.avatar" class="avatar">
 						<div class="card-content has-text-right">
 							<h3 class="profile-title">{{ profile.patient.full_name }}</h3>
@@ -111,16 +111,18 @@
 		name: "PatientProfile",
 		methods: {
 			recordsRoute(type = "all") {
-				const {params} =this.$route,
-				      query = {type};
+				const {params} = this.$route;
+				const query = {type};
+
 				return {name: 'patient-records', query}
 			}
 		},
 		mounted() {
 			const {$route} = this;
 			const {patient_id} = $route.params
-			!_.isNull(patient_id) || $route.back()
-			this.profile = this.$store.getters.getProfileByPatientId(parseInt(patient_id))
+			this.profile = this.$store
+				.getters.getProfileByPatientId(parseInt(patient_id));
+			!_.isUndefined(this.profile) || this.$router.back()
 		},
 		data() {return {
 			settings: {
@@ -128,9 +130,6 @@
 			},
 			profile: {},
 			showProfile: false,
-		}},
-		computed: {
-			// ...mapGetters(['getProfileByPatientId'])
-		}
+		}}
 	}
 </script>

@@ -26,7 +26,7 @@
 					</tr>
 					<tr>
 						<th>Address</th>
-						<td>{{ $store.state.user.profile.address || "" }}</td>
+						<td>{{ $store.state.user.profile.address }}</td> 
 					</tr>
 					<tr>
 						<th>State</th>
@@ -47,13 +47,23 @@
 			<h1 class="osq-group-title mb-0">Hospitals</h1>
 			<h6 class="">These are the <b class="osq-text-primary">Hospitals</b> you work in.</h6>
 		</hgroup>
-
+		<div class="field has-addons-right">
+			<div class="control">
+				<input type="text" class="input" placeholder="Enter Hospital CHCODE"/>
+			</div>
+			<button class="button is-right">Find</button>
+		</div>
 		<section class="columns is-multiline">
 			<div class="column is-one-third-tablet" v-for="(hospital, index) in hospitals">
 				<div class="card is-12">
 					<div class="card-content">
-						<span>{{ hospital }}</span>
-						<span @click="showAlert(hospital)" class="ml-30 is-pulled-right"><i class="osf osf-remove"></i></span>
+						<div>
+							<b class="osq-text-primary">{{ hospital.name }}</b> 
+							<small class="">{{ hospital.chcode }}</small>
+						</div>
+						<div class="mt-15 has-text-right">
+							<button class="button is-text" @click="showAlert(hospital)"><i class="osf osf-remove"></i> Delete</button>							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -70,7 +80,7 @@
 					<button @click="modal = false" class="button is-success">No</button>
 				</div>
 			</template>
-		</modal>
+		</modal> 
 	</section>
 </template>
 
@@ -83,9 +93,11 @@ export default {
 	data() {return {
 		modal: false,
 		currentHospital: "",
-		hospitals: ['UPTH', 'BMH', 'Ken Saro Hospital', 'Javenic Rick Hospital']
 	}},
-    computed: { user() { return this.$parent.user }},
+    computed: { 
+    	hospitals () {return  this.$parent.hospitals || [] },
+    	user() { return this.$parent.user }
+    },
 	methods: {
 		showAlert(a) {
 			this.currentHospital = a;

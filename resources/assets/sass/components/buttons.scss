@@ -4,6 +4,11 @@ $link-color: dodgerblue !default;
 
 button {
 	font-family: $input-font;
+	transition: all .3s ease-out;
+
+	&:hover {
+		transform: translateY(-3px);
+	}
 }
 
 button.no-style, button[ghost]{

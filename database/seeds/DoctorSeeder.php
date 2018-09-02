@@ -16,6 +16,7 @@ class DoctorSeeder extends Seeder
 
         $doctor = factory(Doctor::class)->create([
             'email' => 'dessie.conrey@gmail.com',
+            'chcode' => 'CHD658092128',
         ]);
         factory(DoctorProfile::class)->create(['doctors_id' => $doctor->id]);
 

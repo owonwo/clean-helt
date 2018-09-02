@@ -88,12 +88,12 @@
                 > li {
                     display: block;
                     position: relative;
-                    color: rgba(255, 255, 255, 0.782);
+                    color: rgba(white, 0.8);
                     
                     a {
                         display: flex;
                         color: inherit;
-                        font-size: 1.1em;
+                        font-size: 1rem;
                         padding: 15px 15px;
                         align-items: center;
                         text-decoration: none;
@@ -117,7 +117,7 @@
                     &.active {
                         color: white;
                         background: fade-out(black, .88);
-                        text-shadow: 0 2px 1px fade-out(black, .38);
+                        text-shadow: 2px 1px 1px rgba(black, .38);
 
                         span.toggler {
                             visibility: visible;

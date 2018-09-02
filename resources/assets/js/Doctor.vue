@@ -58,11 +58,23 @@ export default {
     props: ['id'],
     router: routes.doctor,
     mixins: [LoggedIn], // comes with all mutations and getters
+    created() {
+      this.getHospital().then((res) => {
+        this.hospitals = res.data.hospitals;
+        console.log(res.data, this.hospitals);
+      });
+    },
     data() {return {
       settings : {
-        profile: { route: '/api/doctor/profile', key: 'doctor' },
+        profile: { route: `/api/doctor/profile/${this.$props.id}`, key: 'doctor' },
         patients: { route : '/api/doctor/patients', key: 'patients'}
-      }
+      },
+      hospitals: [],
     }},
+    methods: {
+      async getHospital() {
+        return await axios.get('/api/doctor/hospital')
+      }
+    }
 }
 </script>

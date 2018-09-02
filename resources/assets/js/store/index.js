@@ -38,6 +38,9 @@ export default new Vuex.Store({
 		getProfileByPatientId: store => id => {
 			return _.find(store.sharedProfiles, profile => profile.patient.id === id);
 		}
+	}, 
+	actions: {
+		
 	},
 	mutations: {
 		set_shared_profiles(store, payload) {
