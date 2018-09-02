@@ -2,67 +2,73 @@
 	<section>
 		<div class="card mb-15">
 			<div class="card-header"><div class="card-header-title">Your Profile</div></div>
-			<div class="card-content p-10">
-				<table class="table is-borderless is-fullwidth">
-					<tr>
-						<th width="20%">Full Name:</th>
-						<td>{{ $store.state.user.full_name }}</td>
-					</tr>
-					<tr>
-						<th>Specialization:</th>
-						<td>{{ $store.state.user.specialization | ucfirst }}</td>
-					</tr>
-					<tr>
-						<th>Email:</th>
-						<td>{{ $store.state.user.email }}</td>
-					</tr>
-					<tr>
-						<th>Gender:</th>
-						<td>{{ $store.state.user.gender }}</td>
-					</tr>
-					<tr>
-						<th>MDCN:</th>
-						<td>{{ $store.state.user.folio }}</td>
-					</tr>
-					<tr>
-						<th>Address</th>
-						<td>{{ $store.state.user.profile.address }}</td> 
-					</tr>
-					<tr>
-						<th>State</th>
-						<td>{{ $store.state.user.profile.state }}</td>
-					</tr>
-					<tr>
-						<th>ID</th>
-						<td>
-							{{ $store.state.user.chcode }}
-							<button class="button is-small is-text">COPY</button>
-						</td>
-					</tr>
-				</table>
+			<div class="card-content has-text-centered columns p-10">
+				<figure class="column is-one-third">
+					<img src="/images/assets/avatar.jpg" class="my-10" style="width: 250px;
+						height: 250px;
+						object-fit: cover;
+						border-radius: 1px 1px 1px 1px;">
+					<figcaption class="title is-5">Dr. {{ user.full_name }}</figcaption>
+				</figure>
+
+				<div class="column">
+					<table class="table is-borderless is-fullwidth">
+						<tr>
+							<th width="20%">Full Name:</th>
+							<td>{{ $store.state.user.full_name }}</td>
+						</tr>
+						<tr>
+							<th>Specialization:</th>
+							<td>{{ $store.state.user.specialization | ucfirst }}</td>
+						</tr>
+						<tr>
+							<th>Email:</th>
+							<td>{{ $store.state.user.email }}</td>
+						</tr>
+						<tr>
+							<th>Gender:</th>
+							<td>{{ $store.state.user.gender }}</td>
+						</tr>
+						<tr>
+							<th>MDCN:</th>
+							<td>{{ $store.state.user.folio }}</td>
+						</tr>
+						<tr>
+							<th>Address</th>
+							<td>{{ $store.state.user.profile.address }}</td> 
+						</tr>
+						<tr>
+							<th>State</th>
+							<td>{{ $store.state.user.profile.state }}</td>
+						</tr>
+						<tr>
+							<th>ID</th>
+							<td>
+								{{ $store.state.user.chcode }}
+								<button class="button is-small is-text">COPY</button>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 
 		<hgroup class="mb-10">
 			<h1 class="osq-group-title mb-0">Hospitals</h1>
-			<h6 class="">These are the <b class="osq-text-primary">Hospitals</b> you work in.</h6>
+			<h6 class="">These are the Hospitals you work in.</h6>
 		</hgroup>
-		<div class="field has-addons-right">
-			<div class="control">
-				<input type="text" class="input" placeholder="Enter Hospital CHCODE"/>
-			</div>
-			<button class="button is-right">Find</button>
-		</div>
+		
 		<section class="columns is-multiline">
 			<div class="column is-one-third-tablet" v-for="(hospital, index) in hospitals">
 				<div class="card is-12">
 					<div class="card-content">
 						<div>
 							<b class="osq-text-primary">{{ hospital.name }}</b> 
-							<small class="">{{ hospital.chcode }}</small>
 						</div>
+						<small class="">{{ hospital.chcode }}</small>
+
 						<div class="mt-15 has-text-right">
-							<button class="button is-text" @click="showAlert(hospital)"><i class="osf osf-remove"></i> Delete</button>							
+							<button class="button is-text" @click="showAlert(hospital)"><i class="osf osf-remove"></i> Delete</button>
 						</div>
 					</div>
 				</div>

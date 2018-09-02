@@ -1,24 +1,24 @@
 <template>
     <section class="">
-        <div class="level">
-            <div class="card osq-profile-card level is-green">
-                <img  class="avatar" :src="$store.state.user.profile" alt="">
-                <div class="card-content">
-                    <div class="osq-text-center">
-                        <h4 class="profile-title">Dr. {{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h4>
-                        <p class="mb-15">{{ $store.state.user.specialization | ucfirst }}</p>
-                        <div class="buttons is-right">
-                            <router-link to="/profile" tag="button" class="button is-text is-pulled-right">View Profile</router-link>
-                        </div>
-                    </div>
-                </div>
+        <div class="columns">
+            <div class="column is-half">
+                <ProfileBox class="is-green" :avatar-src="$store.state.user.profile">
+                    <h4 class="profile-title">Dr. {{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h4>
+                    <p class="mb-15">{{ $store.state.user.specialization | ucfirst }}</p>
+                    <router-link to="/profile" tag="button" class="button is-outlined is-rounded is-white">View Profile</router-link>
+                </ProfileBox>
+            </div>
+
+            <div class="column is-half">
+                <AddServiceProvider/>
             </div>
         </div>
 
         <div class="columns">
-            <div class="column is-two-thirds">
+            <div class="column is-fullwidth">
                 <div class="card osq-table">
                     <div class="card-header">
+                        <span class="card-header-icon"><i class="ti ti-pulse"></i></span>
                         <h1 class="card-header-title">Recently Viewed Patients</h1>
                     </div>
                     <div class="card-content p-0">
@@ -64,9 +64,24 @@
 
 <script>
 import Modal from '@/components/Modal.vue'
+import LoggedIn from '@/Mixins/LoggedIn'
 
 export default {
+    mixins: [LoggedIn],
 	components: {Modal},
-	name: 'Dashboard',
+    name: 'Dashboard',
+    data() {return {
+        hospital_chcode: "",
+        isLoading: false,
+    }},
+    methods: {
+        sendAddHospitalRequest(send) {
+            this.isLoading = true;
+            this.$parent.addHospital(this.hospital_chcode).then(() => {
+                this.hospital_chcode = ""
+                this.isLoading = false;
+            })
+        }
+    }
 }
 </script>

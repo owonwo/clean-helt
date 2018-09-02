@@ -1,18 +1,19 @@
 <template>
 	<section class="">
-		<div class="level">
-			<div class="card osq-profile-card level">
-				<img  class="avatar" :src="$root.avatar" alt="">
-				<div class="card-content">
-					<div class="osq-text-center">
-						<h4 class="profile-title">Kelvin Morrison</h4>
-						<p class="mb-35 "></p>
-						<div class="buttons is-right">
-							<router-link to="/settings" tag="button" class="button is-outlined is-primary is-rounded is-pulled-right">View Profile</router-link>
-						</div>
+		<div class="columns">
+			<section class="column">
+				<ProfileBox>
+					<h4 class="profile-title">Kelvin Morrison</h4>
+					<p class="mb-35"></p>
+					<div class="has-text-centered">
+						<router-link to="/settings" tag="button" class="button is-outlined is-primary is-rounded">View Profile</router-link>
 					</div>
-				</div>
-			</div>
+				</ProfileBox>
+			</section>
+
+			<section class="column">
+				<AddServiceProvider class="is-green"/>
+			</section>
 		</div>
 
 		<h3 class="subtitle is-6">HEALTH SERVICE PROVIDER</h3>
@@ -45,19 +46,6 @@
 			</div>
 		</div>
 		<div class="columns">
-			<section class="column">
-                <h2 class="subtitle is-6">FIND SERVICE PROVIDER</h2>
-				<div class="card is-green">
-					<div class="card-content p-20">
-						<div class="field mb-0 has-addons-right">
-							<p class="control has-icons-right">
-								<input type="text" class="input is-rounded" placeholder="CH-309YU">
-								<span class="is-right icon"><i class="osf osf-search"></i></span>
-							</p>
-						</div>
-					</div>
-				</div>
-			</section>
 			<section class="column">
 				<h2 class="subtitle is-6">ACTIVITY LOGS</h2>
 				<div class="card card-content">

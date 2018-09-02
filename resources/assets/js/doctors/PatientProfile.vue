@@ -3,17 +3,14 @@
 		<section class="columns">
 			<div class="column is-half">
 				<h5 class="osq-group-subtitle-alt mb-15">Patient Profile</h5>
-				<div v-show="profile" class="card osq-profile-card is-fullwidth is-green is-landscape">
-						<img :src="profile.patient.avatar" class="avatar">
-						<div class="card-content has-text-right">
-							<h3 class="profile-title">{{ profile.patient.full_name }}</h3>
-							<p>{{ profile.patient.gender.toUpperCase() }}</p>
-							<div class="mt-30">
-								<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
-								<button class="button ml-10 is-outlined is-rounded is-dark">Add Record</button>
-							</div>
-						</div>
-				</div>
+				<ProfileBox v-show="profile" class="is-fullwidth is-green">
+					<h3 class="profile-title">{{ profile.patient.full_name }}</h3>
+					<p>{{ profile.patient.gender.toUpperCase() }}</p>
+					<div class="mt-30">
+						<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
+						<button class="button ml-10 is-outlined is-rounded is-dark">Add Record</button>
+					</div>
+				</ProfileBox>
 				<section class="px-0">
 					<accordion>
 						<template slot="heading">Emergency Hospital</template>

@@ -6,7 +6,8 @@ import Admin from '@/Admin.vue'
 import Doctor from '@/Doctor.vue'
 import Hospital from '@/Hospital.vue'
 import Patient from '@/Patient.vue'
- 
+import GlobalComponents from '@/components';
+
 Vue.use(Router)
 Vue.use(VueMoment)
 
@@ -86,6 +87,7 @@ Vue.directive('preload', {
 });
 
 Vue.mixin({
+    components: {...GlobalComponents},
     filters: {
         ucfirst (value) {
             return _.capitalize(value);

@@ -35,6 +35,7 @@ export default new Vuex.Store({
 		},
 	},
 	getters: {
+		getUser: (store) => store.user,
 		getProfileByPatientId: store => id => {
 			return _.find(store.sharedProfiles, profile => profile.patient.id === id);
 		}

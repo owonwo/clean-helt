@@ -50,8 +50,8 @@
 
 <script>
 import routes from './routes'
+import { mapGetters } from 'vuex';
 import LoggedIn from '@/Mixins/LoggedIn'
-
 
 export default {
     name: 'Doctor',
@@ -71,9 +71,18 @@ export default {
       },
       hospitals: [],
     }},
+    computed: {
+      ...mapGetters({user: 'getUser'})
+    },
     methods: {
+      //gets all the hospital a doctor works for
       async getHospital() {
         return await axios.get('/api/doctor/hospital')
+      },
+      // adds a hospital by the chcode
+      async addHospital(chcode) {
+        const param = {chcode, doctor_id: this.user.id}
+        return await axios.post('/api/doctor/add-hospital', param);
       }
     }
 }
