@@ -16,7 +16,12 @@ class MedicalRecordController extends Controller
     public function __construct()
     {
         $this->middleware('auth:laboratory-api');
-        $this->laboratory = auth()->guard('laboratory')->user();
+        $this->middleware(function($request, $next) {
+
+            $this->laboratory = auth()->guard('laboratory')->user();
+
+            return $next($request);
+        });
     }
 
     public function index(Patient $patient, MedicalRecordsFilter $filters)

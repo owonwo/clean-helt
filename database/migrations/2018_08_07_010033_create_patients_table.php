@@ -37,7 +37,7 @@ class CreatePatientsTable extends Migration
             $table->string('nok_address')->nullable();
             $table->string('nok_city')->nullable();
             $table->string('nok_state')->nullable();
-            $table->string('verifyToken');
+            $table->string('verify_token')->nullable();
             $table->boolean('status')->default(false);
             $table->string('nok_country')->nullable();
             $table->rememberToken();

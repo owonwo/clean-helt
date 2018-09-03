@@ -7,28 +7,33 @@ use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
+    private $hospital;
+
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
+        $this->middleware(function($request, $next) {
+
+            $this->hospital = auth()->user();
+
+            return $next($request);
+        });
     }
 
     public function index()
     {
-        $hospital = auth()->guard('hospital')->user();
         return response()->json([
             'message' => 'Hospital retrieved successfully',
-            'hospital' => $hospital
+            'hospital' => $this->hospital
         ], 200);
     }
 
     public function update(Request $request)
     {
-        $hospital = auth()->guard('hospital')->user();
-
-        if ($hospital->update($request->all())) {
+        if ($this->hospital->update($request->all())) {
             return response()->json([
                 'message' => 'Profile updated successfully',
-                'hospital' => $hospital
+                'hospital' => $this->hospital->fresh()
             ], 200);
         }
 

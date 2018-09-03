@@ -12,9 +12,12 @@ class LoginController extends Controller
     public function login(Request $request, $guard)
     {
         $credentials = $request->only(['email', 'password']);
+
         if (Auth::guard($guard)->attempt($credentials)) {
             $user = auth()->guard($guard)->user();
+
             $token = $user->createToken(config('app.name'))->accessToken;
+
             return response()->json([
                 'user' => $user,
                 'access_token' => $token,

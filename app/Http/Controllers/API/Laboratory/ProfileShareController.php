@@ -8,10 +8,16 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    private $laboratory;
 
-    function __construct()
+    public function __construct()
     {
-        $this->laboratory = auth()->guard('laboratory')->user();
+        $this->middleware(function($request, $next) {
+
+            $this->laboratory = auth()->guard('laboratory')->user();
+
+            return $next($request);
+        });
     }
 
     public function index()
