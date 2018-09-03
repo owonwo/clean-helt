@@ -1,0 +1,99 @@
+$total: 20;
+$increments: 5;
+$start: 0;
+
+.m-0 {
+	margin: 0 !important;
+}
+.p-0  {
+	padding: 0 !important;
+}
+
+$total: 20;
+$increments: 5;
+$start: 0;
+
+@for $number from 0 through $total {
+	$inc: $number * $increments;
+
+	.mx-#{$inc} {
+		margin-left: #{$inc}px !important;
+		margin-right: #{$inc}px !important;
+	}
+
+	.my-#{$inc} {
+		margin-top: #{$inc}px !important;
+		margin-bottom: #{$inc}px !important;
+	}
+
+	.m-#{$inc} {
+		margin: #{$inc}px !important;
+	}
+	.mt-#{$inc} {
+		margin-top: #{$inc}px !important;
+	}
+	.mt-i-#{$inc} {
+		margin-top: -#{$inc}px !important;
+	}
+	.ml-#{$inc} {
+		margin-left: #{$inc}px !important;
+	}
+	.ml-i-#{$inc} {
+		margin-left: -#{$inc}px !important;
+	}
+	.mr-#{$inc} {
+		margin-right: #{$inc}px !important;
+	}
+	.mr-i-#{$inc} {
+		margin-right: -#{$inc}px !important;
+	}
+	.mb-#{$inc} {
+		margin-bottom: #{$inc}px !important;
+	}
+	.mb-i-#{$inc} {
+		margin-bottom: -#{$inc}px !important;
+	}
+	.p-#{$inc} {
+		padding: #{$inc}px !important;
+	}
+	.pt-#{$inc} {
+		padding-top: #{$inc}px !important;
+	}
+	.pl-#{$inc} {
+		padding-left: #{$inc}px !important;
+	}
+	.pr-#{$inc} {
+		padding-right: #{$inc}px !important;
+	}
+	.pb-#{$inc} {
+		padding-bottom: #{$inc}px !important;
+	}
+}
+
+.block-quote {
+	@extend .pl-15;
+	@extend .pr-15;
+
+	border: none;
+
+	//add the border left and right settings;
+	$pos: (left, right);
+	@each $po in $pos {
+		&.bordered-#{$po} {
+			border-#{$po}: solid 3px $accent-color;
+		}
+	}
+}
+
+.mc {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.no-margin, .m-n{
+	margin: 0;
+}
+
+.no-padding, .p-n {
+	padding: 0;
+}

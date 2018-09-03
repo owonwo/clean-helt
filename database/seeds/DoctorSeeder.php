@@ -8,14 +8,17 @@ class DoctorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
-        //
         Doctor::truncate();
-            factory("App\Models\Doctor",10)->create();
+        DoctorProfile::truncate();
+
+        $doctor = factory(Doctor::class)->create([
+            'email' => 'dessie.conrey@gmail.com',
+        ]);
+        factory(DoctorProfile::class)->create(['doctors_id' => $doctor->id]);
+
+        factory(DoctorProfile::class, 10)->create();
     }
-   
-    }
+}

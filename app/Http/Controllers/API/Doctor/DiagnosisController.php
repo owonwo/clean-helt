@@ -16,7 +16,7 @@ class DiagnosisController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth:doctor-api');
+        $this->middleware('auth:doctor-api');
     }
 
     public function store(Request $request, Patient $patient, RecordLogger $logger)

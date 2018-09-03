@@ -1,0 +1,63 @@
+%circle-pagina {
+
+    li {
+        
+        &.active {
+            a, span {
+                background: $accent-color;
+                border: none;
+            }
+        }
+
+        a, span {
+            margin: {
+                left: 5px;
+                right: 5px;
+            };
+            width: 35px;
+            height: 35px;
+            border-radius: 30px;
+            display: inline-block;
+            background: $light-gray;
+        }
+
+    } 
+}
+
+%classic-pagina {
+
+    li {
+        
+        &.active {
+            a, span {
+                background: fade-out($dark, .3);
+                border-color: $dark-gray transparent $dark-gray $dark-gray;
+                border-right: solid 0 transparent;
+            }
+        }
+
+        a, span {
+            margin: {
+                left: 0;
+                right: 0;
+            };
+            color: $dark-gray;
+            padding: 15px 20px;
+            border: solid 2px $dark-gray;
+            border-color: $dark-gray transparent $dark-gray $dark-gray;
+            border-right: solid 0 transparent;
+            border-radius: 0 !important;
+            display: inline-block;
+            background: transparent;
+        }
+
+        &.disabled {
+            span {
+                background: transparent;
+                border-color: $dark-gray $dark-gray;
+                border-left: solid 0 transparent;
+                border-right-width: 2px;
+            }
+        }
+    } 
+}

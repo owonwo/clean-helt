@@ -8,8 +8,6 @@ class CreateDoctorsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -21,7 +19,7 @@ class CreateDoctorsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->unique();
-            $table->string('gender');
+            $table->enum('gender', ['male', 'female', 'other'])->default('other');
             $table->string('specialization');
             $table->string('folio');
             $table->boolean('confirm')->default(false);
@@ -36,8 +34,6 @@ class CreateDoctorsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

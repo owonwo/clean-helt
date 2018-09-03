@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 class RegistrationConfirmationController extends Controller
 {
     //
+
     public function index(){
 
         $doctor = Doctor::where('token',request('token'))->first();

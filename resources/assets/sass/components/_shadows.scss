@@ -1,0 +1,23 @@
+@import 'node_modules/material-shadows/material-shadows.scss';
+
+$default-shadow-color: transparentize($black, .72);
+
+$z-depth-top-1: 0 -3px 2px $default-shadow-color;
+$z-depth-top-2: 0 -6px 4px $default-shadow-color;
+$z-depth-top-3: 0 -9px 6px $default-shadow-color;
+$z-depth-top-4: 0 -12px 8px $default-shadow-color;
+
+$z-depth-bottom-1: 0 3px 2px $default-shadow-color;
+$z-depth-bottom-2: 0 6px 4px 2px $default-shadow-color;
+$z-depth-bottom-3: 0 9px 6px 4px $default-shadow-color;
+$z-depth-bottom-4: 0 12px 8px 6px $default-shadow-color;
+
+$z-depth-right-1: 3px 0 2px $default-shadow-color;
+$z-depth-right-2: 6px 0 4px $default-shadow-color;
+$z-depth-right-3: 9px 0 6px $default-shadow-color;
+$z-depth-right-4: 12px 0 8px $default-shadow-color;
+
+$z-depth-left-1: -3px 0 2px $default-shadow-color;
+$z-depth-left-2: -6px 0 4px $default-shadow-color;
+$z-depth-left-3: -9px 0 6px $default-shadow-color;
+$z-depth-left-4: -12px 0 8px $default-shadow-color;

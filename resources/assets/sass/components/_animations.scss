@@ -1,0 +1,142 @@
+$bounce-in: cubic-bezier(0, 0.55, 0.58, 1.56);
+$linear-in-slow-out: cubic-bezier(0.25, 1.02, 0.78, 0.99);
+$ease-in-out: cubic-bezier(0.85, 0.07, 0, 1.3);
+$ease-in-end: cubic-bezier(.78,.05,.41,.92);
+
+@keyframes resizeText {
+    0%{
+        font-size: 3em;
+       text-shadow: 0px 0px 0 rgba(0,0,0,0.3);
+    }
+    
+    50%{
+       font-size: 4em;  
+       text-shadow: 2px 4px 0 rgba(0,0,0,0.3);
+    }
+    
+    100%{
+        font-size: 3em;
+       text-shadow: 0px 0px 0 rgba(0,0,0,0.3);
+    }
+}
+
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg) scale(1.0);
+        border: solid 2px;
+        border-color: lime transparent;
+    }
+    50%{
+       transform: rotate(360deg) scale(1.0);
+       border: solid 3px;
+       border-color: lime transparent;
+
+    }
+    70%{
+        transform: rotate(0deg) scale(1.2);
+        border: solid 2px;
+        border-color: lime transparent;
+
+    }
+    80%{
+        transform: rotate(0deg) scale(1.3);
+        border: solid 4px ;
+        border-color: lime transparent;
+
+    }
+    90%{
+        transform: rotate(80deg) scale(1.0);
+        border: solid 4px ;
+        border-color: lime transparent;
+
+    }
+    100%{
+        transform: rotate(0deg) scale(1.0);
+        border: solid 2px ;
+        border-color: lime transparent;
+    }
+}
+
+@keyframes wiggle{
+    0%{
+        left: 0px;
+        position: absolute;
+        transform: scale(1.0);
+    }
+    50%{
+        left: 20px;
+        position: absolute;
+        transform: scale(1.3);
+    }
+    70%{
+        left: 20px;
+        position: absolute;
+        transform: scale(1.2);
+    }
+    100%{
+        left: 0px;
+        position: absolute;
+        transform: scale(1.0);
+    }
+}
+
+@keyframes sliding {
+    0%{
+        background-position-x: 0px;
+    }
+    50%{
+        background-position-x: 50px;
+    }
+    100%{
+        background-position-x: 100px;
+    }
+}
+
+@keyframes vibrate-vertical {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-10%);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    75% {
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+@keyframes expand-contracts{
+    0%{
+        color: black;
+        margin-left: 0px;
+    }
+    
+    50%{
+        color: lightblue;
+        margin-lef: 0px;
+        font-size: 3px;
+    }
+    
+    75%{
+        color : lightgreen;
+        margin-left: 5px;
+        font-size: larger;
+    }
+    
+    80%{
+        color: lightgreen;
+        margin-left: 10px;
+        font-size: large;
+    }
+    
+    100%{
+        color: limegreen;
+        margin-left: 0px;
+    }
+}
