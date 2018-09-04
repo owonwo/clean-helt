@@ -9,14 +9,16 @@
 
 ## About Clean Helt 
 
-Clean helt is a web applications that allow patients, hospitals, pharmacies, doctors and laboratries to communicate in sync
+Clean Helt is a software system that allow patients, hospitals, pharmacies, doctors and laboratries to access medical records when they need to.
 
 
-Clean helt software is only accessible to people who buy the clean helt application.
+## API DOCUMENTATION
 
-## Doctors API Endpoints Post Methods
+## Doctors
 
-**POST \doctor\create** [Create a doctor]
+**Doctors API Endpoints Post Methods**
+
+**POST /doctor/create** [Create a doctor]
 
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
@@ -31,7 +33,7 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`folio`|string|true|Doctors Certification number |
 
 
-**POST \doctor\add-hospital** [Doctor Adds a Hospital]
+**POST /doctor/add-hospital** [Doctor Adds a Hospital]
 
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
@@ -40,7 +42,7 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`doctor_id`|id|true|From doctor who sent request |
 
 
-**POST \doctor\patients\{patient}\diagnose** [Doctor creates diagnosis]
+**POST /doctor/patients/{patient}/diagnose** [Doctor creates diagnosis]
 
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
@@ -62,7 +64,7 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 
 
-## Doctors API Endpoints Patch Methods
+**Doctors API Endpoints Patch Methods**
 
 **PATCH /doctor/update** [ Doctor Updates his profile ]
 
@@ -87,21 +89,21 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`years_in_practice`|integer|true|Doctor practice years|
 |`avatar`|string|true|Doctor Image|
 
- **PATCH \doctor\{hospital}\accept-hospital** [ Doctor Accepts Hospitals ]
+ **PATCH /doctor/{hospital}/accept-hospital** [ Doctor Accepts Hospitals ]
 
- **PATCH \doctor\{hospital}\accept-hospital** [ Doctor Declines Hospitals ]
+ **PATCH /doctor/{hospital}/accept-hospital** [ Doctor Declines Hospitals ]
 
- **PATCH \doctor\{hospital}\remove-hospital** [ Doctor Removes Hospitals]
+ **PATCH /doctor/{hospital}/remove-hospital** [ Doctor Removes Hospitals]
 
- **PATCH \doctor\patients\pending\{profileShare}\accept** [Doctor Accepts Patient]
+ **PATCH /doctor/patients/pending/{profileShare}/accept** [Doctor Accepts Patient]
 
- **PATCH \doctor\patients\pending\{profileShare}\decline** [Doctor Declines Patient]
+ **PATCH /doctor/patients/pending/{profileShare}/decline** [Doctor Declines Patient]
 
 
 
-## Doctors API Endpoints Get Methods
+**Doctors API Endpoints GET Methods**
 
-**GET \doctor\profile**
+**GET /doctor/profile**
 
 | Attribute | Type | Required | Description |
 | --------- | ---- | -------- | ----------- |
@@ -125,54 +127,40 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 |`avatar`|string|true|Doctor Image|
 |`disablity`|string|true|Doctor Disability|
 
-**GET \doctor\hospital** [Doctors Hospitals]
-
-**GET \doctor\active-hospital** [Doctors Active Hospitals]
-
-**GET \doctor\pending-hospital** [Doctors Pending Hospitals]
-
-**GET \doctor\sent-hospital** [Doctors sent Hospitals]
-
-
-**GET \doctor\patients**  [Doctors Patients]
+**GET /doctor/hospital** [Doctors Hospitals]
+**GET /doctor/active-hospital** [Doctors Active Hospitals]
+**GET /doctor/pending-hospital** [Doctors Pending Hospitals]
+**GET /doctor/sent-hospital** [Doctors sent Hospitals]
+**GET /doctor/patients**  [Doctors Patients]
+**GET /doctor/patients/{patient}/** [Doctors views one Patient]
+**GET /doctor/patients/pending/patients** [Doctors views pending Patients]
 
 
-
-**GET \doctor\patients\{patient}\** [Doctors views one Patient]
-
-
-**GET \doctor\patients\pending\patients** [Doctors views pending Patients]
+**Doctors API Endpoints Delete Methods**
+**Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
 
 
+## Laboratory
 
 
-## Doctors API Endpoints Delete Methods
-- **Doctor Deletes Notification (https://domain.com/doctor/notification/{id}) route('doctor.notification.read')**
+- **POST api/admin/laboratory** [should be able to laboratory] 
 
 
 
 
-## Laboratory API EndPoint (Basics Data)
+- **GET api/admin/laborartory** [Admin show get all registered laboratory]
 
-
-- **POST api\admin\laboratory** [should be able to laboratory] 
-
-
-
-
-- **GET api\admin\laborartory** [Admin show get all registered laboratory]
-
-- **GET api\admin\labratory\{laboratory}** [admin get retrieve a particular laboratory with chcode]
+- **GET api/admin/labratory/{laboratory}** [admin get retrieve a particular laboratory with chcode]
 
 
 
 
-- **PATCH api\laboratories\{laboratory}**  [admin can update laboratory information]
+- **PATCH api/laboratories/{laboratory}**  [admin can update laboratory information]
 
-- **PATCH api\laboratories\deactivate\{laboratory}**  [admin deactive an active laboratory]
+- **PATCH api/laboratories/deactivate/{laboratory}**  [admin deactive an active laboratory]
 
 
-- **DELETE api\laboratories\{laboratory}** [admin delete laboratory]
+- **DELETE api/laboratories/{laboratory}** [admin delete laboratory]
 
 
 ## LabTest API Endpoint (Lab Medical Records Usage)
@@ -181,23 +169,23 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 
 - **GET api/Laboratories/patient** [Recieve Patient Profile share]
 
-- **GET api\Laboratories\patient\pending** [pending profile share]
+- **GET api/Laboratories/patient/pending** [pending profile share]
 
-- **GET api\Laboratories\patient\{patient}\records** [View Medical record]
+- **GET api/Laboratories/patient/{patient}/records** [View Medical record]
 
-- **GET api\Laboratories\patient\{patient}\records?start_date={startDate}** [Filter medical Record by start date]
+- **GET api/Laboratories/patient/{patient}/records?start_date={startDate}** [Filter medical Record by start date]
 
-- **GET api\Laboratories\patient\{patient}\records?start_date={endDate}** [Filter medical record by end date]
+- **GET api/Laboratories/patient/{patient}/records?start_date={endDate}** [Filter medical record by end date]
 
-- **GET api\Laboratories\patient\{patient}\records\{records}** [get patient medical record]
+- **GET api/Laboratories/patient/{patient}/records/{records}** [get patient medical record]
 
-- **PATCH api\Laboratories\{laboratories}\laboratories** [Update Profile share ]
+- **PATCH api/Laboratories/{laboratories}/laboratories** [Update Profile share ]
 
-- **PATCH api\Laboratories\patient\{patient}\records\{records}\{labtestRecord}** [Update Lab records ]
+- **PATCH api/Laboratories/patient/{patient}/records/{records}/{labtestRecord}** [Update Lab records ]
 
-- **PATCH api\Laboratories\patient\{profileShare}\accept** [accept patient profile share]
+- **PATCH api/Laboratories/patient/{profileShare}/accept** [accept patient profile share]
 
-- **PATCH api\Laboratories\patient\{profileShare}\decline** [decline profile share]
+- **PATCH api/Laboratories/patient/{profileShare}/decline** [decline profile share]
 
 ## Patient API EndPoint (Admin ViewPoint)
 
@@ -248,10 +236,3 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **PATCH api/patient/profile/shares/{shareOne}/expire**  [Patient can cancel share]
 
 - **PATCH api/patient/profile/shares/{profileShare}/extend** [Patient can extend or add extra time]
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 362a66920447aa0d66e21527a2f6c974ea78e1f9
->>>>>>> front-back-merge
