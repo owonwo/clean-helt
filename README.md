@@ -248,7 +248,4 @@ Clean helt software is only accessible to people who buy the clean helt applicat
 - **PATCH api/patient/profile/shares/{shareOne}/expire**  [Patient can cancel share]
 
 - **PATCH api/patient/profile/shares/{profileShare}/extend** [Patient can extend or add extra time]
-<<<<<<< HEAD
-=======
-
->>>>>>> 362a66920447aa0d66e21527a2f6c974ea78e1f9
+- **PATCH api/patient/{$patient}/emergency** [emergency patient hospital]
