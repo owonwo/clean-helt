@@ -107,6 +107,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/{patient}/labtest', 'PatientController@showLabtest');
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
         Route::get('/verify/{email}/{verifyToken}', 'PatientController@verify')->name('patient.confirmation.mail');
+        Route::patch('/{patient}/emergency', 'PatientController@edit');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');

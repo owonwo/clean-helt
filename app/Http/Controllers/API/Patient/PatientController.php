@@ -102,7 +102,7 @@ class PatientController extends Controller
         if($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first())
         {
             $data['status'] = 1;
-            $data['verify_token'] = '';
+            $data['verify_token'] = null;
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'Congratulation you have just verified you account, login to continue',
@@ -143,9 +143,39 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,Patient $patient)
     {
-        //
+        $rules = [
+            'emergency_hospital_address' => 'required',
+            'emergency_hospital_name' => 'required|string|max:120',
+        ];
+
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
+
+
+        try {
+
+            $data = $request->all();
+
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'congratulation you have updated your emergency profile',
+                    'patient' => $patient,
+                ]);
+            }
+
+        } catch (\Exception $e){
+            return response()->json([
+                'errors' => 'Ooops! ' .$e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -155,7 +185,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(Patient $patient)
     {
         /**
          * @check if the patient is inserting an image of not
@@ -163,26 +193,28 @@ class PatientController extends Controller
 
         $rule = $this->getUpdateRule();
 
+        $patient = auth()->guard('patient-api')->user();
+
         try {
-            $this->validate($request, $rule);
-        } catch (ValidationException $exception) {
+            request()->validate($rule);
+        } catch (ValidationException $e) {
 
             return response()->json([
-                'errors' => $exception->errors(),
-                'message' => $exception->getMessage(),
-            ], 403);
+                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
+            ], 422);
         }
 
         try {
 
-            if($request->hasFile('avatar'))
+            if(request()->hasFile('avatar'))
             {
-                $avatarName = $request->avatar->store('public/avatar');
+                $avatarName = request()->avatar->store('public/avatar');
             }else{
                 $avatarName = 'avatar/avatar.jpeg';
             }
 
-            $data = $request->all();
+            $data = request()->all();
 
             $data['avatar'] = $avatarName;
 
@@ -222,7 +254,7 @@ class PatientController extends Controller
                 'message' => "Medical records successfully Loaded",
                 'records' => $patient->medicalRecords
             ], 200);
-        } catch (\Exception $exception){
+        } catch (Exception $exception){
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
             ], 403);
