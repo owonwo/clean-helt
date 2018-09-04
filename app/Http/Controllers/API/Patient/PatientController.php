@@ -57,29 +57,39 @@ class PatientController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ]);
+            ], 403);
         }
 
-        $data = $request->all();
+        try {
 
-        $data['password'] = bcrypt($data['password']);
+            $data = $request->all();
 
-        $token = ['token' => str_random(40)];
+            $data['password'] = bcrypt($data['password']);
 
-        $data['verifyToken'] = Str::random(40);
+            $token = ['token' => str_random(40)];
 
-        if($patient = Patient::create(array_merge($data, $token))){
+            $data['verify_token'] = Str::random(40);
 
-            $accessToken = $patient->createToken(config('app.name'))->accessToken;
+            if($patient = Patient::create(array_merge($data, $token))){
 
-            $this->sendConfirmationMail($patient);
+                $accessToken = $patient->createToken(config('app.name'))->accessToken;
 
+                $this->sendConfirmationMail($patient);
+
+                return response()->json([
+                    'message' => 'Congratulation! you have successfully created patient record',
+                    'patients' => $patient,
+                    'accessToken' => $accessToken,
+                ], 200);
+            }
+
+        } catch (\Exception $exception)
+        {
             return response()->json([
-                'message' => 'Congratulation! you have successfully created patient record',
-                'patients' => $patient,
-                'accessToken' => $accessToken,
-            ], 200);
+                'errors' => 'Ooops! '.$exception->getMessage(),
+            ], 403);
         }
+
 
         return response()->json([
             'message' => 'Your update failed due to incorrect data'
@@ -89,10 +99,10 @@ class PatientController extends Controller
     public function verify($email, $verifyToken)
     {
 
-        if($patient = Patient::where(['email' => $email, 'verifyToken' => $verifyToken])->first())
+        if($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first())
         {
             $data['status'] = 1;
-            $data['verifyToken'] = '';
+            $data['verify_token'] = '';
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'Congratulation you have just verified you account, login to continue',
@@ -153,24 +163,40 @@ class PatientController extends Controller
 
         $rule = $this->getUpdateRule();
 
-        $this->validate($request, $rule);
+        try {
+            $this->validate($request, $rule);
+        } catch (ValidationException $exception) {
 
-        if($request->hasFile('avatar'))
-        {
-            $avatarName = $request->avatar->store('public/avatar');
-        }else{
-            $avatarName = 'avatar/avatar.jpeg';
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
         }
 
-        $data = $request->all();
+        try {
 
-        $data['avatar'] = $avatarName;
+            if($request->hasFile('avatar'))
+            {
+                $avatarName = $request->avatar->store('public/avatar');
+            }else{
+                $avatarName = 'avatar/avatar.jpeg';
+            }
 
-        if($patient->update($data)){
+            $data = $request->all();
+
+            $data['avatar'] = $avatarName;
+
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'Your profile has been update successfully',
+                    'patient' => $patient,
+                ], 200);
+            }
+
+        } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'Your profile has been update successfully',
-                'patient' => $patient,
-            ], 200);
+                'errors' => 'Ooops! '. $exception->getMessage(),
+            ]);
         }
 
         return response()->json([
@@ -191,10 +217,16 @@ class PatientController extends Controller
 
     public function showRecords(Patient $patient)
     {
-        return response()->json([
-            'message' => "Medical records successfully Loaded",
-            'records' => $patient->medicalRecords
-        ], 200);
+        try {
+            return response()->json([
+                'message' => "Medical records successfully Loaded",
+                'records' => $patient->medicalRecords
+            ], 200);
+        } catch (\Exception $exception){
+            return response()->json([
+                'errors' => 'Ooops! '.$exception->getMessage(),
+            ], 403);
+        }
     }
 
     public function showDate(Patient $patient)
@@ -216,6 +248,10 @@ class PatientController extends Controller
             'message' => 'You can access all laboratory record here',
             'patient' => $patient,
         ], 200);
+
+        return response()->json([
+            'message' => 'Something went wrong'
+        ], 400);
     }
 
     public function showPrescription(Patient $patient)
@@ -226,6 +262,11 @@ class PatientController extends Controller
             'message' => 'access medical record by date',
             'patient' => $patient,
         ], 200);
+
+        return response()->json([
+            'message' => 'Something went wrong'
+        ], 400);
+
     }
 
     private function getRegRule()
