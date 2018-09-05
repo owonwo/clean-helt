@@ -50,8 +50,9 @@ class DoctorController extends Controller
     public function invite(Doctor $doctor)
     {
         //TODO check if an invite exists already
-        if ($doctor->exists && $this->hospital->doctors()
-                ->attach($doctor, ['actor' => 'App\Models\Hospital'])) {
+        if ($doctor->exists) {
+            $this->hospital->doctors()
+                ->attach($doctor, ['actor' => 'App\Models\Hospital']);
             return response()->json([
                 'message' => 'Doctor invite sent successfully'
             ], 200);

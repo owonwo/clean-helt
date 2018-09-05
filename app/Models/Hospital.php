@@ -65,6 +65,7 @@ class Hospital extends Authenticatable
     public function canViewProfile(Patient $patient)
     {
         return $this->profileShares()
+                ->acceptedShares()
                 ->activeShares()
                 ->where('patient_id', $patient->id)
                 ->first() !== null;
@@ -112,6 +113,6 @@ class Hospital extends Authenticatable
     public function declineDoctor(Doctor $doctor)
     {
         return $this->doctors()->wherePivot('doctor_id', $doctor->id)
-            ->updateExistingPivot($doctor->id, ['status' => 2]);
+            ->updateExistingPivot($doctor->id, ['status' => "2"]);
     }
 }

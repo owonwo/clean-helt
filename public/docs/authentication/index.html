@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Authentication | Clean Helt</title>
+    <meta name="description" content="Medical Records Keeping Application">
+    
+    
+    <link rel="preload" href="/docs/assets/css/0.styles.80fe8cb1.css" as="style"><link rel="preload" href="/docs/assets/js/app.a1d08433.js" as="script"><link rel="preload" href="/docs/assets/js/5.ada6ec68.js" as="script"><link rel="prefetch" href="/docs/assets/js/2.cda51ec0.js"><link rel="prefetch" href="/docs/assets/js/3.efc7d4da.js"><link rel="prefetch" href="/docs/assets/js/4.cb26fa74.js"><link rel="prefetch" href="/docs/assets/js/6.f9cdec56.js"><link rel="prefetch" href="/docs/assets/js/7.e00da5cd.js">
+    <link rel="stylesheet" href="/docs/assets/css/0.styles.80fe8cb1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/docs/" class="home-link router-link-active"><!----> <span class="site-name">Clean Helt</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/docs/" class="sidebar-link">Introduction</a></li><li><a href="/docs/authentication/" class="active sidebar-link">Authentication</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/authentication/#authentication" class="sidebar-link">Authentication</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/authentication/#base-url" class="sidebar-link">Base URL</a></li><li class="sidebar-sub-header"><a href="/docs/authentication/#hospitals" class="sidebar-link">Hospitals</a></li><li class="sidebar-sub-header"><a href="/docs/authentication/#pharmacies" class="sidebar-link">Pharmacies</a></li></ul></li></ul></li><li><a href="/docs/hospitals/" class="sidebar-link">Hospitals</a></li><li><a href="/docs/pharmacies/" class="sidebar-link">Pharmacies</a></li></ul> </div> <div class="page"> <div class="content"><h2 id="authentication"><a href="#authentication" aria-hidden="true" class="header-anchor">#</a> Authentication</h2> <h3 id="base-url"><a href="#base-url" aria-hidden="true" class="header-anchor">#</a> Base URL</h3> <p><strong><code>Base URL: /api</code></strong></p> <h3 id="hospitals"><a href="#hospitals" aria-hidden="true" class="header-anchor">#</a> Hospitals</h3> <h4 id="login"><a href="#login" aria-hidden="true" class="header-anchor">#</a> Login</h4> <p><strong><code>POST /login/hospital</code></strong></p> <p>Logs in a hospital</p> <p>Sample Data:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;kelley20@example.com&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;password&quot;</span><span class="token operator">:</span> <span class="token string">&quot;secret&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Sample Response</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;user&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;New Era Hospital&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;kelley20@example.com&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chcode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;CHH293415609&quot;</span><span class="token punctuation">,</span> 
+        <span class="token property">&quot;director_mdcn&quot;</span><span class="token operator">:</span> <span class="token string">&quot;natus&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;phone&quot;</span><span class="token operator">:</span> <span class="token string">&quot;252-582-5657 x62181&quot;</span><span class="token punctuation">,</span> 
+        <span class="token property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;673 Niko Corner Apt. 054\nVivianneville, IA 48169&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;city&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Luisfurt&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Hodkiewiczview&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;country&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Mongolia&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;website&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;facility_type&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;facility_owner&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;cac_reg&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;cac_date&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;fmoh_reg&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;fmoh_date&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;admin_name&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;admin_position&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;admin_phone&quot;</span><span class="token operator">:</span><span class="token null">null</span><span class="token punctuation">,</span> 
+        <span class="token property">&quot;services&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;bank_name&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;bank_branch&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;account_name&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;account_number&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;active&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;avatar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;avatar/avatar.jpeg&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;remember_token&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;created_at&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2018-09-03 20:16:47&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;updated_at&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2018-09-03 21:57:02&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;deleted_at&quot;</span><span class="token operator">:</span><span class="token null">null</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;access_token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImQxYzMzNzEzMTg5YjRjMmYwZTk5ZDk5ZGE1NzMzNTUwNmMyNjU4Mzg0YjA3MTY5ZWU2MzdkZjcwNDQxMzNjZDczNTM1ZmExYmIxNzdhYTJmIn0.eyJhdWQiOiIxIiwianRpIjoiZDFjMzM3MTMxODliNGMyZjBlOTlkOTlkYTU3MzM1NTA2YzI2NTgzODRiMDcxNjllZTYzN2RmNzA0NDEzM2NkNzM1MzVmYTFiYjE3N2FhMmYiLCJpYXQiOjE1MzYwNjMyNjYsIm5iZiI6MTUzNjA2MzI2NiwiZXhwIjoxNTY3NTk5MjY1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6K2qjG4bUspThIkZ15bNhsbHfOWxLm4AN3dMPK4UOYil2T0h_gSdLAfTHLRYEC1Jet3lwDh1GWwixP44XN2-eD7wG2QCrV7o2ofSn5OCZ2ni1veZaQl70-v1gfB4FAEewEVnWtqErBTFj25h6xKCjObVpBqx6rIB8DWM06jO2ii6bvGJANK7aMRfio4ccaVBAUu17h06QpB7IU_m-UcC3F_v0X87iUmr5qCy6tBzysPfgxzawjhxoqcvJG0T--lKQo5d2I9KFprCSSeD4J1GZXNamwB6kqUrtGeoWHSzHOxtKYfUdP0tdtvDgrGU1nLy46DM0jEGvCHdtmep9hOT9i8ok1jvhNHSAk4v4BZBDYvb0DyMKAxGGqALmnDWNhlL0bc_LyZV8Ywow14CkyU13KgWWip78y_CQrL4ziNcLsl3X5PEQkQzKM-daMKfD3KWDMXLOMOVFfkX1xRTnfE5Of7TgucWtwfMoEIv-tKKvtBEb65qACjQeeUOP0z_VQyIQPqS6G43Za_g_2iKaJeu7safgGMbWlHZNF9S9WJeMnmT2vlpIYZcx2JYwHKeuTBBh3PCHUOOw3rrhG8An3k0xG98sHM6mlXfZZlAV3fuwaLju4MF_K4IzBs9gOkLZ3ktipsnDvggtjluOCLw03l8H1KpAb_6_PBMMGb5PJESyo&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;expires_in&quot;</span><span class="token operator">:</span> <span class="token number">21600</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="pharmacies"><a href="#pharmacies" aria-hidden="true" class="header-anchor">#</a> Pharmacies</h3> <h4 id="login-2"><a href="#login-2" aria-hidden="true" class="header-anchor">#</a> Login</h4> <p><strong><code>POST /login/pharmacy</code></strong></p> <p>Logs in a pharmacy</p> <p>Sample Data:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;edd62@example.org&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;password&quot;</span><span class="token operator">:</span> <span class="token string">&quot;secret&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Sample Response</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;user&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Prof. Blair Flatley&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chcode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;CHF400665321&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;email&quot;</span><span class="token operator">:</span><span class="token string">&quot;edd62@example.org&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;phone&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1-624-364-8590&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;88468 Walsh Pines Apt. 767\nGleasonberg, NY 34054-8409&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;city&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Port Kirstenshire&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Adamsborough&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;country&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bolivia&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;business_name&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;business_type&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;facility_owner&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;cac_reg&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;cac_date&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;fmoh_reg&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;fmoh_date&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chief_pharmacist_reg&quot;</span><span class="token operator">:</span> <span class="token string">&quot;consequatur&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;active&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;avatar&quot;</span><span class="token operator">:</span> <span class="token string">&quot;avatar/avatar.jpeg&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chief_pharmacist_reg_date&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chief_pharmacist_name&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;chief_pharmacist_phone&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;services&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;remember_token&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;created_at&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2018-09-03 20:16:47&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;updated_at&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2018-09-03 20:16:47&quot;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;access_token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImQxYzMzNzEzMTg5YjRjMmYwZTk5ZDk5ZGE1NzMzNTUwNmMyNjU4Mzg0YjA3MTY5ZWU2MzdkZjcwNDQxMzNjZDczNTM1ZmExYmIxNzdhYTJmIn0.eyJhdWQiOiIxIiwianRpIjoiZDFjMzM3MTMxODliNGMyZjBlOTlkOTlkYTU3MzM1NTA2YzI2NTgzODRiMDcxNjllZTYzN2RmNzA0NDEzM2NkNzM1MzVmYTFiYjE3N2FhMmYiLCJpYXQiOjE1MzYwNjMyNjYsIm5iZiI6MTUzNjA2MzI2NiwiZXhwIjoxNTY3NTk5MjY1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6K2qjG4bUspThIkZ15bNhsbHfOWxLm4AN3dMPK4UOYil2T0h_gSdLAfTHLRYEC1Jet3lwDh1GWwixP44XN2-eD7wG2QCrV7o2ofSn5OCZ2ni1veZaQl70-v1gfB4FAEewEVnWtqErBTFj25h6xKCjObVpBqx6rIB8DWM06jO2ii6bvGJANK7aMRfio4ccaVBAUu17h06QpB7IU_m-UcC3F_v0X87iUmr5qCy6tBzysPfgxzawjhxoqcvJG0T--lKQo5d2I9KFprCSSeD4J1GZXNamwB6kqUrtGeoWHSzHOxtKYfUdP0tdtvDgrGU1nLy46DM0jEGvCHdtmep9hOT9i8ok1jvhNHSAk4v4BZBDYvb0DyMKAxGGqALmnDWNhlL0bc_LyZV8Ywow14CkyU13KgWWip78y_CQrL4ziNcLsl3X5PEQkQzKM-daMKfD3KWDMXLOMOVFfkX1xRTnfE5Of7TgucWtwfMoEIv-tKKvtBEb65qACjQeeUOP0z_VQyIQPqS6G43Za_g_2iKaJeu7safgGMbWlHZNF9S9WJeMnmT2vlpIYZcx2JYwHKeuTBBh3PCHUOOw3rrhG8An3k0xG98sHM6mlXfZZlAV3fuwaLju4MF_K4IzBs9gOkLZ3ktipsnDvggtjluOCLw03l8H1KpAb_6_PBMMGb5PJESyo&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;expires_in&quot;</span><span class="token operator">:</span> <span class="token number">21600</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/docs/" class="prev router-link-active">
+          Introduction
+        </a></span> <span class="next"><a href="/docs/hospitals/">
+          Hospitals
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/docs/assets/js/5.ada6ec68.js" defer></script><script src="/docs/assets/js/app.a1d08433.js" defer></script>
+  </body>
+</html>

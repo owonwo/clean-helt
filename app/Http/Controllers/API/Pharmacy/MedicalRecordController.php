@@ -46,15 +46,13 @@ class MedicalRecordController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         return response()->json([
-            'data' => $medicalRecord->load('data')
+            'record' => $medicalRecord->load('data')
         ], 200);
     }
 
     public function update(Patient $patient, MedicalRecord $medicalRecord, Prescription $prescription)
     {
-        $pharmacy = auth()->guard('pharmacy')->user();
-
-        if (!$pharmacy->canUpdatePatientPrescription($patient, $medicalRecord, $prescription))
+        if (!$this->pharmacy->canUpdatePatientPrescription($patient, $medicalRecord, $prescription))
             return response()->json(['message' => 'Data not found'], 404);
 
         if ($prescription->update(request()->all()))
