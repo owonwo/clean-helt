@@ -139,6 +139,8 @@ Clean Helt is a software system that allow patients, hospitals, pharmacies, doct
 
 **GET /doctor/patients/{patient}/** [Doctors views one Patient]
 
+**GET /doctor/patients/{patient}/diagnosis** [Doctors views one Patients Diagnosis]
+
 **GET /doctor/patients/{patient}/prescriptions** [Doctors views one Patients Prescriptions]
 
 **GET /doctor/patients/{patient}/labtest** [Doctors views one Patients Prescriptions]
