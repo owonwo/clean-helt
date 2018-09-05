@@ -53,4 +53,40 @@ class PatientController extends Controller
             'message' => 'Unauthorized access',
         ], 400);
     }
+    public function showLabTest(Patient $patient){
+        $doctor = auth()->guard('doctor-api')->user();
+        if ($patient && $doctor->canViewProfile($patient)) {
+            return response()->json([
+                'message' => 'Patient retrieved successfully',
+                'labTest' => $patient->medicalRecords('App\Models\LabTest'),
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
+
+    }
+    public function showMedicalRecords(Patient $patient, MedicalRecord $medicalRecord)
+    {
+        $doctor = auth()->guard('doctor-api')->user();
+        if (!$doctor->canViewProfile($patient))
+            return response()->json(['message' => 'Unauthorized'], 401);
+
+        return response()->json([
+            'data' => $medicalRecord->load('data')
+        ], 200);
+    }
+    public function showPrescriptions(Patient $patient){
+        $doctor = auth()->guard('doctor-api')->user();
+        if ($patient && $doctor->canViewProfile($patient)) {
+            return response()->json([
+                'message' => 'Patient retrieved successfully',
+                'labTest' => $patient->medicalRecords('App\Models\Prescription'),
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
+    }
+
 }
