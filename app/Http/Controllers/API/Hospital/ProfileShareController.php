@@ -11,10 +11,10 @@ class ProfileShareController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:hospital-api');
         $this->middleware(function($request, $next) {
 
-            $this->hospital = auth()->user();
-
+            $this->hospital = auth()->guard()->user();
             return $next($request);
         });
     }
