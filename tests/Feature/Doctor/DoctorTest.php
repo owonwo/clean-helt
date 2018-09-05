@@ -42,9 +42,10 @@ class DoctorTest extends TestCase
     /** @test */
     public function a_doctor_can_update_his_profile()
     {
-        $doctor = create('App\Models\Doctor');
-        $this->signIn($doctor, 'doctor');
-        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update', $doctor))->assertStatus(200);
+        $doctor  = create('App\Models\Doctor');
+        $this->signIn($doctor,'doctor-api');
+        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update',$doctor))->assertStatus(200);
+
     }
 
     /** @test */
@@ -67,7 +68,9 @@ class DoctorTest extends TestCase
             'name' => 'Paracetamol',
         ];
 
-        $this->signIn($doctor, 'doctor');
+
+        $this->signIn($doctor,'doctor-api');
+
         // A profile share should be created and a doctor should have access to it before he can perform diagnosis
         create(ProfileShare::class, ['provider_id' => $doctor->id, 'patient_id' => $patient->id]);
 
@@ -78,8 +81,9 @@ class DoctorTest extends TestCase
     public function a_doctor_can_view_his_profile()
     {
         $doctor = create('App\Models\Doctor');
-        $this->signIn($doctor, 'doctor');
-        $this->get(route('doctor.profile', $doctor))->assertSee($doctor->first_name);
+        $this->signIn($doctor,'doctor-api');
+        $this->get(route('doctor.profile',$doctor))->assertSee($doctor->first_name);
+
     }
 
     /** @test */
@@ -146,17 +150,23 @@ class DoctorTest extends TestCase
         // A doctor inputs or submits the chcode of the hospital
         $doctor = create('App\Models\Doctor');
         $hospital = create('App\Models\Hospital');
-        $this->signIn($doctor, 'doctor');
-        $this->makeAuthRequest()->post(route('doctor.addHospital', $doctor), ['chcode' => $hospital->chcode])->assertSee($hospital->name);
 
-        $this->assertDatabaseHas('doctor_hospital', ['hospital_id' => $hospital->id]);
+        $this->signIn($doctor,'doctor-api');
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
+
+        $this->assertDatabaseHas('doctor_hospital',['hospital_id' => $hospital->id]);
+
+
+
     }
 
     /** @test */
     public function a_doctor_can_accept_a_hospital()
     {
         $doctor = create('App\Models\Doctor');
-        $this->signIn($doctor, 'doctor');
+
+        $this->signIn($doctor,'doctor-api');
+
         $hospital = create('App\Models\Hospital');
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.active'))
@@ -167,12 +177,30 @@ class DoctorTest extends TestCase
             ->get(route('doctor.hospital.active'))
             ->assertSee('activeHospital');
     }
+    /** @test */
+    public function a_doctor_should_not_add_a_hospital_more_than_once(){
+        //we'll add a doctor
+        $doctor = create('App\Models\Doctor');
+        $hospital = create('App\Models\Hospital');
 
+        $this->signIn($doctor,'doctor-api');
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertSee($hospital->name);
+
+        $this->assertDatabaseHas('doctor_hospital',['hospital_id' => $hospital->id]);
+        //we'll check that the doctor has been added
+        //we'll add a doctor again and
+
+        $this->makeAuthRequest()->post(route('doctor.addHospital',$doctor),['chcode' => $hospital->chcode])->assertStatus(409);
+
+        //we'll make sure we recieve an error
+    }
     /** @test */
     public function a_doctor_can_reject_a_hospital()
     {
         $doctor = create('App\Models\Doctor');
-        $this->signIn($doctor, 'doctor');
+
+        $this->signIn($doctor,'doctor-api');
+
         $hospital = create('App\Models\Hospital');
         $this->makeAuthRequest()
             ->get(route('doctor.hospital.sent'))

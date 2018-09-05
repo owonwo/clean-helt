@@ -6,35 +6,48 @@ use App\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
+
+    //
     public function __construct()
     {
+        $this->middleware('auth:doctor-api');
     }
 
     public function show()
     {
         $doctor = auth()->guard('doctor-api')->user();
-        $notifications = $doctor->notifications;
 
-        return response()->json([
+        try {
+            $notifications = optional($doctor)->notifications;
+            return response()->json([
                 'message' => 'Notifications Loaded successfully',
-                'notifications' => $notifications,
+                'notifications' => $notifications
             ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 403);
+        }
+
     }
 
     public function delete($id)
     {
         $doctor = auth()->guard('doctor-api')->user();
-        $notification = $doctor->notifications()->where('id', $id)->first();
-        if ($notification) {
-            $notification->delete();
-
+        try {
+            $notification = optional($doctor)->notifications()->where('id', $id)->first();
+            if ($notification) {
+                $notification->delete();
+                return response()->json([
+                    'message' => 'Marked as read'
+                ], 200);
+            } else return response()->json([
+                'message' => 'Something went wrong'
+            ], 400);
+        } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Marked as read',
-            ], 200);
-        } else {
-            return response()->json([
-            'message' => 'Something went wrong',
-        ], 400);
+                'error' => $e->getMessage()
+            ],403);
         }
     }
 }

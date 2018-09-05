@@ -24,7 +24,7 @@ class PatientTest extends TestCase
         $patient = create(Patient::class);
 
         $this->signIn($patient, 'patient');
-
+dd("api/patient/{$patient->chcode}/patient");
         $this->makeAuthRequest()
             ->get("api/patient/{$patient->chcode}/patient")
             ->assertStatus(200);
@@ -46,7 +46,7 @@ class PatientTest extends TestCase
             ->withExceptionHandling()
 
             ->post('api/patient/register')
-            ->assertStatus(302);
+            ->assertStatus(200);
     }
 
     /** @test */
@@ -63,6 +63,23 @@ class PatientTest extends TestCase
         $this->makeAuthRequest()
             ->withExceptionHandling()
             ->patch("api/patient/{$patient->chcode}/patient");
+        $this->assertDatabaseHas('patients', $updated);
+    }
+
+    /** @test */
+    public function  a_patient_can_include_emergency_hospital_to_his_profile()
+    {
+        $patient = create(Patient::class);
+
+        $this->signIn($patient, 'patient');
+
+        $updated = [
+            'emergency_hospital_address' => $patient->emergency_hospital_address,
+        ];
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->patch("api/patient/{$patient->chcode}/emergency");
         $this->assertDatabaseHas('patients', $updated);
     }
 

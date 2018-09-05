@@ -14,7 +14,12 @@ class PatientController extends Controller
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
-        $this->hospital = auth()->guard('hospital')->user();
+        $this->middleware(function($request, $next) {
+
+            $this->hospital = auth()->user();
+
+            return $next($request);
+        });
     }
 
     public function index()

@@ -7,13 +7,23 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
+    private $hospital;
+
+    public function __construct()
+    {
+        $this->middleware('auth:hospital-api');
+        $this->middleware(function($request, $next) {
+
+            $this->hospital = auth()->guard()->user();
+            return $next($request);
+        });
+    }
+
     public function pending()
     {
-        $hospital = auth()->guard('hospital')->user();
-
         return response()->json([
             'message' => 'Patients retrieved successfully',
-            'patients' => $hospital->pendingShares()->get()
+            'patients' => $this->hospital->pendingShares()->get()
         ], 200);
     }
 

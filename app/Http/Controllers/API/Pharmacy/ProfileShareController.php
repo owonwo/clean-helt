@@ -13,7 +13,13 @@ class ProfileShareController extends Controller
     public function __construct()
     {
         $this->middleware('auth:pharmacy-api');
-        $this->pharmacy = auth()->guard('pharmacy')->user();
+
+        $this->middleware(function($request, $next) {
+
+            $this->pharmacy = auth()->user();
+
+            return $next($request);
+        });
     }
 
     public function pending()
@@ -27,7 +33,7 @@ class ProfileShareController extends Controller
     public function accept(ProfileShare $profileShare)
     {
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => 1]);
+            $profileShare->update(['status' => "1"]);
 
             return response()->json([
                 'message' => 'Profile share accepted successfully',
