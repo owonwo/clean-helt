@@ -38,7 +38,19 @@ class PatientController extends Controller
         }
 
     }
-
+    public function diagnosis(Patient $patient){
+           $doctor = auth()->guard('doctor-api')->user();
+        if ($patient && $doctor->canViewProfile($patient)) {
+            return response()->json([
+                'message' => 'Patient Diagnosis retrieved successfully',
+                'diagnosis' => $patient->medicalRecords('App\Models\Diagnosis')->get()->load('data'),
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
+        
+    }
     public function show(Patient $patient)
     {
         $doctor = auth()->guard('doctor-api')->user();
@@ -57,8 +69,8 @@ class PatientController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
-                'message' => 'Patient retrieved successfully',
-                'labTest' => $patient->medicalRecords('App\Models\LabTest'),
+                'message' => 'Patient LabTest retrieved successfully',
+                'labTest' => $patient->medicalRecords('App\Models\LabTest')->get()->load('data'),
             ], 200);
         }
         return response()->json([
@@ -73,15 +85,15 @@ class PatientController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         return response()->json([
-            'data' => $medicalRecord->load('data')
+            'data' => $medicalRecord->get()->load('data')
         ], 200);
     }
     public function showPrescriptions(Patient $patient){
         $doctor = auth()->guard('doctor-api')->user();
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
-                'message' => 'Patient retrieved successfully',
-                'prescriptionlabTest' => $patient->pharmacyRecords,
+                'message' => 'Patient Prescription retrieved successfully',
+                'prescription' => $patient->medicalRecords('App\Models\Prescription')->get()->load('data'),
             ], 200);
         }
         return response()->json([
