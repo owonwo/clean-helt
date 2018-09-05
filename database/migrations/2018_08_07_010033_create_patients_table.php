@@ -25,7 +25,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone')->unique();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullbale();
+            $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->boolean('active')->default(true);
             $table->string('religion')->nullable();
@@ -37,6 +37,8 @@ class CreatePatientsTable extends Migration
             $table->string('nok_address')->nullable();
             $table->string('nok_city')->nullable();
             $table->string('nok_state')->nullable();
+            $table->text('emergency_hospital_address')->nullable();
+            $table->string('emergency_hospital_name')->nullable();
             $table->string('verify_token')->nullable();
             $table->boolean('status')->default(false);
             $table->string('nok_country')->nullable();

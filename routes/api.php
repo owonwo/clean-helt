@@ -89,6 +89,9 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/sent-hospitals','DoctorController@sentHospitals')->name('doctor.hospital.sent');
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
+        Route::get('patients/{patient}/prescriptions', 'PatientController@showPrescriptions')->name('doctor.patient.prescription');
+        Route::get('patients/{patient}/labtest', 'PatientController@showLabTest')->name('doctor.patient.labTest');
+        Route::get('patients/{patient}/records/{medicalRecord}', 'PatientController@showMedicalRecords');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
@@ -107,6 +110,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/{patient}/labtest', 'PatientController@showLabtest');
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
         Route::get('/verify/{email}/{verifyToken}', 'PatientController@verify')->name('patient.confirmation.mail');
+        Route::patch('/{patient}/emergency', 'PatientController@edit');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');

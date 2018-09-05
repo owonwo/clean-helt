@@ -128,11 +128,24 @@ Clean Helt is a software system that allow patients, hospitals, pharmacies, doct
 |`disablity`|string|true|Doctor Disability|
 
 **GET /doctor/hospital** [Doctors Hospitals]
+
 **GET /doctor/active-hospital** [Doctors Active Hospitals]
+
 **GET /doctor/pending-hospital** [Doctors Pending Hospitals]
+
 **GET /doctor/sent-hospital** [Doctors sent Hospitals]
+
 **GET /doctor/patients**  [Doctors Patients]
+
 **GET /doctor/patients/{patient}/** [Doctors views one Patient]
+
+**GET /doctor/patients/{patient}/prescriptions** [Doctors views one Patients Prescriptions]
+
+**GET /doctor/patients/{patient}/labtest** [Doctors views one Patients Prescriptions]
+
+**GET /doctor/patients/{patient}/records/{medicalRecord}** [Doctors views one Patients Prescriptions]
+       
+
 **GET /doctor/patients/pending/patients** [Doctors views pending Patients]
 
 
