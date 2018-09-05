@@ -36,17 +36,23 @@ class ProfileShare extends Model
     {
         return $this->expired_at->gt(now());
     }
-    public function getHoursAttribute(){
+
+    public function getHoursAttribute()
+    {
         return $this->expired_at->diffInHours($this->created_At);
     }
+
     public function scopeActiveShares($query)
     {
         return $query->whereDate('expired_at', '>=', now());
     }
-    public function scopeFilter($query,$filter){
+
+    public function scopeFilter($query,$filter)
+    {
         return $filter->apply($query);
     }
-    public function scopeAcceptedShare($query)
+
+    public function scopeAcceptedShares($query)
     {
         return $query->where('status', 1);
     }

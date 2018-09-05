@@ -43,7 +43,14 @@ class DiagnosisController extends Controller
                     $this->createPrescriptions($record->id,null,$diagnosis->id);
                     $this->createLabTest($record->id,$diagnosis->id);
                 }
-                DB::commit();
+               DB::commit();
+
+                /**
+                 * @Todo here
+                 * please add a notification that after creating the medical record
+                 * it sent a notification to the user
+                 */
+
                 return response()->json([
                     'message' => 'Diagnosis made successfully',
                     'diagnosis' => $diagnosis->load('record')

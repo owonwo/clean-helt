@@ -13,7 +13,13 @@ class ProfileShareController extends Controller
     public function __construct()
     {
         $this->middleware('auth:pharmacy-api');
-        $this->pharmacy = auth()->guard('pharmacy')->user();
+
+        $this->middleware(function($request, $next) {
+
+            $this->pharmacy = auth()->user();
+
+            return $next($request);
+        });
     }
 
     public function pending()

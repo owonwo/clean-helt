@@ -9,7 +9,7 @@ use Laravel\Passport\HasApiTokens;
 
 class Doctor extends Authenticatable
 {
-    use HasApiTokens, CodeGenerator,Notifiable;
+    use HasApiTokens, CodeGenerator, Notifiable;
 
     protected $codePrefix = 'CHD';
 

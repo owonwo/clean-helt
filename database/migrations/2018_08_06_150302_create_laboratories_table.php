@@ -30,6 +30,7 @@ class CreateLaboratoriesTable extends Migration
             $table->string('fmoh_reg')->nullable();
             $table->boolean('active')->default(true);
             $table->string('avatar')->nullable();
+            $table->string('token')->nullable();
             $table->text('offers');
             $table->rememberToken();
             $table->timestamps();

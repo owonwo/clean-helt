@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Mail\PatientVerifyEmail;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 
 class PatientController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('store');
+        $this->middleware('auth:patient-api')->except('store', 'verify');
     }
 
 
@@ -46,25 +51,77 @@ class PatientController extends Controller
     {
         $rule = $this->getRegRule();
 
-        $this->validate($request, $rule);
-
-        $data = $request->all();
-
-        $token = ['token' => str_random(40)];
-
-        if($patient = Patient::create(array_merge($data, $token))){
-
+        try {
+            $this->validate($request, $rule);
+        } catch (ValidationException $exception) {
             return response()->json([
-                'message' => 'Congratulation! you have successfully created patient record',
-                'patients' => $patient,
-            ], 200);
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
         }
+
+        try {
+
+            $data = $request->all();
+
+            $data['password'] = bcrypt($data['password']);
+
+            $token = ['token' => str_random(40)];
+
+            $data['verify_token'] = Str::random(40);
+
+            if($patient = Patient::create(array_merge($data, $token))){
+
+                $accessToken = $patient->createToken(config('app.name'))->accessToken;
+
+                $this->sendConfirmationMail($patient);
+
+                return response()->json([
+                    'message' => 'Congratulation! you have successfully created patient record',
+                    'patients' => $patient,
+                    'accessToken' => $accessToken,
+                ], 200);
+            }
+
+        } catch (\Exception $exception)
+        {
+            return response()->json([
+                'errors' => 'Ooops! '.$exception->getMessage(),
+            ], 403);
+        }
+
 
         return response()->json([
             'message' => 'Your update failed due to incorrect data'
         ]);
     }
 
+    public function verify($email, $verifyToken)
+    {
+
+        if($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first())
+        {
+            $data['status'] = 1;
+            $data['verify_token'] = null;
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'Congratulation you have just verified you account, login to continue',
+                    'patient' => $patient,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Your account was not verified'
+        ], 401);
+
+    }
+
+    public function sendConfirmationMail($patient)
+
+    {
+        Mail::to($patient['email'])->send(new PatientVerifyEmail($patient));
+    }
     /**
      * Display the specified resource.
      *
@@ -86,9 +143,39 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,Patient $patient)
     {
-        //
+        $rules = [
+            'emergency_hospital_address' => 'required',
+            'emergency_hospital_name' => 'required|string|max:120',
+        ];
+
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
+
+
+        try {
+
+            $data = $request->all();
+
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'congratulation you have updated your emergency profile',
+                    'patient' => $patient,
+                ]);
+            }
+
+        } catch (\Exception $e){
+            return response()->json([
+                'errors' => 'Ooops! ' .$e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -98,7 +185,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(Patient $patient)
     {
         /**
          * @check if the patient is inserting an image of not
@@ -106,24 +193,42 @@ class PatientController extends Controller
 
         $rule = $this->getUpdateRule();
 
-        $this->validate($request, $rule);
+        $patient = auth()->guard('patient-api')->user();
 
-        if($request->hasFile('avatar'))
-        {
-            $avatarName = $request->avatar->store('public/avatar');
-        }else{
-            $avatarName = 'avatar/avatar.jpeg';
+        try {
+            request()->validate($rule);
+        } catch (ValidationException $e) {
+
+            return response()->json([
+                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
+            ], 422);
         }
 
-        $data = $request->all();
+        try {
 
-        $data['avatar'] = $avatarName;
+            if(request()->hasFile('avatar'))
+            {
+                $avatarName = request()->avatar->store('public/avatar');
+            }else{
+                $avatarName = 'avatar/avatar.jpeg';
+            }
 
-        if($patient->update($data)){
+            $data = request()->all();
+
+            $data['avatar'] = $avatarName;
+
+            if($patient->update($data)){
+                return response()->json([
+                    'message' => 'Your profile has been update successfully',
+                    'patient' => $patient,
+                ], 200);
+            }
+
+        } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'Your profile has been update successfully',
-                'patient' => $patient,
-            ], 200);
+                'errors' => 'Ooops! '. $exception->getMessage(),
+            ]);
         }
 
         return response()->json([
@@ -144,10 +249,16 @@ class PatientController extends Controller
 
     public function showRecords(Patient $patient)
     {
-        return response()->json([
-            'message' => "Medical records successfully Loaded",
-            'records' => $patient->medicalRecords
-        ], 200);
+        try {
+            return response()->json([
+                'message' => "Medical records successfully Loaded",
+                'records' => $patient->medicalRecords
+            ], 200);
+        } catch (Exception $exception){
+            return response()->json([
+                'errors' => 'Ooops! '.$exception->getMessage(),
+            ], 403);
+        }
     }
 
     public function showDate(Patient $patient)
@@ -169,6 +280,10 @@ class PatientController extends Controller
             'message' => 'You can access all laboratory record here',
             'patient' => $patient,
         ], 200);
+
+        return response()->json([
+            'message' => 'Something went wrong'
+        ], 400);
     }
 
     public function showPrescription(Patient $patient)
@@ -179,15 +294,20 @@ class PatientController extends Controller
             'message' => 'access medical record by date',
             'patient' => $patient,
         ], 200);
+
+        return response()->json([
+            'message' => 'Something went wrong'
+        ], 400);
+
     }
 
     private function getRegRule()
     {
         return [
-            'email' => 'required|email|max:190|unique:patient',
+            'email' => 'required|email|max:190|unique:patients',
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
-            'password' => 'required|confirmed|max:32|min:6',
+            'password' => 'required|max:32|min:6',
         ];
     }
 

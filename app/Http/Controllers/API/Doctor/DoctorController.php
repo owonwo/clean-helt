@@ -13,8 +13,8 @@ use Illuminate\Validation\ValidationException;
 
 class DoctorController extends Controller
 {
+    private $doctor;
 
-    //
     public function __construct()
     {
         $this->middleware('auth:doctor-api')->except('store');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Hospital;
 
 use App\Models\Doctor;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +14,13 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
-        $this->hospital = auth('hospital')->user();
+
+        $this->middleware(function($request, $next) {
+
+            $this->hospital = auth()->user();
+
+            return $next($request);
+        });
     }
 
     public function index()

@@ -36,7 +36,7 @@ class ManagesSharedProfilesTest extends TestCase
 
         $this->makeAuthRequest()
             ->get('api/hospital/patients')
-            ->assertSee($share->patient->first_name)
+            ->assertSee($share->patient->name)
             ->assertDontSee($pending->patient->first_name);
     }
 
