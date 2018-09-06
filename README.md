@@ -242,6 +242,7 @@ Clean Helt is a software system that allow patients, hospitals, pharmacies, doct
 - **POST api/patient/register** [Patient signup from clean helt]
 
 - **POST api/patient/profile/shares** [Patient share his profile base on date]
+- **POST api/login/patient** [Patient Login]
 
 
 
