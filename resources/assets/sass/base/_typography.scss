@@ -9,8 +9,10 @@ $condensed: 'Roboto Sans';
 $stylish-font: 'Molle-Italic','Kaushan Script','Kristen ITC';
 $alt-font: 'Raleway', 'Noto Sans','Arial','Helvetica Neue';
 $default-font: 'Nunito','Lato', 'Raleway', 'Helvetica Neue', 'Noto Sans', 'Ubuntu', 'Tahoma', 'Arial', 'FontAwesome','Glyphicons', sans-serif;
+$font-family-sans-serif: $default-font; 
+$family-primary: $default-font;
 $input-font: $default-font;
-$heading-font: 'Raleway', sans-serif;
+$heading-font: $default-font;
 $default-font-family: $default-font;
 $base-font-family: $default-font;
 

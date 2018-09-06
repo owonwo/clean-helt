@@ -11,15 +11,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 
-
 class PatientController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:patient-api')->except('store', 'verify');
     }
-
 
     /**
      * Display a listing of the resource.
@@ -38,13 +35,13 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,7 +58,6 @@ class PatientController extends Controller
         }
 
         try {
-
             $data = $request->all();
 
             $data['password'] = bcrypt($data['password']);
@@ -70,8 +66,7 @@ class PatientController extends Controller
 
             $data['verify_token'] = Str::random(40);
 
-            if($patient = Patient::create(array_merge($data, $token))){
-
+            if ($patient = Patient::create(array_merge($data, $token))) {
                 $accessToken = $patient->createToken(config('app.name'))->accessToken;
 
                 $this->sendConfirmationMail($patient);
@@ -82,28 +77,23 @@ class PatientController extends Controller
                     'accessToken' => $accessToken,
                 ], 200);
             }
-
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
             ], 403);
         }
 
-
         return response()->json([
-            'message' => 'Your update failed due to incorrect data'
+            'message' => 'Your update failed due to incorrect data',
         ]);
     }
 
     public function verify($email, $verifyToken)
     {
-
-        if($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first())
-        {
+        if ($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first()) {
             $data['status'] = 1;
             $data['verify_token'] = null;
-            if($patient->update($data)){
+            if ($patient->update($data)) {
                 return response()->json([
                     'message' => 'Congratulation you have just verified you account, login to continue',
                     'patient' => $patient,
@@ -112,20 +102,20 @@ class PatientController extends Controller
         }
 
         return response()->json([
-            'message' => 'Your account was not verified'
+            'message' => 'Your account was not verified',
         ], 401);
-
     }
 
     public function sendConfirmationMail($patient)
-
     {
         Mail::to($patient['email'])->send(new PatientVerifyEmail($patient));
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Patient $patient)
@@ -134,16 +124,16 @@ class PatientController extends Controller
             'message' => 'you have successfully log into your account',
             'patient' => $patient,
         ], 200);
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Patient $patient)
+    public function edit(Request $request, Patient $patient)
     {
         $rules = [
             'emergency_hospital_address' => 'required',
@@ -159,21 +149,18 @@ class PatientController extends Controller
             ], 422);
         }
 
-
         try {
-
             $data = $request->all();
 
-            if($patient->update($data)){
+            if ($patient->update($data)) {
                 return response()->json([
                     'message' => 'congratulation you have updated your emergency profile',
                     'patient' => $patient,
                 ]);
             }
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                'errors' => 'Ooops! ' .$e->getMessage(),
+                'errors' => 'Ooops! '.$e->getMessage(),
             ]);
         }
     }
@@ -181,8 +168,9 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Patient $patient)
@@ -190,7 +178,6 @@ class PatientController extends Controller
         /**
          * @check if the patient is inserting an image of not
          */
-
         $rule = $this->getUpdateRule();
 
         $patient = auth()->guard('patient-api')->user();
@@ -198,7 +185,6 @@ class PatientController extends Controller
         try {
             request()->validate($rule);
         } catch (ValidationException $e) {
-
             return response()->json([
                 'errors' => $e->errors(),
                 'message' => $e->getMessage(),
@@ -206,11 +192,9 @@ class PatientController extends Controller
         }
 
         try {
-
-            if(request()->hasFile('avatar'))
-            {
+            if (request()->hasFile('avatar')) {
                 $avatarName = request()->avatar->store('public/avatar');
-            }else{
+            } else {
                 $avatarName = 'avatar/avatar.jpeg';
             }
 
@@ -218,43 +202,42 @@ class PatientController extends Controller
 
             $data['avatar'] = $avatarName;
 
-            if($patient->update($data)){
+            if ($patient->update($data)) {
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
                     'patient' => $patient,
                 ], 200);
             }
-
         } catch (\Exception $exception) {
             return response()->json([
-                'errors' => 'Ooops! '. $exception->getMessage(),
+                'errors' => 'Ooops! '.$exception->getMessage(),
             ]);
         }
 
         return response()->json([
-            'message' => 'Your update failed due to incorrect data'
+            'message' => 'Your update failed due to incorrect data',
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
     }
 
     public function showRecords(Patient $patient)
     {
         try {
             return response()->json([
-                'message' => "Medical records successfully Loaded",
-                'records' => $patient->medicalRecords
+                'message' => 'Medical records successfully Loaded',
+                'records' => $patient->medicalRecords,
             ], 200);
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
             ], 403);
@@ -275,14 +258,13 @@ class PatientController extends Controller
     {
         $patient = $patient->laboratoryRecords()->latest()->first();
 
-
         return response()->json([
             'message' => 'You can access all laboratory record here',
             'patient' => $patient,
         ], 200);
 
         return response()->json([
-            'message' => 'Something went wrong'
+            'message' => 'Something went wrong',
         ], 400);
     }
 
@@ -296,9 +278,8 @@ class PatientController extends Controller
         ], 200);
 
         return response()->json([
-            'message' => 'Something went wrong'
+            'message' => 'Something went wrong',
         ], 400);
-
     }
 
     private function getRegRule()

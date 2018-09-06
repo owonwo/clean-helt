@@ -17,7 +17,7 @@
 
 <body>
 	<main id="app" v-cloak>
-		<section id="{{ auth()->guard('doctor')->user()->chcode }}" is="{{ $user }}"></section>
+		<section id="{{ auth($guard)->user()->chcode }}" is="{{ $user }}"></section>
 	</main>
 </body>
 </html>

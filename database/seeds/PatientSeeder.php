@@ -7,13 +7,15 @@ class PatientSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
-        //
+        Schema::disableForeignKeyConstraints();
         Patient::truncate();
-        factory("App\Models\Patient",10)->create();
+        factory("App\Models\Patient")->create([
+            'email' => 'rocio.daniel@example.com',
+        ]);
+        factory("App\Models\Patient", 10)->create();
+        Schema::enableForeignKeyConstraints();
     }
 }

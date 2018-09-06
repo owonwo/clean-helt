@@ -2,9 +2,9 @@
     <section class="">
         <div class="columns">
             <div class="column is-half">
-                <ProfileBox class="is-green" :avatar-src="$store.state.user.profile">
-                    <h4 class="profile-title">Dr. {{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h4>
-                    <p class="mb-15">{{ $store.state.user.specialization | ucfirst }}</p>
+                <ProfileBox class="is-green" :avatar-src="$parent.user.profile">
+                    <h4 class="profile-title">Dr. {{ $parent.user.first_name }} {{ $parent.user.last_name }}</h4>
+                    <p class="mb-15">{{ $parent.user.specialization | ucfirst }}</p>
                     <router-link to="/profile" tag="button" class="button is-outlined is-rounded is-white">View Profile</router-link>
                 </ProfileBox>
             </div>
@@ -67,12 +67,9 @@ import Modal from '@/components/Modal.vue'
 import LoggedIn from '@/Mixins/LoggedIn'
 
 export default {
-    mixins: [LoggedIn],
 	components: {Modal},
     name: 'Dashboard',
     data() {return {
-        hospital_chcode: "",
-        isLoading: false,
     }},
     methods: {
         sendAddHospitalRequest(send) {

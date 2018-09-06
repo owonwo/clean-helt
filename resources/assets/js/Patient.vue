@@ -62,10 +62,17 @@
 
 <script>
 import routes from './routes';
+import LoggedIn from '@/Mixins/LoggedIn';
 
 export default {
   name: 'Patient',
+  mixins: [LoggedIn],
   router: routes.patient,
-  mounted() { }
+  data() {return {
+      settings : {
+        profile: { route: `/api/patient/${this.$props.id}/patient`, key: 'patient' },
+        // patients: { route : '/api/patient', key: 'patients'}
+      },
+  }}
 }
 </script>

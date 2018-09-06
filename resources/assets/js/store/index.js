@@ -25,6 +25,7 @@ export default new Vuex.Store({
 		user: {
             first_name: "",
             last_name: "",
+            profile: {},
             get full_name() {
                 return [this.first_name, this.last_name].join(' ')
             }

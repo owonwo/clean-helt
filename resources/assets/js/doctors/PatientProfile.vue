@@ -115,6 +115,7 @@
 			}
 		},
 		mounted() {
+			console.log(this.$parent.$vnode.componentOptions.tag);
 			const {$route} = this;
 			const {patient_id} = $route.params
 			this.profile = this.$store

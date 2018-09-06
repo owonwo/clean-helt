@@ -68,7 +68,7 @@
 						<small class="">{{ hospital.chcode }}</small>
 
 						<div class="mt-15 has-text-right">
-							<button class="button is-text" @click="showAlert(hospital)"><i class="osf osf-remove"></i> Delete</button>
+							<button class="button is-hovered-danger" @click="showAlert(hospital)"><i class="ti ti-trash"></i></button>
 						</div>
 					</div>
 				</div>

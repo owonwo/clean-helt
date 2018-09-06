@@ -16,8 +16,16 @@ button.no-style, button[ghost]{
   background: transparent;
 }
 
-.button.is-outlined {
-	border-width: 2px !important;
+.button {
+	&.is-outlined { border-width: 2px !important }
+	&.is-hovered {
+		&-danger {
+			&:hover {
+				border-color: $danger;
+				color: $danger;
+			}
+		}
+	}
 }
 
 .circular-btn, .circle-btn, .btn-circle {

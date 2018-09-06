@@ -1,4 +1,27 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600);/*! bulma.io v0.7.1 | MIT License | github.com/jgthms/bulma */
+@import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600);body {
+  font-weight: 400;
+  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+}
+
+body b {
+  font-weight: 700;
+}
+
+.bold {
+  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+  font-weight: bold;
+}
+
+.bold-shadow {
+  text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.light {
+  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+  font-weight: 300;
+}
+
+/*! bulma.io v0.7.1 | MIT License | github.com/jgthms/bulma */
 
 @-webkit-keyframes spinAround {
   from {
@@ -425,7 +448,7 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
 
 code,
@@ -11515,29 +11538,6 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 
-body {
-  font-weight: 400;
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-}
-
-body b {
-  font-weight: 700;
-}
-
-.bold {
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-  font-weight: bold;
-}
-
-.bold-shadow {
-  text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-}
-
-.light {
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-  font-weight: 300;
-}
-
 .control.has-shadow input {
   font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
@@ -11736,6 +11736,11 @@ button[ghost] {
 
 .button.is-outlined {
   border-width: 2px !important;
+}
+
+.button.is-hovered-danger:hover {
+  border-color: #ff3860;
+  color: #ff3860;
 }
 
 .circular-btn,
@@ -13796,29 +13801,6 @@ a[ghost] {
   background-image: url(/images/osq-bell-green.svg?e40411735c1c37ca01cd5a4f1c3934aa);
 }
 
-body {
-  font-weight: 400;
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-}
-
-body b {
-  font-weight: 700;
-}
-
-.bold {
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-  font-weight: bold;
-}
-
-.bold-shadow {
-  text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-}
-
-.light {
-  font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
-  font-weight: 300;
-}
-
 .control.has-shadow input {
   font-family: "Nunito", "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
@@ -14017,6 +13999,11 @@ button[ghost] {
 
 .button.is-outlined {
   border-width: 2px !important;
+}
+
+.button.is-hovered-danger:hover {
+  border-color: #ff3860;
+  color: #ff3860;
 }
 
 .circular-btn,
