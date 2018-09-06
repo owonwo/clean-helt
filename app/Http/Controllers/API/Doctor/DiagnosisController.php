@@ -8,6 +8,7 @@ use App\Models\LabTest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Prescription;
+use App\Notifications\PatientMedicalRecordsNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,8 @@ class DiagnosisController extends Controller
                 $data['record_id'] = $record->id;
                 $diagnosis = Diagnosis::forceCreate($data);
 
+                $patient->notify(new PatientMedicalRecordsNotification($diagnosis, $patient));
+
                 //TODO
                 //Step 3: Check if there are prescriptions and tests and save them
                 if($request->input('prescription') && $request->input('test')){
@@ -50,12 +53,18 @@ class DiagnosisController extends Controller
                  * please add a notification that after creating the medical record
                  * it sent a notification to the user
                  */
+                //am working here
+
+
 
                 return response()->json([
+
                     'message' => 'Diagnosis made successfully',
                     'diagnosis' => $diagnosis->load('record')
                 ], 200);
+
             } catch (\Exception $e) {
+                dd($e->getMessage());
                 DB::rollBack();
                 return response()->json([
                     'message' => 'Diagnosis creation failed. ' . $e->getMessage()

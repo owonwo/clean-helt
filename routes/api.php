@@ -104,8 +104,8 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
         Route::post('/register', 'PatientController@store');
         Route::get('/{patient}/medical-records','PatientController@showRecords');
-        Route::get('/{patient}/patient', 'PatientController@show');
-        Route::patch("/{patient}/patient", 'PatientController@update');
+        Route::get('profile', 'PatientController@show');
+        Route::patch("/profile/update", 'PatientController@update');
         Route::get('/medical-record/{patient}', 'PatientController@showDate');
         Route::get('/{patient}/labtest', 'PatientController@showLabtest');
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
