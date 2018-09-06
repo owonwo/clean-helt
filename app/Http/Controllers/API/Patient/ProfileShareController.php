@@ -17,15 +17,18 @@ class ProfileShareController extends Controller
     public function __construct()
     {
         $this->middleware('auth:patient-api');
-        $this->patient = auth()->guard('patient')->user();
+
+        $this->middleware(function($request, $next) {
+            $this->patient = auth()->user();
+            return $next($request);
+        });
     }
 
     public function index()
     {
-        $patient = auth()->guard('patient')->user();
         return response()->json([
             'message' => 'Shares retrieved successfully',
-            'shares' => $patient->profileShares
+            'shares' => $this->patient->profileShares
         ], 200);
     }
 
