@@ -6,10 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\CodeGenerator;
+use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Hospital extends Authenticatable
 {
-    use Notifiable, HasApiTokens, CodeGenerator;
+    use Notifiable, CodeGenerator, HasMultiAuthApiTokens;
 
     protected $guarded = [];
 
