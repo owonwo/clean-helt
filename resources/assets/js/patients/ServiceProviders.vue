@@ -1,12 +1,17 @@
 <template>
 	<section>
-		<div class="columns is-centered">
-			<div class="column is-two-thirds">
-				<div class="field has-addons-right">
-					<p class="control has-icons-right has-shadow">
+		<section class="content-top-bar">
+			<h3>Health Services</h3>
+		</section>
+
+		<div class="columns is-centered" v-slide="show">
+			<div class="column is-half">
+				<div class="field">
+					<p class="control has-icons-left has-shadow">
 						<input type="text" class="input" placeholder="Find Service Provider by CH-Code">
-						<span class="is-right icon"><i class="osf osf-search"></i></span>
+						<span class="is-left icon"><i class="osf osf-search"></i></span>
 					</p>
+					<div class="mb-5"></div>
 				</div>
 			</div>
 		</div>
@@ -16,7 +21,9 @@
 				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
 				<span class="card-header-title">Departments</span>
 				<div class="m-10">
-					<button class="button is-outlined is-white">ADD</button>
+					<button @click="show = !show" class="button is-outlined is-rounded is-white">
+						<i class="ti ti-plus"></i> ADD
+					</button>
 				</div>
 			</div>
 			<div class="tabs mb-5">
@@ -57,6 +64,7 @@
 		name: 'Users',
 		data() {return {
 			current: 0,
+			show: true,
 			columns: [{}],
 		}}
 	}

@@ -43,6 +43,12 @@
 	<section @dragenter.prevent="dragOpen" class="accord">
 		<h4 :class="{active:!hideContent}" class="accord-heading container-fluid" @click="toggleContent">
 			<slot name="heading">Lorem ipsum.</slot>
+			<div class="is-pulled-right">
+				<i class="ti" :class="{
+					'ti-angle-down': hideContent, 
+					'ti-angle-up': !hideContent
+				}"></i>
+			</div>
 		</h4>
 		<article v-height.when="!hideContent" class="content">
 			<slot name="content" class="inner-content">

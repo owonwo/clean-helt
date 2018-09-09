@@ -12,7 +12,11 @@
 <script>
 	export default {
 		name: 'Pager',
-		props: ['current', 'align'],
+		props: {
+			'current': {type: Number, default: 0, required: true}, 
+			'align': {type: String, default: 'top'},
+		},
+		created() { this.$parent.page = 0 },
 		data() {return {
 			cp: 0,
 			parentStyle: {}

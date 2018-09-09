@@ -6,7 +6,7 @@ import PatientProfile from '@/doctors/PatientProfile.vue'
 import PatientRecordsDirectory from '@/doctors/PatientRecordsDirectory.vue'
 import Notifications from '@/components/Notifications.vue'
 
-const doctorRoutes = [
+const routes = [
 	{
 		path: '/dashboard',
 		alias: '/',
@@ -50,6 +50,6 @@ const doctorRoutes = [
 export default new Router({
 	mode: "history",
 	base: "doctors/",
-	routes: doctorRoutes,
+	routes,
 	linkActiveClass: 'active'
 })

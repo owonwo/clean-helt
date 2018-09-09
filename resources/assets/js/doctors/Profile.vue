@@ -27,7 +27,7 @@
 						</tr>
 						<tr>
 							<th>Gender:</th>
-							<td>{{ $store.state.user.gender }}</td>
+							<td>{{ $store.state.user.gender | ucfirst }}</td>
 						</tr>
 						<tr>
 							<th>MDCN:</th>

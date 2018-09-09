@@ -2,10 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueMoment from 'vue-moment'
 import Router from 'vue-router'
+
+// #pages
 import Admin from '@/Admin.vue'
 import Doctor from '@/Doctor.vue'
-import Hospital from '@/Hospital.vue'
 import Patient from '@/Patient.vue'
+import Hospital from '@/Hospital.vue'
+import Pharmacy from '@/Pharmacy.vue'
+import Laboratory from '@/Laboratory.vue'
 import GlobalComponents from '@/components';
 
 Vue.use(Router)
@@ -40,17 +44,43 @@ Vue.directive('height', {
     }
 });
 
-Vue.directive('slide-u', {
+Vue.directive('pager-controls', {
+    // bind(el, binding, vnode) {
+    // },
     bind(el, binding, vnode) {
-        $(el).css({overflow: 'hidden'});
+        const {context} = vnode;
+        const {value: {activeClass}, modifiers} = binding;
+
+        if("undefined" ===  typeof context.page) {
+            console.warn('Data Reference Error: Data "page" not Found')
+            return false
+        }
+        $(el).delegate('li > a', 'click', function(evt) {
+            !modifiers.prevent || event.preventDefault();
+            $(el).find(`li.${activeClass}`).each((index, elem) => $(elem).removeClass(activeClass));
+            $(this).parent().addClass(activeClass);
+            console.log($(el).find('li.active'), activeClass);
+            vnode.context.page = $(this).parent().index();        
+        });
+    }
+});
+
+Vue.directive('slide', {
+    bind(el, binding, vnode) {
+        el.style.overflow = 'hidden'
+    },
+    inserted(el, binding, vnode) {
+        $(el).data('v-height', $(el).height())
+        $(el).height(0);
     },
     update(el, binding, vnode) {
-        if(!binding.value) {
-            $(el).animate({
-                paddingTop: '0px',
-                paddingBottom: '0px'
-            }, 100, 'linear').animate({height : '0px'}, 300, 'swing');
-        }
+        const props = (binding.value) 
+            ? {height : '0px'}
+            : {height: $(el).data('v-height')}
+        $(el).animate({
+            paddingTop: '0px',
+            paddingBottom: '0px'
+        }, 100, 'linear').animate(props, 300, 'swing');
     }
 });
 
@@ -98,7 +128,7 @@ Vue.mixin({
 new Vue({
 	el: "#app",
     store,
-	components: {Admin, Doctor, Hospital, Patient},
+	components: {Admin, Doctor, Hospital, Patient, Pharmacy, Laboratory},
 	data: {
 	    user: {},
 		sidebars: {nav : false, notif: true}

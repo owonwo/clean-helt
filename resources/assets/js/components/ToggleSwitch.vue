@@ -1,6 +1,6 @@
 <template>
 	<div @click="toggle()"
-		:class="[state ? 'on' : 'off', $props.size]" class="switch"></div>
+		:class="[state ? 'on' : 'off', $props.size, animate?'animate':'']" class="switch"></div>
 </template>
 
 <style lang="scss">
@@ -14,14 +14,20 @@
 		border-radius: 30px;
 		display: inline-block;
 		vertical-align: middle;
-		transition: background .3s ease-out .15s;
+		transition: background .3s cubic-bezier(0.8, 0, 0.2, 0.98) .15s;
+
+		&.animate {
+			&::after {
+				animation: morph-slide .3s cubic-bezier(0.8, 0, 0.2, 0.98);
+			}
+		}
 
 		&::after {
 			content: "";
 			background: white;
 			border-radius: 50%;
 			position: absolute;
-			transition: all .3s ease-out;
+			transition: all .3s cubic-bezier(0.8, 0, 0.2, 0.98);
 		}
 
 		/*small size*/
@@ -45,10 +51,9 @@
 			background: $color;
 
 			&::after {
-				left: calc(100% - 20px);
+				left: 50%;
 			}
 		}
-
 
 		/* medium size */
 		&.md::after {
@@ -65,7 +70,7 @@
 
 			&::after {
 				border: solid 2px $color;
-				left: calc(100% - 34px);
+				left: 30px;
 			}
 		}
 	}
@@ -80,11 +85,14 @@
 		mounted() { this.state = this.$props.value },
 		data() {return {
 			state: false,
+			animate: false,
 		}},
 		methods: {
 			toggle() {
-				this.state = !this.state 
+				this.state = !this.state
+				this.animate = true;
 				this.$emit('change', this.state);
+				setTimeout(() => this.animate = false, 300);
 			}
 		}
 	}

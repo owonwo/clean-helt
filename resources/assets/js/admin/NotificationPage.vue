@@ -38,10 +38,9 @@
 
 <script>
 import NotificationCard from '@/components/NotificationCard.vue';
-import Pager from '@/components/Pager.vue';
 
 export default {
-	components: {Pager, NotificationCard},
+	components: {NotificationCard},
 	data() {return {
 		current: 0,
 	}}

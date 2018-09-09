@@ -1,7 +1,7 @@
 import Router from 'vue-router'
 import Settings from '@/patients/Settings.vue'
 import Dashboard from '@/patients/Dashboard.vue'
-import PatientProfile from '@/doctors/PatientProfile.vue'
+import Profile from '@/patients/Profile.vue'
 import ServiceProviders from '@/patients/ServiceProviders.vue'
 import Notifications from '@/components/Notifications.vue'
 import NotificationPage from '@/admin/NotificationPage.vue'
@@ -29,7 +29,7 @@ const patientRoutes = [
 	},
 	{
 		path: '/profile',
-		component: PatientProfile
+		component: Profile
 	},
 ];
 

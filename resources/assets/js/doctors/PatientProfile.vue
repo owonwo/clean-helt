@@ -98,13 +98,11 @@
 
 <script>
 	import Modal from '@/components/Modal.vue'
-	import vScrollbar from 'vue-perfect-scrollbar'
-	import Accordion from '@/components/Accordion.vue'
 	import DoctorNote from '@/components/DoctorNote.vue'
 	import {mapGetters} from 'vuex'
 
 	export default {
-		components: {Accordion, DoctorNote, Modal, vScrollbar},
+		components: {DoctorNote, Modal},
 		name: "PatientProfile",
 		methods: {
 			recordsRoute(type = "all") {

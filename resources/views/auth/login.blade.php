@@ -12,7 +12,7 @@
             <input placeholder="Password..." class="input" type="password" name="password" id="password">
         </div>
         <button type="submit" class="button is-submit">LOGIN</button>
-       	<div class="mt-15">Not Registered with Clean Helt?</div>
+       	<div class="mt-15">Not Registered with CleanHelt?</div>
        	<small><a href="{{ url('/register') }}">Sign Up Here</a></small>
     </section>
 </div>

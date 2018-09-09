@@ -53,22 +53,23 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
-Route::get('clients/{any}', function () { return view('all', ['user' => 'Patient']); })->where('any', '(.){0,}')->name('patient.dashboard');
+Route::get('clients/{any?}', function () { return view('all', ['user' => 'Patient']); })->where('any', '(.){0,}')->name('patient.dashboard');
 
-Route::get('doctors/{any}', function (Request $request) {
+Route::get('doctors/{any?}', function (Request $request) {
     return view('all', ['user' => 'Doctor']);
 })->middleware('auth:doctor')->where('any', '(.){0,}')->name('doctor.dashboard');
 
-Route::get('pharmacy/{any}', function () { return view('all', ['user' => 'Phamarcy']); })->where('any', '(.){0,}');
-Route::get('lab/{any}', function () { return view('all', ['user' => 'Laboratory']); })->where('any', '(.){0,}');
-Route::get('hospital/{any}', function () { return view('all', ['user' => 'Hospital']); })->where('any', '(.){0,}');
+Route::get('pharmacy/{any?}', function () { return view('all', ['user' => 'Phamarcy']); })->where('any', '(.){0,}')->name('pharmacy.dashboard');
+Route::get('lab/{any?}', function () { return view('all', ['user' => 'Laboratory']); })->where('any', '(.){0,}');
+Route::get('hospital/{any?}', function () { return view('all', ['user' => 'Hospital']); })->where('any', '(.){0,}')->name('hospital.dashboard');
 
 Route::get('/make-fake-session/{type}', function (Request $request, $type) {
     $emails = [
         'doctor' => 'dessie.conrey@gmail.com',
         'patient' => 'rocio.daniel@example.com',
+        'hospital' => 'dhettinger@example.com',
+        'pharmacy' => 'jeramie.koelpin@example.com',
     ];
-    // dump(['email' => $emails[$type], 'password' => 'secret']);
 
     if (auth()->guard($type)->attempt(['email' => $emails[$type], 'password' => 'secret'], false)) {
         session()->regenerate();

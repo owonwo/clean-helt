@@ -20,7 +20,7 @@
           </router-link>
 
           <router-link to="/services" tag="li">
-            <a href="#"><i class="osf osf-department"></i> Departments</a> 
+            <a href="#"><i class="osf osf-department"></i> Health Services</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
 
@@ -70,9 +70,9 @@ export default {
   router: routes.patient,
   data() {return {
       settings : {
-        profile: { route: `/api/patient/${this.$props.id}/patient`, key: 'patient' },
+        profile: { route: `/api/patient/profile`, key: 'patient' },
         // patients: { route : '/api/patient', key: 'patients'}
       },
-  }}
+  }},
 }
 </script>

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         View::composer(['all'], function () {
             $guard = '';
-            foreach (['doctor', 'patient', 'hospital'] as $sp) {
+            foreach (['doctor', 'patient', 'hospital', 'pharmacy', 'laboratory'] as $sp) {
                 if (auth($sp)->check()) {
                     $guard = $sp;
                     break;

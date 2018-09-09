@@ -1,6 +1,8 @@
 <template>
-	<section id="hospital" class="content">
-		<section class="osq-group-subtitle subtitle is-5">DASHBOARD</section>
+	<section id="hospital">
+		<section class="content-top-bar">
+			<h3>DASHBOARD</h3>
+		</section>
 		<div class="columns">
 			<div class="column is-one-third">
 				<form class="">
