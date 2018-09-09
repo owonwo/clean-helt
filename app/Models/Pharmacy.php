@@ -40,6 +40,7 @@ class Pharmacy extends Authenticatable
     {
         return $this->profileShares()
                 ->activeShares()
+                ->acceptedShares()
                 ->where('patient_id', $patient->id)
                 ->first() !== null;
     }

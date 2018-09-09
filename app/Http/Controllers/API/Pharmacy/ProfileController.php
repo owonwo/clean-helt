@@ -23,14 +23,6 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $guards = ['doctor', 'pharmacy', 'hospital'];
-        $validGuards = [];
-        foreach ($guards as $guard) {
-            if (auth()->guard($guard . '-api')->check()) {
-                $validGuards[$guard] = auth()->guard($guard . "-api")->user();
-            } else $validGuards[$guard] = false;
-        }
-        dd($validGuards);
         return response()->json([
             'message' => 'Pharmacy retrieved successfully',
             'pharmacy' => $this->pharmacy

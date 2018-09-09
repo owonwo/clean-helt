@@ -66,8 +66,8 @@ class Hospital extends Authenticatable
     public function canViewProfile(Patient $patient)
     {
         return $this->profileShares()
-                ->acceptedShares()
                 ->activeShares()
+                ->acceptedShares()
                 ->where('patient_id', $patient->id)
                 ->first() !== null;
     }
