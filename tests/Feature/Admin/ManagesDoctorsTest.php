@@ -47,8 +47,6 @@ class ManagesDoctorsTest extends TestCase
 
         create(DoctorProfile::class, ['doctors_id' => $doctor->id]);
 
-        dd($doctor->profile);
-
         $this->makeAuthRequest()->patch("/api/admin/doctors/deactivate/{$doctor->chcode}",[$doctor->profile->active => false]);
         $this->assertDatabaseHas('doctor_profiles',['active' => false]);
     }

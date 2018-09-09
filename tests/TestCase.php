@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Admin;
+use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\Laboratory;
 use App\Models\Patient;
@@ -11,6 +12,7 @@ use App\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use SMartins\PassportMultiauth\PassportMultiauth;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -32,14 +34,14 @@ abstract class TestCase extends BaseTestCase
     {
         Artisan::call('passport:install');
         $user = $user ?: $this->getUserFromGuard($guard);
-        $this->actingAs($user, $guard);
-        $this->setUpToken($guard);
+        PassportMultiauth::actingAs($user);
+        //$this->setUpToken($guard);
         return $this;
     }
 
     protected function makeAuthRequest()
     {
-        return $this->withHeaders(['Authorization' =>  'Bearer ' . $this->token]);
+        return $this;//->withHeaders(['Authorization' =>  'Bearer ' . $this->token]);
     }
 
     protected function setUpToken($guard)

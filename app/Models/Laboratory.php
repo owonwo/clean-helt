@@ -9,10 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\LaboratoryResetPasswordNotification;
+use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Laboratory extends Authenticatable
 {
-    use Notifiable, HasApiTokens, CodeGenerator;
+    use Notifiable, HasMultiAuthApiTokens, CodeGenerator;
 
     protected $codePrefix = 'CHL';
     

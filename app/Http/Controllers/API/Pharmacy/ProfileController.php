@@ -12,9 +12,10 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth:pharmacy-api');
+
         $this->middleware(function($request, $next) {
 
-            $this->pharmacy = auth()->user();
+            $this->pharmacy = auth('pharmacy-api')->user();
 
             return $next($request);
         });
