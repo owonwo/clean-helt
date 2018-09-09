@@ -25,7 +25,7 @@ class PatientTest extends TestCase
 
         $this->signIn($patient, 'patient');
         $this->makeAuthRequest()
-            ->get("api/patient/{$patient->chcode}/patient")
+            ->get("api/patient/profile")
             ->assertStatus(200);
     }
 
