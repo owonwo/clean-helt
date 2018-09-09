@@ -8,6 +8,7 @@ use App\Models\DoctorHospital;
 use App\Models\Hospital;
 use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -18,6 +19,7 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth:doctor-api')->except('store');
+
     }
 
     protected $rules = [
