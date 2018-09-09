@@ -21,7 +21,7 @@ class ManagesSharedProfilesTest extends TestCase
         $share = create(ProfileShare::class, [
             'provider_id' => $pharmacy->id,
             'provider_type' => get_class($pharmacy),
-            'status' => 1
+            'status' => "1"
         ]);
 
         $pending = create(ProfileShare::class, [

@@ -15,7 +15,8 @@ class MedicalRecordController extends Controller
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
-        $this->middleware(function($request, $next) {
+
+         $this->middleware(function($request, $next) {
 
             $this->hospital = auth()->user();
 
@@ -44,7 +45,8 @@ class MedicalRecordController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         return response()->json([
-            'data' => $medicalRecord->load('data')
+            'record' => $medicalRecord,
+            'data' => $medicalRecord->data
         ], 200);
     }
 }
