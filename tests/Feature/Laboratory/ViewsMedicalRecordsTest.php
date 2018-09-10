@@ -74,6 +74,7 @@ class ViewsMedicalRecordsTest extends TestCase
             'provider_id' => $laboratory->id,
             'provider_type' => get_class($laboratory)
         ]);
+
         $this->signIn($laboratory, 'laboratory');
         $this->makeAuthRequest()
             ->get("api/laboratories/patient/{$patient->chcode}/records?start_date={$startDate}")

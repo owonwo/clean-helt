@@ -17,8 +17,7 @@ class MedicalRecordController extends Controller
     {
         $this->middleware('auth:laboratory-api');
         $this->middleware(function($request, $next) {
-
-            $this->laboratory = auth()->guard('laboratory')->user();
+            $this->laboratory = auth()->user();
 
             return $next($request);
         });

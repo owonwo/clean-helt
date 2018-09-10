@@ -1,7 +1,7 @@
-                API DOCUMENTATION FOR PATIENTS
-PATIENT SIGNUP/REGISTRATION
+##               API DOCUMENTATION FOR PATIENTS
+### PATIENT SIGNUP/REGISTRATION
 
-POST api/patient/register
+**`POST api/patient/register`**
 
 Sample Data
 ```json
@@ -33,10 +33,19 @@ Response
     "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImIxYjM5Nzg4MjI0MzEyMWI5ZjBmMzNlYjI3YjhhZjRiMmY4OTJmMTBhZWM5OWNlYjUwNzFlMjllZGI5NzNmOTc2M2I3MmFlNDA2OTQ5NTM0In0.eyJhdWQiOiIxIiwianRpIjoiYjFiMzk3ODgyMjQzMTIxYjlmMGYzM2ViMjdiOGFmNGIyZjg5MmYxMGFlYzk5Y2ViNTA3MWUyOWVkYjk3M2Y5NzYzYjcyYWU0MDY5NDk1MzQiLCJpYXQiOjE1MzYyMjI3NzksIm5iZiI6MTUzNjIyMjc3OSwiZXhwIjoxNTY3NzU4Nzc5LCJzdWIiOiI4MiIsInNjb3BlcyI6W119.WyDzLmUbd8YGJ6rIHeY3ZP7mw_NERDHiM9inJOEneoEcZrZeiYcBouo_r57Efw7W0QYdcIdpnN0IQ69Bp9FFGTj-8wsWyYQM4HhVg01pfXuIQeCPyw8z3MINLyROIprYwckCG7L-vDsL7a5XXeWf7JIychTE1KB3P3cD0h_k6m1JpwVvoplicHxHi4Yijzapi5xy5qNfT0WojjtkzGIBCRzwABkFHLEcOkI2uY73ZPcsuayfMEogXdwoAzfT4BASSwUcj7X3lh3fdKgiWPlBDvKJjhWG5jXijk92xkts6rnK0WjYX2O-oNJH9Y3Z0nia1l9pom3A-y7w7nOx__BTxoHWkJZsagfGXH4flGzkaZjCBk_GXIMwkf33vy99gdVWhtBZ5GZAHhG0AZNXAfrPcnM7f3zHtNMTE8TNcRqcfg03DdhP-1s4Fodkeb0B21p_P3pN0PwgBtiqDOOWYvcEoQTO22gdqES0iAWj5NACq9_Q46v2h16ftnHaPH5NQKe2wPJqW9ARXaMuqg49Kptb17w1tleBub-CMTH9tyMSXZg_JKYP7Tv0J1G0TqatAg7fEiyhi8wtp9R21WwLij7iW6KB5z2zLsDI6obF4Qa0ikgogkpzGtyr7Aq6K8BEWmhhWJlqPZ4YQwSLyiagak3hbidqZue0rEve8tRlY4SwrWM"
 }
 ```
+<br>
+
+
+### Email confirmation
+
+**`GET api/patient/verify/{email}/{verifyToken}`**
+```
+email = useremail@gmail.com
+verifyToken = vbjcdbcibbidsj94589034ujfj04
+```
 
 After registration a redirect to confirm account through email and then return
 
-GET api/patient/verify/{email}/{verifyToken}
 
 ```json
 {
@@ -78,7 +87,9 @@ patient: {
 }
 ```
 
-Patient Log In 
+### Patient Log In
+
+**`POST api/login/patient`**
 
 Sample Data
 ```json
@@ -89,7 +100,6 @@ Sample Data
 ```
 Response 
 
-POST api/login/patient
 
 ```json
 {
@@ -131,8 +141,12 @@ POST api/login/patient
     "expires_in": 21600
 }
 ```
+<br>
 
-View Patient Page 
+### View Patient Page 
+
+**`GET api/patient/profile`**
+
 ```json
 {
     "message": "you have successfully log into your account",
@@ -172,10 +186,16 @@ View Patient Page
     }
 }
 ```
+<br/>
 
-Patient Medical Record by Date 
+## Medical Record view 
+### Patient Medical Record by Date 
 
-GET  api/patient/medical-record/{patient}
+
+**`GET  api/patient/medical-record/{patient}`**
+```
+{patient} = chcode 
+```
 
 ```json
 {
@@ -197,9 +217,9 @@ GET  api/patient/medical-record/{patient}
 }
 ```
 
-Get The Patient Profile Share 
+### Get The Patient Profile Share 
 
-GET api/patient/profile/shares
+**`GET api/patient/profile/shares`**
 
 ```json
 {
@@ -275,9 +295,9 @@ GET api/patient/profile/shares
 }
 ```
 
-Get all patient laboratory test
+### Get all patient laboratory test
 
-GET api/patient/{patient}/labtest
+**`GET api/patient/{patient}/labtest`**
 
 ```json
 {
@@ -326,9 +346,13 @@ GET api/patient/{patient}/labtest
 }
 ```
 
-Patient viewing prescription or pharmacy 
+### Patient viewing prescription or pharmacy 
 
-GET api/patient/{patient}/prescription
+**`GET api/patient/{patient}/prescription`**
+
+```
+{patient} = chcode  
+```
 
 ```json
 {
@@ -389,9 +413,13 @@ GET api/patient/{patient}/prescription
     ]
 }
 ```
-Get medical record
+### Get medical record
 
-GET api/patient/{patient}/medical-records
+**`GET api/patient/{patient}/medical-records`**
+
+```
+{patient} = chcode 
+```
 
 ```json
 {
@@ -413,7 +441,9 @@ GET api/patient/{patient}/medical-records
 }
 ```
 
-Create a profile share to the Laboratory,Doctor,Patient,Pharmacy
+### Create Share Laboratory,Doctor,Patient,Pharmacy
+
+**`POST api/patient/profile/shares`**
 
 Sample Data(please attach a time ahead of now, or today)
 
@@ -444,7 +474,7 @@ Response
 
 Patient Updating His Basic information
 
-PATCH api/patient/profile/update
+**`PATCH api/patient/profile/update`**
 
 Scheme Data
 
@@ -499,9 +529,58 @@ Response
 }
 ```
 
+### Get all shared profile
+
+**`GET api/patient/profile/shares`**
+
+```json
+{
+    "message": "Shares retrieved successfully",
+    "shares": [
+        {
+            "id": 1,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:01:56",
+            "updated_at": "2018-09-09 18:01:56"
+        },
+        {
+            "id": 2,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:06:08",
+            "updated_at": "2018-09-09 18:06:08"
+        },
+        {
+            "id": 3,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:06:42",
+            "updated_at": "2018-09-09 18:06:42"
+        }
+    ]
+}
+```
+
 Patient Can cancel his shared profile
 
-PATCH api/patient/profile/shares/{shareOne}/expire
+**`PATCH api/patient/profile/shares/{shareOne}/expire`**
+
+```
+{shareOne} = shareProfile->id 
+```
 
 Scheme Data
 
@@ -534,7 +613,10 @@ Response
 
 Patient Can cancel his shared profile
 
-PATCH api/patient/profile/shares/{shareOne}/expire
+**`PATCH api/patient/profile/shares/{shareOne}/expire`**
+```
+{shareOne} = profileShare->id 
+```
 
 Scheme Data
 
@@ -564,6 +646,8 @@ Response
 ```
 
 Patient can add emergency route
+
+**`PATCH api/patient/{patient}/emergency`**
 
 Scheme Data
 

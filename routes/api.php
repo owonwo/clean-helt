@@ -119,8 +119,8 @@ Route::group(['namespace' => 'API'], function() {
     });
 
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){ 
-        Route::get('/', 'LaboratoryController@dashboard');
-        Route::patch('{laboratories}/laboratories', 'LaboratoryController@update');
+        Route::get('/profile', 'LaboratoryController@index');
+        Route::patch('profile/update', 'LaboratoryController@update');
 
         Route::get('patient', 'ProfileShareController@index');
         Route::get('patient/pending', 'ProfileShareController@pending');

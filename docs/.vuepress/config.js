@@ -10,6 +10,8 @@ module.exports = {
             ['/authentication/', 'Authentication'],
             ['/hospitals/', 'Hospitals'],
             ['/pharmacies/', 'Pharmacies'],
+            ['/patient/', 'Patient'],
+            ['/laboratory/', 'Laboratory'],
         ],
     }
 };
