@@ -7,14 +7,44 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Psr\Http\Message\ServerRequestInterface;
 
-class LoginController extends Controller
+class LoginController extends AccessTokenController
 {
 
+    public function newLogin(ServerRequestInterface $request, $guard)
+    {
+        $request = $request->withParsedBody(array_merge([
+            'grant_type' => 'password',
+            'client_id' => '8',
+            'client_secret' => 'qBn2wu2iumJRVACf8sDfjlEGtTHjXc1f2FsYO9qr',
+        ], $request->getParsedBody()));
+
+        $tokenResponse =  parent::issueToken($request);
 
 
+        if ($tokenResponse->getStatusCode() === 200) {
+            $response['token_data'] = json_decode($tokenResponse->getContent(), true);
+            $model = $this->getModel($guard);
+            $response['user'] = $model::where('email', request('username'))->first();
 
+            return response()->json($response, 200);
+        }
 
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    private function getModel($guard)
+    {
+        $model =  'App\Models\\' . ucfirst($guard);
+        return class_exists($model) ? $model : null;
+    }
+
+    private function getProvider($guard)
+    {
+        return @config('auth.guards')[$guard]['provider'];
+    }
 
     /**
      * Refresh a token.
