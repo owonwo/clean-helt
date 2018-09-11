@@ -42,7 +42,7 @@ class DoctorController extends Controller
             if ($doctor->update(request()->all())) {
                 return response()->json([
                     'message' => 'Doctor updated successfully',
-                    'hospital' => $doctor
+                    'doctor' => $doctor
                 ], 200);
             }
 

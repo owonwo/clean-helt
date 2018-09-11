@@ -21,7 +21,7 @@ class NotificationController extends Controller
             $notifications = optional($doctor)->notifications;
             return response()->json([
                 'message' => 'Notifications Loaded successfully',
-                'notifications' => $notifications
+                'notifications' => $notifications->paginate(20)
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

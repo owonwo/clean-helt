@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Models\DoctorProfile;
 use App\Models\DoctorHospital;
 use App\Models\Hospital;
 use Exception;
@@ -46,13 +47,14 @@ class DoctorController extends Controller
         $data['password'] = bcrypt($data['password']);
         $token = ['token' => str_random(40)];
         if ($doctor = Doctor::forceCreate(array_merge($data, $token))) {
+            DoctorProfile::forceCreate(['doctors_id' => $doctor->id]);
             event(new Registered($doctor));
 
             $accessToken = $doctor->createToken(config('app.name'))->accessToken;
 
             return response()->json([
                 'message' => 'Doctor has been created successfully',
-                'accessToken' => $accessToken,
+                'access_token' => $accessToken,
                 'doctor' => $doctor
             ], 200);
         }
@@ -75,14 +77,13 @@ class DoctorController extends Controller
             ], 400);
     }
 
-    public function show(Doctor $doctor)
+    public function show()
     {
-
+        $doctor = auth()->guard('doctor-api')->user();
         try {
             return response()->json([
                 'message' => 'Doctors Loaded successfully',
                 'doctor' => $doctor,
-                'doctorProfile' => $doctor->profile,
             ]);
         } catch (Exception $e) {
             return response()->json([
