@@ -44,7 +44,8 @@ class DoctorTest extends TestCase
     {
         $doctor  = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor-api');
-        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update',$doctor))->assertStatus(200);
+        $doctorProfile = create('App\Models\DoctorProfile',['doctors_id' => $doctor->id]);
+        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update'),['first_name' => 'Bread'])->assertStatus(200);
 
     }
 
@@ -106,7 +107,7 @@ class DoctorTest extends TestCase
             'email' => 'yarrowbradley@gmail.com',
             'password' => 'secret',
             'phone' => '08118022308',
-            'gender' => 'Male',
+            'gender' => 'male',
             'specialization' => 'cardiologist',
             'folio' => 'MB/12/'.str_random(2),
             'token' => str_random(40),

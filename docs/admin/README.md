@@ -1,21 +1,26 @@
-## Hospital API Documentation
+## Admin Manages Hospital 
 
 ### Base URL
 
-**`BASE URL: /api/hospital`**
+**`BASE URL: /api/admin`**
 
-### Profile Management
+### Hospital
 
-**`GET /profile`**
+**`GET /hospitals`**
 
-Returns an authenticated hospital's profile information.
+```
+{hospital} => hospital's chcode
+```
+
+Returns  all hospitals made by the admin
 
 Sample Response:
 
 ```json
     {
       "message":"Hospital retrieved successfully",
-      "hospital": {
+      "hospitals": [
+      {
           "id":1,
           "name":"New Era Hospital",
           "email":"kelley20@example.com",
@@ -47,19 +52,44 @@ Sample Response:
           "created_at":"2018-09-03 20:16:47",
           "updated_at":"2018-09-03 21:57:02",
           "deleted_at":null
-      }
+      } ]
     }
 ```
 
-**`PATCH /profile`**
+**`POST /hospitals`**
 
-Updates an authenticated hospital's profile information.
+Creates a new Hospital
 
 Sample Data:
 
 ```json
 {
-  "name": "New Value"
+    "hospital" : {
+     "name":"New Era Hospital", //String
+     "email":"kelley20@example.com", //String
+     "chcode":"CHH293415609", //String
+     "director_mdcn":"natus", //String
+     "phone":"252-582-5657 x62181", //String
+     "address":"673 Niko Corner Apt. 054\nVivianneville, IA 48169", //String
+     "city":"Luisfurt", //String
+     "state":"Hodkiewiczview", //String
+     "country":"Mongolia", //String
+     "website": "http://fishes.com", // String
+     "facility_type":"", //Integer
+     "facility_owner":"", //Integer
+     "cac_reg":"", //String
+     "cac_date":"", //Date
+     "fmoh_reg":"", //String
+     "fmoh_date":"",  //Date
+     "admin_name":"", //String
+     "admin_position":null, // String
+     "admin_phone":"080920939", //String
+     "services":"", // Text
+     "bank_name":"Fidelitiy Bank", //String
+     "bank_branch":"Diobu",  //String
+     "account_name": "Bradley Yarrow", //String
+     "account_number":"090909090" // String
+     }
 } 
 ```
 
@@ -67,7 +97,7 @@ Sample Response:
 
 ```json
     {
-      "message":"Profile updated successfully",
+      "message":"Hospital Created successfully",
       "hospital": {
           "id":1,
           "name":"New Era Hospital",
@@ -103,75 +133,180 @@ Sample Response:
       }
     }
 ```
+
+**`PATCH /hospitals/{hospital}`**
+
+Sample Data:
+
+```json
+    {
+          "name":"New Era Hospital",
+          "email":"kelley20@example.com",
+          "chcode":"CHH293415609",
+          "director_mdcn":"natus",
+          "phone":"252-582-5657 x62181",
+          "address":"673 Niko Corner Apt. 054\nVivianneville, IA 48169",
+          "city":"Luisfurt",
+          "state":"Hodkiewiczview",
+          "country":"Mongolia",
+          "website":null,
+          "facility_type":null,
+          "facility_owner":null,
+          "cac_reg":null,
+          "cac_date":null,
+          "fmoh_reg":null,
+          "fmoh_date":null,
+          "admin_name":null,
+          "admin_position":null,
+          "admin_phone":null,
+          "services":null,
+          "bank_name":null,
+          "bank_branch":null,
+          "account_name":null,
+          "account_number":null,
+          "active":1,
+          "avatar":"avatar/avatar.jpeg",
+          "remember_token":null
+      }
+   
+```
+Sample Response:
+
+```json
+        {
+            "message" : "Hospital Updated success fully",
+            "hospital" : {
+                          
+            }
+        }
+```
+Get a single hospital
+ 
+**`GET /hospitals/{hospital}`**
+
+Sample Response
+
+```json
+      {
+        "message" : "Hospital Loaded Successfully",
+        "hospital" : {
+          "name":"New Era Hospital",
+          "email":"kelley20@example.com",
+          "chcode":"CHH293415609",
+          "director_mdcn":"natus",
+          "phone":"252-582-5657 x62181",
+          "address":"673 Niko Corner Apt. 054\nVivianneville, IA 48169",
+          "city":"Luisfurt",
+          "state":"Hodkiewiczview",
+          "country":"Mongolia",
+          "website":null,
+          "facility_type":null,
+          "facility_owner":null,
+          "cac_reg":null,
+          "cac_date":null,
+          "fmoh_reg":null,
+          "fmoh_date":null,
+          "admin_name":null,
+          "admin_position":null,
+          "admin_phone":null,
+          "services":null,
+          "bank_name":null,
+          "bank_branch":null,
+          "account_name":null,
+          "account_number":null,
+          "active":1,
+          "avatar":"avatar/avatar.jpeg",
+          "remember_token":null
+        }
+      }
+```
+Delete a Hospital
+
+**` /hospitals/{hospital}`**
+
+Sample Data
+
+```json
+    {
+       "chcode" : "CH458506085"
+    }
+```
+
+Response Data
+```json
+    {
+       "message" : "Deleted Successfully",
+       "hospital" : []
+    }
+```
+
 <br/>
 
-### Patient Management
+### Doctors
 
-**`GET /patients`**
+**`GET /doctors`**
 
-Returns a list of patients a hospital has.
+```
+{doctor} => doctor's chcode
+```
+
+Returns a list of Doctors.
 
 Sample Response:
 
 ```json
 {
-    "message": "Patients retrieved successfully",
-    "patients": [
-          {
-              "id": 1,
-              "patient_id": 1,
-              "provider_type": "App\\Models\\Hospital",
-              "provider_id": 1,
-              "expired_at": "2018-10-01 00:00:00",
-              "doctor_id": null,
-              "status": "0",
-              "created_at": null,
-              "updated_at": null,
-              "patient": {
-                  "id": 1,
-                  "first_name": "Maxie",
-                  "middle_name": "Eichmann",
-                  "last_name": "Steuber",
-                  "chcode": "CHP306622590",
-                  "avatar": "avatar/avatar.jpeg",
-                  "email": "lueilwitz.dominique@example.net",
-                  "dob": "1995-07-14",
-                  "gender": "male",
-                  "phone": "+1 (304) 626-6064",
-                  "address": "851 Wisozk Ramp Apt. 896\nJamilborough, MA 44522-9404",
-                  "city": "Faheytown",
-                  "state": "Terrymouth",
-                  "country": "Kuwait",
-                  "active": 1,
-                  "religion": "Muslim",
-                  "marital_status": "divorced",
-                  "token": null,
-                  "nok_name": "Vince Nikolaus DVM",
-                  "nok_phone": "1-803-705-2897 x7807",
-                  "nok_email": "ansel.waters@example.org",
-                  "nok_address": "29467 Caitlyn Parkways Suite 574\nStoltenbergside, LA 88441",
-                  "nok_city": "Dietrichstad",
-                  "nok_state": "East Payton",
-                  "verify_token": null,
-                  "status": 0,
-                  "nok_country": null,
-                  "remember_token": null,
-                  "created_at": "2018-09-03 20:16:47",
-                  "updated_at": "2018-09-03 20:16:47"
-              }
-          }
-    ]
+    "message": "Doctors retrieved successfully",
+    "doctors": []
 }
 ```
+
+**`GET /doctors/{doctor}`**
+
+Returns a Particular Doctor
+
+Sample Response:
+
+```json
+{
+    "message": "Doctor retrieved successfully",
+    "doctors": {}
+}
+
+```
+**`PATCH /doctors/verify/{doctor}`**
+
+Verifies a particular Doctor
+
+Just hist the route endpoint and it verify's the doctor
+
+Sample Response
+
+```json
+     {
+        "message" : "Activated Successfully",
+        "doctor" : []
+     }
+```
+
 <br/>
 
-**`GET patients/{patient}/records`** 
+**`PATCH /doctors/activate/{doctor}`**
 
-```
-{patient} => patient's chcode
+Activates the Doctor
+
+Just hit The route
+
+Sample Response: 
+
+```json
+     {
+        "message" : "Activated Successfully",
+        "doctor" : []
+     }
 ```
 
-Returns a list of a patients records.
+
 
 Request Modifiers (Search Params)
 ```

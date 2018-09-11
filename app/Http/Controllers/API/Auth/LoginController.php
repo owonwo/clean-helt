@@ -15,14 +15,12 @@ class LoginController extends AccessTokenController
 
     public function newLogin(ServerRequestInterface $request, $guard)
     {
-        $request = $request->withParsedBody(array_merge([
-            'grant_type' => 'password',
-            'client_id' => '8',
-            'client_secret' => 'qBn2wu2iumJRVACf8sDfjlEGtTHjXc1f2FsYO9qr',
-        ], $request->getParsedBody()));
+        $request = $request->withParsedBody(array_merge(
+            config('ch.auth'),
+            $request->getParsedBody()
+        ));
 
         $tokenResponse =  parent::issueToken($request);
-
 
         if ($tokenResponse->getStatusCode() === 200) {
             $response['token_data'] = json_decode($tokenResponse->getContent(), true);
