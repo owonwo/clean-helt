@@ -21,7 +21,6 @@ class LoginController extends AccessTokenController
         ));
 
         $tokenResponse =  parent::issueToken($request);
-
         if ($tokenResponse->getStatusCode() === 200) {
             $response['token_data'] = json_decode($tokenResponse->getContent(), true);
             $model = $this->getModel($guard);
