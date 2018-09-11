@@ -6,10 +6,11 @@ use App\Traits\CodeGenerator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Doctor extends Authenticatable
 {
-    use HasApiTokens, CodeGenerator, Notifiable;
+    use CodeGenerator, Notifiable, HasMultiAuthApiTokens;
 
     protected $codePrefix = 'CHD';
 

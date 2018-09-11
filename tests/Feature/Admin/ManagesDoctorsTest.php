@@ -47,8 +47,6 @@ class ManagesDoctorsTest extends TestCase
 
         create(DoctorProfile::class, ['doctors_id' => $doctor->id]);
 
-        dd($doctor->profile);
-
         $this->makeAuthRequest()->patch("/api/admin/doctors/deactivate/{$doctor->chcode}",[$doctor->profile->active => false]);
         $this->assertDatabaseHas('doctor_profiles',['active' => false]);
     }
@@ -56,8 +54,8 @@ class ManagesDoctorsTest extends TestCase
     public function an_authenticated_admin_can_activate_a_doctor(){
         $this->signIn(null, 'admin');
         $doctor = create(Doctor::class);
-
-        $this->makeAuthRequest()->patch("/api/admin/doctors/activate/{$doctor->chcode}",['active' => true]);
+        $doctorProfile = create(DoctorProfile::class,['doctors_id' => $doctor->id]);
+        $this->makeAuthRequest()->patch(route('admin.doctor.activate',$doctor),['active' => true]);
         $this->assertDatabaseHas('doctor_profiles',['active' => true]);
     }
 
@@ -65,7 +63,7 @@ class ManagesDoctorsTest extends TestCase
     public function an_admin_can_verify_a_doctor(){
         $this->signIn(null, 'admin');
         $doctor = create(Doctor::class);
-
+        $doctorProfile = create(DoctorProfile::class,['doctors_id' => $doctor->id]);
         $this->makeAuthRequest()->patch("/api/admin/doctors/verify/{$doctor->chcode}",['validation' => true]);
         $this->assertDatabaseHas('doctors',['validation' => true]);
     }

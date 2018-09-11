@@ -18,18 +18,14 @@ class PatientController extends Controller
     public function __construct()
     {
         $this->middleware('auth:patient-api')->except('store', 'verify');
+
+        $this->middleware(function($request, $next) {
+            $this->patient = auth()->user();
+            return $next($request);
+        });
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('patient.login')->with('user', Auth::user());
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -128,8 +124,11 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Patient $patient)
+    public function show()
     {
+
+        $patient = $this->patient;
+
         return response()->json([
             'message' => 'you have successfully log into your account',
             'patient' => $patient,
@@ -185,7 +184,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Patient $patient)
+    public function update(Request $request)
     {
         /**
          * @check if the patient is inserting an image of not
@@ -193,16 +192,13 @@ class PatientController extends Controller
 
         $rule = $this->getUpdateRule();
 
-        $patient = auth()->guard('patient-api')->user();
-
         try {
-            request()->validate($rule);
-        } catch (ValidationException $e) {
-
+            $this->validate($request, $rule);
+        } catch (ValidationException $exception) {
             return response()->json([
-                'errors' => $e->errors(),
-                'message' => $e->getMessage(),
-            ], 422);
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
         }
 
         try {
@@ -218,10 +214,10 @@ class PatientController extends Controller
 
             $data['avatar'] = $avatarName;
 
-            if($patient->update($data)){
+            if($this->patient->update($data)){
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
-                    'patient' => $patient,
+                    'patient' => $this->patient,
                 ], 200);
             }
 
@@ -252,7 +248,7 @@ class PatientController extends Controller
         try {
             return response()->json([
                 'message' => "Medical records successfully Loaded",
-                'records' => $patient->medicalRecords
+                'records' => $patient->medicalRecords()->latest()->get()->load('data')
             ], 200);
         } catch (Exception $exception){
             return response()->json([
@@ -263,17 +259,17 @@ class PatientController extends Controller
 
     public function showDate(Patient $patient)
     {
-        $patient = $patient->medicalRecords()->latest()->first();
+        $retrievePatient = $patient->medicalRecords()->latest()->get()->load('data');
 
         return response()->json([
             'message' => 'access medical record by date',
-            'patient' => $patient,
+            'patient' => $retrievePatient,
         ], 200);
     }
 
     public function showLabtest(Patient $patient)
     {
-        $patient = $patient->laboratoryRecords()->latest()->first();
+        $patient = $patient->laboratoryRecords()->latest()->get();
 
 
         return response()->json([
@@ -288,7 +284,7 @@ class PatientController extends Controller
 
     public function showPrescription(Patient $patient)
     {
-        $patient = $patient->pharmacyRecords()->latest()->first();
+        $patient = $patient->pharmacyRecords()->latest()->get();
 
         return response()->json([
             'message' => 'access medical record by date',
@@ -308,16 +304,15 @@ class PatientController extends Controller
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6',
+            'phone' => 'required|digit:11'
         ];
     }
 
     private function getUpdateRule()
     {
         return [
-            'email' => 'required|email|max:190|unique:patient',
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
-            'password' => 'required|confirmed|max:32|min:6',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
