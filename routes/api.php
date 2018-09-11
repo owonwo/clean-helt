@@ -45,10 +45,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('doctors','DoctorController@index');
         Route::get('doctors/{doctor}','DoctorController@show');
         Route::patch('doctors/verify/{doctor}','DoctorController@verify')->name('admin.doctor.verify');
-        Route::patch('doctors/activate/{doctor}','DoctorController@activate');
-        Route::patch('doctors/deactivate/{doctor}','DoctorController@deactivate');
-        Route::delete('doctors/destroy/{doctor}','DoctorController@destroy');
-        Route::get('doctors/{id}','DoctorController@show');
+        Route::patch('doctors/activate/{doctor}','DoctorController@activate')->name('admin.doctor.activate');
+        Route::patch('doctors/deactivate/{doctor}','DoctorController@deactivate')->name('admin.doctor.deactivate');
+        Route::delete('doctors/destroy/{doctor}','DoctorController@destroy')->name('admin.doctor.delete');
+        Route::get('doctors/{doctor}','DoctorController@show');
         Route::patch('doctors/update/{doctor}','DoctorController@update');
 
         //Routes for laboratory
