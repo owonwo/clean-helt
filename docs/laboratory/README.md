@@ -246,3 +246,140 @@ Response
 
 ## Access Medical Records
 
+### View patient medical record
+
+**`GET http://localhost:8000/api/laboratories/patient/{$patient->chcode}/records`**
+
+``` 
+{patient->chcode} = chcode
+```
+
+```json
+{
+    "records": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "reference": "CHR116409222",
+                "patient_id": 1,
+                "type": "App\\Models\\LabTest",
+                "issuer_type": "App\\Models\\Doctor",
+                "issuer_id": 12,
+                "created_at": "2018-09-11 14:55:16",
+                "updated_at": "2018-09-11 14:55:16",
+                "deleted_at": null
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/laboratories/patient/CHP520274131/records?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/laboratories/patient/CHP520274131/records?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/laboratories/patient/CHP520274131/records",
+        "per_page": 30,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}
+```
+
+### View patient record
+
+**`GET api/laboratories/patients/{patient}/records/{medicalRecord}`** 
+
+``` 
+{patient} = patient->chcode
+{medicalRecord} = medical record reference
+```
+
+```json
+{
+    "record": {
+        "id": 1,
+        "reference": "CHR116409222",
+        "patient_id": 1,
+        "type": "App\\Models\\LabTest",
+        "issuer_type": "App\\Models\\Doctor",
+        "issuer_id": 12,
+        "created_at": "2018-09-11 14:55:16",
+        "updated_at": "2018-09-11 14:55:16",
+        "deleted_at": null,
+        "data": [
+            {
+                "id": 1,
+                "record_id": 1,
+                "test_name": "Kaley Gislason",
+                "description": "Et enim ut iure earum non autem ad. Odit maxime repellendus enim. Sunt voluptatem reprehenderit unde quia saepe.",
+                "result": "Quidem illum rerum iure voluptatibus. Ut mollitia veniam enim ut. Cupiditate illum cupiditate officia dicta assumenda. Assumenda at esse et reiciendis. Et porro omnis accusantium et fugiat ipsam sed.",
+                "conclusion": "Natus unde qui aut aut. Atque magnam asperiores minima. Non sit laudantium debitis. Sit facere modi odio sequi.",
+                "status": 1,
+                "taker": "11",
+                "diagnosis_id": 1,
+                "created_at": "2018-09-11 14:55:17",
+                "updated_at": "2018-09-11 14:55:17"
+            }
+        ]
+    },
+    "data": [
+        {
+            "id": 1,
+            "record_id": 1,
+            "test_name": "Kaley Gislason",
+            "description": "Et enim ut iure earum non autem ad. Odit maxime repellendus enim. Sunt voluptatem reprehenderit unde quia saepe.",
+            "result": "Quidem illum rerum iure voluptatibus. Ut mollitia veniam enim ut. Cupiditate illum cupiditate officia dicta assumenda. Assumenda at esse et reiciendis. Et porro omnis accusantium et fugiat ipsam sed.",
+            "conclusion": "Natus unde qui aut aut. Atque magnam asperiores minima. Non sit laudantium debitis. Sit facere modi odio sequi.",
+            "status": 1,
+            "taker": "11",
+            "diagnosis_id": 1,
+            "created_at": "2018-09-11 14:55:17",
+            "updated_at": "2018-09-11 14:55:17"
+        }
+    ]
+}
+```
+<br/>
+
+### Update Patient medical record 
+
+**`POST  api/laboratories/patient/{patient}/records/{medicalRecord}/{labtest}`**
+
+Sample Data
+
+``` 
+{patient} = patient->chcode
+{medicalRedical} = medicalrecord->chcode
+{labtest} = labtest id
+
+```
+
+```json
+{
+    "message": "Test successfully Carried out",
+    "labtest": {
+        "id": 1,
+        "record_id": 1,
+        "test_name": "Kaley Gislason",
+        "description": "Et enim ut iure earum non autem ad. Odit maxime repellendus enim. Sunt voluptatem reprehenderit unde quia saepe.",
+        "result": "I haate to say this but this is my last test before notification",
+        "conclusion": "Natus unde qui aut aut. Atque magnam asperiores minima. Non sit laudantium debitis. Sit facere modi odio sequi.",
+        "status": true,
+        "taker": "11",
+        "diagnosis_id": 1,
+        "created_at": "2018-09-11 14:55:17",
+        "updated_at": "2018-09-11 19:32:38"
+    },
+    "record": {
+        "id": 1,
+        "reference": "CHR116409222",
+        "patient_id": 1,
+        "type": "App\\Models\\LabTest",
+        "issuer_type": "App\\Models\\Doctor",
+        "issuer_id": 12,
+        "created_at": "2018-09-11 14:55:16",
+        "updated_at": "2018-09-11 14:55:16",
+        "deleted_at": null
+    }
+}
+```

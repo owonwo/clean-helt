@@ -9,10 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\LaboratoryResetPasswordNotification;
+use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Laboratory extends Authenticatable
 {
-    use Notifiable, HasApiTokens, CodeGenerator;
+    use Notifiable, HasMultiAuthApiTokens, CodeGenerator;
 
     protected $codePrefix = 'CHL';
     
@@ -36,6 +37,15 @@ class Laboratory extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new LaboratoryResetPasswordNotification($token));
+    }
+
+    public function canViewProfile(Patient $patient)
+    {
+        return $this->profileShares()
+                ->activeShares()
+                ->acceptedShares()
+                ->where('patient_id', $patient->id)
+                ->first() !== null;
     }
 
     public function profileShares()
@@ -64,23 +74,12 @@ class Laboratory extends Authenticatable
         return $this->chcode === $share->provider->chcode;
     }
 
-
-    public function canViewProfile(Patient $patient)
-    {
-        return $this->profileShares()
-                ->activeShares()
-                ->where('patient_id', $patient->id)
-                ->first() !== null;
-    }
-
     public function issuer()
     {
         return $this->morphMany(MedicalRecord::class, 'issuer');
     }
 
-
-
-    public function canUpdatePatientPrescription(Patient $patient, MedicalRecord $medicalRecord,LabTest $labTest)
+    public function canUpdatePatienLabTest(Patient $patient, MedicalRecord $medicalRecord,LabTest $labTest)
     {
         return $this->canViewProfile($patient) &&
             $medicalRecord->exists &&

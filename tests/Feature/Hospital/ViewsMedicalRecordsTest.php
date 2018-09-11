@@ -28,13 +28,15 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $hospital->id,
-            'provider_type' => get_class($hospital)
+            'provider_type' => get_class($hospital),
+            'status' => 1
         ]);
 
         $this->signIn($hospital, 'hospital');
 
         $this->makeAuthRequest()
             ->get("api/hospital/patients/{$patient->chcode}/records")
+            ->assertStatus(200)
             ->assertSee($records->first()->reference)
             ->assertSee($records->last()->reference);
     }
@@ -59,7 +61,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $hospital->id,
-            'provider_type' => get_class($hospital)
+            'provider_type' => get_class($hospital),
+            'status' => "1"
         ]);
 
         $this->signIn($hospital, 'hospital');
@@ -97,7 +100,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $hospital->id,
-            'provider_type' => get_class($hospital)
+            'provider_type' => get_class($hospital),
+            'status' => '1'
         ]);
 
         $this->signIn($hospital, 'hospital');
@@ -130,7 +134,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $hospital->id,
-            'provider_type' => get_class($hospital)
+            'provider_type' => get_class($hospital),
+            'status' => '1'
         ]);
 
         $this->signIn($hospital, 'hospital');
@@ -155,7 +160,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $hospital->id,
-            'provider_type' => get_class($hospital)
+            'provider_type' => get_class($hospital),
+            'status' => "1"
         ]);
 
         $this->signIn($hospital, 'hospital');

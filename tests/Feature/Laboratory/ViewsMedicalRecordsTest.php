@@ -167,13 +167,13 @@ class ViewsMedicalRecordsTest extends TestCase
         ]);
 
         $update = [
-            'result' => $labtestOne->result,
+            'result' => 'gdgg',
         ];
 
         $this->signIn($laboratory, 'laboratory');
 
         $this->makeAuthRequest()
-            ->patch("api/laboratories/patient/{$patient->chcode}/records/{$labtestRecord->reference}/{$labtestOne->id}", $update);
+            ->post("api/laboratories/patient/{$patient->chcode}/records/{$labtestRecord->reference}/{$labtestOne->id}", $update);
 
         $this->assertDatabaseHas('lab_tests', [
             'record_id' => $labtestRecord->id,

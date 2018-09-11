@@ -28,7 +28,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_type' => get_class($pharmacy),
+            'status' => '1'
         ]);
 
         $diagnosisRecord = create(MedicalRecord::class, [
@@ -74,7 +75,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_type' => get_class($pharmacy),
+            'status' => '1'
         ]);
 
         $this->signIn($pharmacy, 'pharmacy');
@@ -108,7 +110,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_type' => get_class($pharmacy),
+            'status' => '1'
         ]);
 
         $this->signIn($pharmacy, 'pharmacy');
@@ -136,7 +139,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_type' => get_class($pharmacy),
+            'status' => '1'
         ]);
 
         $this->signIn($pharmacy, 'pharmacy');
@@ -156,7 +160,8 @@ class ViewsMedicalRecordsTest extends TestCase
         create(ProfileShare::class, [
             'patient_id' => $patient->id,
             'provider_id' => $pharmacy->id,
-            'provider_type' => get_class($pharmacy)
+            'provider_type' => get_class($pharmacy),
+            'status' => "1"
         ]);
 
         $prescriptionRecord = create(MedicalRecord::class, [

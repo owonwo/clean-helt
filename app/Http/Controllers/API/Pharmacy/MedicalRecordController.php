@@ -46,7 +46,8 @@ class MedicalRecordController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         return response()->json([
-            'record' => $medicalRecord->load('data')
+            'record' => $medicalRecord,
+            'data' => $medicalRecord->data
         ], 200);
     }
 

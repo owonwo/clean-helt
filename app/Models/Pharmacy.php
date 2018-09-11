@@ -6,10 +6,11 @@ use App\Traits\CodeGenerator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Pharmacy extends Authenticatable
 {
-    use Notifiable, HasApiTokens, CodeGenerator;
+    use Notifiable, CodeGenerator, HasMultiAuthApiTokens;
 
     protected $codePrefix = 'CHF';
 
@@ -29,7 +30,6 @@ class Pharmacy extends Authenticatable
     {
         return 'chcode';
     }
-
     /**
      * Checks whether a pharmacy can view a patient's profile
      * @param Patient $patient
@@ -39,6 +39,7 @@ class Pharmacy extends Authenticatable
     {
         return $this->profileShares()
                 ->activeShares()
+                ->acceptedShares()
                 ->where('patient_id', $patient->id)
                 ->first() !== null;
     }
