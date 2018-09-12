@@ -15,7 +15,7 @@ class DoctorController extends Controller
 
         public function index()
         {
-            $doctors = Doctor::all();
+            $doctors = Doctor::paginate(10);
             return response()->json([
                 'message' => 'Doctor fetched successfully',
                 'doctors' => $doctors
