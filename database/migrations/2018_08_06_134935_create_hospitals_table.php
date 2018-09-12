@@ -26,7 +26,7 @@ class CreateHospitalsTable extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('website')->nullable();
-            $table->integer('facility_type')->nullable();
+            $table->integer('facility_type')->nullable();	 	
             $table->integer('facility_owner')->nullable();
             $table->string('cac_reg')->nullable();
             $table->date('cac_date')->nullable();

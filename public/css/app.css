@@ -1,4 +1,4 @@
-body {
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);body {
   font-weight: 400;
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
@@ -11665,6 +11665,10 @@ table .content-preloader.slide::after {
   display: block;
 }
 
+.content-preloader.is-rounded.slide::after {
+  border-radius: 5px;
+}
+
 .content-preloader.slide::after {
   content: '';
   left: 0;
@@ -11672,11 +11676,10 @@ table .content-preloader.slide::after {
   bottom: 0;
   top: 0;
   position: absolute;
-  background-image: linear-gradient(80deg, #e1e1e1, #c8c7c7, #e1e1e1);
+  background-image: linear-gradient(63deg, #63af5d, #7bbb60, #7ac670);
   background-position-x: 10%;
   background-size: 100px 30px;
   z-index: 10;
-  border-radius: 5px;
   -webkit-animation: sliding 1s infinite running linear 0s;
           animation: sliding 1s infinite running linear 0s;
 }
@@ -11771,24 +11774,34 @@ button {
   transition: all .3s ease-out;
 }
 
-button:hover {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
-}
-
 button.no-style,
 button[ghost] {
   border: none;
   background: transparent;
 }
 
+.button:hover {
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
+}
+
 .button.is-outlined {
   border-width: 2px !important;
+}
+
+.button.has-no-motion {
+  -webkit-transform: translateY(0) !important;
+          transform: translateY(0) !important;
 }
 
 .button.is-hovered-danger:hover {
   border-color: #ff3860;
   color: #ff3860;
+}
+
+.button.is-hovered-success:hover {
+  border-color: #23d160;
+  color: #23d160;
 }
 
 .circular-btn,
@@ -11864,8 +11877,8 @@ button[ghost] {
   background: #20B171;
   color: whitesmoke;
   border: none;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.57);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.57);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   -webkit-transition-property: color, -webkit-box-shadow;
   transition-property: color, -webkit-box-shadow;
   transition-property: color, box-shadow;
@@ -13626,7 +13639,8 @@ dl.space dd {
   letter-spacing: 2px;
 }
 
-.osq-text-primary {
+.osq-text-primary,
+.osq-text-green {
   color: #20B171 !important;
 }
 
@@ -14284,6 +14298,10 @@ table .content-preloader.slide::after {
   display: block;
 }
 
+.content-preloader.is-rounded.slide::after {
+  border-radius: 5px;
+}
+
 .content-preloader.slide::after {
   content: '';
   left: 0;
@@ -14291,11 +14309,10 @@ table .content-preloader.slide::after {
   bottom: 0;
   top: 0;
   position: absolute;
-  background-image: linear-gradient(80deg, #e1e1e1, #c8c7c7, #e1e1e1);
+  background-image: linear-gradient(63deg, #63af5d, #7bbb60, #7ac670);
   background-position-x: 10%;
   background-size: 100px 30px;
   z-index: 10;
-  border-radius: 5px;
   -webkit-animation: sliding 1s infinite running linear 0s;
           animation: sliding 1s infinite running linear 0s;
 }
@@ -14390,24 +14407,34 @@ button {
   transition: all .3s ease-out;
 }
 
-button:hover {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
-}
-
 button.no-style,
 button[ghost] {
   border: none;
   background: transparent;
 }
 
+.button:hover {
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
+}
+
 .button.is-outlined {
   border-width: 2px !important;
+}
+
+.button.has-no-motion {
+  -webkit-transform: translateY(0) !important;
+          transform: translateY(0) !important;
 }
 
 .button.is-hovered-danger:hover {
   border-color: #ff3860;
   color: #ff3860;
+}
+
+.button.is-hovered-success:hover {
+  border-color: #23d160;
+  color: #23d160;
 }
 
 .circular-btn,
@@ -14483,8 +14510,8 @@ button[ghost] {
   background: #20B171;
   color: whitesmoke;
   border: none;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.57);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.57);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   -webkit-transition-property: color, -webkit-box-shadow;
   transition-property: color, -webkit-box-shadow;
   transition-property: color, box-shadow;
@@ -16245,7 +16272,8 @@ dl.space dd {
   letter-spacing: 2px;
 }
 
-.osq-text-primary {
+.osq-text-primary,
+.osq-text-green {
   color: #20B171 !important;
 }
 
@@ -16570,6 +16598,7 @@ a[ghost] {
           align-items: center;
   text-decoration: none;
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+  outline: none;
 }
 
 .osq-sidebar nav ul > li span.toggler,
@@ -16729,6 +16758,12 @@ a[ghost] {
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
+}
+
+#osq-hospital-dashboard {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) 300px;
+  grid-gap: 15px;
 }
 
 .osq-main-navbar .avatar,
@@ -17170,6 +17205,7 @@ ul {
   border-radius: 30px;
   padding: 10px 5px;
   text-indent: 15px;
+  outline: none !important;
 }
 
 .osq-sidenav li:hover a {
