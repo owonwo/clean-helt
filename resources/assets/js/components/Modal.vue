@@ -1,7 +1,7 @@
 <template>
     <div class="modal slide-up" role="dialog">
-    <div class="modal-background"></div>
-      <v-scrollbar class="modal-content">
+    <div class="modal-background" @click="hideSelf()"></div>
+      <v-scrollbar class="modal-content" :style="sizeStyle">
         <div v-if="$props.showHeader" class="modal-card-head">
           <button type="button" class="modal-close" @click.prevent="hideSelf">
             <i class="zmdi zmdi-close-circle"></i>
@@ -33,6 +33,14 @@
     data () {
       return {
       };
+    },
+    computed: {
+      sizeStyle() {
+        const {size} = this.$props;
+        return {
+          width: (size == "sm" ? 300 + 'px' : 'auto'),
+        }
+      }
     },
     watch : {
        show() {

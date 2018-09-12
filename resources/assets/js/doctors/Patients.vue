@@ -8,7 +8,7 @@
 			<div v-for="(profile, key) in sharedProfiles" :key="key">
 				<ProfileBox class="is-portrait" :avatar-src="profile.patient.avatar">
 					<section class="osq-text-center">
-						<h4 class="profile-title">{{ profile.patient.first_name }} {{ profile.patient.last_name }}</h4>
+						<h4 class="profile-title">{{ profile.patient.name}}</h4>
 						<p class="mb-30"><small>expires {{ profile.expired_at | moment("from", "now") }}</small></p>
 						<div class="buttons is-centered">
 							<router-link tag="button" 

@@ -5,6 +5,7 @@ import PatientsDirectory from '@/hospital/PatientsDirectory.vue'
 import Settings from '@/hospital/Settings.vue'
 import Notifications from '@/components/Notifications.vue'
 import DoctorProfile from '@/doctors/Profile.vue'
+import HospitalProfile from '@/hospital/Profile.vue'
 import Patients from '@/doctors/Patients.vue'
 import PatientProfile from '@/doctors/PatientProfile.vue'
 import PatientRecordsDirectory from '@/doctors/PatientRecordsDirectory.vue'
@@ -30,6 +31,10 @@ const routes = [
     path: '/doctors/:_id', 
     name: "doctor-profile",
     component: DoctorProfile
+  },
+  {
+    path: '/profile',
+    component: HospitalProfile,
   },
   {
     path: '/settings',

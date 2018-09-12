@@ -5,10 +5,6 @@ $link-color: dodgerblue !default;
 button {
 	font-family: $input-font;
 	transition: all .3s ease-out;
-
-	&:hover {
-		transform: translateY(-3px);
-	}
 }
 
 button.no-style, button[ghost]{
@@ -16,15 +12,23 @@ button.no-style, button[ghost]{
   background: transparent;
 }
 
-.button {
-	&.is-outlined { border-width: 2px !important }
-	&.is-hovered {
-		&-danger {
-			&:hover {
-				border-color: $danger;
-				color: $danger;
-			}
+@mixin hovered($color, $type) {
+	&-#{$type} {
+		&:hover {
+			border-color: $color;
+			color: $color;
 		}
+	}
+} 
+.button {
+	&:hover {
+		transform: translateY(-3px);
+	}
+	&.is-outlined { border-width: 2px !important }
+	&.has-no-motion {transform: translateY(0) !important }
+	&.is-hovered {
+		@include hovered($danger, 'danger');
+		@include hovered($success, 'success');
 	}
 }
 
@@ -77,7 +81,7 @@ button.no-style, button[ghost]{
 	background: $btn-color;
 	color: whitesmoke;
 	border: none;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.57);
+	box-shadow: 0 2px 8px rgba(black, 0.5);
 	transition-property: color, box-shadow;
 
 	&:hover {

@@ -9,25 +9,11 @@
     <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
-          <router-link to="/dashboard" tag="li">
-            <a href="#"><i class="osf osf-dashboard"></i> Dashboard</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-          <router-link to="/doctors" tag="li">
-            <a href="#"><i class="osf osf-doctor-white"></i> Doctors</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-          <router-link to="/patients" tag="li">
-            <a href="#"><i class="osf osf-patient-white"></i> Clients </a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-          <router-link to="/settings" tag="li">
-            <a href="#"><i class="osf osf-settings"></i> Settings</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
+          <custom-link to="/dashboard" icon="osf osf-dashboard" name="Dashboard"/>
+          <custom-link to="/patients" icon="osf osf-patient-white" name="Clients"/>
+          <custom-link to="/doctors" icon="osf osf-doctor-white" name="Departments"/>
+          <custom-link to="/profile" icon="osf osf-profile" name="Profile"/>
+          <custom-link to="/settings" icon="osf osf-settings" name="Settings"/>
         </ul>
       </nav>
       
@@ -40,8 +26,10 @@
     </aside>
 
     <section class="osq-content">
-      <section id="content">
-        <router-view/>
+      <section id="content"> 
+        <keep-alive :exclude="['Patients']">
+          <router-view/>
+        </keep-alive>
       </section>
 
       <aside id="osq-logs" :class="{collapse: $root.sidebars.notif}">
@@ -53,9 +41,33 @@
 
 <script>
 import routes from './routes';
+import LoggedIn from '@/Mixins/LoggedIn';
 
 export default {
   name: 'Hospital',
   router: routes.hospital,
+  mixins: [LoggedIn],
+  data() {return {
+    settings: {
+      profile: {route: "/api/hospital/profile", key: 'hospital'},
+      patients: {route: "/api/hospital/patients", key: 'patients'},
+    }
+  }},
+  methods: {
+    timeout(duration) {
+      return new Promise((resolve) => setTimeout(resolve, duration));
+    },
+    // gets all the hospital doctors
+    async getDoctors() {
+      let [doctors] = await Promise.all([
+        this.$http.get('/api/hospital/doctors'),
+        this.timeout(1000),
+      ]);
+      return doctors; 
+    },
+    async getDoctorsPending() {
+        return await this.$http.get('/api/hospital/doctors/pending');
+    }
+  }
 }
 </script>

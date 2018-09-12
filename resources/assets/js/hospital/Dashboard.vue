@@ -3,27 +3,45 @@
 		<section class="content-top-bar">
 			<h3>DASHBOARD</h3>
 		</section>
-		<div class="columns">
-			<div class="column is-one-third">
-				<form class="">
-					<p class="">Enter the CH-CODE of any Doctor to invite them to the hospital.</p>
-					<div class="field">
-						<div class="control has-icons-right">
-							<input class="input is-rounded" type="text" placeholder="CH-30000000">				
-							<div class="icon is-right">
-								<i class="osf osf-search"></i>								
+		<div id="osq-hospital-dashboard">
+			<section>
+				<h3 class="menu-label">New</h3>
+				<!-- pending clients -->
+				<accordion v-if="$parent.pendingUsers.length > 0">
+					<template slot="heading">
+						<i class="tag is-primary p-5 mr-15">{{ $parent.pendingUsers.length }}</i> New Clients Shared their Medical Records						
+					</template>
+					<template slot="content">
+						<section class="menu content pl-10 pr-10">
+							<div class="py-5" v-for="(profile, index) in $parent.pendingUsers" :key="index">
+								<button @click="$parent.acceptShare(profile.id)" class="button is-outlined is-pulled-right is-rounded is-primary">Accept</button>
+								<h4 class="title is-5 mb-0">{{ profile.patient.first_name }} {{ profile.patient.last_name }}</h4>
+								<span>Access expired {{ profile.expired_at | moment("from") }}</span>
 							</div>
-						</div>
+						</section>
+					</template>
+				</accordion>
+
+				<!-- recently viewed clients -->
+				<h3 class="menu-label">Recent Views</h3>
+				<div class="card card-content">
+					
+				</div>
+			</section>
+			<aside id="statistics">
+				<h3 class="menu-label">Statistics</h3>
+				<div class="card">
+					<div class="card-content">
+						<h6 class="subtitle is-6 has-text-grey-light">This Week</h6>
+						<h4 class="title is-5">Clients <small class="is-pulled-right">{{ $store.state.sharedProfiles.length }}</small></h4>
+						<!-- <div class="progress mb-3"></div> -->
+						<h4 class="title is-5">Updates <small class="is-pulled-right">10</small></h4>
+						<!-- <div class="progress"></div>						 -->
+						<h4 class="title is-5">Pending <small class="is-pulled-right">{{ $parent.pendingUsers.length }}</small></h4>
+						<!-- <div class="progress"></div>						 -->
 					</div>
-				</form>
-			</div>
-			<div class="column is-one-third" v-for="(entry, name) in depart">
-				<router-link to="/doctors" tag="div" class="card is-shadowless short-card cursored">
-					<h3 class="is-pulled-right osq-text-primary">{{ entry.count }}</h3>
-					<span><i class="icon" :class="[$root.getIcon(entry.icon)]"></i>
-					<span class="subtitle is-4">{{ entry.name }}</span></span>
-				</router-link>
-			</div>
+				</div>
+			</aside>
 		</div>
 	</section>
 </template>
@@ -38,5 +56,10 @@ export default {
 			{name: 'Patients', count: 100, icon: 'doctor'},
 		],
 	}},
+	computed: {
+		pendingUsers() {
+			return this.$parent.pendingUsers.map((e) => e.patient); 
+		}
+	}
 }	
 </script>

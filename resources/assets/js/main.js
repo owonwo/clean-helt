@@ -56,10 +56,9 @@ Vue.directive('pager-controls', {
             return false
         }
         $(el).delegate('li > a', 'click', function(evt) {
-            !modifiers.prevent || event.preventDefault();
+            !modifiers.prevent || evt.preventDefault();
             $(el).find(`li.${activeClass}`).each((index, elem) => $(elem).removeClass(activeClass));
             $(this).parent().addClass(activeClass);
-            console.log($(el).find('li.active'), activeClass);
             vnode.context.page = $(this).parent().index();        
         });
     }
@@ -106,7 +105,6 @@ Vue.directive('preload', {
     bind: function (el, binding) {
         let {sm} = binding.modifiers;
         window.preloadClass.map(p => $(el).addClass(p));
-        $(el).text('LOREM IPSUM');
     },
     componentUpdated(el, binding) {
         let {value} = binding;

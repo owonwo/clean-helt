@@ -1,6 +1,6 @@
 <template>
   <div class="osq-search-field control has-icons-right">
-    <input class="input" type="text" :placeholder="$props.placeholder">
+    <input class="input" type="text" :class="$props.shape" :placeholder="$props.placeholder">
     <span class="icon osf osf-search is-small is-right">
     </span>
   </div>
@@ -9,7 +9,7 @@
 <script>
   export default {
     name: 'SearchBox',
-    props: ['placeholder', 'list'],
+    props: ['placeholder', 'list', 'shape'],
     data () {
       return {
       };

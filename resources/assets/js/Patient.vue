@@ -71,7 +71,7 @@ export default {
   data() {return {
       settings : {
         profile: { route: `/api/patient/profile`, key: 'patient' },
-        // patients: { route : '/api/patient', key: 'patients'}
+        patients: { route : '/api/patient', key: 'patients'}
       },
   }},
 }

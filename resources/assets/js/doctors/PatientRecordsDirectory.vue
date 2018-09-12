@@ -1,21 +1,26 @@
 <template>
 	<section>
 		<section class="content">
-			<table class="table is-bordered is-fullwidth table-hoverable" style="font-size: smaller">
+			<div >
+				{{ reference }}
+			</div>
+			<table v-if="$route.query.type === 'diagnosis'" class="table is-bordered is-fullwidth table-hoverable" style="font-size: smaller">
 				<tr>
 					<th class="has-text-centered">S/N</th>
-					<th v-for="(column, index) in table">{{ index }}</th>
+					<th>Complaint History</th>
+					<th>Complaint Relationship</th>
 					<th>Preview</th>
 				</tr>
-				<tr v-for="a in 12">
-					<td class="has-text-centered">{{ a }}</td>
-					<td v-for="(column, index) in table">{{ column }}</td>
+				<tr v-for="(record, index) of record_references" :key="index">
+					<td class="has-text-centered">{{ index + 1 }}</td>
+					<td>{{ record.complaint_history }}</td>
+					<td>{{ record.complaint_relationship}}</td>
 					<td><button @click="showRecordModal = true" class="button is-small is-primary is-outlined">View Record</button></td>
 				</tr>
 			</table>
 		</section>
 
-		<Modal class="is-note" :show="showRecordModal" :show-header="false" @closed="showRecordModal = false">
+		<!-- <Modal class="is-note" :show="showRecordModal" :show-header="false" @closed="showRecordModal = false">
 			<section v-if="$route.query.type === 'doctor'" class="content">
 				<hgroup>
 					<h3 class="mb-5">Diagnosis Record</h3>
@@ -77,44 +82,54 @@
 					{{ comment }}
 				</blockquote>
 			</section>
-		</Modal>
+		</Modal> -->
 	</section>
 </template>
 
 <script>
+	import {mapGetters} from 'vuex';
 	import Modal from '@/components/Modal.vue'
 
 	export default {
 		components: {Modal},
 		name: "PatientRecordsDirectory",
 		mounted() {
-			const {type} = this.$route.query;
-			this.table = type === "doctor" ? {
-				'Date of Diagnosis': "2018/05/30",
-				'Practitioner': 'Dr. Bob Dollas', 
-				'Prescription': true,
-				'Reason for appointment': 'I had a simple migrin with my add.',
-			} : type === 'pharmacy' ? {
-				'Pharmacy': 'Sicone Pharmacy',
-				'Prescription Date': '2018/01/08',
-				'Dispense Date': '2018/03/03',
-				'Physician' : 'Dr. Luke Gray',
-			 } : type == "laboratory" ? {
-			 	'Practitioner' : 'Dr. Martha Kent',
-			 	'Test Date': '2018/12/05',
-			 	'Type': 'Genotype',
-			 } : {};
+			const {query: {type}, params} = this.$route;
+			this.getPatientRecord().then(({data: {records}}) => {
+				let references = _.map(records.data, (record) => record.reference);
+				this.getReferences(references).then((all) => {
+					this.record_references = _.flatten(all.map((res) => res.data.data));
+				});
+			}).catch((Error) => {
+				console.log('PatientRecordsDirectory', Error, 'Error Fetching The Patient\'s Record');
+				this.$router.back();
+			});	
 		},
 		data() {return {
-			table: {columns : []},
+			record_references: [],
 			showRecordModal: false,
-			prescriptions: ['Pandol', 'B Syrup', 'Codeine'],
-			dispensed: ['Pandol', 'B Syrup'],
-			comment: `Panadol and B Syrup was available, But we don't have Codeine at the moment.`,
-			physician: "Dr. Luke Gray",
-			time: "2018/03/03 00:07"
 		}},
+		computed: {
+			reference() {
+				return this.$route.query.type.toUpperCase()
+			}
+		},
 		methods: {
+			async getReferences(refs = []) {
+				let list = refs.map((ref) => this.getPatientRecord(ref));
+				return await Promise.all(list);
+			},
+			getComponentName() {
+				return this.$parent.getComponentName();
+			},
+			async getPatientRecord(ref_no = "") {
+				let {params: {chcode}, query: {type}} = this.$route;
+				const provider = this.getComponentName();
+				const url = `/api/${provider}/patients/${chcode}/records` 
+					+ (ref_no !== '' ? `/${ref_no}` : '')
+
+				return await axios.get(url, {params: {type}});
+			},
 		}
 	}
 </script>

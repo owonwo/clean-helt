@@ -17,7 +17,13 @@
       @extend %sm-props;
     }
   }
-
+  
+  &.is-rounded {
+    &.slide::after {
+      border-radius: 5px;      
+    }
+  }
+  
   &.slide::after {
     content: '';
     left: 0;
@@ -25,11 +31,11 @@
     bottom: 0;
     top: 0;
     position: absolute;
-    background-image: linear-gradient(80deg, #e1e1e1,darken(#e1e1e1, 10%),#e1e1e1);
+    background-image: linear-gradient(63deg, #63af5d, #7bbb60, #7ac670);
+    //linear-gradient(80deg, #e1e1e1,darken(#e1e1e1, 10%),#e1e1e1);
     background-position-x: 10%; 
     background-size: 100px 30px;
     z-index: 10;
-    border-radius: 5px;
     animation: sliding 1s infinite running linear 0s;
     // animation-fill-mode:  forward;
   }

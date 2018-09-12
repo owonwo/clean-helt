@@ -4,8 +4,8 @@
 			<div class="column is-half">
 				<h5 class="osq-group-subtitle-alt mb-15">Patient Profile</h5>
 				<ProfileBox v-show="profile" class="is-fullwidth is-green">
-					<h3 class="profile-title">{{ profile.patient.full_name }}</h3>
-					<p>{{ profile.patient.gender.toUpperCase() }}</p>
+					<h3 class="profile-title">{{ patient.name }}</h3>
+					<p>{{ patient.gender | ucfirst }}</p>
 					<div class="mt-30">
 						<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
 						<button class="button ml-10 is-outlined is-rounded is-dark">Add Record</button>
@@ -15,20 +15,20 @@
 					<accordion>
 						<template slot="heading">Emergency Hospital</template>
 						<section slot="content">
-							<h3 class="m-0">EZ Hospitals</h3>
+							<h3 class="m-0">{{ patient.emergency_hospital_name | ucfirst }}</h3>
 							<b class="m-0">Address:</b>
-							<p>NO 35 WHIMPEY JUNCTION, RUMUEME. RIVERS STATE</p>
+							<p>{{ patient.emergency_hospital_address | ucfirst }}</p>
 						</section>
 					</accordion>
 				    <accordion class="menu">
 						<template slot="heading">Next of Kin<!-- Emergency Contact --></template>
 						<section slot="content" class="content">
-							<h1 class="title is-5 mb-0">{{ profile.patient.nok_name }}</h1>
+							<h1 class="title is-5 mb-0">{{ patient.nok_name }}</h1>
 							<div>
-								<small>Email Address: {{ profile.patient.nok_email }}</small>
+								<small>Email Address: {{ patient.nok_email }}</small>
 							</div>
 							<div>
-								<small>Phone Number: {{ profile.patient.nok_phone }}</small>
+								<small>Phone Number: {{ patient.nok_phone }}</small>
 							</div>
 						</section>
 					</accordion>
@@ -37,13 +37,13 @@
 				<h1 class="osq-group-subtitle-alt mb-10">Medical History</h1>
 				<div class="columns content is-multiline">
 					<div class="column is-half is-fullheight">
-						<router-link :to="recordsRoute('doctor')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
+						<router-link :to="recordsRoute('diagnosis')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
 					</div>
 					<div class="column is-half">
-						<router-link :to="recordsRoute('laboratory')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
+						<router-link :to="recordsRoute('tests')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
 					</div>
 					<div class="column is-half">
-						<router-link :to="recordsRoute('pharmacy')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
+						<router-link :to="recordsRoute('prescriptions')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
 					</div>
 				</div>
 			</div>
@@ -57,39 +57,39 @@
 		</section>
 
 		<modal class="is-note" :show="showProfile" :show-header="true" @closed="showProfile = false">
-			<template slot="modal-title"><b>Bio-Data</b>: {{ profile.patient.fullname() }}</template>
+			<template slot="modal-title"><b>Bio-Data</b>: {{ patient.name }}</template>
 			<table class="table is-borderless is-fullwidth">
 				<tr>
 					<td width="150">Full Name</td>
-					<td>{{ profile.patient.fullname() }}</td>
+					<td>{{ patient.fullname }}</td>
 				</tr>
 				<tr>
 					<td>Phone Number</td>
-					<td>{{ profile.patient.phone }}</td>
+					<td>{{ patient.phone }}</td>
 				</tr>
 				<tr>
 					<td>Age</td>
-					<td>{{ profile.patient.dob | moment("from") }}</td>
+					<td>{{ patient.dob | moment("from") }}</td>
 				</tr>
 				<tr>
 					<td>Gender</td>
-					<td>{{ profile.patient.gender | ucfirst }}</td>
+					<td>{{ patient.gender | ucfirst }}</td>
 				</tr>
 				<tr>
 					<td>Address</td>
-					<td>{{ profile.patient.address }}</td>
+					<td>{{ patient.address }}</td>
 				</tr>
 				<tr>
 					<td>City</td>
-					<td>{{ profile.patient.city }}</td>
+					<td>{{ patient.city }}</td>
 				</tr>
 				<tr>
 					<td>State</td>
-					<td>{{ profile.patient.state }}</td>
+					<td>{{ patient.state }}</td>
 				</tr>
 				<tr>
 					<td>Country</td>
-					<td>{{ profile.patient.country }}</td>
+					<td>{{ patient.country }}</td>
 				</tr>
 			</table>
 		</modal>
@@ -106,25 +106,32 @@
 		name: "PatientProfile",
 		methods: {
 			recordsRoute(type = "all") {
-				const {params} = this.$route;
+				const params = Object.assign(this.$route.params, {
+					chcode: this.patient.chcode,
+				});
 				const query = {type};
-
-				return {name: 'patient-records', query}
+				return {
+					name: 'patient-records', 
+					params,
+					query
+				}
+			},
+			getId() {
+				const {patient_id} = this.$route.params;
+				_.isNumber(patient_id) || this.$router.back()
+				return patient_id;
 			}
 		},
-		mounted() {
-			console.log(this.$parent.$vnode.componentOptions.tag);
-			const {$route} = this;
-			const {patient_id} = $route.params
-			this.profile = this.$store
-				.getters.getProfileByPatientId(parseInt(patient_id));
-			!_.isUndefined(this.profile) || this.$router.back()
+		activated () {
+			this.profile = this.$store.getters.getProfileByPatientId(this.getId());
+			this.patient = _.extend({}, this.profile.patient);
 		},
 		data() {return {
 			settings: {
 				 maxScrollbarLength: 60
 			},
 			profile: {},
+			patient: {},
 			showProfile: false,
 		}}
 	}
