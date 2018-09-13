@@ -69,6 +69,7 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         if ($doctor->profile->update(request()->all()) || $doctor->update(request()->all())) {
+
             return response()->json([
                 'message' => 'Doctor updated successfully',
                 'doctor' => $doctor

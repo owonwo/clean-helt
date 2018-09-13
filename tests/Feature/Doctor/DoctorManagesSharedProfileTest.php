@@ -23,6 +23,8 @@ class DoctorManagesSharedProfileTest extends TestCase
         $this->get(route('doctor.pending.patient'))->assertStatus(200);
     }
 
+
+
     /** @test */
     public function a_doctor_can_accept_a_shared_profile()
     {

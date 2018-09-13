@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
@@ -50,7 +51,8 @@ class DoctorController extends Controller
     public function invite(Doctor $doctor)
     {
         //TODO check if an invite exists already
-        if ($doctor->exists) {
+        $exists = DB::table('doctor_hospital')->where('hospital_id',$this->hospital->id)->where('doctor_id',$doctor->id)->first();
+        if ($doctor->exists && !$exists) {
             $this->hospital->doctors()
                 ->attach($doctor, ['actor' => 'App\Models\Hospital']);
             return response()->json([

@@ -152,4 +152,25 @@ class ManagesDoctorsPortfolioTest extends TestCase
             'status' => 1
         ]);
     }
+
+    /** @test */
+    public function a_hospital_should_not_invite_a_doctor_more_than_once(){
+
+        $hospital = create(Hospital::class);
+
+        $doctor = create(Doctor::class);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->post("api/hospital/doctors/{$doctor->chcode}/invite");
+
+        $this->assertDatabaseHas('doctor_hospital', [
+            'hospital_id' => $hospital->id,
+            'doctor_id' => $doctor->id,
+            'status' => 0,
+            'actor' => get_class($hospital)
+        ]);
+        $this->makeAuthRequest()->post("api/hospital/doctors/{$doctor->chcode}/invite",['chcode' => $hospital->chcode])->assertStatus(400);
+    }
 }
