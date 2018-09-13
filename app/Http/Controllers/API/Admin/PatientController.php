@@ -22,9 +22,9 @@ class PatientController extends Controller
 
     public function index()
     {
-        $labs = Patient::latest()->paginate(15);
+        $patients = Patient::latest()->paginate(15);
         return response()->json([
-            'labs' => $labs
+            'patients' => $patients
         ], 200);
     }
 
@@ -117,12 +117,10 @@ class PatientController extends Controller
      */
     public function update(Request $request,  Patient $patient)
     {
-
-
         if ($patient->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $patient
+                'patient' => $patient
             ], 200);
         }
 

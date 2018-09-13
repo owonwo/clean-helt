@@ -143,7 +143,14 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
-        $hospital = Hospital::whereChcode($chcode)->get()->first();
+
+        try {
+            $hospital = Hospital::whereChcode($chcode)->get()->first();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Theres an Error' . $e->getMessage()
+            ],403);
+        }
         $exists = DB::table('doctor_hospital')->where('hospital_id',$hospital->id)->where('doctor_id',$doctor->id)->first();
         try {
             if(!$exists){

@@ -19,40 +19,53 @@ Sample Response:
 ```json
     {
       "message":"Hospital retrieved successfully",
-      "hospitals": [
-      {
-          "id":1,
-          "name":"New Era Hospital",
-          "email":"kelley20@example.com",
-          "chcode":"CHH293415609",
-          "director_mdcn":"natus",
-          "phone":"252-582-5657 x62181",
-          "address":"673 Niko Corner Apt. 054\nVivianneville, IA 48169",
-          "city":"Luisfurt",
-          "state":"Hodkiewiczview",
-          "country":"Mongolia",
-          "website":null,
-          "facility_type":null,
-          "facility_owner":null,
-          "cac_reg":null,
-          "cac_date":null,
-          "fmoh_reg":null,
-          "fmoh_date":null,
-          "admin_name":null,
-          "admin_position":null,
-          "admin_phone":null,
-          "services":null,
-          "bank_name":null,
-          "bank_branch":null,
-          "account_name":null,
-          "account_number":null,
-          "active":1,
-          "avatar":"avatar/avatar.jpeg",
-          "remember_token":null,
-          "created_at":"2018-09-03 20:16:47",
-          "updated_at":"2018-09-03 21:57:02",
-          "deleted_at":null
-      } ]
+      "hospitals": {
+              "current_page": 1,
+              "data": [
+                  {
+                      "id": 1,
+                      "name": "Karine Marks V Hospital",
+                      "email": "mfunk@example.net",
+                      "chcode": "CHH138974922",
+                      "director_mdcn": "molestiae",
+                      "phone": "+1-509-852-2554",
+                      "address": "6846 Ernser Meadows Apt. 909\nEast Patience, MI 88583-3937",
+                      "city": "Port Ellis",
+                      "state": "Franeckiburgh",
+                      "country": "Togo",
+                      "website": null,
+                      "facility_type": null,
+                      "facility_owner": null,
+                      "cac_reg": null,
+                      "cac_date": null,
+                      "fmoh_reg": null,
+                      "fmoh_date": null,
+                      "admin_name": null,
+                      "admin_position": null,
+                      "admin_phone": null,
+                      "services": null,
+                      "bank_name": null,
+                      "bank_branch": null,
+                      "account_name": null,
+                      "account_number": null,
+                      "active": 1,
+                      "avatar": "avatar/avatar.jpeg",
+                      "remember_token": null,
+                      "created_at": "2018-09-08 09:03:25",
+                      "updated_at": "2018-09-08 09:03:25",
+                      "deleted_at": null
+                  }]
+           },
+            "first_page_url": "http://yoururl/api/admin/hospitals?page=1",
+            "from": 1,
+            "last_page": 1,
+            "last_page_url": "http://yoururl/api/admin/hospitals?page=1",
+            "next_page_url": null,
+            "path": "http://yoururl/api/admin/hospitals",
+            "per_page": 20,
+            "prev_page_url": null,
+            "to": 10,
+            "total": 10
     }
 ```
 
@@ -222,7 +235,7 @@ Sample Response
 ```
 Delete a Hospital
 
-**` /hospitals/{hospital}`**
+**`DELETE /hospitals/{hospital}`**
 
 Sample Data
 
@@ -257,7 +270,54 @@ Sample Response:
 ```json
 {
     "message": "Doctors retrieved successfully",
-    "doctors": []
+    "doctors": [
+        {
+          "id": 1,
+              "first_name": "Maurice",
+              "middle_name": "Zulauf",
+              "last_name": "Kohler",
+              "email": "dessie.conrey@gmail.com",
+              "phone": "+18633737880",
+              "gender": "male",
+              "specialization": "cardiologist",
+              "folio": "MB/12/Nu",
+              "confirm": false,
+              "validation": true,
+              "chcode": "CHD309199683",
+              "api_token": "mp4rTknR9YEknX9GoJXyAxzQFrDe90uqZDrDkSdw",
+              "token": "MNFG8XDoOa2tGj8iN1oDSiEZOkvQTtAMQ25MMjDQ",
+              "remember_token": null,
+              "deleted_at": null,
+              "created_at": "2018-09-08 09:03:22",
+              "updated_at": "2018-09-11 14:55:33",
+              "profile": {
+                  "id": 1,
+                  "doctors_id": 1,
+                  "address": "5585 Earline Throughway Apt. 068\nSouth Emiltown, WA 04748-9203",
+                  "city": "Stammmouth",
+                  "state": "Paolostad",
+                  "country": "Malta",
+                  "mode_of_contact": 0,
+                  "marital_status": "Single",
+                  "religion": "Christianity",
+                  "kin_fullname": "Jordy Beier",
+                  "kin_address": "99006 Gennaro Branch Apt. 528\nBorerfurt, MA 36654-0449",
+                  "kin_phone": "794.894.9781 x6862",
+                  "kin_city": "South Jodymouth",
+                  "kin_state": "Port Coty",
+                  "kin_country": "Poland",
+                  "name_of_degree": "Doctrate Degree",
+                  "institution": "Rivers State university",
+                  "additional_degree": "Bachelor of Science",
+                  "years_in_practice": 4,
+                  "active": 0,
+                  "avatar": "avatar/avatar.jpg",
+                  "disability": "Unde ad est qui et ea itaque aperiam. Adipisci magni aut sit similique alias vel nam. Voluptas possimus sit sed cupiditate nesciunt.",
+                  "created_at": "2018-09-08 09:03:22",
+                  "updated_at": "2018-09-11 14:54:28"
+              }
+        }
+    ]
 }
 ```
 
@@ -270,7 +330,52 @@ Sample Response:
 ```json
 {
     "message": "Doctor retrieved successfully",
-    "doctors": {}
+    "doctor": {
+        "id": 1,
+            "first_name": "Maurice",
+            "middle_name": "Zulauf",
+            "last_name": "Kohler",
+            "email": "dessie.conrey@gmail.com",
+            "phone": "+18633737880",
+            "gender": "male",
+            "specialization": "cardiologist",
+            "folio": "MB/12/Nu",
+            "confirm": false,
+            "validation": true,
+            "chcode": "CHD309199683",
+            "api_token": "mp4rTknR9YEknX9GoJXyAxzQFrDe90uqZDrDkSdw",
+            "token": "MNFG8XDoOa2tGj8iN1oDSiEZOkvQTtAMQ25MMjDQ",
+            "remember_token": null,
+            "deleted_at": null,
+            "created_at": "2018-09-08 09:03:22",
+            "updated_at": "2018-09-11 14:55:33",
+            "profile": {
+                "id": 1,
+                "doctors_id": 1,
+                "address": "5585 Earline Throughway Apt. 068\nSouth Emiltown, WA 04748-9203",
+                "city": "Stammmouth",
+                "state": "Paolostad",
+                "country": "Malta",
+                "mode_of_contact": 0,
+                "marital_status": "Single",
+                "religion": "Christianity",
+                "kin_fullname": "Jordy Beier",
+                "kin_address": "99006 Gennaro Branch Apt. 528\nBorerfurt, MA 36654-0449",
+                "kin_phone": "794.894.9781 x6862",
+                "kin_city": "South Jodymouth",
+                "kin_state": "Port Coty",
+                "kin_country": "Poland",
+                "name_of_degree": "Doctrate Degree",
+                "institution": "Rivers State university",
+                "additional_degree": "Bachelor of Science",
+                "years_in_practice": 4,
+                "active": 0,
+                "avatar": "avatar/avatar.jpg",
+                "disability": "Unde ad est qui et ea itaque aperiam. Adipisci magni aut sit similique alias vel nam. Voluptas possimus sit sed cupiditate nesciunt.",
+                "created_at": "2018-09-08 09:03:22",
+                "updated_at": "2018-09-11 14:54:28"
+            }
+    }
 }
 
 ```
@@ -306,436 +411,517 @@ Sample Response:
      }
 ```
 
+**`DELETE /doctors/destroy/{doctor}`**
 
+Deletes a doctor
 
-Request Modifiers (Search Params)
+Just hit the route
+
+```json
+     {
+        "message" : "Deleted Successfully",
+        "doctor" : []
+     }
 ```
-type: [prescriptions|diagnosis|tests]
-start_date: [YYYY-mm-dd]
-end_date: [YYYY-mm-dd]
+
+<br/>
+
+**`PATCH doctors/update/{doctor}`**
+
+Sample Data
+```json
+     {
+        "first_name" : "New Value"
+     }
+```
+
+### Pharmacy
+
+**`GET \pharmacies`**
+
+Sample Response
+
+```json
+      {
+        "message" : "Pharmacies loaded successful",
+        "pharmacies": {
+            "current_page": 1,
+            "data": [
+                {
+                    "id": 14,
+                    "name": "Sofia Douglas",
+                    "chcode": "CHF824926782",
+                    "email": "jarvis57@example.net",
+                    "phone": "+1.395.914.1758",
+                    "address": "7120 Savion Inlet\nAbdullahfort, AR 36640",
+                    "city": "Port Allisonberg",
+                    "state": "New Enastad",
+                    "country": "Finland",
+                    "business_name": null,
+                    "business_type": null,
+                    "facility_owner": null,
+                    "cac_reg": null,
+                    "cac_date": null,
+                    "fmoh_reg": null,
+                    "fmoh_date": null,
+                    "chief_pharmacist_reg": "consectetur",
+                    "active": 1,
+                    "avatar": "avatar/avatar.jpeg",
+                    "chief_pharmacist_reg_date": null,
+                    "chief_pharmacist_name": null,
+                    "chief_pharmacist_phone": null,
+                    "services": null,
+                    "remember_token": null,
+                    "created_at": "2018-09-08 09:03:35",
+                    "updated_at": "2018-09-08 09:03:35"
+                }]
+            }
+       }
+```
+    
+
+**`POST \pharmacies`**
+
+Sample Data
+
+```json
+    {
+        "name": "Sofia Douglas",
+        "chcode": "CHF824926782",
+        "email": "jarvis57@example.net",
+        "phone": "+1.395.914.1758",
+        "address": "7120 Savion Inlet\nAbdullahfort, AR 36640",
+        "city": "Port Allisonberg",
+        "state": "New Enastad",
+        "country": "Finland",
+        "business_name": null,
+        "business_type": null,
+        "facility_owner": null,
+        "cac_reg": null,
+        "cac_date": null,
+        "fmoh_reg": null,
+        "fmoh_date": null,
+        "chief_pharmacist_reg": "consectetur",
+        "active": 1,
+        "avatar": "avatar/avatar.jpeg",
+        "chief_pharmacist_reg_date": null,
+        "chief_pharmacist_name": null,
+        "chief_pharmacist_phone": null,
+        "services": null
+    }
 ```
 
 Sample Response
+
 ```json
-{
-    "records": {
-        "current_page": 1,
-        "data": [
-            {
-                "id": 1,
-                "reference": "CHR532109131",
-                "patient_id": 1,
-                "type": "App\\Models\\LabTest",
-                "issuer_type": "App\\Models\\Doctor",
-                "issuer_id": 12,
-                "created_at": "2018-09-03 20:16:47",
-                "updated_at": "2018-09-03 20:16:47",
-                "deleted_at": null
-            }
-        ],
-        "first_page_url": "http://clean-helt-api.test/api/hospital/patients/CHP306622590/records?page=1",
-        "from": 1,
-        "last_page": 1,
-        "last_page_url": "http://clean-helt-api.test/api/hospital/patients/CHP306622590/records?page=1",
-        "next_page_url": null,
-        "path": "http://clean-helt-api.test/api/hospital/patients/CHP306622590/records",
-        "per_page": 30,
-        "prev_page_url": null,
-        "to": 1,
-        "total": 1
+   {
+       "message": "Pharmacy Created successfully",
+       "pharmacy": {
+           "id": 14,
+           "name": "Sofia Douglas",
+           "chcode": "CHF824926782",
+           "email": "jarvis57@example.net",
+           "phone": "+1.395.914.1758",
+           "address": "7120 Savion Inlet\nAbdullahfort, AR 36640",
+           "city": "Port Allisonberg",
+           "state": "New Enastad",
+           "country": "Finland",
+           "business_name": null,
+           "business_type": null,
+           "facility_owner": null,
+           "cac_reg": null,
+           "cac_date": null,
+           "fmoh_reg": null,
+           "fmoh_date": null,
+           "chief_pharmacist_reg": "consectetur",
+           "active": 1,
+           "avatar": "avatar/avatar.jpeg",
+           "chief_pharmacist_reg_date": null,
+           "chief_pharmacist_name": null,
+           "chief_pharmacist_phone": null,
+           "services": null,
+           "remember_token": null,
+           "created_at": "2018-09-08 09:03:35",
+           "updated_at": "2018-09-08 09:03:35"
+       }
+   }
+```
+
+**`GET \pharmacy\{pharmacy}`**
+
+Gets only one pharmacy
+
+Sample Response
+```json
+   {
+       "message": "Pharmacy Created successfully",
+       "pharmacy": {
+           "id": 14,
+           "name": "Sofia Douglas",
+           "chcode": "CHF824926782",
+           "email": "jarvis57@example.net",
+           "phone": "+1.395.914.1758",
+           "address": "7120 Savion Inlet\nAbdullahfort, AR 36640",
+           "city": "Port Allisonberg",
+           "state": "New Enastad",
+           "country": "Finland",
+           "business_name": null,
+           "business_type": null,
+           "facility_owner": null,
+           "cac_reg": null,
+           "cac_date": null,
+           "fmoh_reg": null,
+           "fmoh_date": null,
+           "chief_pharmacist_reg": "consectetur",
+           "active": 1,
+           "avatar": "avatar/avatar.jpeg",
+           "chief_pharmacist_reg_date": null,
+           "chief_pharmacist_name": null,
+           "chief_pharmacist_phone": null,
+           "services": null,
+           "remember_token": null,
+           "created_at": "2018-09-08 09:03:35",
+           "updated_at": "2018-09-08 09:03:35"
+       }
+   }
+```
+
+**`PATCH \pharmacies\{pharmacy}`**
+
+Updates the pharmacy information
+
+Sample Data
+
+```json
+    {
+      "name" : "Value"
     }
-}
 ```
-<br/>
-
-**`GET patients/{patient}/records/{medicalRecord}`**
-
-```
-{patient} => patient's chcode
-{medicalRecord} => record's reference
-```
-
-Returns the details of a medical record.
-
-Sample Response:
+Sample Response
 ```json
-{
-    "data": {
-        "id": 1,
-        "reference": "CHR532109131",
-        "patient_id": 1,
-        "type": "App\\Models\\LabTest",
-        "issuer_type": "App\\Models\\Doctor",
-        "issuer_id": 12,
-        "created_at": "2018-09-03 20:16:47",
-        "updated_at": "2018-09-03 20:16:47",
-        "deleted_at": null,
-        "data": [
-            {
-                "id": 1,
-                "record_id": 1,
-                "test_name": "Larue O'Hara",
-                "description": "Soluta aspernatur quam exercitationem sed. Iste quasi ex labore beatae modi adipisci sit voluptatibus. Ipsam placeat rerum minus vitae voluptatem ex reiciendis. Odio consequatur magni debitis voluptas aut porro.",
-                "result": "Suscipit et autem quis temporibus doloribus. Laudantium consectetur alias et aut rerum harum saepe. Ut ullam necessitatibus praesentium impedit vel pariatur.",
-                "conclusion": "Aut reiciendis blanditiis dolorem veniam sit fuga error. Dicta aut incidunt delectus aut dolorum quisquam. Labore cum minima alias quia facilis.",
-                "status": 1,
-                "taker": "1",
-                "diagnosis_id": 1,
-                "created_at": "2018-09-03 20:16:47",
-                "updated_at": "2018-09-03 20:16:47"
-            }
-        ]
+    {
+      "message" : "Doctor has been updated successfully"
     }
-}
 ```
-<br/>
 
-**`GET /patients/pending`**
+**`DELETE \pharmacies\{pharmacy}`**
 
-Returns a list of pending patients (profile shares) a hospital has.
+Deletes the pharmacy
 
-Sample Response:
+Just hit the route
+
+Sample Response 
+```json
+   {
+    "message" : "deleted successfully"
+   }
+```
+<br>
+
+### Laboratory
+
+**`GET /laboratories`**
+
+Gets all laboratories
+
+Sample Data
 
 ```json
-{
-  "message":"Patients retrieved successfully",
-  "patients": [
-      {
-          "id": 1,
-          "patient_id": 1,
-          "provider_type": "App\\Models\\Hospital",
-          "provider_id": 1,
-          "expired_at": "2018-10-01 00:00:00",
-          "doctor_id": null,
-          "status": "0",
-          "created_at": null,
-          "updated_at": null,
-          "patient": {
-              "id": 1,
-              "first_name": "Maxie",
-              "middle_name": "Eichmann",
-              "last_name": "Steuber",
-              "chcode": "CHP306622590",
-              "avatar": "avatar/avatar.jpeg",
-              "email": "lueilwitz.dominique@example.net",
-              "dob": "1995-07-14",
-              "gender": "male",
-              "phone": "+1 (304) 626-6064",
-              "address": "851 Wisozk Ramp Apt. 896\nJamilborough, MA 44522-9404",
-              "city": "Faheytown",
-              "state": "Terrymouth",
-              "country": "Kuwait",
-              "active": 1,
-              "religion": "Muslim",
-              "marital_status": "divorced",
-              "token": null,
-              "nok_name": "Vince Nikolaus DVM",
-              "nok_phone": "1-803-705-2897 x7807",
-              "nok_email": "ansel.waters@example.org",
-              "nok_address": "29467 Caitlyn Parkways Suite 574\nStoltenbergside, LA 88441",
-              "nok_city": "Dietrichstad",
-              "nok_state": "East Payton",
-              "verify_token": null,
-              "status": 0,
-              "nok_country": null,
-              "remember_token": null,
-              "created_at": "2018-09-03 20:16:47",
-              "updated_at": "2018-09-03 20:16:47"
-          }
-      }
-  ]
-}
-```
-
-**`PATCH /patients/pending/{profileShare}/accept`**
-
-```
-{profileShare} => ProfileShare id
-```
-
-Accepts a prospective patients profile share.
-
-Sample Data:
-
-```json
-{}
-```
-
-Sample Response:
-
-```json
-{
-    "message": "Profile share accepted successfully",
-    "share": {
-        "id": 1,
-        "patient_id": 1,
-        "provider_type": "App\\Models\\Hospital",
-        "provider_id": 1,
-        "expired_at": "2018-10-01 00:00:00",
-        "doctor_id": null,
-        "status": 1,
-        "created_at": null,
-        "updated_at": null
+    {
+          "message" : "Lab loaded successfully",
+          "labs": {
+              "current_page": 1,
+              "data": [
+                  {
+                      "id": 4,
+                      "name": "Rachael Walter",
+                      "chcode": "CHL461073373",
+                      "licence_no": "0nswzvE4aWbS2bP",
+                      "email": "leonardo.littel@example.net",
+                      "phone": "708-915-1453 x87786",
+                      "address": "58108 Rusty Mountain Suite 803\nShieldsburgh, CT 36846-2739",
+                      "city": "West Halstad",
+                      "state": "Port Jarretstad",
+                      "country": "Malawi",
+                      "lab_owner": "Mrs. Lola Labadie PhD",
+                      "cac_reg": "LzendIs1pvr8f1I",
+                      "fmoh_reg": "BLkDKuzFZ8z3z7K",
+                      "active": 1,
+                      "avatar": null,
+                      "token": null,
+                      "offers": "Occaecati aperiam similique et et nam. Odio quis enim soluta eius. Officia aspernatur asperiores incidunt ipsa soluta dolorum cupiditate.",
+                      "remember_token": null,
+                      "created_at": "2018-09-08 09:03:35",
+                      "updated_at": "2018-09-08 09:03:35"
+                  }
+                ]
+             },
+             "first_page_url": "http://localhost:8000/api/admin/laboratories?page=1",
+             "from": 1,
+             "last_page": 1,
+             "last_page_url": "http://localhost:8000/api/admin/laboratories?page=1",
+             "next_page_url": null,
+             "path": "http://localhost:8000/api/admin/laboratories",
+             "per_page": 15,
+             "prev_page_url": null,
+             "to": 4,
+             "total": 4
     }
-}
-```
-<br/>
-
-**`PATCH /patients/pending/{profileShare}/decline`**
-
-```
-{profileShare} => ProfileShare id
 ```
 
-Declines a prospective patients profile share.
+**`POST \laboratories`**
 
-Sample Data:
+Creates a Laboratory
+
+Sample Data
 
 ```json
-{}
-```
-
-Sample Response:
-
-```json
-{
-    "message": "Profile share declined successfully",
-    "share": {
-        "id": 1,
-        "patient_id": 1,
-        "provider_type": "App\\Models\\Hospital",
-        "provider_id": 1,
-        "expired_at": "2018-10-01 00:00:00",
-        "doctor_id": null,
-        "status": 2,
-        "created_at": null,
-        "updated_at": null
+    {
+      "name": "Kristian Weissnat",
+      "chcode": "CHL236670970",
+      "licence_no": "bN4cXE4NDFpYVDu",
+      "email": "esta.ondricka@example.org",
+      "phone": "+14604256258",
+      "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+      "city": "Brakusport",
+      "state": "Reannaview",
+      "country": "Uzbekistan",
+      "lab_owner": "Yvette Durgan",
+      "cac_reg": "ExebX0hafu2mUgm",
+      "fmoh_reg": "qUK6q2Wzb6VKrDp",
+      "active": 1,
+      "avatar": null,
+      "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero."
     }
-}
 ```
-<br/>
-
-**`PATCH /patients/{profileShare}/assign/{doctor}`**
-
-```
-{profileShare} => Profile Share id
-{doctor} => Doctor's chcode
-```
-
-Assigns a patients profile share to a doctor
-
-Sample Data:
+Sample Response
 
 ```json
-{}
-```
-
-Sample Response:
-
-```json
-{
-    "message": "Patient assigned to doctor successfully"
-}
-```
-
-### Doctor Management
-
-**`GET /doctors`**
-
-Returns a list of doctors that work in the hospital.
-
-Sample Response:
-
-```json
-{
-   "message": "Doctors retrieved successfully",
-   "doctors": [
-      {
-          "id": 1,
-          "first_name": "Marcel",
-          "middle_name": "Hagenes",
-          "last_name": "Haag",
-          "email": "dessie.conrey@gmail.com",
-          "phone": "623-214-6007 x28574",
-          "gender": "female",
-          "specialization": "cardiologist",
-          "folio":"MB/12/7d",
-          "confirm": false,
-          "validation": 0,
-          "chcode": "CHD984092751",
-          "token": "i74U2gPLhVVigDGXnYSWRL30BLAb9TnZ8cbO7sQu",
-          "remember_token": null,
-          "deleted_at": null,
-          "created_at": "2018-09-03 20:16:47",
-          "updated_at": "2018-09-03 20:16:47",
-          "pivot": {
-             "hospital_id": 1,
-             "doctor_id": 1
-          }
+   {
+      "message" : "Pharmacy created Successfully",
+      "laboratory" : {
+                 "id": 1,
+                 "name": "Kristian Weissnat",
+                 "chcode": "CHL236670970",
+                 "licence_no": "bN4cXE4NDFpYVDu",
+                 "email": "esta.ondricka@example.org",
+                 "phone": "+14604256258",
+                 "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+                 "city": "Brakusport",
+                 "state": "Reannaview",
+                 "country": "Uzbekistan",
+                 "lab_owner": "Yvette Durgan",
+                 "cac_reg": "ExebX0hafu2mUgm",
+                 "fmoh_reg": "qUK6q2Wzb6VKrDp",
+                 "active": 1,
+                 "avatar": null,
+                 "token": null,
+                 "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero.",
+                 "remember_token": null,
+                 "created_at": "2018-09-08 09:03:31",
+                 "updated_at": "2018-09-08 09:03:31"         
       }
-   ]
-}
+   }
 ```
-<br/>
+**`GET \laboratory\{laboratory}`**
 
-**`GET /doctors/pending`**
+Get a single Laboratory
 
-Returns a list of pending doctors - doctors who have indicated they work in a hospital but have not been accepted.
-
-Sample Response:
+Sample Response
 
 ```json
-{
-   "message": "Doctors retrieved successfully",
-   "doctors": [
-      {
-          "id": 1,
-          "first_name": "Marcel",
-          "middle_name": "Hagenes",
-          "last_name": "Haag",
-          "email": "dessie.conrey@gmail.com",
-          "phone": "623-214-6007 x28574",
-          "gender": "female",
-          "specialization": "cardiologist",
-          "folio":"MB/12/7d",
-          "confirm": false,
-          "validation": 0,
-          "chcode": "CHD984092751",
-          "token": "i74U2gPLhVVigDGXnYSWRL30BLAb9TnZ8cbO7sQu",
-          "remember_token": null,
-          "deleted_at": null,
-          "created_at": "2018-09-03 20:16:47",
-          "updated_at": "2018-09-03 20:16:47",
-          "pivot": {
-             "hospital_id": 1,
-             "doctor_id": 1
-          }
-      }
-   ]
-}
+    {
+        "message": "Laboratory fetched successfully",
+        "laboratory": {
+            "id": 1,
+            "name": "Kristian Weissnat",
+            "chcode": "CHL236670970",
+            "licence_no": "bN4cXE4NDFpYVDu",
+            "email": "esta.ondricka@example.org",
+            "phone": "+14604256258",
+            "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+            "city": "Brakusport",
+            "state": "Reannaview",
+            "country": "Uzbekistan",
+            "lab_owner": "Yvette Durgan",
+            "cac_reg": "ExebX0hafu2mUgm",
+            "fmoh_reg": "qUK6q2Wzb6VKrDp",
+            "active": 1,
+            "avatar": null,
+            "token": null,
+            "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero.",
+            "remember_token": null,
+            "created_at": "2018-09-08 09:03:31",
+            "updated_at": "2018-09-08 09:03:31"
+        }
+    }
 ```
-<br/>
+**`PATCH \laboratories\deactivate\{laboratory}`**
 
-**`GET /doctors/sent`**
+Toggles the Activation Status
 
-Returns a list of doctors the hospital has sent an invite to but have not been accepted.
-
-Sample Response:
+Sample Response 
 
 ```json
-{
-   "message": "Doctors retrieved successfully",
-   "doctors": [
-      {
-          "id": 1,
-          "first_name": "Marcel",
-          "middle_name": "Hagenes",
-          "last_name": "Haag",
-          "email": "dessie.conrey@gmail.com",
-          "phone": "623-214-6007 x28574",
-          "gender": "female",
-          "specialization": "cardiologist",
-          "folio":"MB/12/7d",
-          "confirm": false,
-          "validation": 0,
-          "chcode": "CHD984092751",
-          "token": "i74U2gPLhVVigDGXnYSWRL30BLAb9TnZ8cbO7sQu",
-          "remember_token": null,
-          "deleted_at": null,
-          "created_at": "2018-09-03 20:16:47",
-          "updated_at": "2018-09-03 20:16:47",
-          "pivot": {
-             "hospital_id": 1,
-             "doctor_id": 1
-          }
-      }
-   ]
-}
-```
-<br/>
-
-**`POST /doctors/{doctor}/invite`**
-
-```
-{doctor} => Doctor's chcode
+    {
+        "doctor": {
+            "id": 1,
+            "name": "Kristian Weissnat",
+            "chcode": "CHL236670970",
+            "licence_no": "bN4cXE4NDFpYVDu",
+            "email": "esta.ondricka@example.org",
+            "phone": "+14604256258",
+            "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+            "city": "Brakusport",
+            "state": "Reannaview",
+            "country": "Uzbekistan",
+            "lab_owner": "Yvette Durgan",
+            "cac_reg": "ExebX0hafu2mUgm",
+            "fmoh_reg": "qUK6q2Wzb6VKrDp",
+            "active": true,
+            "avatar": null,
+            "token": null,
+            "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero.",
+            "remember_token": null,
+            "created_at": "2018-09-08 09:03:31",
+            "updated_at": "2018-09-11 17:28:11"
+        },
+        "message": "Active changed"
+    }
 ```
 
-Invites a doctor to confirm he works in a hospital.
+**`PATCH \laboratories\{laboratory}`**
 
-Sample Data: 
+Updates the Laboratory 
+
+Sample Data
 
 ```json
-{}
+    {
+      "name" : "Value"
+    }
 ```
 
-Sample Response:
+Sample Response
 
 ```json
-{
-   "message": "Doctor invite sent successfully"
-}
+ {
+     "doctor": {
+         "id": 1,
+         "name": "Kristian Weissnat",
+         "chcode": "CHL236670970",
+         "licence_no": "bN4cXE4NDFpYVDu",
+         "email": "esta.ondricka@example.org",
+         "phone": "+14604256258",
+         "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+         "city": "Brakusport",
+         "state": "Reannaview",
+         "country": "Uzbekistan",
+         "lab_owner": "Yvette Durgan",
+         "cac_reg": "ExebX0hafu2mUgm",
+         "fmoh_reg": "qUK6q2Wzb6VKrDp",
+         "active": true,
+         "avatar": null,
+         "token": null,
+         "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero.",
+         "remember_token": null,
+         "created_at": "2018-09-08 09:03:31",
+         "updated_at": "2018-09-11 17:28:11"
+     },
+     "message": "Active changed"
+ }
 ```
-<br/>
 
-**`PATCH /doctors/{doctor}/accept`**
+**`DELETE \laboratories\{laboratory}`**
 
-```
-{doctor} => Doctor's chcode
-```
+Deletes a Laboratory
 
-Confirms a doctor works in a hospital.
-
-Sample Data: 
+Sample Response
 
 ```json
-{}
+ {
+     "message": "Laboratory was successfully deleted ",
+     "Laboratory": {
+         "id": 1,
+         "name": "Kristian Weissnat",
+         "chcode": "CHL236670970",
+         "licence_no": "bN4cXE4NDFpYVDu",
+         "email": "esta.ondricka@example.org",
+         "phone": "+14604256258",
+         "address": "19828 Hessel Ranch\nNathanialborough, CO 13709",
+         "city": "Brakusport",
+         "state": "Reannaview",
+         "country": "Uzbekistan",
+         "lab_owner": "Yvette Durgan",
+         "cac_reg": "ExebX0hafu2mUgm",
+         "fmoh_reg": "qUK6q2Wzb6VKrDp",
+         "active": 1,
+         "avatar": null,
+         "token": null,
+         "offers": "Quia excepturi aut quia sint voluptatem ab. Voluptatem iure et placeat reprehenderit tenetur. Fugiat accusamus eum ut porro temporibus ipsa vero.",
+         "remember_token": null,
+         "created_at": "2018-09-08 09:03:31",
+         "updated_at": "2018-09-11 17:28:11"
+     }
+ }
 ```
+### Patients
 
-Sample Response:
+**`GET \patients`**
+Get all patients on the Platforms
 
+Sample Response
 ```json
-{
-   "message": "Doctor approved successfully"
-}
+ {
+        "patients": {
+            "current_page": 1,
+            "data": [
+                {
+                    "id": 17,
+                    "first_name": "Zoila",
+                    "middle_name": "Dare",
+                    "last_name": "Mueller",
+                    "chcode": "CHP892937756",
+                    "avatar": "avatar/avatar.jpeg",
+                    "email": "grant.laisha@example.org",
+                    "dob": "1980-12-01",
+                    "gender": "female",
+                    "phone": "783-462-2556 x0473",
+                    "address": "108 Oswaldo Cove Suite 234\nWest Allie, CT 09711",
+                    "city": "Sauerhaven",
+                    "state": "Murphyland",
+                    "country": "Fiji",
+                    "active": 1,
+                    "religion": "Muslim",
+                    "marital_status": "engaged",
+                    "token": null,
+                    "nok_name": "Mr. Lucas Champlin",
+                    "nok_phone": "(604) 817-4576",
+                    "nok_email": "wolff.sabina@example.net",
+                    "nok_address": "181 Schultz Lock Suite 116\nEast Easton, OH 77061-5031",
+                    "nok_city": "Alenaport",
+                    "nok_state": "Tavaresport",
+                    "emergency_hospital_address": null,
+                    "emergency_hospital_name": null,
+                    "verify_token": null,
+                    "status": 0,
+                    "nok_country": null,
+                    "remember_token": null,
+                    "created_at": "2018-09-08 09:03:35",
+                    "updated_at": "2018-09-08 09:03:35"
+                  ],
+                       "first_page_url": "http://localhost:8000/api/admin/patients?page=1",
+                       "from": 1,
+                       "last_page": 2,
+                       "last_page_url": "http://localhost:8000/api/admin/patients?page=2",
+                       "next_page_url": "http://localhost:8000/api/admin/patients?page=2",
+                       "path": "http://localhost:8000/api/admin/patients",
+                       "per_page": 15,
+                       "prev_page_url": null,
+                       "to": 15,
+                       "total": 18
+                   }
 ```
-<br/>
 
-**`PATCH /doctors/{doctor}/decline`**
+**`GET \patients\{patient}`**
 
-```
-{doctor} => Doctor's chcode
-```
-
-Declines a doctor works in a hospital.
-
-Sample Data: 
-
-```json
-{}
-```
-
-Sample Response:
-
-```json
-{
-   "message": "Doctor declined successfully"
-}
-```
-<br/>
-
-**`DELETE /doctors/{doctor}/delete`**
-
-```
-{doctor} => Doctor's chcode
-```
-
-Detaches a doctor from a hospital.
-
-Sample Response:
-
-```json
-{
-   "message": "Doctor removed successfully"
-}
-```
-<br/>
