@@ -34,9 +34,10 @@ class ProfileShareController extends Controller
 
     public function store()
     {
-        $rules = $this->getRules();
+       
+        // $rules = $this->getRules();
 
-        $this->validate(request(), $rules);
+        // $this->validate(request(), $rules); dd(request()->all());
 
         $chcode = request('chcode');
 
