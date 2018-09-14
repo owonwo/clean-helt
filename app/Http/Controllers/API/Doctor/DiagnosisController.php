@@ -12,6 +12,7 @@ use App\Notifications\PatientMedicalRecordsNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class DiagnosisController extends Controller
 {
@@ -24,7 +25,15 @@ class DiagnosisController extends Controller
     {
         $rules = $this->getRules();
 
-        $this->validate($request, $rules);
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
+        }
+
         $doctor = auth()->guard('doctor-api')->user();
 
         if ($patient && $doctor->canViewProfile($patient)) {

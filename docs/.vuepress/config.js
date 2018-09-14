@@ -8,7 +8,7 @@ module.exports = {
         sidebar: [
             '/',
             ['/authentication/', 'Authentication'],
-            ['/admin','Admin'],
+            ['/admin/','Admin'],
             ['/hospitals/', 'Hospitals'],
             ['/pharmacies/', 'Pharmacies'],
             ['/patient/', 'Patient'],

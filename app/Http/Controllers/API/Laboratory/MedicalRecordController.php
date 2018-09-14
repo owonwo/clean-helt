@@ -6,6 +6,7 @@ use App\Filters\MedicalRecordsFilter;
 use App\Models\LabTest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Notifications\PatientLaboratoryNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -53,8 +54,8 @@ class MedicalRecordController extends Controller
 
     public function update(Patient $patient, MedicalRecord $medicalRecord, LabTest $labTest)
     {
-        $fish = auth()->guard('laboratory-api')->user();
-        if ($fish->canUpdatePatienLabTest($patient, $medicalRecord, $labTest)){
+        $laboratory = auth()->guard('laboratory-api')->user();
+        if ($laboratory->canUpdatePatienLabTest($patient, $medicalRecord, $labTest)){
 
             return response()->json(['message' => 'Data not found'], 404);
 
@@ -62,7 +63,7 @@ class MedicalRecordController extends Controller
 
             $labTest->update(request()->all());
             $labTest->save();
-
+            $laboratory->notify(new PatientLaboratoryNotification($patient, $labTest));
             return response()->json([
                 'message' => 'Test successfully Carried out',
                 'labtest' => $labTest,
