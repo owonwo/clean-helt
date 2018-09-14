@@ -45,7 +45,8 @@ class DoctorTest extends TestCase
         $doctor  = create('App\Models\Doctor');
         $this->signIn($doctor,'doctor-api');
         $doctorProfile = create('App\Models\DoctorProfile',['doctors_id' => $doctor->id]);
-        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update'),['first_name' => 'Bread'])->assertStatus(200);
+        $this->withExceptionHandling()->makeAuthRequest()->patch(route('doctor.update'),['first_name' => 'Bread']);
+        $this->assertDatabaseHas('doctors',['first_name' => 'Bread']);
 
     }
 

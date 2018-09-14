@@ -35,8 +35,8 @@ class ProfileShareController extends Controller
 
     public function store()
     {
-        $rules = $this->getRules();
-
+       
+         $rules = $this->getRules();
         try {
             $this->validate(request(), $rules);
         } catch (ValidationException $exception) {
