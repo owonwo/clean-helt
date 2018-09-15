@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Traits\CodeGenerator;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Doctor extends Authenticatable
 {
@@ -17,7 +16,7 @@ class Doctor extends Authenticatable
     protected $guarded = ['deleted_at', 'created_at'];
 
     protected $hidden = ['password'];
-    protected $with = ['profile','hospitals'];
+    protected $with = ['profile', 'hospitals'];
 
     protected $casts = [
         'confirm' => 'boolean',
@@ -53,7 +52,7 @@ class Doctor extends Authenticatable
 
     public function allShares()
     {
-        return $this->profileShares()->orWhere('doctor_id', $this->id);
+        return $this->profileShares()->orWhere('doctor_id', (string) $this->id);
     }
 
     /**
@@ -67,7 +66,7 @@ class Doctor extends Authenticatable
     {
         return null !== $this->profileShares()
                 ->activeShares()
-                ->where('patient_id', $patient->id)
+                ->where('patient_id', (string) $patient->id)
                 ->first();
     }
 
@@ -97,7 +96,7 @@ class Doctor extends Authenticatable
     public function declineHospital(Hospital $hospital)
     {
         return $this->hospitals()->wherePivot('hospital_id', $hospital->id)
-            ->updateExistingPivot($hospital->id, ['status' => 2]);
+            ->updateExistingPivot($hospital->id, ['status' => '2']);
     }
 
     public function scopeActiveHospitals($query)
@@ -108,21 +107,21 @@ class Doctor extends Authenticatable
     public function scopeSentHospitals($query)
     {
         return $this->hospitals()
-            ->wherePivot('status', '=', 0)
-            ->wherePivot('actor', '!=', get_class($this));
+            ->wherePivot('status', '=', '0')
+            ->wherePivot('actor', '=', get_class($this));
     }
 
     public function scopePendingHospitals($query)
     {
         return $this->hospitals()
-            ->wherePivot('status', '=', 0)
-            ->wherePivot('actor', '=', get_class($this));
+            ->wherePivot('status', '=', '0')
+            ->wherePivot('actor', '!=', get_class($this));
     }
 
     public function isActiveHospital(Hospital $hospital)
     {
         return null != $this->activeHospitals()
-                    ->where('hospital_id', $hospital->id)
+                    ->where('hospital_id', (string) $hospital->id)
                     ->first();
     }
 }
