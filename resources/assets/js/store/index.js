@@ -31,6 +31,7 @@ export default new Vuex.Store({
                 return [this.first_name, this.last_name].join(' ')
             }
         },
+        ACCOUNT_TYPE: "",
         pending: [],
 		sharedProfiles: [],
 		settings: {
@@ -42,6 +43,7 @@ export default new Vuex.Store({
 		getProfileByPatientId: store => id => {
 			return _.find(store.sharedProfiles, profile => profile.patient.id === parseInt(id));
 		},
+		accountType: store => store.ACCOUNT_TYPE,
 		getPendingUsers: store => {
 			return store.pending;
 		}
@@ -50,6 +52,9 @@ export default new Vuex.Store({
 		
 	},
 	mutations: {
+		set_account_type (store, payload) {
+			store.ACCOUNT_TYPE = payload;
+		},
 		set_shared_profiles(store, payload) {
 			store.sharedProfiles = payload.map(profile => lockProfile(profile));
 		},

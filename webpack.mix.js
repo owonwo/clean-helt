@@ -24,4 +24,4 @@ mix.version().sourceMaps().webpackConfig({
    .sass('resources/assets/sass/app.scss', 'public/css')
    // .sass('resources/assets/sass/admin.scss', 'public/css');;
 // mix.disableNotifications();
-mix.browserSync('http://localhost:88');
+// mix.browserSync('http://localhost:88');

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);body {
+body {
   font-weight: 400;
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
@@ -11774,6 +11774,10 @@ button {
   transition: all .3s ease-out;
 }
 
+button:focus {
+  outline: none;
+}
+
 button.no-style,
 button[ghost] {
   border: none;
@@ -14407,6 +14411,10 @@ button {
   transition: all .3s ease-out;
 }
 
+button:focus {
+  outline: none;
+}
+
 button.no-style,
 button[ghost] {
   border: none;
@@ -16766,6 +16774,68 @@ a[ghost] {
   grid-gap: 15px;
 }
 
+#add-record {
+  display: grid;
+  min-height: 100vh;
+  grid-gap: 0 10px;
+  grid: "header header  header" 50px "questions symptoms prescription" minmax(300px, 350px) "lab_test lab_test conclusion" minmax(300px, 350px)/1fr 1fr 1fr;
+}
+
+#add-record #header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#add-record .card.card-content {
+  padding: 10px 15px;
+}
+
+#add-record .card.card-content .card-bottom-bar {
+  position: absolute;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#add-record .card.card-content .card-bottom-bar .input {
+  width: 80%;
+  margin-right: 5px;
+}
+
+#add-record .card.card-content .card-bottom-bar button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 40px;
+          flex: 0 0 40px;
+  position: relative;
+  bottom: 0;
+  right: 0;
+}
+
+#add-record .md-btn-circle {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: 30;
+}
+
 .osq-main-navbar .avatar,
 .avatar {
   -o-object-fit: cover;
@@ -16798,6 +16868,10 @@ h4,
 h5,
 h6 {
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+}
+
+.vue-notification {
+  font-size: 0.9em !important;
 }
 
 .notifications.is-flat {

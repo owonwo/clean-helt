@@ -38,11 +38,13 @@
 
     <section class="osq-content">
       <section id="content">
-        <router-view/>
+        <keep-alive :exclude="['Patients']">
+          <router-view/>
+        </keep-alive>
       </section>
 
       <aside id="osq-logs" :class="{collapse: $root.sidebars.notif}">
-        <router-view id="osq-logs-content" name="logBar"/>
+          <router-view id="osq-logs-content" name="logBar"/>
       </aside>
     </section>
   </main>
@@ -50,8 +52,8 @@
 
 <script>
 import routes from './routes'
-import { mapGetters } from 'vuex';
 import LoggedIn from '@/Mixins/LoggedIn'
+
 
 export default {
     name: 'Doctor',
@@ -59,30 +61,45 @@ export default {
     router: routes.doctor,
     mixins: [LoggedIn], // comes with all mutations and getters
     created() {
-      this.getHospital().then((res) => {
-        this.hospitals = res.data.hospitals;
-        console.log(res.data, this.hospitals);
-      });
+      this.fetchHospitals();
+      axios.get('/api/doctor/notifications').then((res) => {
+        res.data;
+      })
     },
     data() {return {
       settings : {
-        profile: { route: `/api/doctor/profile/${this.$props.id}`, key: 'doctor' },
+        profile: { route: `/api/doctor/profile`, key: 'doctor' },
         patients: { route : '/api/doctor/patients', key: 'patients'}
       },
+      pendingHospital: [],
+      sentHospital: [],
       hospitals: [],
     }},
-    computed: {
-      ...mapGetters({user: 'getUser'})
-    },
     methods: {
-      //gets all the hospital a doctor works for
       async getHospital() {
-        return await axios.get('/api/doctor/hospital')
+        return await axios.get('/api/doctor/active-hospitals')
       },
-      // adds a hospital by the chcode
-      async addHospital(chcode) {
-        const param = {chcode, doctor_id: this.user.id}
-        return await axios.post('/api/doctor/add-hospital', param);
+      manageHospital(hospital, type = "") {
+        const actions = {
+          accept: `/api/doctor/${hospital.chcode}/accept-hospital`,
+          decline: `/api/doctor/${hospital.chcode}/decline-hospital`,
+          remove: `/api/doctor/${hospital.chcode}/remove-hospital`,
+        }
+        this.$http.patch(actions[type]).then(() => {
+          this.fetchHospitals();
+        });
+      },
+      fetchHospitals() {
+        this.getHospital().then((res) => {
+          this.hospitals = res.data.hospitals;
+        });
+        this.$http.get('/api/doctor/sent-hospitals').then((res) => {
+          this.sentHospital = res.data.hospitals;
+        });
+        this.$http.get('/api/doctor/pending-hospitals').then((res) => {
+          this.pendingHospital = res.data.hospitals;
+        });
+
       }
     }
 }

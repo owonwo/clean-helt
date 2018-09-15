@@ -4,14 +4,22 @@ const ServiceProviders = ['hospital', 'doctor', 'pharmacy', 'laboratory']
 export default {
     props: ['id'],
     data() {return {
+        notifications: []
     }},
     computed: {
         ...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'})
     },
+    created() {
+        const token = $('meta[name=api-token]').attr('content');
+        if(!_.isUndefined(token) && 'string' === typeof token) {
+            window.axios.defaults.headers.common = {
+                'Authorization': `Bearer ${token}`,
+            }
+        }
+    },
     mounted() {
         //for profiles
         const {profile, patients} = this.settings;
-
         if("undefined" !== typeof profile.route) 
         this.$http.get(profile.route).then((res) => {
             const USER_DATA = _.extend(this.user, res.data[profile.key])
@@ -19,6 +27,8 @@ export default {
         });
         //for services providers
         const componentName = this.getComponentName().toLowerCase();
+        this.$store.commit('set_account_type', componentName);
+
         if(ServiceProviders.includes(componentName)) {
             this.$http.get(patients.route).then((res) => {
                 const PATIENTS =  res.data[patients.key]

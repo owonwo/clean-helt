@@ -3,6 +3,7 @@ import Profile from '@/doctors/Profile.vue'
 import Patients from '@/doctors/Patients.vue'
 import Dashboard from '@/doctors/Dashboard.vue'
 import PatientProfile from '@/doctors/PatientProfile.vue'
+import AddRecordForm from '@/doctors/AddRecordForm.vue'
 import PatientRecordsDirectory from '@/doctors/PatientRecordsDirectory.vue'
 import Notifications from '@/components/Notifications.vue'
 
@@ -44,7 +45,15 @@ const routes = [
 			default: PatientRecordsDirectory,
 			logBar: Notifications
 		}
-	}
+	},
+	{
+		path: '/patients/:patient_id/add-record',
+		name: 'add-record',
+		components: {
+			default: AddRecordForm,
+			logBar: Notifications
+		}
+	},
 ];
 
 export default new Router({

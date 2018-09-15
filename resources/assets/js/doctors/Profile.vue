@@ -55,7 +55,10 @@
 
 		<hgroup class="mb-10">
 			<h1 class="osq-group-title mb-0">Hospitals</h1>
-			<h6 class="">These are the Hospitals you work in.</h6>
+			<h6 v-if="hospitals.length > 0" class="">These are the Hospitals you work in.</h6>
+			<h6 v-if="!!!hospitals.length" class="notification is-info">
+				<span class="ml-i-15 mr-10"><i class="ti ti-info"></i></span>
+				You currently don't work for any hospital</h6>
 		</hgroup>
 		
 		<section class="columns is-multiline">
@@ -110,8 +113,8 @@ export default {
 			this.modal = true;
 		},
 		removeHospital(hosp = "") {
-			console.log(_.remove(this.hospitals, e => e == this.currentHospital));
-			this.modal = false
+			this.$parent.manageHospital(this.currentHospital, 'remove');
+			this.modal = false;
 		},
 	}
 }

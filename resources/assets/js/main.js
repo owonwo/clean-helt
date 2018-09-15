@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueMoment from 'vue-moment'
 import Router from 'vue-router'
+import VueMoment from 'vue-moment'
+import Notification from 'vue-notification'
 
 // #pages
 import Admin from '@/Admin.vue'
@@ -14,6 +15,7 @@ import GlobalComponents from '@/components';
 
 Vue.use(Router)
 Vue.use(VueMoment)
+Vue.use(Notification)
 
 import store from '@/store/';
 
@@ -116,9 +118,20 @@ Vue.directive('preload', {
 
 Vue.mixin({
     components: {...GlobalComponents},
+    methods: {
+        testChCode(chcode = "") {
+            return RegExp('^CH(P|H|D|L)([0-9]{9})$').test(chcode);
+        }
+    },
     filters: {
+        testChCode(value = "") {
+            return this.testChCode(value)
+        },
         ucfirst (value) {
             return _.capitalize(value);
+        },
+        truncate(value, length) {
+            return _.truncate(value, {length});
         }
     }
 });

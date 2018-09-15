@@ -9,7 +9,7 @@
 				</div>
 			</section>
 			<div class="card-content p-0">
-				<div v-preload v-if="!!!doctors.length"
+				<div v-preload v-if="!!!doctors.length && !isLoading.doctors"
 					class="block is-rounded mx-15 my-5 mb-0"
 					style="height:10px;border-radius: 0"/>
 				<table class="table is-hoverable is-fullwidth">
@@ -71,7 +71,9 @@ export default {
 	data() {return {
 		modal: false,
 		doctors: [],
-		isLoading: {message: "", loaded: false, get reset() {
+		isLoading: {
+			doctors: false,
+			message: "", loaded: false, get reset() {
 			this.loaded = false,
 			this.message = ""
 		}},
@@ -86,6 +88,7 @@ export default {
 		fetchDoctors() {
 			this.$parent.getDoctors().then((res) => {
 				this.doctors = res.data.doctors
+				this.isLoading.doctors = true;
 			}).catch(function(err) {
 				console.groupCollapsed('Doctor Directory Warnings')
 				console.log(err);

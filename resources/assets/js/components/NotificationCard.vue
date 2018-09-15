@@ -1,5 +1,5 @@
 <template>
-	<section class="notification" :class="[notif_type]">
+	<section class="notification activity-notification" :class="[notif_type]">
 		<span v-if="$props.account !== 'bell'" class="notification-icon is-pulled-left">
 			<i class="icon" :class="[icon_name]"></i>
 		</span>
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss">
-	.notification {
+	.activity-notification {
 		display: flex;
 		align-items: flex-start;
 

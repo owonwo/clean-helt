@@ -8,7 +8,11 @@
 					<p>{{ patient.gender | ucfirst }}</p>
 					<div class="mt-30">
 						<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
-						<button class="button ml-10 is-outlined is-rounded is-dark">Add Record</button>
+						<router-link v-if="accountType === 'doctor'"
+							:to="{name:'add-record', params: {patient_id: patient.id }}" 
+							class="button ml-10 is-outlined is-rounded is-dark">
+							Add Record
+						</router-link>
 					</div>
 				</ProfileBox>
 				<section class="px-0">
@@ -125,6 +129,9 @@
 		activated () {
 			this.profile = this.$store.getters.getProfileByPatientId(this.getId());
 			this.patient = _.extend({}, this.profile.patient);
+		},
+		computed: {
+			...mapGetters(['accountType'])
 		},
 		data() {return {
 			settings: {

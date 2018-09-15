@@ -247,3 +247,55 @@
     grid-template-columns: minmax(300px, 1fr) 300px;
     grid-gap: 15px;
 }
+
+
+#add-record {
+  display: grid;
+  min-height: 100vh;
+  grid-gap: 0 10px;
+  grid:
+    "header header  header" 50px
+    "questions symptoms prescription" minmax(300px, 350px)
+    "lab_test lab_test conclusion" minmax(300px, 350px)
+    / 1fr 1fr 1fr;
+
+    #header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .card.card-content {
+        padding: 10px 15px;
+
+        .card-bottom-bar {
+            position: absolute;
+            justify-content: space-evenly;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+
+            .input {
+                width: 80%;
+                margin-right: 5px;
+            }
+
+            button {
+                flex: 0 0 40px;
+                position: relative;
+                bottom: 0; right: 0;
+            }
+        }
+    }
+
+    .md-btn-circle {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      box-shadow: none;
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      z-index: 30;
+    } 
+}

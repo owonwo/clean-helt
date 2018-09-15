@@ -5,6 +5,10 @@ $link-color: dodgerblue !default;
 button {
 	font-family: $input-font;
 	transition: all .3s ease-out;
+	
+	&:focus {
+		outline: none;		
+	}
 }
 
 button.no-style, button[ghost]{

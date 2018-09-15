@@ -10,12 +10,12 @@
             </div>
 
             <div class="column is-half">
-                <AddServiceProvider/>
+                <AddServiceProvider @success="success" model="DOCTOR"/>
             </div>
         </div>
 
         <div class="columns">
-            <div class="column is-fullwidth">
+            <div class="column is-half">
                 <div class="card osq-table">
                     <div class="card-header">
                         <span class="card-header-icon"><i class="ti ti-pulse"></i></span>
@@ -41,6 +41,35 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <div class="column is-half">
+                <accordion :show="true" v-if="$parent.pendingHospital.length > 0">
+                    <template slot="heading">
+                        <i class="tag is-primary p-5 mr-15">{{ $parent.pendingHospital.length }}</i> Pending Hospitals                     
+                    </template>
+                    <template slot="content">
+                        <section class="menu content pl-10 pr-10">
+                            <div class="py-5" v-for="(hospital, index) in $parent.pendingHospital" :key="index">
+                                <button @click="$parent.manageHospital(hospital, 'accept')" class="button is-outlined is-pulled-right is-rounded is-primary">Accept</button>
+                                <h4 class="title is-5 mb-0">{{ hospital.name}}</h4>
+                                <span class="has-text-primary">{{ hospital.chcode }}</span>
+                            </div>
+                        </section>
+                    </template>
+                </accordion>
+                <accordion>
+                    <template slot="heading">
+                        <i class="tag is-primary p-5 mr-15">{{ $parent.sentHospital.length }}</i> Hospitals Sent
+                    </template>
+                    <template slot="content">
+                        <section class="menu content pl-10 pr-10">
+                            <div class="py-5" v-for="(hospital, index) in $parent.sentHospital" :key="index">
+                                <h4 class="title is-5 mb-0">{{ hospital.name}}</h4>
+                                <span class="has-text-primary">{{ hospital.chcode }}</span>
+                            </div>
+                        </section>
+                    </template>
+                </accordion>
             </div>
         </div>
     </section>
@@ -72,12 +101,8 @@ export default {
     data() {return {
     }},
     methods: {
-        sendAddHospitalRequest(send) {
-            this.isLoading = true;
-            this.$parent.addHospital(this.hospital_chcode).then(() => {
-                this.hospital_chcode = ""
-                this.isLoading = false;
-            })
+        success() {
+            this.$parent.fetchHospitals();
         }
     }
 }

@@ -12,7 +12,7 @@
 						<p class="mb-30"><small>expires {{ profile.expired_at | moment("from", "now") }}</small></p>
 						<div class="buttons is-centered">
 							<router-link tag="button" 
-								:to="{name: 'patient-profile', params: {patient_id: profile.patient.id }}" 
+								:to="{name: 'patient-profile', params: {chcode: profile.patient.chcode, patient_id: profile.patient.id }}" 
 								class="button is-primary is-rounded">View Profile</router-link>
 						</div>
 					</section>
