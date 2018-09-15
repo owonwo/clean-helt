@@ -13,7 +13,7 @@ class MedicalRecord extends Model
 
     protected $codePrefix = 'CHR';
     
-    protected $with = 'issuer';
+    protected $with = ['issuer'];
 
     protected static function boot()
     {

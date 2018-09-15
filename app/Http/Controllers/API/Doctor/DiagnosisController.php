@@ -22,10 +22,13 @@ class DiagnosisController extends Controller
 
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
-        $rules = $this->getRules();
 
+        $rules = $this->getRules();
+       
         $this->validate($request, $rules);
         $doctor = auth()->guard('doctor-api')->user();
+        
+       
 
         if ($patient && $doctor->canViewProfile($patient)) {
             try {
@@ -100,7 +103,7 @@ class DiagnosisController extends Controller
     }
     private function createLabTest($record,$diagnosis){
              LabTest::forceCreate([
-               'record_id' => $record,
+                'record_id' => $record,
                 'name' => request('test_name'),
                 'description' => request('description'),
                 'result' => request('result'),
