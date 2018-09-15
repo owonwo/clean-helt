@@ -102,8 +102,8 @@ Route::group(['namespace' => 'API'], function() {
     });
     //End of all routes for doctor
 
-    Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function() {
-        Route::post('/register', 'PatientController@store');
+    Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
+        Route::post('/register', 'PatientController@store')->name('patient.register');
         Route::get('/{patient}/medical-records','PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch("/profile/update", 'PatientController@update');
@@ -112,6 +112,13 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
         Route::get('/verify/{email}/{verifyToken}', 'PatientController@verify')->name('patient.confirmation.mail');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
+
+        Route::get('hospitals', 'PatientController@showHospitals');
+        Route::get('hospital/{hospital}', 'PatientController@showHospital');
+        Route::get('laboratories', 'PatientController@showLaboratories');
+        Route::get('laboratory/{laboratory}', 'PatientController@showLaboratory');
+        Route::get('pharmacies', 'PatientController@showPharmacies');
+        Route::get('pharmacy/{pharmacy}', 'PatientController@showPharmacy');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
