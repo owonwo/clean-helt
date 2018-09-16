@@ -31,7 +31,7 @@ class ProfileShareController extends Controller
     {
 
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => 1]);
+            $profileShare->update(['status' => (string) 1]);
 
             return response()->json([
                 'message' => 'Profile share accepted successfully',
@@ -47,7 +47,7 @@ class ProfileShareController extends Controller
     public function decline(ProfileShare $profileShare)
     {
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => 2]);
+            $profileShare->update(['status' => (string) 2]);
 
             return response()->json([
                 'message' => 'Profile share declined successfully',

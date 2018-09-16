@@ -85,14 +85,7 @@
 						</div>
 						ADD DOCTOR
 					</h5>
-                    <div class="field">
-                        <input type="text" class="input" placeholder="Enter Doctor CHCODE">
-                    </div>
-                </div>
-                <div slot="modal-footer" class="column is-fullwidth">
-                    <button @click="checkPassword()" class="button is-fullwidth is-primary">
-                        <span class="ti mr-10 ti-email"></span> Send Invite
-                    </button>
+                    <AddServiceProvider @success="fetchDoctors" model="HOSPITAL"/>
                 </div>
             </modal>
         </div>
@@ -106,20 +99,7 @@ export default {
     mounted: () => { document.title = "Settings | CleanHelt" },
     components: { ToggleSwitch },
     created() {
-        const { buildStatus } = this;
-        const fetchDoctors = Promise.all([this.$parent.getDoctors(), this.$parent.getDoctorsPending()]);
-        //TODO: Remove the buildStatus function
-        fetchDoctors.then((res) => {
-            let [acceptedDoctors, pendingDoctors] = res;
-            this.doctors = [
-                ...buildStatus(pendingDoctors.data.doctors)(false),
-                ...buildStatus(acceptedDoctors.data.doctors)(true)
-            ];
-        }).catch(function(err) {
-            console.groupCollapsed('Hospital Settings Warnings')
-            console.log(err);
-            console.groupEnd();
-        });
+       this.fetchDoctors();
     },
     computed: {
     	orderDoctor(){
@@ -155,6 +135,22 @@ export default {
         },
         revokeAccess() {
             this.modal.remove = false
+        },
+        fetchDoctors() {
+            const { buildStatus } = this;
+            const fetchDoctors = Promise.all([this.$parent.getDoctors(), this.$parent.getDoctorsPending()]);
+            //TODO: Remove the buildStatus function
+            fetchDoctors.then((res) => {
+                let [acceptedDoctors, pendingDoctors] = res;
+                this.doctors = [
+                    ...buildStatus(pendingDoctors.data.doctors)(false),
+                    ...buildStatus(acceptedDoctors.data.doctors)(true)
+                ];
+            }).catch(function(err) {
+                console.groupCollapsed('Hospital Settings Warnings')
+                console.log(err);
+                console.groupEnd();
+            });
         }
     }
 }

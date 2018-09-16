@@ -53,10 +53,32 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
+
+Route::get('clients/{any?}', function () { return view('all', ['user' => 'Patient']); })
+    ->middleware('auth-session:patient')
+    ->where('any', '(.){0,}')->name('patient.dashboard');
+
+Route::get('doctors/{any?}', function (Request $request) {
+    return view('all', ['user' => 'Doctor']);
+})->middleware('auth-session:doctor')->where('any', '(.){0,}')->name('doctor.dashboard');
+
+Route::get('pharmacy/{any?}', function () { return view('all', ['user' => 'Phamarcy']); })
+    ->middleware('auth-session:pharmacy')
+    ->where('any', '(.){0,}')->name('pharmacy.dashboard');
+
+Route::get('lab/{any?}', function () { return view('all', ['user' => 'Laboratory']); })
+    ->middleware('auth-session:laboratory')
+    ->where('any', '(.){0,}');
+
+Route::get('hospital/{any?}', function () { return view('all', ['user' => 'Hospital']); })
+    ->middleware('auth-session:hospital')
+    ->where('any', '(.){0,}')->name('hospital.dashboard');
+
+Route::get('/make-fake-session/{type}', function (Request $request, $type) {
     $emails = [
         'doctor' => 'dessie.conrey@gmail.com',
         'patient' => 'rocio.daniel@example.com',
-        'hospital' => 'dhettinger@example.com',
+        'hospital' => 'schamberger.santos@example.org', //'dhettinger@example.com',
         'pharmacy' => 'jeramie.koelpin@example.com',
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
 use Illuminate\Database\Eloquent\Model;
@@ -61,5 +62,9 @@ class Patient extends Authenticatable
     public function pharmacyRecords()
     {
         return $this->hasMany(Prescription::class, 'record_id');
+    }
+
+    public function hasAlreadySharedChcode($provider) {
+        return DB::table('profile_shares')->where(['patient_id' => $this->id, 'provider_id' => $provider->id ])->count() > 1;
     }
 }

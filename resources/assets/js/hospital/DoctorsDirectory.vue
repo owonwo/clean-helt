@@ -40,7 +40,8 @@
 				<h5 class="title is-6">
 					<i class="ti ti-share icon"></i> Assign Patient
 				</h5>
-				<div class="field">
+				<div v-if="$store.state.sharedProfiles.length <= 0" class="notification is-info">No Available Client.</div>
+				<div v-else class="field">
 					<select v-model="selected.share_id" class="input">
 						<option value="0" disabled="" selected="">Select Patient...</option>
 						<option :value="profile.id" v-for="(profile, index) in $store.state.sharedProfiles" :key="profile.id">

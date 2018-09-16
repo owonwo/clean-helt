@@ -28,14 +28,16 @@
 			</div>
 			<div class="tabs mb-5">
 				<ul>
-					<li :class="{'is-active': current == 1}"><a @click.prevent="current=1" href="#">Hospital</a></li>
-					<li :class="{'is-active': current == 2}"><a @click.prevent="current=2" href="#">Pharmacy</a></li>
-					<li :class="{'is-active': current == 3}"><a @click.prevent="current=3" href="#">Laboratory</a></li>
-					<li :class="{'is-active': current == 4}"><a @click.prevent="current=4" href="#">Doctors</a></li>
+					<li v-for="(group, key, index) in shares" 
+						:key="index" :class="{'is-active': current == index}">
+						<a @click.prevent="current=index" href="#">{{ key }}s</a>
+					</li>
 				</ul>
 			</div>
+
 			<pager align="top" :current="current">
-				<div class="px-15" :slot="'p'+ai" :key="ai" v-for="ai in 5">
+				<div :slot="'p'+(index+1)" :key="index" class="px-15"
+				   v-for="(shareKey, index) in ['Hospital', 'Doctor', 'Pharmacy', 'Laboratory']">
 					<table class="table is-hoverable is-fullwidth">
 						<tr>
 							<th width="100">CHCODE</th>
@@ -43,11 +45,15 @@
 							<th>Email</th>
 							<th width="50">Status</th>
 						</tr>
-						<tr v-for="(a) in 5">
-							<td>CH/30{{a}}</td>
-							<td>Peter Lakewood's Hospital</td>
-							<td>help@plh.care</td>
-							<td><span class="tag is-primary">Active</span></td>
+						<tr :key="index" v-for="(share, index) in shares[shareKey]">
+							<td>{{share.provider.chcode}}</td>
+							<td>{{share.provider.name}}</td>
+							<td>{{share.provider.email}}</td>
+							<td>
+								<span v-if="share.status === 1" class="tag is-primary">Active</span>
+								<span v-else-if="share.status === 0" class="tag is-info">Pending</span>
+								<span v-else-if="share.status === 2" class="tag is-primary">Expired</span>
+							</td>
 						</tr>
 					</table>
 				</div>
@@ -61,11 +67,29 @@
 
 	export default {
 		components: {Pager},
-		name: 'Users',
+		name: 'Departments',
+		mounted() {
+			this.$parent.fetchProfileShares();
+		},
 		data() {return {
 			current: 0,
 			show: true,
 			columns: [{}],
-		}}
+		}},
+		computed: {
+			shares() { return this.groupSharesByDeparment(this.$parent.shares) }
+		},
+		methods: {
+			groupSharesByDeparment(shares = []) {
+				const groups = {};
+				shares.map(e => {
+					const provider = e.provider_type;
+					Object.keys(groups).includes(provider) 
+						? groups[provider].push(e) 
+						: (groups[provider] = []).push(e);
+				})
+				return groups;
+			}
+		}
 	}
 </script>

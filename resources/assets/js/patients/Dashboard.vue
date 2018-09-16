@@ -6,12 +6,8 @@
 
 		<div class="my-30 columns is-centered">
 			<div class="column is-half">
-				<div class="field has-addons-left">
-					<p class="control has-icons-left has-shadow">
-						<input type="text" class="input has-text-centered" style="padding-left:calc(0.625em - 1px);border-radius: 30px" placeholder="Find Help by CH-Code">
-						<span class="is-left icon"><i class="osf osf-search"></i></span>
-					</p>
-				</div>
+				<h3 class="title is-3 has-text-centered"><span style="font-weight:lighter">SHARE</span>PROFILE</h3>
+				<AddServiceProvider class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
 			</div>
 		</div>
 

@@ -7,7 +7,11 @@ export default {
         notifications: []
     }},
     computed: {
-        ...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'})
+        ...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'}),
+        /**
+         * @return String
+         */
+        componentName() { return this.getComponentName().toLowerCase() }
     },
     created() {
         const token = $('meta[name=api-token]').attr('content');
@@ -26,19 +30,9 @@ export default {
             this.set_user(USER_DATA);
         });
         //for services providers
-        const componentName = this.getComponentName().toLowerCase();
-        this.$store.commit('set_account_type', componentName);
+        this.$store.commit('set_account_type', this.componentName);
 
-        if(ServiceProviders.includes(componentName)) {
-            this.$http.get(patients.route).then((res) => {
-                const PATIENTS =  res.data[patients.key]
-                this.set_shared_profiles(PATIENTS);
-            });
-            this.$http.get(`/api/${componentName}/patients/pending`).then((res) => {
-                const PATIENTS =  res.data.patients;
-                this.set_pending_patients(PATIENTS);
-            });
-        }
+        !ServiceProviders.includes(this.componentName) || this.fetchPatients();
     },
     methods: {
         ...mapMutations([
@@ -51,12 +45,27 @@ export default {
             return this.$vnode.componentOptions.tag;
         },
         async acceptShare(id) {
-            const url = `/api/${this.getComponentName()}/patients/pending/${id}/accept`;
+            const url = `/api/${this.componentName}/patients/pending/${id}/accept`;
             return await this.$http.patch(url).then(() => {
                 this.remove_from_pending(id);
+                this.fetchPatients();
             }).catch(() => {
                 console.log('Accept Failed!');
             })
+        },
+        // fetches both pending and active patients
+        fetchPatients() {
+            let {patients} = this.settings;
+            
+            this.$http.get(`/api/${this.componentName}/patients/pending`).then((res) => {
+                const PATIENTS = res.data.patients;
+                this.set_pending_patients(PATIENTS);
+            });
+
+            this.$http.get(patients.route).then((res) => {
+                const PATIENTS = res.data[patients.key]
+                this.set_shared_profiles(PATIENTS);
+            });
         }
     },
 }

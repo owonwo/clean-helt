@@ -48,13 +48,8 @@
 
 <script>
 export default {
-	name: 'Dashboard',
+	name: 'HospitalDashboard',
 	data() {return {
-		modal: false,
-		depart: [
-			{name: 'Doctors', count: 7, icon: 'patient'}, 
-			{name: 'Patients', count: 100, icon: 'doctor'},
-		],
 	}},
 	computed: {
 		pendingUsers() {

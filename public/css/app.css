@@ -1,4 +1,4 @@
-body {
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);body {
   font-weight: 400;
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
@@ -17272,6 +17272,10 @@ ul {
 .osq-two-columns aside {
   background: #e5e5e5;
   border-right: solid 1px #f0f4ff;
+}
+
+.osq-sidenav li {
+  margin-bottom: 5px;
 }
 
 .osq-sidenav li > a {

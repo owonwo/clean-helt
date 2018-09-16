@@ -10,7 +10,12 @@
             </div>
 
             <div class="column is-half">
-                <AddServiceProvider @success="success" model="DOCTOR"/>
+                <section class="card">
+                    <div class="card-header"><span class="card-header-title"> Add A Hospital</span></div>
+                    <div class="card-content">
+                        <AddServiceProvider @success="success" model="DOCTOR"/>
+                    </div>
+                </section>
             </div>
         </div>
 

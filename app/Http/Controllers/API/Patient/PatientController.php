@@ -15,10 +15,9 @@ class PatientController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth:patient-api')->except('store', 'verify');
-        // dump(auth('patient-api')->user());
+        $this->middleware('auth:patient-api')->except('store', 'verify');
         $this->middleware(function ($request, $next) {
-            $this->patient = Patient::where(['chcode' => 'CHP624423792'])->first();
+            $this->patient = auth('patient-api')->user();
 
             return $next($request);
         });

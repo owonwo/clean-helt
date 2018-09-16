@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use Validator;
 use App\Events\PatientSharedProfile;
 use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
@@ -28,21 +29,26 @@ class ProfileShareController extends Controller
     {
         return response()->json([
             'message' => 'Shares retrieved successfully',
-            'shares' => $this->patient->profileShares
+            'shares' => $this->patient->profileShares()
+                ->with('provider')
+                ->get(),
         ], 200);
     }
 
     public function store()
     {
-        $rules = $this->getRules();
-
-        $this->validate(request(), $rules);
-
+        $validator = Validator::make(request()->all(), $this->getRules());
+        if($validator->fails()) return response()->json($validator->errors()->toJson(), 400);
+        
         $chcode = request('chcode');
-
         $providerClass = $this->getProvider($chcode);
 
-        if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
+        if ((bool) $providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
+            if($this->patient->hasAlreadySharedChcode($provider)) {
+                return response()->json([
+                    'message' => 'Profile Already Shared!',
+                ], 409);
+            }
 
             $share = $this->patient->profileShares()->create([
                 'provider_type' => $providerClass,
@@ -50,7 +56,7 @@ class ProfileShareController extends Controller
                 'expired_at' => request('expiration')
             ]);
             //Fire an event that tells providers that patient has been shared
-            event(new PatientSharedProfile($provider,$this->patient));
+            // event(new PatientSharedProfile($provider,$this->patient));
             if ($share) {
                 return response()->json([
                     'message' => 'Profile shared successfully',
