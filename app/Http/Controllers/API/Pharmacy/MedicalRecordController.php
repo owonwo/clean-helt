@@ -6,6 +6,7 @@ use App\Filters\MedicalRecordsFilter;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Prescription;
+use App\Notifications\PatientPrescriptionNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -55,6 +56,8 @@ class MedicalRecordController extends Controller
     {
         if (!$this->pharmacy->canUpdatePatientPrescription($patient, $medicalRecord, $prescription))
             return response()->json(['message' => 'Data not found'], 404);
+
+        $this->pharmacy->notify(new PatientPrescriptionNotification($patient, $prescription));
 
         if ($prescription->update(request()->all()))
         {

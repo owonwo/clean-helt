@@ -11,6 +11,11 @@ class LaboratoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:laboratory-api')->except('login');
+
+        $this->middleware(function($request, $next) {
+            $this->laboratory = auth()->user();
+            return $next($request);
+        });
     }
 
     public function login(Request $request, $guard)
@@ -44,6 +49,12 @@ class LaboratoryController extends Controller
      */
     public function index()
     {
+        $laboratory = $this->laboratory;
+
+        return response()->json([
+            'message' => 'logged in successfully',
+            'laboratory' => $laboratory,
+        ]);
     }
 
     /**
@@ -96,12 +107,12 @@ class LaboratoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Laboratory $laboratory)
+    public function update(Request $request)
     {
-        if ($laboratory->update($request->all())) {
+        if ($this->laboratory->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $laboratory,
+                'labs' => $this->laboratory,
             ], 200);
         }
 

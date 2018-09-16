@@ -12,6 +12,7 @@ use App\Notifications\PatientMedicalRecordsNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class DiagnosisController extends Controller
 {
@@ -23,9 +24,21 @@ class DiagnosisController extends Controller
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
 
+<<<<<<< HEAD
         $rules = $this->getRules();
        
         $this->validate($request, $rules);
+=======
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
+        }
+
+>>>>>>> d61b06eee5ae8c0596a9741fdae57431f92cece1
         $doctor = auth()->guard('doctor-api')->user();
         
        
