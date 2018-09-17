@@ -13,6 +13,7 @@ module.exports = {
             ['/pharmacies/', 'Pharmacies'],
             ['/patient/', 'Patient'],
             ['/laboratory/', 'Laboratory'],
+            ['/general/', 'General Concerns']
         ],
     }
 };

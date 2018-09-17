@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'API'], function() {
 
+    Route::get('entity/{type}', 'General\EntityController@index');
+
     Route::post('login/{guard}', 'Auth\LoginController@newLogin')->middleware('oauth.providers');
     Route::post('logout/{guard}','Auth\LoginController@logout');
     Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
@@ -120,13 +122,14 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('laboratory/{laboratory}', 'PatientController@showLaboratory');
         Route::get('pharmacies', 'PatientController@showPharmacies');
         Route::get('pharmacy/{pharmacy}', 'PatientController@showPharmacy');
+        Route::get('medical-centers','PatientController@showMedicalCenter');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
         
-        Route::post('doctors/{chcode}', 'PatientController@showDoctor')->name('patient.doctors.show');
+        Route::post('doctors', 'PatientController@showDoctor')->name('patient.doctors.show');
     });
 
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){ 
