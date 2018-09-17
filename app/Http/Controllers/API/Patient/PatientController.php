@@ -3,26 +3,36 @@
 namespace App\Http\Controllers\API\Patient;
 
 use App\Mail\PatientVerifyEmail;
+use App\Models\Hospital;
+use App\Models\Laboratory;
 use App\Models\Patient;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Exception;                                             
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use App\Models\Doctor;
 
 class PatientController extends Controller
 {
     public function __construct()
     {
+<<<<<<< HEAD
         $this->middleware('auth:patient-api')->except('store', 'verify');
         $this->middleware(function ($request, $next) {
             $this->patient = auth('patient-api')->user();
+=======
+        $this->middleware('auth:patient-api',['except' => ['store', 'verify']]);
+>>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
 
             return $next($request);
         });
     }
 
+<<<<<<< HEAD
     /**
      * Show the form for creating a new resource.
      *
@@ -39,6 +49,8 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+=======
+>>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
     public function store(Request $request)
     {
         $rule = $this->getRegRule();
@@ -49,7 +61,7 @@ class PatientController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         }
 
         try {
@@ -183,7 +195,7 @@ class PatientController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         }
 
         try {
@@ -223,6 +235,64 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    public function showHospitals()
+    {
+
+        $hospital = Hospital::orderBy('name', 'desc')->paginate(20);
+
+        return response()->json([
+            'message' => 'fetch all hospital by name',
+            'hospitals' => $hospital
+        ], 200);
+    }
+
+    public  function showHospital(Hospital $hospital)
+    {
+        return response()->json([
+            'message' => 'fetch all hospital by name',
+            'hospital' => $hospital
+        ], 200);
+    }
+
+    public function showLaboratories()
+    {
+
+        $laboratory = Laboratory::orderBy('name', 'desc')->paginate(20);
+
+        return response()->json([
+            'message' => 'fetch all laboratory by name',
+            'laboratories' => $laboratory
+        ], 200);
+    }
+
+    public  function showLaboratory(Laboratory $laboratory)
+    {
+        return response()->json([
+            'message' => 'fetch individual laboratory',
+            'laboratory' => $laboratory
+        ], 200);
+    }
+
+
+    public function showPharmacies()
+    {
+
+        $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(20);
+
+        return response()->json([
+            'message' => 'fetch all pharmacy by name',
+            'pharmacies' => $pharmacy
+        ], 200);
+    }
+
+    public  function showPharmacy(Pharmacy $pharmacy)
+    {
+        return response()->json([
+            'message' => 'fetch individual pharmacy',
+            'pharmacy' => $pharmacy
+        ], 200);
     }
 
     public function showRecords(Patient $patient)
@@ -299,5 +369,26 @@ class PatientController extends Controller
             'country' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
+    }
+    
+    public function showDoctor(Request $request){
+        $chcode = $request->chcode;
+        $doctor = Doctor::whereChcode($chcode)->get()->first();
+        
+        if ($doctor) {
+            return response()->json([
+                'message' => 'Doctor retrieved successfully',
+                'doctor' => $doctor,
+            ], 200);
+        } else {
+             return response()->json([
+                'message' => 'Doctor not found',
+                $doctor => null
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
     }
 }

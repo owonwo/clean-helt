@@ -12,6 +12,7 @@ use App\Notifications\PatientMedicalRecordsNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class DiagnosisController extends Controller
 {
@@ -22,10 +23,24 @@ class DiagnosisController extends Controller
 
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
-        $rules = $this->getRules();
 
+       $rules = $this->getRules();
+       
         $this->validate($request, $rules);
+
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
+        }
+
         $doctor = auth()->guard('doctor-api')->user();
+        
+        
+       
 
         if ($patient && $doctor->canViewProfile($patient)) {
             try {
@@ -100,7 +115,7 @@ class DiagnosisController extends Controller
     }
     private function createLabTest($record,$diagnosis){
              LabTest::forceCreate([
-               'record_id' => $record,
+                'record_id' => $record,
                 'name' => request('test_name'),
                 'description' => request('description'),
                 'result' => request('result'),

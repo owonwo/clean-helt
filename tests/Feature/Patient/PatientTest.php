@@ -43,9 +43,9 @@ class PatientTest extends TestCase
 
         $this->makeAuthRequest()
             ->withExceptionHandling()
-
             ->post('api/patient/register')
             ->assertStatus(200);
+        $this->assertDatabaseHas('patients', $patient);
     }
 
     /** @test */

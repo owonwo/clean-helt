@@ -39,14 +39,28 @@ class PatientController extends Controller
             ], 403);
         }
     }
+<<<<<<< HEAD
 
     public function diagnosis(Patient $patient)
     {
         $doctor = auth()->guard('doctor-api')->user();
+=======
+    public function diagnosis(Patient $patient){
+        $doctor = auth()->guard('doctor-api')->user();
+          
+           
+>>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
         if ($patient && $doctor->canViewProfile($patient)) {
+            
+             $records = $patient->medicalRecords('App\Models\Diagnosis')->get();
+           
+              $records->each(function($record) {
+                  $record->data = $record->data;
+              });
+            
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
-                'diagnosis' => $patient->medicalRecords('App\Models\Diagnosis')->get()->load('data'),
+                'records' => $records
             ], 200);
         }
 

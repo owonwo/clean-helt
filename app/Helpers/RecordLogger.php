@@ -32,12 +32,13 @@ class RecordLogger
     {
         switch ($type) {
             case 'diagnosis':
-                return 1;
+                return 'App\\Models\\Diagnosis';
             case 'prescription':
-                return 2;
+                return 'App\\Models\\Prescription';
             case 'test':
+                return 'App\\Models\\LabTest';
             default:
-                return 3;
+                return 'App\\Models\\Diagnosis';
         }
     }
 }

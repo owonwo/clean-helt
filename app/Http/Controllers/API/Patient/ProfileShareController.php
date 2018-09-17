@@ -10,6 +10,7 @@ use App\Models\ProfileShare;
 use App\Notifications\PatientProfileSharedNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class ProfileShareController extends Controller
 {
@@ -37,9 +38,17 @@ class ProfileShareController extends Controller
 
     public function store()
     {
-        $validator = Validator::make(request()->all(), $this->getRules());
-        if($validator->fails()) return response()->json($validator->errors()->toJson(), 400);
-        
+       
+         $rules = $this->getRules();
+        try {
+            $this->validate(request(), $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 403);
+        }
+
         $chcode = request('chcode');
         $providerClass = $this->getProvider($chcode);
 
@@ -96,6 +105,7 @@ class ProfileShareController extends Controller
         $expired_at = request('extension');
 
         if ($profileShare && $profileShare->update(['expired_at' => $expired_at])) {
+
             event(new ProfileShareExtended($profileShare->provider,$this->patient));
             return response()->json([
                 'message' => "Share extended successfully. Now expires " . $profileShare->fresh()->expired_at->diffForHumans(),

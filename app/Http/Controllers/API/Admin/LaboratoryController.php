@@ -71,13 +71,14 @@ class LaboratoryController extends Controller
 
     public function deactivate(Laboratory $laboratory)
     {
+
         $laboratory->update([
-            'active' => false,
+            'active' => $laboratory->active == true ? false : true,
         ]);
 
         return response()->json([
-            'doctor' => $laboratory,
-            'message' => 'Deactivated successfully',
+            'Laboratory' => $laboratory,
+            'message' => 'Active changed',
         ]);
     }
 
@@ -144,7 +145,7 @@ class LaboratoryController extends Controller
 
             return response()->json([
                 'message' => 'Laboratory was successfully deleted ',
-                'hospital' => $laboratory,
+                'Laboratory' => $laboratory,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

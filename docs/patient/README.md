@@ -1,0 +1,1926 @@
+##               API DOCUMENTATION FOR PATIENTS
+### PATIENT SIGNUP/REGISTRATION
+
+**`POST api/patient/register`**
+
+Sample Data
+```json
+{
+  "email": "email@email.com",
+  "first_name": "name",
+  "last_name": "name",
+  "phone": "12345678901",
+  "password": "secret"
+}
+```
+Response 
+
+```json
+{
+    "message": "Congratulation! you have successfully created patient record",
+    "patients": {
+        "email": "example@exam.com",
+        "first_name": "abigirl",
+        "last_name": "prince_wara",
+        "phone": "1234567890",
+        "verify_token": "rZJSzFsWTiqhM1rHFYHZb444Me7bNV5JtUJSFOSh",
+        "token": "I5Xau6fhGJlQ4imSBUyDAfEBhiDGcA4SwUZdfyKy",
+        "chcode": "CHP654711621",
+        "updated_at": "2018-09-06 08:32:58",
+        "created_at": "2018-09-06 08:32:58",
+        "id": 82
+    },
+    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImIxYjM5Nzg4MjI0MzEyMWI5ZjBmMzNlYjI3YjhhZjRiMmY4OTJmMTBhZWM5OWNlYjUwNzFlMjllZGI5NzNmOTc2M2I3MmFlNDA2OTQ5NTM0In0.eyJhdWQiOiIxIiwianRpIjoiYjFiMzk3ODgyMjQzMTIxYjlmMGYzM2ViMjdiOGFmNGIyZjg5MmYxMGFlYzk5Y2ViNTA3MWUyOWVkYjk3M2Y5NzYzYjcyYWU0MDY5NDk1MzQiLCJpYXQiOjE1MzYyMjI3NzksIm5iZiI6MTUzNjIyMjc3OSwiZXhwIjoxNTY3NzU4Nzc5LCJzdWIiOiI4MiIsInNjb3BlcyI6W119.WyDzLmUbd8YGJ6rIHeY3ZP7mw_NERDHiM9inJOEneoEcZrZeiYcBouo_r57Efw7W0QYdcIdpnN0IQ69Bp9FFGTj-8wsWyYQM4HhVg01pfXuIQeCPyw8z3MINLyROIprYwckCG7L-vDsL7a5XXeWf7JIychTE1KB3P3cD0h_k6m1JpwVvoplicHxHi4Yijzapi5xy5qNfT0WojjtkzGIBCRzwABkFHLEcOkI2uY73ZPcsuayfMEogXdwoAzfT4BASSwUcj7X3lh3fdKgiWPlBDvKJjhWG5jXijk92xkts6rnK0WjYX2O-oNJH9Y3Z0nia1l9pom3A-y7w7nOx__BTxoHWkJZsagfGXH4flGzkaZjCBk_GXIMwkf33vy99gdVWhtBZ5GZAHhG0AZNXAfrPcnM7f3zHtNMTE8TNcRqcfg03DdhP-1s4Fodkeb0B21p_P3pN0PwgBtiqDOOWYvcEoQTO22gdqES0iAWj5NACq9_Q46v2h16ftnHaPH5NQKe2wPJqW9ARXaMuqg49Kptb17w1tleBub-CMTH9tyMSXZg_JKYP7Tv0J1G0TqatAg7fEiyhi8wtp9R21WwLij7iW6KB5z2zLsDI6obF4Qa0ikgogkpzGtyr7Aq6K8BEWmhhWJlqPZ4YQwSLyiagak3hbidqZue0rEve8tRlY4SwrWM"
+}
+```
+<br>
+
+
+### Email confirmation
+
+**`GET api/patient/verify/{email}/{verifyToken}`**
+```
+email = useremail@gmail.com
+verifyToken = vbjcdbcibbidsj94589034ujfj04
+```
+
+After registration a redirect to confirm account through email and then return
+
+
+```json
+{
+message: "Congratulation you have just verified you account, login to continue",
+patient: {
+    id: 82,
+    first_name: "abigirl",
+    middle_name: null,
+    last_name: "prince_wara",
+    chcode: "CHP654711621",
+    avatar: null,
+    email: "example@exam.com",
+    dob: null,
+    gender: "other",
+    phone: "1234567890",
+    address: null,
+    city: null,
+    state: null,
+    country: null,
+    active: 1,
+    religion: null,
+    marital_status: null,
+    token: "I5Xau6fhGJlQ4imSBUyDAfEBhiDGcA4SwUZdfyKy",
+    nok_name: null,
+    nok_phone: null,
+    nok_email: null,
+    nok_address: null,
+    nok_city: null,
+    nok_state: null,
+    emergency_hospital_address: null,
+    emergency_hospital_name: null,
+    verify_token: null,
+    status: 1,
+    nok_country: null,
+    remember_token: null,
+    created_at: "2018-09-06 08:32:58",
+    updated_at: "2018-09-06 08:41:27"
+    }
+}
+```
+
+### Patient Log In
+
+**`POST api/login/patient`**
+
+Sample Data
+```json
+{
+  "email": "email@email.com",
+  "password": "secret"
+}
+```
+Response 
+
+
+```json
+{
+    "user": {
+        "id": 82,
+        "first_name": "abigirl",
+        "middle_name": null,
+        "last_name": "prince_wara",
+        "chcode": "CHP654711621",
+        "avatar": null,
+        "email": "example@exam.com",
+        "dob": null,
+        "gender": "other",
+        "phone": "1234567890",
+        "address": null,
+        "city": null,
+        "state": null,
+        "country": null,
+        "active": 1,
+        "religion": null,
+        "marital_status": null,
+        "token": "I5Xau6fhGJlQ4imSBUyDAfEBhiDGcA4SwUZdfyKy",
+        "nok_name": null,
+        "nok_phone": null,
+        "nok_email": null,
+        "nok_address": null,
+        "nok_city": null,
+        "nok_state": null,
+        "emergency_hospital_address": null,
+        "emergency_hospital_name": null,
+        "verify_token": null,
+        "status": 1,
+        "nok_country": null,
+        "remember_token": null,
+        "created_at": "2018-09-06 08:32:58",
+        "updated_at": "2018-09-06 08:41:27"
+    },
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIyMTY3MzE2M2YxNzM1OTZkMDMwYmUwMmZiMTc1YTYwMWY5NjZiOTE2Y2ZmMDM0MzRjYjJiNzlmOTFlODg3YTZhMTgxYTQzNDE3NWUzMjQ3In0.eyJhdWQiOiIxIiwianRpIjoiMjIxNjczMTYzZjE3MzU5NmQwMzBiZTAyZmIxNzVhNjAxZjk2NmI5MTZjZmYwMzQzNGNiMmI3OWY5MWU4ODdhNmExODFhNDM0MTc1ZTMyNDciLCJpYXQiOjE1MzYyMjcwMTQsIm5iZiI6MTUzNjIyNzAxNCwiZXhwIjoxNTY3NzYzMDE0LCJzdWIiOiI4MiIsInNjb3BlcyI6W119.XpCvhyOiFg9S03fHQ-9RXQ8HO-Eq7pxrMWR_uH6OmaPRzAKtMfq0TKE4xuglJRKryqjDVjd14TIF6FD02r8Q8E5lgX-EkfF23E172GnY4_AbdcwhNqeMpuDhkYTBJRH9HeOQwEzNrTguaSatkfQdUKPtI2klCJZy4QBG-o2Vvmi5NQkBeI2xzghV3uV9KPZC6wXGQwm6-ms11Q482d2tPuI2dL02iUA9q1FmEbkj_lKg4-cwtNlZXAU5LsT_mqz6H6n0uSIauyzeiKaFqftsM7_tZ96xCG59zesJNP24hZNICfQpJ420HlgX8qC4xdaosIM14oJ4fZBjxVKQoA4XGlyhlsmfsKrJObQzdKVcM-2BRR1L6S--fdFov-AWiuh6fpCWA0jLWxKYZtEcNkgfJtOwAQKN21ib29IixWLoBA1MaIRQkKmNMiZaPBleu2J1z719qlTvebnzJ-qVEgoOeTIA6d4VgEzogcEVMhHJ2QgwDPz856A1ZuSQRhBcKhn_T1WZBooJfzyzu7NpwUyNigQ8wql-DOBnzzHNB3iWqRQmcPjXRULRvcYArgFWCxpV7Cei60Cy7GD7bsqymzq4ISvM56P5kTxxaLgWKaLG5z37z2Kk0ItXrdJAXA8HPsjDAkTWi5C2joQzdEj2bHytKKdPiCMMcSRQoPWnqHjIU3Q",
+    "expires_in": 21600
+}
+```
+<br>
+
+### View Patient Page 
+
+**`GET api/patient/profile`**
+
+```json
+{
+    "message": "you have successfully log into your account",
+    "patient": {
+        "id": 82,
+        "first_name": "abigirl",
+        "middle_name": null,
+        "last_name": "prince_wara",
+        "chcode": "CHP654711621",
+        "avatar": null,
+        "email": "example@exam.com",
+        "dob": null,
+        "gender": "other",
+        "phone": "1234567890",
+        "address": null,
+        "city": null,
+        "state": null,
+        "country": null,
+        "active": 1,
+        "religion": null,
+        "marital_status": null,
+        "token": "I5Xau6fhGJlQ4imSBUyDAfEBhiDGcA4SwUZdfyKy",
+        "nok_name": null,
+        "nok_phone": null,
+        "nok_email": null,
+        "nok_address": null,
+        "nok_city": null,
+        "nok_state": null,
+        "emergency_hospital_address": null,
+        "emergency_hospital_name": null,
+        "verify_token": null,
+        "status": 1,
+        "nok_country": null,
+        "remember_token": null,
+        "created_at": "2018-09-06 08:32:58",
+        "updated_at": "2018-09-06 08:41:27"
+    }
+}
+```
+<br/>
+
+## Medical Record view 
+### Patient Medical Record by Date 
+
+
+**`GET  api/patient/medical-record/{patient}`**
+```
+{patient} = chcode 
+```
+
+```json
+{
+    "message": "access medical record by date",
+    "patient": [
+        {
+            "id": 2,
+            "reference": "CHR750289728",
+            "patient_id": 51,
+            "type": "App\\Models\\Diagnosis",
+            "issuer_type": "App\\Models\\Doctor",
+            "issuer_id": 2,
+            "created_at": "2018-09-05 13:41:35",
+            "updated_at": "2018-09-05 13:41:35",
+            "deleted_at": null,
+            "data": []
+        }
+    ]
+}
+```
+
+### Get The Patient Profile Share 
+
+**`GET api/patient/profile/shares`**
+
+```json
+{
+    "message": "Shares retrieved successfully",
+    "shares": [
+        {
+            "id": 1,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 61,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 15:38:59",
+            "updated_at": "2018-09-05 15:39:00"
+        },
+        {
+            "id": 2,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 62,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 15:38:59",
+            "updated_at": "2018-09-05 15:39:00"
+        },
+        {
+            "id": 3,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 63,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 15:38:59",
+            "updated_at": "2018-09-05 15:39:00"
+        },
+        {
+            "id": 11,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 23,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 22:01:08",
+            "updated_at": "2018-09-05 22:01:08"
+        },
+        {
+            "id": 12,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 23,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 22:01:47",
+            "updated_at": "2018-09-05 22:01:47"
+        },
+        {
+            "id": 13,
+            "patient_id": 51,
+            "provider_type": "App\\Models\\Doctor",
+            "provider_id": 23,
+            "expired_at": "2018-09-06 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-05 22:05:00",
+            "updated_at": "2018-09-05 22:05:00"
+        }
+    ]
+}
+```
+
+### Get all patient laboratory test
+
+**`GET api/patient/{patient}/labtest`**
+
+```json
+{
+    "message": "You can access all laboratory record here",
+    "patient": [
+        {
+            "id": 8,
+            "record_id": 51,
+            "test_name": "Haven Batz",
+            "description": "Ea mollitia est provident. Hic natus explicabo ducimus sed consequuntur maiores ut. Odio laudantium et minus quia harum.",
+            "result": "Qui doloremque porro amet et. Occaecati officia animi unde autem tenetur adipisci expedita. Nobis quia accusantium pariatur voluptatem magnam quia. Quas est quo in dolorem dignissimos magni aut suscipit. Quis ut natus alias aut minus delectus.",
+            "conclusion": "Vel veniam et debitis a eius rerum impedit dolore. Amet neque qui ut velit hic voluptas laborum. Architecto quis minus quae. Architecto sint voluptates quod quidem fugiat. Deleniti soluta doloremque non illo dignissimos error recusandae.",
+            "status": 1,
+            "taker": "8",
+            "diagnosis_id": 8,
+            "created_at": "2018-09-05 13:41:59",
+            "updated_at": "2018-09-05 13:41:59"
+        },
+        {
+            "id": 9,
+            "record_id": 51,
+            "test_name": "Jasen Hartmann",
+            "description": "Dolorum officia voluptas impedit. Tempora sit distinctio accusantium. Magni reiciendis ut cum qui laboriosam vel quos. Similique et pariatur deleniti temporibus rerum autem.",
+            "result": "Iure odio quod perferendis consequuntur impedit nostrum. Mollitia sunt vitae molestiae nam. Quo fugiat illo ut magni. Unde quo ducimus consequatur quas quos. Maxime modi molestiae hic distinctio ea.",
+            "conclusion": "Voluptatum magnam incidunt libero aut quos. Quisquam in quae rerum quaerat.",
+            "status": 1,
+            "taker": "9",
+            "diagnosis_id": 9,
+            "created_at": "2018-09-05 13:41:59",
+            "updated_at": "2018-09-05 13:41:59"
+        },
+        {
+            "id": 10,
+            "record_id": 51,
+            "test_name": "Josephine Paucek",
+            "description": "Non saepe nemo est quibusdam qui. Est voluptatem ullam unde nam consequatur sapiente. Accusamus facere nobis qui.",
+            "result": "Placeat hic aut ad ut magni. Non velit ea eum non molestias et unde similique. Incidunt distinctio dolorem corporis voluptatum officia eum placeat.",
+            "conclusion": "Assumenda ipsum error incidunt et. Architecto nulla consequatur assumenda ut. At quos quia iure laboriosam ad consequatur. Ipsa provident et accusamus delectus.",
+            "status": 1,
+            "taker": "10",
+            "diagnosis_id": 10,
+            "created_at": "2018-09-05 13:41:59",
+            "updated_at": "2018-09-05 13:41:59"
+        }
+    ]
+}
+```
+
+### Patient viewing prescription or pharmacy 
+
+**`GET api/patient/{patient}/prescription`**
+
+```
+{patient} = chcode  
+```
+
+```json
+{
+    "message": "access medical record by date",
+    "patient": [
+        {
+            "id": 9,
+            "record_id": 51,
+            "quantity": 2,
+            "frequency": 4,
+            "name": "MediumSpringGreen",
+            "pharmacy_id": 9,
+            "diagnosis_id": 19,
+            "comment": "Veritatis voluptas laborum aspernatur architecto vel.",
+            "status": 1,
+            "created_at": "2018-09-05 13:43:47",
+            "updated_at": "2018-09-05 13:43:47"
+        },
+        {
+            "id": 10,
+            "record_id": 51,
+            "quantity": 9,
+            "frequency": 3,
+            "name": "Coral",
+            "pharmacy_id": 10,
+            "diagnosis_id": 20,
+            "comment": "Vel dolor repellat autem.",
+            "status": 1,
+            "created_at": "2018-09-05 13:43:47",
+            "updated_at": "2018-09-05 13:43:47"
+        },
+        {
+            "id": 7,
+            "record_id": 51,
+            "quantity": 6,
+            "frequency": 5,
+            "name": "DodgerBlue",
+            "pharmacy_id": 7,
+            "diagnosis_id": 17,
+            "comment": "Qui et ducimus tenetur cumque quidem consequatur.",
+            "status": 1,
+            "created_at": "2018-09-05 13:43:46",
+            "updated_at": "2018-09-05 13:43:46"
+        },
+        {
+            "id": 8,
+            "record_id": 51,
+            "quantity": 2,
+            "frequency": 3,
+            "name": "Orange",
+            "pharmacy_id": 8,
+            "diagnosis_id": 18,
+            "comment": "Adipisci dolore autem voluptatum et.",
+            "status": 0,
+            "created_at": "2018-09-05 13:43:46",
+            "updated_at": "2018-09-05 13:43:46"
+        }
+    ]
+}
+```
+### Get medical record
+
+**`GET api/patient/{patient}/medical-records`**
+
+```
+{patient} = chcode 
+```
+
+```json
+{
+    "message": "Medical records successfully Loaded",
+    "records": [
+        {
+            "id": 2,
+            "reference": "CHR750289728",
+            "patient_id": 51,
+            "type": "App\\Models\\Diagnosis",
+            "issuer_type": "App\\Models\\Doctor",
+            "issuer_id": 2,
+            "created_at": "2018-09-05 13:41:35",
+            "updated_at": "2018-09-05 13:41:35",
+            "deleted_at": null,
+            "data": []
+        }
+    ]
+}
+```
+
+### Create Share Laboratory,Doctor,Patient,Pharmacy
+
+**`POST api/patient/profile/shares`**
+
+Sample Data(please attach a time ahead of now, or today)
+
+
+Sample Data
+```json
+{
+  "chcode": "CHD09876375",
+  "expiration": "2018-09-07"
+}
+```
+Response 
+
+```json
+{
+    "message": "Profile shared successfully",
+    "share": {
+        "provider_type": "App\\Models\\Doctor",
+        "provider_id": 23,
+        "expired_at": "2018-09-07 00:00:00",
+        "patient_id": 51,
+        "updated_at": "2018-09-06 11:03:01",
+        "created_at": "2018-09-06 11:03:01",
+        "id": 17
+    }
+}
+```
+
+Patient Updating His Basic information
+
+**`PATCH api/patient/profile/update`**
+
+Scheme Data
+
+```json
+{
+  "email": "email@email.com",
+  "first_name": "jolly",
+  "last_name": "jellof",
+  "phone": "0980900889",
+  "password": "secret"
+}
+```
+Response
+
+```json
+{
+    "message": "Your profile has been update successfully",
+    "patient": {
+        "id": 51,
+        "first_name": "jolly",
+        "middle_name": "middle man",
+        "last_name": "jelof",
+        "chcode": "CHP250204837",
+        "avatar": "avatar/avatar.jpeg",
+        "email": "email@email.com",
+        "dob": null,
+        "gender": "other",
+        "phone": "09765436773",
+        "address": "i leave where i leave",
+        "city": "ph",
+        "state": "rivers",
+        "country": "niaja",
+        "active": 1,
+        "religion": null,
+        "marital_status": null,
+        "token": "MewlIYYbWjtFXUUGn1BR2LtEIkpIikarBrOpJncC",
+        "nok_name": null,
+        "nok_phone": null,
+        "nok_email": null,
+        "nok_address": null,
+        "nok_city": null,
+        "nok_state": null,
+        "emergency_hospital_address": null,
+        "emergency_hospital_name": null,
+        "verify_token": "3D15Wlz2QbbQCNEcHVVtTqnev9n99AFJDlAoU9ha",
+        "status": 0,
+        "nok_country": null,
+        "remember_token": null,
+        "created_at": "2018-09-05 14:08:52",
+        "updated_at": "2018-09-06 12:49:53"
+    }
+}
+```
+
+### Get all shared profile
+
+**`GET api/patient/profile/shares`**
+
+```json
+{
+    "message": "Shares retrieved successfully",
+    "shares": [
+        {
+            "id": 1,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:01:56",
+            "updated_at": "2018-09-09 18:01:56"
+        },
+        {
+            "id": 2,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:06:08",
+            "updated_at": "2018-09-09 18:06:08"
+        },
+        {
+            "id": 3,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 1,
+            "expired_at": "2018-09-10 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-09 18:06:42",
+            "updated_at": "2018-09-09 18:06:42"
+        }
+    ]
+}
+```
+
+Patient Can cancel his shared profile
+
+**`PATCH api/patient/profile/shares/{shareOne}/expire`**
+
+```
+{shareOne} = shareProfile->id 
+```
+
+Scheme Data
+
+```json
+{
+  "expiration": "2018-09-07"
+}
+```
+
+Response
+
+```json
+{
+    "message": "Share expired successfully",
+    "share": {
+        "id": 2,
+        "patient_id": 51,
+        "provider_type": "App\\Models\\Doctor",
+        "provider_id": 62,
+        "expired_at": "2018-09-06 13:14:36",
+        "doctor_id": null,
+        "status": "0",
+        "created_at": "2018-09-05 15:38:59",
+        "updated_at": "2018-09-06 13:15:06"
+    }
+}
+```
+
+
+
+Patient Can cancel his shared profile
+
+**`PATCH api/patient/profile/shares/{shareOne}/expire`**
+```
+{shareOne} = profileShare->id 
+```
+
+Scheme Data
+
+```json
+{
+  "expiration": "2018-09-07"
+}
+```
+
+Response
+
+```json
+{
+    "message": "Share expired successfully",
+    "share": {
+        "id": 2,
+        "patient_id": 51,
+        "provider_type": "App\\Models\\Doctor",
+        "provider_id": 62,
+        "expired_at": "2018-09-06 13:14:36",
+        "doctor_id": null,
+        "status": "0",
+        "created_at": "2018-09-05 15:38:59",
+        "updated_at": "2018-09-06 13:15:06"
+    }
+}
+```
+
+Patient can add emergency route
+
+**`PATCH api/patient/{patient}/emergency`**
+
+Scheme Data
+
+```json
+{
+  "emergency_hospital_address": "My Emergency address name 3342",
+  "emergency_hospital_name": "Emergency Hospital"
+}
+```
+
+Response
+
+```json
+{
+    "message": "congratulation you have updated your emergency profile",
+    "patient": {
+        "id": 51,
+        "first_name": "jolly",
+        "middle_name": "middle man",
+        "last_name": "jelof",
+        "chcode": "CHP250204837",
+        "avatar": "avatar/avatar.jpeg",
+        "email": "email@email.com",
+        "dob": null,
+        "gender": "other",
+        "phone": "09765436773",
+        "address": "i leave where i leave",
+        "city": "ph",
+        "state": "rivers",
+        "country": "niaja",
+        "active": 1,
+        "religion": null,
+        "marital_status": null,
+        "token": "MewlIYYbWjtFXUUGn1BR2LtEIkpIikarBrOpJncC",
+        "nok_name": null,
+        "nok_phone": null,
+        "nok_email": null,
+        "nok_address": null,
+        "nok_city": null,
+        "nok_state": null,
+        "emergency_hospital_address": "My Emergency address name 3342",
+        "emergency_hospital_name": "Emergency Hospital",
+        "verify_token": "3D15Wlz2QbbQCNEcHVVtTqnev9n99AFJDlAoU9ha",
+        "status": 0,
+        "nok_country": null,
+        "remember_token": null,
+        "created_at": "2018-09-05 14:08:52",
+        "updated_at": "2018-09-06 13:56:59"
+    }
+}
+```
+<br> 
+
+## GET hospitals, laboratories, Pharmacy
+
+### Get all hospitals
+
+**`GET api/patient/hospitals`**
+```json
+{
+    "message": "fetch all hospital by name",
+    "hospitals": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 9,
+                "name": "Sydni Durgan Hospital",
+                "email": "olangosh@example.net",
+                "chcode": "CHH722936615",
+                "director_mdcn": "doloribus",
+                "phone": "(825) 383-8283 x767",
+                "address": "8877 Michael Locks Apt. 623\nNew Hershel, CO 22257",
+                "city": "Alexandreborough",
+                "state": "South Alfonzo",
+                "country": "San Marino",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 4,
+                "name": "Noel Bauch Hospital",
+                "email": "lemke.adolph@example.net",
+                "chcode": "CHH209033117",
+                "director_mdcn": "voluptatem",
+                "phone": "+1-998-236-8294",
+                "address": "76098 Lacey Turnpike Apt. 939\nSouth Deshawnmouth, WV 86933",
+                "city": "Schroederside",
+                "state": "East Carterbury",
+                "country": "Italy",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 6,
+                "name": "Miss Dolly Rodriguez DVM Hospital",
+                "email": "williamson.carolina@example.com",
+                "chcode": "CHH911265930",
+                "director_mdcn": "autem",
+                "phone": "+18874656558",
+                "address": "809 Feil Alley\nMaggiohaven, TX 78987-7931",
+                "city": "Port Lonzo",
+                "state": "Cloydtown",
+                "country": "Falkland Islands (Malvinas)",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 3,
+                "name": "Lessie Gerlach III Hospital",
+                "email": "alyson54@example.org",
+                "chcode": "CHH931260503",
+                "director_mdcn": "dolores",
+                "phone": "(758) 346-6985",
+                "address": "83163 Goldner Estates Apt. 578\nO'Connellberg, KS 19294-9599",
+                "city": "Shyannefort",
+                "state": "North Christian",
+                "country": "Saint Barthelemy",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 2,
+                "name": "Kathlyn Bechtelar Hospital",
+                "email": "amaya.deckow@example.com",
+                "chcode": "CHH915159219",
+                "director_mdcn": "necessitatibus",
+                "phone": "278.313.4330 x9131",
+                "address": "1081 Michelle Cape\nWillastad, NC 56201",
+                "city": "Melbabury",
+                "state": "South Sabrina",
+                "country": "Saudi Arabia",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 5,
+                "name": "Garth Gleason Hospital",
+                "email": "kristofer24@example.net",
+                "chcode": "CHH825337521",
+                "director_mdcn": "magnam",
+                "phone": "+1-815-344-1248",
+                "address": "8328 Lakin Expressway\nPort Alek, HI 40352",
+                "city": "West Gaetano",
+                "state": "Howellport",
+                "country": "Reunion",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 10,
+                "name": "Eda Leffler Hospital",
+                "email": "charles.heidenreich@example.org",
+                "chcode": "CHH427041813",
+                "director_mdcn": "voluptas",
+                "phone": "965-858-6655 x91130",
+                "address": "9818 Swaniawski Spurs Apt. 601\nSouth Gina, NV 35741",
+                "city": "South Winston",
+                "state": "New Anastaciochester",
+                "country": "French Polynesia",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 8,
+                "name": "Dr. Marjolaine Brekke II Hospital",
+                "email": "ebeatty@example.org",
+                "chcode": "CHH521721893",
+                "director_mdcn": "nisi",
+                "phone": "437-914-8121 x44229",
+                "address": "357 Cole Cove\nMorarhaven, AZ 88190",
+                "city": "Kaitlynchester",
+                "state": "Port Oswald",
+                "country": "Antigua and Barbuda",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 7,
+                "name": "Deon Weimann Hospital",
+                "email": "herman.carson@example.org",
+                "chcode": "CHH716205994",
+                "director_mdcn": "ut",
+                "phone": "(453) 268-7241",
+                "address": "760 Lyla Plains\nPort Elyssa, CA 03002-0208",
+                "city": "Savanahland",
+                "state": "North Kacey",
+                "country": "Zimbabwe",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            },
+            {
+                "id": 1,
+                "name": "Amina Wintheiser Hospital",
+                "email": "keegan.herzog@example.net",
+                "chcode": "CHH924190261",
+                "director_mdcn": "corporis",
+                "phone": "+1-323-371-9815",
+                "address": "5987 Brekke Drives Apt. 636\nLake Jessyca, HI 99663",
+                "city": "Lake Shayleeside",
+                "state": "New Isobel",
+                "country": "Guadeloupe",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:24",
+                "updated_at": "2018-09-12 14:00:24",
+                "deleted_at": null
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/hospitals?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/hospitals?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/hospitals",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 10,
+        "total": 10
+    }
+}
+```
+### Get one hospital
+
+**`Get api/patient/hospital/{hospital}`** 
+``` 
+{hospital} = hospital chcode
+```
+```json
+{
+    "message": "fetch all hospital by name",
+    "hospitals": {
+        "id": 5,
+        "name": "Garth Gleason Hospital",
+        "email": "kristofer24@example.net",
+        "chcode": "CHH825337521",
+        "director_mdcn": "magnam",
+        "phone": "+1-815-344-1248",
+        "address": "8328 Lakin Expressway\nPort Alek, HI 40352",
+        "city": "West Gaetano",
+        "state": "Howellport",
+        "country": "Reunion",
+        "website": null,
+        "facility_type": null,
+        "facility_owner": null,
+        "cac_reg": null,
+        "cac_date": null,
+        "fmoh_reg": null,
+        "fmoh_date": null,
+        "admin_name": null,
+        "admin_position": null,
+        "admin_phone": null,
+        "services": null,
+        "bank_name": null,
+        "bank_branch": null,
+        "account_name": null,
+        "account_number": null,
+        "active": 1,
+        "avatar": "avatar/avatar.jpeg",
+        "remember_token": null,
+        "created_at": "2018-09-12 14:00:25",
+        "updated_at": "2018-09-12 14:00:25",
+        "deleted_at": null
+    }
+}
+```
+
+### Get all laboratories by order of names 
+
+**`GET api/patient/laboratories`**
+
+```json
+{
+    "message": "fetch all laboratory by name",
+    "laboratories": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 7,
+                "name": "Samantha Walter DDS",
+                "chcode": "CHL248007730",
+                "licence_no": "MzFqSTzvydV4Mqc",
+                "email": "yblick@example.com",
+                "phone": "(774) 383-2335 x028",
+                "address": "39105 Emily Crossing Suite 083\nNew Edwinafort, WI 90135-6397",
+                "city": "New Leoniehaven",
+                "state": "Rippinshire",
+                "country": "Saint Martin",
+                "lab_owner": "Citlalli Bergnaum",
+                "cac_reg": "9vHy9uUa5rlurDV",
+                "fmoh_reg": "1WFQbRoqyVYbfQ5",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Minus aut et occaecati optio aliquid. Doloremque ad officiis voluptatem. Non est vitae qui minima dolor.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:27",
+                "updated_at": "2018-09-12 14:00:27"
+            },
+            {
+                "id": 11,
+                "name": "Roberto Sawayn",
+                "chcode": "CHL352961791",
+                "licence_no": "9OkkUUhql2SmgsT",
+                "email": "trenton.weimann@example.com",
+                "phone": "1-641-564-3465",
+                "address": "8339 Bogisich Shoal\nLake Tobyburgh, MD 25133-4225",
+                "city": "Blockport",
+                "state": "South Reneebury",
+                "country": "Malawi",
+                "lab_owner": "Joy Pfeffer",
+                "cac_reg": "niPsEzSWMOddZic",
+                "fmoh_reg": "yJMlqtVwnHwIykd",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Aut nihil possimus similique non saepe quo. Voluptas soluta voluptatum voluptas ratione. Aliquam occaecati adipisci cumque est est. Enim quia culpa accusamus porro iste.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:28",
+                "updated_at": "2018-09-12 14:00:28"
+            },
+            {
+                "id": 15,
+                "name": "Oda Kessler",
+                "chcode": "CHL201538683",
+                "licence_no": "eLWLf0ehCKSOueB",
+                "email": "liza99@example.com",
+                "phone": "1-307-297-0835 x98472",
+                "address": "675 Stehr Alley\nSouth Adolphborough, OR 54577-5407",
+                "city": "Lake Itzelfort",
+                "state": "Fernport",
+                "country": "Cyprus",
+                "lab_owner": "Mr. Wendell Jakubowski",
+                "cac_reg": "3LnIV3QTx28uejT",
+                "fmoh_reg": "cz7bUljnwpGGmeO",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Quaerat omnis exercitationem quam earum tempore ut aut. Cupiditate inventore velit repellat facere placeat soluta. Dolor qui praesentium autem non quo quidem nam blanditiis. Animi sit qui omnis rem. Quibusdam quod tempora excepturi sint.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:32",
+                "updated_at": "2018-09-12 14:00:32"
+            },
+            {
+                "id": 3,
+                "name": "Ms. Delpha Raynor III",
+                "chcode": "CHL961023708",
+                "licence_no": "9O7eUA5azWNt6Rk",
+                "email": "dawson60@example.net",
+                "phone": "+1-278-795-5526",
+                "address": "185 Kira Parkways\nNienowborough, ID 14969-9464",
+                "city": "Clarkland",
+                "state": "North Emilio",
+                "country": "Mauritius",
+                "lab_owner": "Ulices Adams I",
+                "cac_reg": "R6TCc5VIDt117TT",
+                "fmoh_reg": "Rnmdji5bzCNw9y2",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Quia blanditiis repellat asperiores qui architecto qui odit ipsam. Consequatur temporibus atque ea. Accusantium et beatae in est.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 10,
+                "name": "Mr. Devan Hahn V",
+                "chcode": "CHL503351108",
+                "licence_no": "nYxoAqxhhLSnoRI",
+                "email": "mckayla.wisoky@example.net",
+                "phone": "+1 (960) 455-4575",
+                "address": "78302 Funk Bridge Apt. 236\nJarrodhaven, ME 04113-7694",
+                "city": "Jalynview",
+                "state": "South Melodyburgh",
+                "country": "Wallis and Futuna",
+                "lab_owner": "Peggie Mayert",
+                "cac_reg": "kqzNhCjPqSpm8aW",
+                "fmoh_reg": "wdwrPjxkVl1FD3F",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Earum distinctio et omnis. Ipsa et dicta aspernatur reiciendis provident earum et. Eum sed sed autem quod omnis voluptatum. Ut nulla dolorem est consectetur dolores.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:28",
+                "updated_at": "2018-09-12 14:00:28"
+            },
+            {
+                "id": 13,
+                "name": "Miss Gudrun Sauer",
+                "chcode": "CHL184991632",
+                "licence_no": "HS0DAc9TIi0wx1K",
+                "email": "olga.kulas@example.org",
+                "phone": "1-503-778-5242 x98386",
+                "address": "225 Ludwig Tunnel\nSkylaborough, NH 28793-5911",
+                "city": "Jakubowskichester",
+                "state": "O'Konmouth",
+                "country": "Singapore",
+                "lab_owner": "Susanna Reinger",
+                "cac_reg": "7OM0KcOyJes9Qda",
+                "fmoh_reg": "MZIMp8G7DafmOjD",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Eum nulla dolorem quaerat odit quo similique sit dolorem. Nisi ipsa temporibus non quo sint et deserunt odio. Quidem beatae molestias cupiditate deleniti occaecati ex. Modi quia aliquam enim omnis voluptatibus corrupti ratione.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:30",
+                "updated_at": "2018-09-12 14:00:30"
+            },
+            {
+                "id": 12,
+                "name": "Jennie McLaughlin III",
+                "chcode": "CHL083352061",
+                "licence_no": "S8FOEmPpqA425YJ",
+                "email": "donna43@example.com",
+                "phone": "+1.407.254.8867",
+                "address": "71049 Rohan Roads Apt. 104\nSouth Hayden, WA 37970-9482",
+                "city": "North Rolandohaven",
+                "state": "West Mauriciobury",
+                "country": "Gabon",
+                "lab_owner": "Lurline Connelly",
+                "cac_reg": "4QzyTdZ0UNfuOAD",
+                "fmoh_reg": "OLq3G40DYq2RGQi",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Modi accusantium harum sed et. Qui error et magni fugiat exercitationem rerum ullam. Dolorem nihil voluptas iusto et sit vel magnam nihil.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:30",
+                "updated_at": "2018-09-12 14:00:30"
+            },
+            {
+                "id": 2,
+                "name": "Gus Zieme",
+                "chcode": "CHL190123239",
+                "licence_no": "178iy5y0Sy0ATMu",
+                "email": "krajcik.terry@example.org",
+                "phone": "(798) 727-2499",
+                "address": "520 Fritsch Stravenue Apt. 572\nLindville, MI 48755-2819",
+                "city": "Lake Joshuahport",
+                "state": "South Karianefort",
+                "country": "France",
+                "lab_owner": "Daniella Kohler",
+                "cac_reg": "M2KxNPFbSIi5ob8",
+                "fmoh_reg": "bkdwGVK8TIrSBKl",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Laboriosam sed et quos enim molestias. Blanditiis repellendus veritatis qui ab.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 14,
+                "name": "Gladys Morissette",
+                "chcode": "CHL543203247",
+                "licence_no": "J9bD5J3oKjVH6UH",
+                "email": "ima10@example.net",
+                "phone": "+1-986-565-6168",
+                "address": "227 Keeling Court Suite 504\nMichaletown, VA 97196",
+                "city": "Lake Brown",
+                "state": "North Joey",
+                "country": "Belarus",
+                "lab_owner": "Miss Viva Upton DVM",
+                "cac_reg": "oAS12wmzoXtFXRE",
+                "fmoh_reg": "ny3W8MyJhXO2Vv6",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Architecto aut et harum et. Vel consequatur qui qui quo laboriosam. Dolore adipisci et suscipit fuga natus maiores.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:31",
+                "updated_at": "2018-09-12 14:00:31"
+            },
+            {
+                "id": 5,
+                "name": "Elroy Terry II",
+                "chcode": "CHL192154735",
+                "licence_no": "m5mRyaptuumR5ri",
+                "email": "brianne69@example.org",
+                "phone": "581.380.3156 x11927",
+                "address": "990 Tanya Land Apt. 336\nWintheiserside, RI 62956",
+                "city": "Taniaborough",
+                "state": "New Jamirburgh",
+                "country": "Morocco",
+                "lab_owner": "Palma Jacobi",
+                "cac_reg": "HhoKcK0UoJrV6Be",
+                "fmoh_reg": "6i0ocGpUssfIySR",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Id fugiat est voluptatibus nesciunt vel. Amet asperiores suscipit libero laudantium aut. Commodi voluptate cum porro id qui harum. Pariatur accusantium rerum assumenda molestiae laborum rerum.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:27",
+                "updated_at": "2018-09-12 14:00:27"
+            },
+            {
+                "id": 1,
+                "name": "Dr. Noemie Marks",
+                "chcode": "CHL993102280",
+                "licence_no": "8wIJGw0esaU3aS3",
+                "email": "cummerata.kailey@example.com",
+                "phone": "632-445-6823",
+                "address": "845 Bailey Bypass Apt. 581\nStarkside, IN 78854",
+                "city": "Gislasonmouth",
+                "state": "Port Lempimouth",
+                "country": "Anguilla",
+                "lab_owner": "Mr. Terrence Kshlerin II",
+                "cac_reg": "UQCFGfryl2TFHGn",
+                "fmoh_reg": "nKgP98ONrQxCFkC",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Nihil doloremque cum laborum natus optio delectus. Dolor harum quia eos aliquam rem commodi perferendis. Quod molestiae quam et optio est autem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 9,
+                "name": "Dr. Carmen West",
+                "chcode": "CHL519001397",
+                "licence_no": "33wSSjL105ulLBU",
+                "email": "reanna95@example.org",
+                "phone": "248-540-3041 x5213",
+                "address": "86161 Guiseppe Locks\nPort Eriberto, MO 54103-8731",
+                "city": "Lake Quinnmouth",
+                "state": "South Annabelbury",
+                "country": "Micronesia",
+                "lab_owner": "Dr. Daija Orn V",
+                "cac_reg": "Hk6OrtoVNtMiXAB",
+                "fmoh_reg": "ngBN846snTliTcs",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Nobis occaecati atque exercitationem dolorum excepturi. Excepturi eius eum ut nemo officia maxime harum consequatur. Non aperiam aut qui. Tenetur repellat et explicabo aut sed.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:27",
+                "updated_at": "2018-09-12 14:00:27"
+            },
+            {
+                "id": 6,
+                "name": "Claudine Stark",
+                "chcode": "CHL769356870",
+                "licence_no": "FvPITwaMGbpxhad",
+                "email": "julia15@example.net",
+                "phone": "+1-239-233-8273",
+                "address": "77398 Quigley Hills Suite 746\nMosciskimouth, NJ 65338-4362",
+                "city": "Laurynport",
+                "state": "New Lisandro",
+                "country": "Myanmar",
+                "lab_owner": "Herta Renner PhD",
+                "cac_reg": "1rgUC2P5xp2qzI3",
+                "fmoh_reg": "x4aDjTYtNqnXalc",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Dolor magni nostrum repellat tempora quod provident. Delectus aliquam rem perspiciatis voluptas sit neque. Amet est beatae beatae cupiditate et laudantium.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:27",
+                "updated_at": "2018-09-12 14:00:27"
+            },
+            {
+                "id": 4,
+                "name": "Brittany Durgan",
+                "chcode": "CHL805929735",
+                "licence_no": "GVBQ23YVkDuQ3oC",
+                "email": "ireichert@example.net",
+                "phone": "810.251.3617",
+                "address": "5948 Tillman Groves\nWest Ryderfurt, HI 25913",
+                "city": "Tressieport",
+                "state": "Amayamouth",
+                "country": "Macao",
+                "lab_owner": "Dr. Jayden Gutkowski",
+                "cac_reg": "I7qnQzL1nbDaHuh",
+                "fmoh_reg": "x1iEZ60ste5evZo",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Corrupti voluptas quidem ea deleniti nihil nam. Nisi enim et consequatur eum. Optio porro minus quas consequatur nihil eos exercitationem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 8,
+                "name": "April Rutherford",
+                "chcode": "CHL913966542",
+                "licence_no": "XlaMMUqHOOPhvd9",
+                "email": "bradley33@example.org",
+                "phone": "(815) 471-6981",
+                "address": "2649 Romaine Road Suite 190\nBalistrerifurt, NJ 46062",
+                "city": "Treutelland",
+                "state": "Fadelbury",
+                "country": "Tokelau",
+                "lab_owner": "Devan Rath",
+                "cac_reg": "XIgYdibcEVqD50Z",
+                "fmoh_reg": "tbwD3nMEx3IY7A5",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Et impedit omnis sed mollitia rem. Harum cupiditate tempora facilis placeat ullam quibusdam. Dicta nobis beatae reiciendis itaque voluptas enim cum. Earum repellendus ut tempora vero non nostrum.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:27",
+                "updated_at": "2018-09-12 14:00:27"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/laboratories?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/laboratories?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/laboratories",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 15,
+        "total": 15
+    }
+}
+```
+<br>
+
+### Get a particular laboratories 
+
+**`GET api/patient/laboratory/{laboratory}`** 
+
+``` 
+{laboratory} = laboratory chcode
+```
+
+```json
+{
+    "message": "fetch individual laboratory",
+    "laboratory": {
+        "id": 15,
+        "name": "Oda Kessler",
+        "chcode": "CHL201538683",
+        "licence_no": "eLWLf0ehCKSOueB",
+        "email": "liza99@example.com",
+        "phone": "1-307-297-0835 x98472",
+        "address": "675 Stehr Alley\nSouth Adolphborough, OR 54577-5407",
+        "city": "Lake Itzelfort",
+        "state": "Fernport",
+        "country": "Cyprus",
+        "lab_owner": "Mr. Wendell Jakubowski",
+        "cac_reg": "3LnIV3QTx28uejT",
+        "fmoh_reg": "cz7bUljnwpGGmeO",
+        "active": 1,
+        "avatar": null,
+        "token": null,
+        "offers": "Quaerat omnis exercitationem quam earum tempore ut aut. Cupiditate inventore velit repellat facere placeat soluta. Dolor qui praesentium autem non quo quidem nam blanditiis. Animi sit qui omnis rem. Quibusdam quod tempora excepturi sint.",
+        "remember_token": null,
+        "created_at": "2018-09-12 14:00:32",
+        "updated_at": "2018-09-12 14:00:32"
+    }
+}
+```
+
+### Get all pharmacy 
+
+**`GET api/patient/pharmacies`** 
+
+```json
+{
+    "message": "fetch all pharmacy by name",
+    "pharmacies": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 4,
+                "name": "Sandra Breitenberg",
+                "chcode": "CHF594337706",
+                "email": "dwolf@example.org",
+                "phone": "(936) 564-2653",
+                "address": "92339 Adelia Manors\nCarolineton, MT 58082",
+                "city": "Lake Adamport",
+                "state": "Maddisonside",
+                "country": "Sao Tome and Principe",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "hic",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 1,
+                "name": "Prof. Kiel Blanda Jr.",
+                "chcode": "CHF130982064",
+                "email": "mallory.rippin@example.com",
+                "phone": "+18798440537",
+                "address": "9231 Leonie Station Apt. 545\nLake Adrainmouth, IA 40106",
+                "city": "Lake Elviefurt",
+                "state": "Huelshire",
+                "country": "Cuba",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "laboriosam",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25"
+            },
+            {
+                "id": 7,
+                "name": "Owen Lakin",
+                "chcode": "CHF126593035",
+                "email": "micah.hettinger@example.org",
+                "phone": "(464) 561-8731 x584",
+                "address": "96591 Luis Mall\nDibberthaven, KS 94576",
+                "city": "Lake Kailynborough",
+                "state": "Amyview",
+                "country": "Gibraltar",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "ducimus",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 6,
+                "name": "Nathaniel Zulauf",
+                "chcode": "CHF183140367",
+                "email": "jensen.raynor@example.net",
+                "phone": "1-823-244-8215",
+                "address": "992 Alexys Isle Apt. 520\nNorth Jonathanchester, WY 19553",
+                "city": "Reichertmouth",
+                "state": "Montanachester",
+                "country": "Cook Islands",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "hic",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            },
+            {
+                "id": 5,
+                "name": "Mr. Edgardo Kilback Sr.",
+                "chcode": "CHF730820329",
+                "email": "gleason.johnnie@example.org",
+                "phone": "(932) 566-1645 x2359",
+                "address": "804 Bryon Loop\nNew Lorena, TX 46221-3750",
+                "city": "North Mikelview",
+                "state": "Greenholtbury",
+                "country": "Korea",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dolor",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 12,
+                "name": "Gabriella McClure",
+                "chcode": "CHF180682954",
+                "email": "hermiston.mckayla@example.com",
+                "phone": "736-768-5658 x0310",
+                "address": "6431 Hills Center\nMannmouth, IL 78098-1900",
+                "city": "South Kristyberg",
+                "state": "North Don",
+                "country": "Cocos (Keeling) Islands",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "quo",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            },
+            {
+                "id": 3,
+                "name": "Dr. Alfonso Raynor",
+                "chcode": "CHF820442258",
+                "email": "ametz@example.com",
+                "phone": "697-928-8684",
+                "address": "83466 Trantow Inlet\nSadietown, VT 96625-2089",
+                "city": "East Antone",
+                "state": "Port Maximus",
+                "country": "Sierra Leone",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "qui",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25"
+            },
+            {
+                "id": 2,
+                "name": "Domenick Hand",
+                "chcode": "CHF180702536",
+                "email": "selina.price@example.com",
+                "phone": "905-453-4856",
+                "address": "78298 Kiehn Falls\nEast Jeffry, MI 25063-5596",
+                "city": "D'Amorehaven",
+                "state": "Leilastad",
+                "country": "Czech Republic",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "incidunt",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25"
+            },
+            {
+                "id": 9,
+                "name": "Dallin Mante",
+                "chcode": "CHF766405439",
+                "email": "virgil16@example.net",
+                "phone": "(609) 516-2725 x287",
+                "address": "935 Destiney Mountains Suite 431\nSouth Roselyn, RI 52978-3472",
+                "city": "Velvatown",
+                "state": "Ryanville",
+                "country": "Zambia",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dolor",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 8,
+                "name": "Celia Koch",
+                "chcode": "CHF167524062",
+                "email": "khalil.nikolaus@example.com",
+                "phone": "719.912.0715",
+                "address": "6675 Sandy Spring\nPort Clarabelle, KY 09414-0049",
+                "city": "Funkland",
+                "state": "North Dorcasfort",
+                "country": "Myanmar",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "est",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            },
+            {
+                "id": 13,
+                "name": "Cecilia Welch",
+                "chcode": "CHF675099084",
+                "email": "kertzmann.dixie@example.net",
+                "phone": "(625) 629-7636",
+                "address": "277 Mylene Creek Apt. 220\nMinafurt, DC 54252",
+                "city": "Hodkiewiczton",
+                "state": "Marquiseview",
+                "country": "Tuvalu",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "error",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:31",
+                "updated_at": "2018-09-12 14:00:31"
+            },
+            {
+                "id": 10,
+                "name": "Arlene Hansen",
+                "chcode": "CHF159074223",
+                "email": "ardella.marvin@example.com",
+                "phone": "465-972-4500",
+                "address": "128 Bahringer Mews\nBraunborough, SD 75962",
+                "city": "Port Fernando",
+                "state": "East Maidaborough",
+                "country": "Montserrat",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "repellendus",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/pharmacies?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/pharmacies?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/pharmacies",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 13,
+        "total": 13
+    }
+}
+```
+
+### Get a particular pharmacy
+
+
+**`GET api/patient/pharmacy/{pharmacy}`** 
+
+``` 
+{pharmacy} = pharmacy chcode
+```
+
+```json
+{
+    "message": "fetch individual pharmacy",
+    "pharmacy": {
+        "id": 4,
+        "name": "Sandra Breitenberg",
+        "chcode": "CHF594337706",
+        "email": "dwolf@example.org",
+        "phone": "(936) 564-2653",
+        "address": "92339 Adelia Manors\nCarolineton, MT 58082",
+        "city": "Lake Adamport",
+        "state": "Maddisonside",
+        "country": "Sao Tome and Principe",
+        "business_name": null,
+        "business_type": null,
+        "facility_owner": null,
+        "cac_reg": null,
+        "cac_date": null,
+        "fmoh_reg": null,
+        "fmoh_date": null,
+        "chief_pharmacist_reg": "hic",
+        "active": 1,
+        "avatar": "avatar/avatar.jpeg",
+        "chief_pharmacist_reg_date": null,
+        "chief_pharmacist_name": null,
+        "chief_pharmacist_phone": null,
+        "services": null,
+        "remember_token": null,
+        "created_at": "2018-09-12 14:00:26",
+        "updated_at": "2018-09-12 14:00:26"
+    }
+}
+```
