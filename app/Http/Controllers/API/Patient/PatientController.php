@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use App\Models\Doctor;
 
 
 class PatientController extends Controller
@@ -377,5 +378,26 @@ class PatientController extends Controller
             'country' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
+    }
+    
+    public function showDoctor(Request $request){
+        $chcode = $request->chcode;
+        $doctor = Doctor::whereChcode($chcode)->get()->first();
+        
+        if ($doctor) {
+            return response()->json([
+                'message' => 'Doctor retrieved successfully',
+                'doctor' => $doctor,
+            ], 200);
+        } else {
+             return response()->json([
+                'message' => 'Doctor not found',
+                $doctor => null
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
     }
 }

@@ -103,6 +103,7 @@ Route::group(['namespace' => 'API'], function() {
     //End of all routes for doctor
 
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient'], function() {
+        
         Route::post('/register', 'PatientController@store')->name('patient.register');
         Route::get('/{patient}/medical-records','PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
@@ -125,6 +126,8 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
+        
+        Route::post('doctors/{chcode}', 'PatientController@showDoctor')->name('patient.doctors.show');
     });
 
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){ 

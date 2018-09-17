@@ -71,7 +71,8 @@ class DoctorController extends Controller
       
         // $doctor->save();
         // request()->validate($this->rules);
-        
+        // return json_encode(dd(request()->all()));
+       
         try{
              $doctor->update([
                 "first_name" => request('first_name') == null ? $doctor->first_name : request('first_name') ,
