@@ -287,6 +287,20 @@ class PatientController extends Controller
         ], 200);
     }
 
+    public function showMedicalCenter()
+    {
+        $pharmacy = Pharmacy::orderBy('name', 'desc');
+        $laboratory = Laboratory::orderBy('name', 'desc');
+        $hospital = Hospital::orderBy('name', 'desc');
+
+        $medicalCenters = array_merge($pharmacy, $laboratory, $hospital)->paginate(20);
+
+        return response()->json([
+            'message' => 'fetch individual pharmacy',
+            'pharmacy' => $medicalCenters,
+        ], 200);
+    }
+
     public function showRecords(Patient $patient)
     {
         try {

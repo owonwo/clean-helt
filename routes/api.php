@@ -119,6 +119,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('laboratory/{laboratory}', 'PatientController@showLaboratory');
         Route::get('pharmacies', 'PatientController@showPharmacies');
         Route::get('pharmacy/{pharmacy}', 'PatientController@showPharmacy');
+        Route::get('medical-centers','PatientController@showMedicalCenter');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
