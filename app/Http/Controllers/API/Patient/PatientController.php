@@ -290,15 +290,15 @@ class PatientController extends Controller
 
     public function showMedicalCenter()
     {
-        $pharmacy = Pharmacy::orderBy('name', 'desc');
-        $laboratory = Laboratory::orderBy('name', 'desc');
-        $hospital = Hospital::orderBy('name', 'desc');
-
-        $medicalCenters = array_merge($pharmacy, $laboratory, $hospital)->paginate(20);
+        $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(15);
+        $laboratory = Laboratory::orderBy('name', 'desc')->paginate(15);
+        $hospital = Hospital::orderBy('name', 'desc')->paginate(15);
 
         return response()->json([
             'message' => 'fetch individual pharmacy',
-            'pharmacy' => $medicalCenters,
+            'pharmacies' => $pharmacy,
+            'laboratories' => $laboratory,
+            'hospitals' => $hospital,
         ], 200);
     }
 
@@ -380,8 +380,10 @@ class PatientController extends Controller
         ];
     }
     
-    public function showDoctor(Request $request){
-        $chcode = $request->chcode;
+    public function showDoctor(){
+
+        $chcode = request()->chcode;
+
         $doctor = Doctor::whereChcode($chcode)->get()->first();
         
         if ($doctor) {

@@ -127,7 +127,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
         
-        Route::post('doctors/{chcode}', 'PatientController@showDoctor')->name('patient.doctors.show');
+        Route::post('doctors', 'PatientController@showDoctor')->name('patient.doctors.show');
     });
 
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory'], function (){ 
