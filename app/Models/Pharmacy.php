@@ -30,7 +30,6 @@ class Pharmacy extends Authenticatable
     {
         return 'chcode';
     }
-
     /**
      * Checks whether a pharmacy can view a patient's profile
      * @param Patient $patient

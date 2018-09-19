@@ -11,6 +11,9 @@ module.exports = {
             ['/admin/','Admin'],
             ['/hospitals/', 'Hospitals'],
             ['/pharmacies/', 'Pharmacies'],
+            ['/patient/', 'Patient'],
+            ['/laboratory/', 'Laboratory'],
+            ['/general/', 'General Concerns']
         ],
     }
 };

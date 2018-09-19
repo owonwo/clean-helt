@@ -41,11 +41,20 @@ class PatientController extends Controller
 
     }
     public function diagnosis(Patient $patient){
-           $doctor = auth()->guard('doctor-api')->user();
+        $doctor = auth()->guard('doctor-api')->user();
+          
+           
         if ($patient && $doctor->canViewProfile($patient)) {
+            
+             $records = $patient->medicalRecords('App\Models\Diagnosis')->get();
+           
+              $records->each(function($record) {
+                  $record->data = $record->data;
+              });
+            
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
-                'diagnosis' => $patient->medicalRecords('App\Models\Diagnosis')->get()->load('data'),
+                'records' => $records
             ], 200);
         }
         return response()->json([

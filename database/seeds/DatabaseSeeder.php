@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DoctorSeeder::class);
         $this->call(HospitalSeeder::class);
         $this->call(PharmacySeeder::class);
+        $this->call(LaboratorySeeder::class);
         $this->call(MedicalRecordSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
