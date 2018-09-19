@@ -230,78 +230,6 @@ class PatientController extends Controller
         //
     }
 
-    public function showHospitals()
-    {
-
-        $hospital = Hospital::orderBy('name', 'desc')->paginate(20);
-
-        return response()->json([
-            'message' => 'fetch all hospital by name',
-            'hospitals' => $hospital
-        ], 200);
-    }
-
-    public  function showHospital(Hospital $hospital)
-    {
-        return response()->json([
-            'message' => 'fetch all hospital by name',
-            'hospital' => $hospital
-        ], 200);
-    }
-
-    public function showLaboratories()
-    {
-
-        $laboratory = Laboratory::orderBy('name', 'desc')->paginate(20);
-
-        return response()->json([
-            'message' => 'fetch all laboratory by name',
-            'laboratories' => $laboratory
-        ], 200);
-    }
-
-    public  function showLaboratory(Laboratory $laboratory)
-    {
-        return response()->json([
-            'message' => 'fetch individual laboratory',
-            'laboratory' => $laboratory
-        ], 200);
-    }
-
-
-    public function showPharmacies()
-    {
-
-        $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(20);
-
-        return response()->json([
-            'message' => 'fetch all pharmacy by name',
-            'pharmacies' => $pharmacy
-        ], 200);
-    }
-
-    public  function showPharmacy(Pharmacy $pharmacy)
-    {
-        return response()->json([
-            'message' => 'fetch individual pharmacy',
-            'pharmacy' => $pharmacy
-        ], 200);
-    }
-
-    public function showMedicalCenter()
-    {
-        $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(15);
-        $laboratory = Laboratory::orderBy('name', 'desc')->paginate(15);
-        $hospital = Hospital::orderBy('name', 'desc')->paginate(15);
-
-        return response()->json([
-            'message' => 'fetch individual pharmacy',
-            'pharmacies' => $pharmacy,
-            'laboratories' => $laboratory,
-            'hospitals' => $hospital,
-        ], 200);
-    }
-
     public function showRecords(Patient $patient)
     {
         try {
@@ -335,10 +263,6 @@ class PatientController extends Controller
             'message' => 'You can access all laboratory record here',
             'patient' => $patient,
         ], 200);
-
-        return response()->json([
-            'message' => 'Something went wrong'
-        ], 400);
     }
 
     public function showPrescription(Patient $patient)
@@ -349,11 +273,6 @@ class PatientController extends Controller
             'message' => 'access medical record by date',
             'patient' => $patient,
         ], 200);
-
-        return response()->json([
-            'message' => 'Something went wrong'
-        ], 400);
-
     }
 
     private function getRegRule()
@@ -380,7 +299,8 @@ class PatientController extends Controller
         ];
     }
     
-    public function showDoctor(){
+    public function showDoctor()
+    {
 
         $chcode = request()->chcode;
 
@@ -391,15 +311,12 @@ class PatientController extends Controller
                 'message' => 'Doctor retrieved successfully',
                 'doctor' => $doctor,
             ], 200);
-        } else {
-             return response()->json([
-                'message' => 'Doctor not found',
-                $doctor => null
-            ], 200);
         }
 
         return response()->json([
-            'message' => 'Unauthorized access',
-        ], 400);
+            'message' => 'Doctor not found',
+            $doctor => null
+        ], 404);
+
     }
 }

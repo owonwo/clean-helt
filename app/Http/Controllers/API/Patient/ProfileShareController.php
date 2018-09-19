@@ -7,12 +7,15 @@ use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
 use App\Models\ProfileShare;
 use App\Notifications\PatientProfileSharedNotification;
+use App\Traits\Utilities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class ProfileShareController extends Controller
 {
+    use Utilities;
+
     private $patient;
 
     public function __construct()
@@ -77,7 +80,7 @@ class ProfileShareController extends Controller
     public function expire(ProfileShare $profileShare)
     {
         if ($profileShare && $profileShare->update(['expired_at' => now()->subSeconds(30)])) {
-            event(new ProfileShareExpired($profileShare->provider,$this->patient));
+            event(new ProfileShareExpired($profileShare->provider, $this->patient));
             return response()->json([
                 'message' => 'Share expired successfully',
                 'share' => $profileShare
@@ -109,15 +112,6 @@ class ProfileShareController extends Controller
         return response()->json([
             'message' => 'Share could not be extended at this time'
         ], 400);
-    }
-
-    private function getProvider($code)
-    {
-        $prefixes = config('ch.chcode_prefixes');
-
-        $prefix = substr($code, 0, 3);
-
-        return @$prefixes[$prefix];
     }
 
     private function getRules()
