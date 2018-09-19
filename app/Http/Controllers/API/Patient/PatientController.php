@@ -272,6 +272,20 @@ class PatientController extends Controller
         ], 200);
     }
 
+    public function showMedicalCenter()
+    {
+        $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(15);
+        $laboratory = Laboratory::orderBy('name', 'desc')->paginate(15);
+        $hospital = Hospital::orderBy('name', 'desc')->paginate(15);
+
+        return response()->json([
+            'message' => 'fetch individual pharmacy',
+            'pharmacies' => $pharmacy,
+            'laboratories' => $laboratory,
+            'hospitals' => $hospital,
+        ], 200);
+    }
+
     public function showRecords(Patient $patient)
     {
         try {
@@ -348,8 +362,9 @@ class PatientController extends Controller
         ];
     }
     
-    public function showDoctor(Request $request){
-        $chcode = $request->chcode;
+    public function showDoctor(){
+        
+        $chcode = request()->chcode;
         $doctor = Doctor::whereChcode($chcode)->get()->first();
         
         if ($doctor) {

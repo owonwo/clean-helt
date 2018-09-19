@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\API\Patient;
 
-use Validator;
 use App\Events\PatientSharedProfile;
 use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
 use App\Models\ProfileShare;
-use App\Notifications\PatientProfileSharedNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class ProfileShareController extends Controller
@@ -20,8 +19,9 @@ class ProfileShareController extends Controller
     {
         $this->middleware('auth:patient-api');
 
-        $this->middleware(function($request, $next) {
+        $this->middleware(function ($request, $next) {
             $this->patient = auth()->user();
+
             return $next($request);
         });
     }
@@ -38,8 +38,7 @@ class ProfileShareController extends Controller
 
     public function store()
     {
-       
-         $rules = $this->getRules();
+        $rules = $this->getRules();
         try {
             $this->validate(request(), $rules);
         } catch (ValidationException $exception) {
@@ -53,28 +52,32 @@ class ProfileShareController extends Controller
         $providerClass = $this->getProvider($chcode);
 
         if ((bool) $providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
-            if($this->patient->hasAlreadySharedChcode($provider)) {
+            if ($this->patient->hasAlreadySharedChcode($provider)) {
                 return response()->json([
                     'message' => 'Profile Already Shared!',
                 ], 409);
             }
 
-            $share = $this->patient->profileShares()->create([
-                'provider_type' => $providerClass,
-                'provider_id' => $provider->id,
-                'expired_at' => request('expiration')
-            ]);
-            //Fire an event that tells providers that patient has been shared
-            // event(new PatientSharedProfile($provider,$this->patient));
-            if ($share) {
-                return response()->json([
-                    'message' => 'Profile shared successfully',
-                    'share' => $share
-                ], 200);
+            $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
+            if (!$exists) {
+                $share = $this->patient->profileShares()->create([
+                    'provider_type' => $providerClass,
+                    'provider_id' => $provider->id,
+                    'expired_at' => request('expiration'),
+                ]);
+                //Fire an event that tells providers that patient has been shared
+                event(new PatientSharedProfile($provider, $this->patient));
+
+                if ($share) {
+                    return response()->json([
+                        'message' => 'Profile shared successfully',
+                        'share' => $share,
+                    ], 200);
+                }
             }
 
             return response()->json([
-                'message' => 'Profile could not be shared at this time'
+                'message' => 'Profile could not be shared at this time maybe you have shared',
             ], 400);
         }
 
@@ -84,15 +87,16 @@ class ProfileShareController extends Controller
     public function expire(ProfileShare $profileShare)
     {
         if ($profileShare && $profileShare->update(['expired_at' => now()->subSeconds(30)])) {
-            event(new ProfileShareExpired($profileShare->provider,$this->patient));
+            event(new ProfileShareExpired($profileShare->provider, $this->patient));
+
             return response()->json([
                 'message' => 'Share expired successfully',
-                'share' => $profileShare
+                'share' => $profileShare,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Share could not be expired at this time'
+            'message' => 'Share could not be expired at this time',
         ], 400);
     }
 
@@ -105,16 +109,16 @@ class ProfileShareController extends Controller
         $expired_at = request('extension');
 
         if ($profileShare && $profileShare->update(['expired_at' => $expired_at])) {
+            event(new ProfileShareExtended($profileShare->provider, $this->patient));
 
-            event(new ProfileShareExtended($profileShare->provider,$this->patient));
             return response()->json([
-                'message' => "Share extended successfully. Now expires " . $profileShare->fresh()->expired_at->diffForHumans(),
-                'share' => $profileShare
+                'message' => 'Share extended successfully. Now expires '.$profileShare->fresh()->expired_at->diffForHumans(),
+                'share' => $profileShare,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Share could not be extended at this time'
+            'message' => 'Share could not be extended at this time',
         ], 400);
     }
 
@@ -131,7 +135,7 @@ class ProfileShareController extends Controller
     {
         return [
             'chcode' => 'required',
-            'expiration' => 'required|date|after_or_equal:now'
+            'expiration' => 'required|date|after_or_equal:now',
         ];
     }
 }

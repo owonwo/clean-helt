@@ -68,6 +68,7 @@ class DoctorController extends Controller
     public function update()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
       
         // $doctor->save();
         // request()->validate($this->rules);
@@ -107,7 +108,7 @@ class DoctorController extends Controller
                     "disability" => request('disability'),
                 ]);
             
-                
+
             return response()->json([
                 'message' => 'Doctor updated successfully',
                 'doctor' => $doctor->fresh()
@@ -120,9 +121,6 @@ class DoctorController extends Controller
                 'error' => $e->getMessage()
             ], 400);
         }
-        
-       
-       
     }
 
     public function show()
