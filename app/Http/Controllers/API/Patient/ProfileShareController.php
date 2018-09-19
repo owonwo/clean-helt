@@ -72,7 +72,7 @@ class ProfileShareController extends Controller
 
             }
             return response()->json([
-                'message' => 'Profile could not be shared at this time'
+                'message' => 'Profile could not be shared at this time maybe you have shared'
             ], 400);
         }
 
