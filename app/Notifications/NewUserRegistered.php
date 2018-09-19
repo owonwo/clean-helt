@@ -7,20 +7,21 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PatientResetPasswordNotification extends Notification
+class NewUserRegistered extends Notification
 {
     use Queueable;
 
-    private $token;
+    public $user;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $user
      */
-    public function __construct($token)
+    public function __construct($user)
     {
-        $this->token = $token;
+        //
+        $this->user = $user;
     }
 
     /**
@@ -31,7 +32,7 @@ class PatientResetPasswordNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -43,9 +44,9 @@ class PatientResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', route('patient.password.reset', $this->token))
-                    ->line('Thank you for using our application!');
+                    ->line('Welcome To CleanHelt')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for Registering');
     }
 
     /**

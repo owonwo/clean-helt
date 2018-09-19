@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
+use App\Traits\Utilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Patient extends Authenticatable
 {
-    use HasMultiAuthApiTokens, CodeGenerator,Notifiable;
+    use HasMultiAuthApiTokens, CodeGenerator, Notifiable, Utilities;
 
     protected $codePrefix = 'CHP';
 
@@ -61,5 +62,23 @@ class Patient extends Authenticatable
     public function pharmacyRecords()
     {
         return $this->hasMany(Prescription::class, 'record_id');
+    }
+
+    public function contacts()
+    {
+        return $this->morphMany(Contact::class, 'owner');
+    }
+
+    public function ownsContact($chcode)
+    {
+        $modelClass = $this->getProvider($chcode);
+
+        if ($modelClass && $model = $modelClass::whereChcode($chcode)->first()) {
+            return $this->contacts()->where('contact_type', $modelClass)
+                ->where('contact_id', $model->id)
+                ->first();
+        }
+
+        return null;
     }
 }

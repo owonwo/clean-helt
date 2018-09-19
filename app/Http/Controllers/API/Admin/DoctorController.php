@@ -62,8 +62,8 @@ class DoctorController extends Controller
                 'message' => 'Deactivated successfully'
             ]);
         }
-        public function activate(Doctor $doctor){
 
+        public function activate(Doctor $doctor){
             $doctor->profile->update([
                 'active' => true
             ]);
@@ -71,7 +71,5 @@ class DoctorController extends Controller
                 'doctor' => $doctor,
                 'message' => 'Activated successfully'
             ]);
-
         }
-
 }

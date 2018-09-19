@@ -17,12 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         Schema::disableForeignKeyConstraints();
-        $this->call(PatientSeeder::class);
-        $this->call(DoctorSeeder::class);
-        $this->call(HospitalSeeder::class);
-        $this->call(PharmacySeeder::class);
-        $this->call(LaboratorySeeder::class);
-        $this->call(MedicalRecordSeeder::class);
+//        $this->call(PatientSeeder::class);
+//        $this->call(DoctorSeeder::class);
+//        $this->call(HospitalSeeder::class);
+//        $this->call(PharmacySeeder::class);
+//        $this->call(LaboratorySeeder::class);
+//        $this->call(MedicalRecordSeeder::class);
+        $this->call(ContactSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }
