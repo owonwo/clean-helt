@@ -381,9 +381,8 @@ class PatientController extends Controller
     }
     
     public function showDoctor(){
-
+        
         $chcode = request()->chcode;
-
         $doctor = Doctor::whereChcode($chcode)->get()->first();
         
         if ($doctor) {

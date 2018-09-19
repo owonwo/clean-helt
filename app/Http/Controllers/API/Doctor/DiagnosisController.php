@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class DiagnosisController extends Controller
 {
@@ -23,10 +24,12 @@ class DiagnosisController extends Controller
 
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
-
        $rules = $this->getRules();
        
+        Log::info(['request' => $request->prescriptions]);
+       
         $this->validate($request, $rules);
+       
 
         try {
             $this->validate($request, $rules);
@@ -50,6 +53,7 @@ class DiagnosisController extends Controller
 
                 //Step 2: Save the actual data
                 $data = $request->only(array_keys($rules));
+               
                 $data['record_id'] = $record->id;
                 $diagnosis = Diagnosis::forceCreate($data);
 
@@ -57,8 +61,13 @@ class DiagnosisController extends Controller
 
                 //TODO
                 //Step 3: Check if there are prescriptions and tests and save them
-                if($request->input('prescription') && $request->input('test')){
+                if($request->prescriptions){
+                    
                     $this->createPrescriptions($record->id,null,$diagnosis->id);
+                    
+                    Log::info(['request' => $request->all()]);
+                }
+                if($request->tests){
                     $this->createLabTest($record->id,$diagnosis->id);
                 }
                DB::commit();
@@ -70,7 +79,7 @@ class DiagnosisController extends Controller
                  */
                 //am working here
 
-
+                
 
                 return response()->json([
 
@@ -79,7 +88,6 @@ class DiagnosisController extends Controller
                 ], 200);
 
             } catch (\Exception $e) {
-                dd($e->getMessage());
                 DB::rollBack();
                 return response()->json([
                     'message' => 'Diagnosis creation failed. ' . $e->getMessage()
@@ -104,20 +112,35 @@ class DiagnosisController extends Controller
         ];
     }
     private function createPrescriptions($record,$pharmacy = null,$diagnosis){
+        
+        foreach(request('prescriptions') as $prescription){
             Prescription::forceCreate([
                 'record_id' => $record,
-                'quantity' => request('quantity'),
-                'frequency' => request('frequency'),
-                'name' => request('name'),
+                'quantity' =>$prescription['quantity'],
+                'frequency' => $prescription['frequency'],
+                'name' => $prescription['name'],
                 'pharmacy_id' => $pharmacy,
                 'diagnosis_id' => $diagnosis
-            ]);
+            ]); 
+        }
+      
     }
     private function createLabTest($record,$diagnosis){
-             LabTest::forceCreate([
+            
+            //  LabTest::forceCreate([
+            //     'record_id' => $record,
+            //     'test_name' => request('test_name'),
+            //     'description' => request('description'),
+            //     'result' => request('result'),
+            //     'conclusion' => request('conclusion'),
+            //     'status' => request('status'),
+            //     'taker' => request('taker'),
+            //     'diagnosis_id' => $diagnosis
+            // ]);
+              LabTest::forceCreate([
                 'record_id' => $record,
-                'name' => request('test_name'),
-                'description' => request('description'),
+                'test_name' => request()->input('tests.test_name'),
+                'description' => request()->input('tests.description'),
                 'result' => request('result'),
                 'conclusion' => request('conclusion'),
                 'status' => request('status'),
