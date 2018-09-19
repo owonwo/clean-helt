@@ -126,26 +126,17 @@ class DiagnosisController extends Controller
       
     }
     private function createLabTest($record,$diagnosis){
-            
-            //  LabTest::forceCreate([
-            //     'record_id' => $record,
-            //     'test_name' => request('test_name'),
-            //     'description' => request('description'),
-            //     'result' => request('result'),
-            //     'conclusion' => request('conclusion'),
-            //     'status' => request('status'),
-            //     'taker' => request('taker'),
-            //     'diagnosis_id' => $diagnosis
-            // ]);
-              LabTest::forceCreate([
-                'record_id' => $record,
-                'test_name' => request()->input('tests.test_name'),
-                'description' => request()->input('tests.description'),
-                'result' => request('result'),
-                'conclusion' => request('conclusion'),
-                'status' => request('status'),
-                'taker' => request('taker'),
-                'diagnosis_id' => $diagnosis
-            ]);
+            foreach(request('tests') as $test){
+                LabTest::forceCreate([
+                    'record_id' => $record,
+                    'test_name' => $test['test_name'],
+                    'description' => $test['description'],
+                    'result' => $test['result'],
+                    'conclusion' => $test['conclusion'],
+                    'status' => $test['status'],
+                    'taker' => $test['taker'],
+                    'diagnosis_id' => $diagnosis
+                ]);
+            }
     }
 }
