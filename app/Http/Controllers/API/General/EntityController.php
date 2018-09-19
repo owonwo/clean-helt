@@ -20,7 +20,7 @@ class EntityController extends Controller
 
         if (class_exists($model) && $this->isOpen($type)) {
             return response()->json([
-                $type => $model::latest()->paginate(30)
+                $type => $model::latest()->get()
             ], 200);
         }
 
