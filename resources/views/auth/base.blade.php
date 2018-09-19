@@ -25,6 +25,7 @@
         <main>
             @yield('content')
         </main>
+      <notifications :position="['bottom', 'center']" group="register"></notifications>
     </div>
 </body>
 </html>

@@ -89,6 +89,16 @@ Route::get('/make-fake-session/{type}', function (Request $request, $type) {
     }
 });
 
+Route::post('/login/{type}', function (Request $request, $type) {
+
+    if (auth()->guard($type)->attempt(['email' => request('email'), 'password' => request('password')], false)) {
+        session()->regenerate();
+
+        return redirect()->intended(route($type.'.dashboard', 'dashboard'));
+    }
+    return redirect()->back()->withErrors(['login' => 'Invalid username or password.']);    
+});
+
 Route::get('/remove-fake-session', function (Request $request) {
     auth()->logout();
     session()->invalidate();

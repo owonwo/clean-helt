@@ -38,7 +38,7 @@
       sizeStyle() {
         const {size} = this.$props;
         return {
-          width: (size == "sm" ? 300 + 'px' : 'auto'),
+          width: (size == "sm" ? 300 + 'px' : ''),
         }
       }
     },

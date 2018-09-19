@@ -19,7 +19,7 @@
       
       <footer>
         <ul class="">
-          <li><a href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
+          <li><a @click.prevent="logout"><i class="osf osf-signout"></i> Sign Out</a></li>
           <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
         </ul>
       </footer>

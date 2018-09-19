@@ -18,7 +18,8 @@
 			&.active {
 				color: $primary-color;
 				border-bottom-width: 0px;
-			background-color: #fff;
+				background-color: #fff;
+				box-shadow: 0 3px 5px -2px rgba(black, .4);
 			}
 		}
 

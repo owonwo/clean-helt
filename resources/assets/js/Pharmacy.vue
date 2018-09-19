@@ -7,38 +7,22 @@
 
       <div class="avatar-holder">
         <img :src="$root.avatar" alt="" class="avatar">
-        <span>Loyd's Pharmacy</span>
+        <span>{{ user.name }}</span>
       </div>
     </header>
 
     <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
-          <router-link to="/dashboard" tag="li">
-            <a href="#"><i class="osf osf-dashboard"></i> Dashboard</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-
-          <router-link to="/patients" tag="li">
-            <a href="#"><i class="osf osf-bell"></i> Clients</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-          <router-link to="/Notifications" tag="li">
-            <a href="#"><i class="osf osf-bell"></i> Notifications</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-
-          <router-link to="/profile" tag="li">
-            <a href="#"><i class="osf osf-patient-white"></i> Profile</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
+          <custom-link to="/dashboard" icon="osf osf-dashboard" name="Dashboard"/>
+          <custom-link to="/patients" icon="osf osf-patient-white" name="Clients"/>
+          <custom-link to="/notifications" icon="osf osf-bell" name="Notifications"/>
+          <custom-link to="/profile" icon="osf osf-pharmacy-white" name="Profile"/>
         </ul>
       </nav>
       <footer>
         <ul class="">
-          <li><a href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
+          <li><a @click="logout" href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
           <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
         </ul>
       </footer>
@@ -46,7 +30,9 @@
 
     <section class="osq-content">
       <section id="content">
-        <router-view/>
+        <keep-alive :exclude="['Patients','Profile']">
+          <router-view/>
+        </keep-alive>
       </section>
 
       <aside id="osq-logs" :class="{collapse: $root.sidebars.notif}">
@@ -67,8 +53,22 @@ export default {
   data() {return {
       settings : {
         profile: { route: `/api/pharmacy/profile`, key: 'pharmacy' },
-        patients: { route : `/api/pharmacy/${this.$props.id}/patient`, key: 'patients'}
+        patients: { route : `/api/pharmacy/patients`, key: 'patients'}
       },
-  }}
+  }},
+  methods: {
+    /**
+     * String chcode - patients chcode 
+     * String reference - prescription to reference medical record 
+     * Integer pre_id - the prescription id 
+     * @returns 
+    */
+    async markAsDispensed(chcode, reference, pre_id) {
+      if(!this.testChCode(chcode)) 
+        return console.log('invalid chcode provided for markAsDispensed function');
+      const url = `/api/pharmacy/patients/${chcode}/prescriptions/${reference}/${pre_id}`;
+      return this.$http.patch(url);
+    }
+  }
 }
 </script>

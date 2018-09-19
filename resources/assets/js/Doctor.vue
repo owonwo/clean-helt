@@ -14,23 +14,14 @@
     <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
-          <router-link to="/dashboard" tag="li">
-            <a href="#"><i class="osf osf-dashboard"></i> Dashboard</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-          <router-link to="/patients" tag="li">
-            <a href="#"><i class="osf osf-patient-white"></i> Clients</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
-          <router-link to="/profile" tag="li">
-            <a href="#"><i class="osf osf-doctor-white"></i> Profile</a> 
-            <span class="toggler" @click="$root.toggleSidebar"></span>
-          </router-link>
+          <custom-link to="/dashboard" icon="osf osf-dashboard" name="Dashboard"/>
+          <custom-link to="/patients" icon="osf osf-patient-white" name="Clients"/>
+          <custom-link to="/profile" icon="osf osf-doctor-white" name="Profile"/>
         </ul>
       </nav>
       <footer>
         <ul class="is-small">
-          <li><a href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
+          <li><a @click.prevent="logout"><i class="osf osf-signout"></i> Sign Out</a></li>
           <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
         </ul>
       </footer>
@@ -53,7 +44,6 @@
 <script>
 import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
-
 
 export default {
     name: 'Doctor',
@@ -99,7 +89,6 @@ export default {
         this.$http.get('/api/doctor/pending-hospitals').then((res) => {
           this.pendingHospital = res.data.hospitals;
         });
-
       }
     }
 }

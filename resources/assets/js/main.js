@@ -12,6 +12,8 @@ import Hospital from '@/Hospital.vue'
 import Pharmacy from '@/Pharmacy.vue'
 import Laboratory from '@/Laboratory.vue'
 import GlobalComponents from '@/components';
+import Login from '@/Login.vue';
+import Register from '@/Register.vue';
 
 Vue.use(Router)
 Vue.use(VueMoment)
@@ -34,7 +36,7 @@ Vue.directive('height', {
         }
     },
     componentUpdated(el, binding, vnode) {
-        let child = $(vnode.children["0"].elm),
+        let child = $(vnode.children[0].elm),
             {when} = binding.modifiers;
         if(binding.value) {
             el.style.height = when ? child.outerHeight() + 'px' : '0px';
@@ -77,11 +79,13 @@ Vue.directive('slide', {
     update(el, binding, vnode) {
         const props = (binding.value) 
             ? {height : '0px'}
-            : {height: $(el).data('v-height')}
+            : {paddingBottom: '10px', height: $(el).data('v-height')}
         $(el).animate({
             paddingTop: '0px',
             paddingBottom: '0px'
-        }, 100, 'linear').animate(props, 300, 'swing');
+        }, 100, 'linear').animate(props, 300, 'swing', function() {
+            binding.value || $(el).height('auto');
+        });
     }
 });
 
@@ -120,7 +124,7 @@ Vue.mixin({
     components: {...GlobalComponents},
     methods: {
         testChCode(chcode = "") {
-            return RegExp('^CH(P|H|D|L)([0-9]{9})$').test(chcode);
+            return RegExp('^CH(P|H|D|L|F)([0-9]{9})$').test(chcode);
         }
     },
     filters: {
@@ -136,12 +140,13 @@ Vue.mixin({
     }
 });
 
+
 new Vue({
 	el: "#app",
     store,
-	components: {Admin, Doctor, Hospital, Patient, Pharmacy, Laboratory},
+	components: {Admin, Doctor, Hospital, Patient, Pharmacy, Laboratory, Login, Register},
 	data: {
-	    user: {},
+        user: {},
 		sidebars: {nav : false, notif: true}
 	},
 	methods: {

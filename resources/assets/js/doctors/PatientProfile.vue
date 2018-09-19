@@ -9,7 +9,7 @@
 					<div class="mt-30">
 						<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
 						<router-link v-if="accountType === 'doctor'"
-							:to="{name:'add-record', params: {patient_id: patient.id }}" 
+							:to="{name:'add-record', params: {chcode: patient.chcode, patient_id: patient.id }}" 
 							class="button ml-10 is-outlined is-rounded is-dark">
 							Add Record
 						</router-link>
@@ -40,13 +40,13 @@
 				<hr/>
 				<h1 class="osq-group-subtitle-alt mb-10">Medical History</h1>
 				<div class="columns content is-multiline">
-					<div class="column is-half is-fullheight">
+					<div v-if="showDiagnosis" class="column is-half is-fullheight">
 						<router-link :to="recordsRoute('diagnosis')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
 					</div>
-					<div class="column is-half">
-						<router-link :to="recordsRoute('tests')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
+					<div v-if="showLabTests" class="column is-half">
+						<router-link :to="recordsRoute('labtest')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
 					</div>
-					<div class="column is-half">
+					<div v-if="showPrescription" class="column is-half">
 						<router-link :to="recordsRoute('prescriptions')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
 					</div>
 				</div>
@@ -120,18 +120,36 @@
 					query
 				}
 			},
+			getProfile() {
+				let profile = this.$store.getters.getProfileByPatientId(this.getId());
+				if("undefined" == typeof profile) 
+					return  _.debounce(this.getProfile.bind(this), 2000)();
+				this.profile = profile;
+				this.patient = _.extend({}, this.profile.patient);
+			},
 			getId() {
-				const {patient_id} = this.$route.params;
-				_.isNumber(patient_id) || this.$router.back()
+				const patient_id = parseInt(this.$route.params.patient_id)
+				_.isNumber(patient_id) || this.$router.replace({name: 'patients'})
 				return patient_id;
 			}
 		},
 		activated () {
-			this.profile = this.$store.getters.getProfileByPatientId(this.getId());
-			this.patient = _.extend({}, this.profile.patient);
+			this.getProfile();
 		},
 		computed: {
-			...mapGetters(['accountType'])
+			...mapGetters(['accountType']),
+			showDiagnosis() {
+				let {accountType: workspace} = this;
+				return ['doctor', 'hospital'].includes(workspace);
+			},
+			showLabTests() {
+				let {accountType: workspace} = this;
+				return ['doctor', 'laboratory','hospital'].includes(workspace);				
+			},
+			showPrescription() { 
+				let {accountType: workspace} = this;
+				return ['pharmacy', "doctor" , "hospital"].includes(workspace);
+			}
 		},
 		data() {return {
 			settings: {

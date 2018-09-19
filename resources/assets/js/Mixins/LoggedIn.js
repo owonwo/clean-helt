@@ -14,11 +14,18 @@ export default {
         componentName() { return this.getComponentName().toLowerCase() }
     },
     created() {
-        const token = $('meta[name=api-token]').attr('content');
+        //create the token for the application
+        const token = localStorage.getItem('api-token');//$('meta[name=api-token]').attr('content');
+
+        //checks if the user is valid
+        if(!this.testChCode(this.$props.id) || typeof this.$props.id === 'undefined' || this.$props.id === '') 
+            console.warn('Logged In User ChCode is invalid!, So features are bound to fail');
         if(!_.isUndefined(token) && 'string' === typeof token) {
             window.axios.defaults.headers.common = {
                 'Authorization': `Bearer ${token}`,
             }
+        }else{
+            console.warn('The Logged In User has got no token!');
         }
     },
     mounted() {
@@ -66,6 +73,15 @@ export default {
                 const PATIENTS = res.data[patients.key]
                 this.set_shared_profiles(PATIENTS);
             });
+        },
+        logout() {
+            let input = document.createElement('input');
+            input.value = $('meta[name=csrf-token]').attr('content');
+            input.name = "_token";
+            let form = $('<form></form>');
+            form.attr('action','/logout').attr('method', 'POST').append(input).submit();
+            $('body').append(form);
+            form.submit(); 
         }
     },
 }

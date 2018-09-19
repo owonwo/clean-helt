@@ -1,10 +1,10 @@
 import Router from 'vue-router'
-import Profile from '@/doctors/Profile.vue'
-import Patients from '@/doctors/Patients.vue'
-import Dashboard from '@/doctors/Dashboard.vue'
+import Profile from '@/pharmacy/Profile.vue'
+import Patients from '@/doctors/Patients.vue' 
+import Dashboard from '@/pharmacy/Dashboard.vue'
 import PatientProfile from '@/doctors/PatientProfile.vue'
-import PatientRecordsDirectory from '@/doctors/PatientRecordsDirectory.vue'
 import Notifications from '@/components/Notifications.vue'
+import PatientRecordsDirectory from '@/doctors/PatientRecordsDirectory.vue'
 
 const routes = [
 	{
@@ -49,7 +49,7 @@ const routes = [
 
 export default new Router({
 	mode: "history",
-	base: "doctors/",
+	base: "pharmacy/",
 	routes,
 	linkActiveClass: 'active'
 })

@@ -37,7 +37,7 @@
 export default {
     props: {
         model: { type: String, default: '', required: true },
-        osqStyle: { type: String, default: '', required: true },
+        osqStyle: { type: String, default: '', required: false },
     },
     data() {
         return {

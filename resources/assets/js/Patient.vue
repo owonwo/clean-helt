@@ -48,7 +48,7 @@
 			<footer>
 				<ul class="">
 					<li>
-						<a href="#">
+						<a @click.prevent="logout">
 							<i class="osf osf-signout"></i> Sign Out</a>
 					</li>
 					<li>
@@ -105,19 +105,20 @@
 						key: 'patients'
 					}
 				},
-				shares: []
+				shares: [],
+				recordUrlMap: Object.freeze({
+					labtest:"/api/patient/{patient}/labtest",
+					prescription: "/api/patient/{patient}/prescription",
+					medicalRecord: "/api/patient/{patient}/medical-records",
+				}),
 			}
 		},
 		methods: {
 			async getRecord(record_type) {
-				const recordUrlMap = Object.freeze({
-					labtest:"/api/patient/{patient}/labtest",
-					prescription: "/api/patient/{patient}/prescription",
-					medicalRecord: "/api/patient/{patient}/medical-records",
-				});
+				const {recordUrlMap} = this;
 				if(!Object.keys(recordUrlMap).includes(record_type))
 					(new Error('Invalid Patient Record Name provided'));
-				return await this.$http.get(recordUrlMap[record_type]);
+				return await this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'));
 			},
 			fetchProfileShares() {
 				this.$http.get('/api/patient/profile/shares').then((res) => {

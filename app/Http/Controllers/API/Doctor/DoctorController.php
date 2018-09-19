@@ -110,20 +110,12 @@ class DoctorController extends Controller
                 
             return response()->json([
                 'message' => 'Doctor updated successfully',
-<<<<<<< HEAD
-                'doctor' => $doctor,
-            ], 200);
-        }
-
-        return response()->json([
-=======
                 'doctor' => $doctor->fresh()
             ], 200);
             
         } catch(Exception $e){
              
             return response()->json([
->>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
                 'message' => 'There was an error',
                 'error' => $e->getMessage()
             ], 400);
@@ -152,24 +144,7 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
-<<<<<<< HEAD
-        $hospital = Hospital::whereChcode($chcode)->get()->first();
-        if (is_null($hospital)) {
-            return response()->json(['message' => 'CHCODE is Invalid'], 400);
-        }
-
-        $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id', $doctor->id)->first();
-=======
-
-        try {
-            $hospital = Hospital::whereChcode($chcode)->get()->first();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => 'Theres an Error' . $e->getMessage()
-            ],403);
-        }
         $exists = DB::table('doctor_hospital')->where('hospital_id',$hospital->id)->where('doctor_id',$doctor->id)->first();
->>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
         try {
             if (!$exists) {
                 DoctorHospital::forceCreate([
@@ -178,7 +153,6 @@ class DoctorController extends Controller
                     'actor' => get_class($doctor),
                 ]);
             } else {
-                return response()->json([
                     'message' => 'You have added this hospital already.',
                 ], 409);
             }

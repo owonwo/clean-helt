@@ -1,18 +1,12 @@
 <template>
 	<section>
 		<section class="content-top-bar">
-			<h3>Health Services</h3>
+			<h3>Health Service Providers</h3>
 		</section>
 
 		<div class="columns is-centered" v-slide="show">
 			<div class="column is-half">
-				<div class="field">
-					<p class="control has-icons-left has-shadow">
-						<input type="text" class="input" placeholder="Find Service Provider by CH-Code">
-						<span class="is-left icon"><i class="osf osf-search"></i></span>
-					</p>
-					<div class="mb-5"></div>
-				</div>
+				<AddServiceProvider class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
 			</div>
 		</div>
 		
@@ -22,7 +16,7 @@
 				<span class="card-header-title">Departments</span>
 				<div class="m-10">
 					<button @click="show = !show" class="button is-outlined is-rounded is-white">
-						<i class="ti ti-plus"></i> ADD
+						<i class="ti" :class="[show ? 'ti-plus' : 'ti-angle-down']"></i>
 					</button>
 				</div>
 			</div>
@@ -30,7 +24,7 @@
 				<ul>
 					<li v-for="(group, key, index) in shares" 
 						:key="index" :class="{'is-active': current == index}">
-						<a @click.prevent="current=index" href="#">{{ key }}s</a>
+						<a @click.prevent="current=index" href="#">{{ key }}</a>
 					</li>
 				</ul>
 			</div>

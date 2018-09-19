@@ -1,10 +1,11 @@
 <template>
 	<section>
-		<section class="content">
-			<div >
-				{{ reference }}
+		<!-- diagnosis -->
+		<section v-if="$route.query.type === 'diagnosis'" class="content">
+			<div>
+				Diagnosis
 			</div>
-			<table v-if="$route.query.type === 'diagnosis'" class="table is-bordered is-fullwidth table-hoverable" style="font-size: smaller">
+			<table class="table is-bordered is-fullwidth table-hoverable" style="font-size: smaller">
 				<tr>
 					<th class="has-text-centered">S/N</th>
 					<th>Complaint History</th>
@@ -16,6 +17,37 @@
 					<td>{{ record.complaint_history }}</td>
 					<td>{{ record.complaint_relationship}}</td>
 					<td><button @click="showRecordModal = true" class="button is-small is-primary is-outlined">View Record</button></td>
+				</tr>
+			</table>
+		</section>
+		<section v-if="$route.query.type === 'prescriptions'" class="content">
+			<div class="content-top-bar">
+				<h3>Medicine Dispensing Record</h3>
+			</div>
+			<table class="table is-fullwidth is-bordered">
+				<tr>
+					<th width="50">S/N</th>
+					<th>Prescription</th>
+					<th width="50">Quantity</th>
+					<th width="50">Frequency</th>
+					<th>Issuer</th>
+					<th>Comment</th>
+					<th>
+						Status
+					</th>
+				</tr>
+				<tr v-for="(record, index) in records" :key="index">
+					<td class="has-text-centered">{{ index + 1}}</td>
+					<td><a href="#">{{ record.data.name }}</a></td>
+					<td class="has-text-centered">{{ record.data.quantity }}</td>
+					<td class="has-text-centered">{{ record.data.frequency }}</td>
+					<td>Dr. {{ record.issuer.first_name }} {{ record.issuer.last_name }}</td>
+					<td>{{ record.data.comment | truncate(50) }}</td>
+					<td>
+						<button v-if="accountType === 'pharmacy' && record.data.status == 0" @click="dispense(record)" class="button is-rounded has-shadow is-primary">Dispense</button>
+						<span v-else-if="!!record.data.status" class="tag is-primary">dispensed</span>
+						<span v-else class="tag is-danger">not dispensed</span>
+					</td>
 				</tr>
 			</table>
 		</section>
@@ -88,31 +120,24 @@
 
 <script>
 	import {mapGetters} from 'vuex';
-	import Modal from '@/components/Modal.vue'
 
 	export default {
-		components: {Modal},
 		name: "PatientRecordsDirectory",
-		mounted() {
+		activated () {
 			const {query: {type}, params} = this.$route;
-			this.getPatientRecord().then(({data: {records}}) => {
-				let references = _.map(records.data, (record) => record.reference);
-				this.getReferences(references).then((all) => {
-					this.record_references = _.flatten(all.map((res) => res.data.data));
-				});
+			this.getPatientRecord().then(({data: {data}}) => {
+				this.records = data;
 			}).catch((Error) => {
 				console.log('PatientRecordsDirectory', Error, 'Error Fetching The Patient\'s Record');
-				this.$router.back();
+				this.$router.replace({name: 'patient-profile', params});
 			});	
 		},
 		data() {return {
-			record_references: [],
+			records: [],
 			showRecordModal: false,
 		}},
 		computed: {
-			reference() {
-				return this.$route.query.type.toUpperCase()
-			}
+			...mapGetters(['accountType']),
 		},
 		methods: {
 			async getReferences(refs = []) {
@@ -122,11 +147,17 @@
 			getComponentName() {
 				return this.$parent.getComponentName();
 			},
+			dispense(record) {
+				const {chcode} = this.$route.params;
+				this.$parent.markAsDispensed(chcode, record.reference, record.data.id).then(res => {
+					record.data.status = 1;
+				}).catch( err => console.log('Drug Dispensation Error!', err));
+			},
 			async getPatientRecord(ref_no = "") {
 				let {params: {chcode}, query: {type}} = this.$route;
 				const provider = this.getComponentName();
-				const url = `/api/${provider}/patients/${chcode}/records` 
-					+ (ref_no !== '' ? `/${ref_no}` : '')
+				const url = `/api/${provider}/patients/${chcode}/${type}`
+					// + (ref_no !== '' ? `/${ref_no}` : '')
 
 				return await axios.get(url, {params: {type}});
 			},

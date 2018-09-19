@@ -17317,16 +17317,41 @@ ul {
   margin: 0 auto;
 }
 
-#osq-login > section {
+#osq-login > section,
+#osq-login > form {
   width: 460px;
   padding: 30px;
 }
 
-#osq-login .input {
+#osq-login > section hr,
+#osq-login > form hr {
+  background-color: #8ab99a !important;
+}
+
+#osq-login .notification {
+  padding-bottom: .5rem;
+  padding-top: .5rem;
+}
+
+#osq-login .select,
+#osq-login .input,
+#osq-login .textarea {
   height: 50px;
-  width: 470px;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
+  display: block;
+}
+
+#osq-login .select select {
+  width: 100%;
+  height: 50px;
+}
+
+#osq-login .input {
+  height: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border: solid 1px #CECECE;
@@ -17334,13 +17359,19 @@ ul {
 }
 
 #osq-login button.is-submit {
+  background: #20B171;
   color: white;
+  -webkit-box-shadow: 0px 9px 6px -6px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 9px 6px -6px rgba(0, 0, 0, 0.5);
+}
+
+#osq-login .button {
   height: auto;
-  width: 200px;
+  width: 100px;
   padding: 5px 30px;
   text-align: center;
   border-radius: 0 !important;
-  background: #20B171;
+  border: none;
 }
 
 #osq-login a:link {

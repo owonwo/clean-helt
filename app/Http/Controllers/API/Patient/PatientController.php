@@ -20,37 +20,14 @@ class PatientController extends Controller
 {
     public function __construct()
     {
-<<<<<<< HEAD
         $this->middleware('auth:patient-api')->except('store', 'verify');
         $this->middleware(function ($request, $next) {
             $this->patient = auth('patient-api')->user();
-=======
-        $this->middleware('auth:patient-api',['except' => ['store', 'verify']]);
->>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
 
             return $next($request);
         });
     }
 
-<<<<<<< HEAD
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-=======
->>>>>>> 58625c3a77a4e0b5041759cf6991a0bf292ff55e
     public function store(Request $request)
     {
         $rule = $this->getRegRule();

@@ -1,10 +1,10 @@
 <template>
 	<section class="">
-		<form id="add-record" action="" @submit.prevent="">
+		<form id="add-record">
 			<!-- HEADER -->
 			<section id="header" style="grid-area: header">
 				<h1 class="title is-4 mb-0">Add Record</h1>
-				<button class="button is-success">
+				<button class="button is-success" @click="submit()" type="button">
 					<span class="icon"><i class="ti ti-save"></i></span>
 					<span>Save</span>
 				</button>				
@@ -19,10 +19,10 @@
 					</button>
 				</div>
 				<div class="menu">
-					<div v-if="symptom.visible" v-for="(symptom, index) in reverseSymptoms"
+					<div v-show="symptom.visible" v-for="(symptom, index) in reverseSymptoms"
 						:key="index" class="menu-list">
-						<a @click.prevent="symptom.visible = false" href="">
-							{{ symptom }} <i class="is-pulled-right ti ti-trash"></i>
+						<a @click.prevent="symptom.visible = false" href="#">
+							{{ symptom.text }} <i class="is-pulled-right ti ti-trash"></i>
 						</a>
 					</div>
 				</div>
@@ -62,9 +62,9 @@
 				<div class="menu">
 					<div v-if="prescript.visible" class="menu-list" v-for="(prescript, key, index) in fields.prescriptions">
 						<div v-if="prescript.edit">
-							<input type="text" v-model="prescript.name" class="input is-inline-block">
-							<input type="text" v-model="prescript.quantity" class="input is-inline-block">
-							<input type="text" v-model="prescript.frequency" class="input is-inline-block">
+							<input type="text" placeholder="Medicine" v-model="prescript.name" class="input is-inline-block">
+							<input type="text" placeholder="Quantity" v-model="prescript.quantity" class="input is-inline-block">
+							<input type="text" placeholder="Frequency" v-model="prescript.frequency" class="input is-inline-block">
 						</div>
 						<div v-else>
 							<div><b>{{ prescript.name }}</b> </div>
@@ -131,7 +131,7 @@
 				</div>
 				
 				<label class="menu-label">Conclusion</label>
-				<textarea style="width: 100%; max-width:100%" v-model="fields.conclusion" rows="10"></textarea>
+				<textarea style="width: 100%; max-width:100%" v-model="fields.comments" rows="10"></textarea>
 			</div>
 		</form>
 	</section>
@@ -167,7 +167,7 @@
 				extras: [],
 				prescriptions: [],
 				tests: [],
-				conclusion: '',
+				comments: '',
 				status: false,
 				taker: 0,
 			},
@@ -178,8 +178,9 @@
 		},
 		methods: {
 			addSymptom(event) {
-				let {symptom} = this.temps;
-				if(!_.isUndefined(symptom) && !_.isEmpty(symptom)) 
+				let {symptom: text} = this.temps;
+				let symptom = Object.assign({visible: true}, {text});
+				if(!_.isUndefined(symptom) && !_.isEmpty(symptom)) 	
 				this.fields.symptoms.push(symptom) && (this.temps.symptom = '');
 			},
 			addRecord(type = '') {
@@ -188,9 +189,9 @@
 				: (type !== 'test') || this.fields.tests.push(questionFactory().make()) ;
 			},
 			submit() {
-				let patient = 'CHP303900390920',
+				let {chcode} = this.$route.params,
 					data = this.fields;
-				this.$http.post('/api/doctor/patients/${patient}/diagnose', data).then((res) => {
+				this.$http.post(`/api/doctor/patients/${chcode}/diagnose`, data).then((res) => {
 					console.log('hello man!', res);
 				});
 			},
