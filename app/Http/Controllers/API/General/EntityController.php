@@ -8,23 +8,32 @@ use App\Http\Controllers\Controller;
 class EntityController extends Controller
 {
     private $openClasses = [
-        'App\\Models\\Doctor',
-        'App\\Models\\Pharmacy',
-        'App\\Models\\Laboratory',
-        'App\\Models\\Hospitals'
+        'doctors' => 'App\\Models\\Doctor',
+        'pharmacies' => 'App\\Models\\Pharmacy',
+        'laboratories' => 'App\\Models\\Laboratory',
+        'hospitals' => 'App\\Models\\Hospital'
     ];
 
-    public function index($type)
+    public function index($type = null)
     {
-        $model = $this->getEntity($type);
+        $data = [];
+        if ($type) {
+            $model = $this->getEntity($type);
 
-        if (class_exists($model) && $this->isOpen($type)) {
-            return response()->json([
-                $type => $model::latest()->paginate(30)
-            ], 200);
+            if (!(class_exists($model) && $this->isOpen($type)))
+                return response()->json(['message' => 'Data not found'], 404);
+
+            $data[$type] = $model::latest()->get();
+        } else {
+            foreach ($this->openClasses as $type => $class) {
+                $data[$type] = $class::latest()->get();
+            }
         }
 
-        return response()->json(['message' => 'Entity not found'], 404);
+        return response()->json([
+            'data' => $data
+        ], 200);
+
     }
 
     private function getEntity($type)
