@@ -30,7 +30,7 @@ class SendProvidersNotificationRequest
     public function handle(PatientSharedProfile $event)
     {
         //
-        $event->provider->notify(new PatientProfileSharedNotification($event->patient));
+        $event->provider->notify(new PatientProfileSharedNotification($event->patient,$event->provider));
 
     }
 }

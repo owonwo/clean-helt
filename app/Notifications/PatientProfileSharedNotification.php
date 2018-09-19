@@ -12,16 +12,18 @@ class PatientProfileSharedNotification extends Notification
 {
     use Queueable;
     public $patient;
+    public $provider;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Patient $patient)
+    public function __construct(Patient $patient, $provider)
     {
         //
         $this->patient = $patient;
+        $this->provider = $provider;
     }
 
     /**
@@ -32,7 +34,7 @@ class PatientProfileSharedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['database'];
     }
 
     /**
@@ -41,13 +43,13 @@ class PatientProfileSharedNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+//    public function toMail($notifiable)
+//    {
+//        return (new MailMessage)
+//                    ->line('The introduction to the notification.')
+//                    ->action('Notification Action', url('/'))
+//                    ->line('Thank you for using our application!');
+//    }
 
     /**
      * Get the array representation of the notification.
@@ -58,7 +60,7 @@ class PatientProfileSharedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'data' => $this->patient->first_name.' '.$this->patient->last_name.' shared his profile with you please accept or ignore'
         ];
     }
 }

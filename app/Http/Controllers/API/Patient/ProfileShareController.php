@@ -58,7 +58,16 @@ class ProfileShareController extends Controller
                 'expired_at' => request('expiration')
             ]);
             //Fire an event that tells providers that patient has been shared
+
+            //how to locate it
+            /**
+             * App/event/PatientSharedProfile
+             * App/notification/PatientProfileSharedNotification
+             * App/listener/SendProvidersNotificationRequest
+             */
+
             event(new PatientSharedProfile($provider,$this->patient));
+
             if ($share) {
                 return response()->json([
                     'message' => 'Profile shared successfully',

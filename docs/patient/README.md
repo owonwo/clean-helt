@@ -3005,6 +3005,9 @@ Response
 ```
 
 ### Search for doctors with chcode 
+
+**`POST api/patient/doctors`** 
+
  sample data
  
 ``` 
@@ -3039,4 +3042,109 @@ response
     }
 }
 ```
+
+## Patient Notification
+
+### All Patient Notification 
+
+**`GET api/patient/notification`**
+
+```json
+{
+    "message": "Notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "ae42d3ae-a4a8-4e4d-975b-de3f9ddd21d6",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:55",
+                "updated_at": "2018-09-17 17:38:55"
+            },
+            {
+                "id": "2dcee6b8-38f4-4131-929f-0fad216abdbf",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:52",
+                "updated_at": "2018-09-17 17:38:52"
+            },
+            {
+                "id": "c5ee551c-c7d5-436f-870b-c96ccf0461ed",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:45",
+                "updated_at": "2018-09-17 17:38:45"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/notifications?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/notifications?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/notifications",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}
+```
+<br>
+
+### Make unread message as read
+
+**`GET api/patient/notification/unread/{id}`**
+
+``` 
+{id} = c5ee551c-c7d5-436f-870b-c96ccf0461ed
+```
+
+```json
+{
+    "message": "Mark as read",
+    "notification": {
+        "id": "c5ee551c-c7d5-436f-870b-c96ccf0461ed",
+        "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+        "notifiable_type": "App\\Models\\Patient",
+        "notifiable_id": 1,
+        "data": {
+            "data": "You have a new medical record added"
+        },
+        "read_at": "2018-09-19 02:00:09",
+        "created_at": "2018-09-17 17:38:45",
+        "updated_at": "2018-09-19 02:00:09"
+    }
+}
+```
+
+### Delete notification
+**`GET api/patient/notification/delete/{id}`**
+
+``` 
+{id} = f789cc03-4c51-481f-b52a-812fbf614663
+```
+
+response 
+```json
+{
+    "message": "Notification deleted"
+}
+```
+
 
