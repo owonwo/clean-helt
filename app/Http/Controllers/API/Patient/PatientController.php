@@ -298,12 +298,10 @@ class PatientController extends Controller
             'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
     }
-    
+
     public function showDoctor()
     {
-
         $chcode = request()->chcode;
-
         $doctor = Doctor::whereChcode($chcode)->get()->first();
         
         if ($doctor) {
