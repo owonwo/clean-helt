@@ -6,14 +6,15 @@
 
 ### Accessing Entities
 
-**`GET /entity/{entity}`**
+**`GET /entity/{entity?}`**
 
-Returns a list of specified entity - if available and open
+Returns a list of specified entity - if available and open. If entity is not specified,
+it returns a list of all open entities
 
 Sample Data:
 
 ```
-{entity} => [doctors|hospitals|pharmacies|laboratories]
+{entity} => [doctors|hospitals|pharmacies|laboratories|optional] 
 ```
 
 Sample Response (Pharmacies)
