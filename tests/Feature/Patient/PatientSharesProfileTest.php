@@ -37,6 +37,27 @@ class PatientSharesProfileTest extends TestCase
         ]);
     }
     /** @test */
+    public function a_patient_can_share_his_profile_only_once(){
+        $patient = create(Patient::class);
+        $provider = create(Doctor::class);
+        $this->signIn($patient, 'patient');
+        $this->makeAuthRequest()
+            ->post(route('patient.profile.share'), [
+                'chcode' => $provider->chcode,
+                'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
+            ]);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'patient_id' => $patient->id,
+        ]);
+        $this->makeAuthRequest()
+            ->post(route('patient.profile.share'), [
+                'chcode' => $provider->chcode,
+                'expiration' => Carbon::now()->addDay(1)->format('Y-m-d h:i:s')
+            ])->assertStatus(400);
+
+    }
+    /** @test */
     public function a_notification_is_sent_to_providers_that_patient_profile_has_been_shared_with(){
         //Given i have a patient who is signed in
         $patient = create('App\Models\Patient');
@@ -149,7 +170,7 @@ class PatientSharesProfileTest extends TestCase
 
         $this->signIn($patient, 'patient');
 
-        // New expiration
+        // New expirati on
         $expiration = $shareOne->expired_at->addDays(1)->format('Y-m-d h:i:s');
 
         $update = ['extension' => $expiration];
