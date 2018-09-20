@@ -14,7 +14,7 @@ class ProfileShareController extends Controller
     //
     public function pending(){
         $doctor =  auth()->guard('doctor')->user();
-        $pendingPatients = ProfileShare::where([['provider_id', optional($doctor)->id],['status','=','0'],['']])->get();
+        $pendingPatients = ProfileShare::where([['provider_id', optional($doctor)->id],['status','=','0']])->get();
 
         if($pendingPatients){
              return response()->json([
