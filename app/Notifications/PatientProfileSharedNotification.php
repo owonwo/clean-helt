@@ -34,7 +34,7 @@ class PatientProfileSharedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail','database'];
     }
 
     /**
@@ -43,13 +43,14 @@ class PatientProfileSharedNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-//    public function toMail($notifiable)
-//    {
-//        return (new MailMessage)
-//                    ->line('The introduction to the notification.')
-//                    ->action('Notification Action', url('/'))
-//                    ->line('Thank you for using our application!');
-//    }
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->greeting('Hello '.$this->provider->name)
+                    ->line('Clean-Helt (Profile Shares)')
+                    ->line($this->patient->first_name.' '.$this->patient->last_name.' shared his profile with you')
+                    ->line('Thank you for using our application!');
+    }
 
     /**
      * Get the array representation of the notification.
