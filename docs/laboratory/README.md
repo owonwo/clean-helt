@@ -383,3 +383,150 @@ Sample Data
     }
 }
 ```
+
+<br>
+
+## notification
+
+###Get all notifications
+
+**`GET api/laboratories/notifications`**
+
+```json
+{
+    "message": "Notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "07478316-81d9-491b-8460-19822c08f569",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Laboratory",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:25:00",
+                "updated_at": "2018-09-20 01:25:00"
+            },
+            {
+                "id": "74ba7cef-bc5e-4875-8992-7c4fe083fe91",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Laboratory",
+                "notifiable_id": 1,
+                "data": [],
+                "read_at": null,
+                "created_at": "2018-09-19 13:51:50",
+                "updated_at": "2018-09-19 13:51:50"
+            },
+            {
+                "id": "5a3e104a-6a88-4e56-82cf-3e3bfab63afb",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Laboratory",
+                "notifiable_id": 1,
+                "data": [],
+                "read_at": null,
+                "created_at": "2018-09-19 13:44:14",
+                "updated_at": "2018-09-19 13:44:14"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/laboratories/notifications?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/laboratories/notifications?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/laboratories/notifications",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}
+```
+
+###Get unread messages
+
+**`GET api/laboratories/notification/unread`**
+
+```json
+{
+    "message": "Unread notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "07478316-81d9-491b-8460-19822c08f569",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Laboratory",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:25:00",
+                "updated_at": "2018-09-20 01:25:00"
+            },
+            {
+                "id": "5a3e104a-6a88-4e56-82cf-3e3bfab63afb",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Laboratory",
+                "notifiable_id": 1,
+                "data": [],
+                "read_at": null,
+                "created_at": "2018-09-19 13:44:14",
+                "updated_at": "2018-09-19 13:44:14"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/laboratories/notification/unread?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/laboratories/notification/unread?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/laboratories/notification/unread",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+    }
+}
+```
+
+###Get unread messages
+
+**`GET api/laboratories/notification/read/{id}`**
+
+sample
+
+``` 
+{id} = 5a3e104a-6a88-4e56-82cf-3e3bfab63afb
+```
+
+response
+
+```json
+{
+    "message": "Mark as read",
+    "notification": {
+        "id": "5a3e104a-6a88-4e56-82cf-3e3bfab63afb",
+        "type": "App\\Notifications\\PatientProfileSharedNotification",
+        "notifiable_type": "App\\Models\\Laboratory",
+        "notifiable_id": 1,
+        "data": [],
+        "read_at": "2018-09-20 14:12:55",
+        "created_at": "2018-09-19 13:44:14",
+        "updated_at": "2018-09-20 14:12:55"
+    }
+}
+```
+
+
+###Delete Notification
+
+**`DELETE api/laboratories/notification/delete/{id}`**
+
+```json
+{
+    "message": "notification deleted"
+}
+```

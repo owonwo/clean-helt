@@ -404,3 +404,187 @@ Sample Response:
 }
 ```
 <br/>
+
+## Notification
+
+###Get all notification
+
+**`Get api/pharmacy/notifications`** 
+
+```json
+{
+    "message": "Notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "afcc59f0-9865-4984-81f3-99601e590280",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:26:43",
+                "updated_at": "2018-09-20 01:26:43"
+            },
+            {
+                "id": "56251ca9-aa40-4bee-867a-cfe2c9d109ca",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-19 14:24:27",
+                "updated_at": "2018-09-19 14:24:27"
+            },
+            {
+                "id": "7963cfac-9f8f-4e07-b644-6ad8cc3c73ff",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-19 14:24:19",
+                "updated_at": "2018-09-19 14:24:19"
+            },
+            {
+                "id": "6a4d05e8-be86-4cde-a6c8-0c5b5a838669",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-19 14:07:23",
+                "updated_at": "2018-09-19 14:07:23"
+            },
+            {
+                "id": "9bc7417f-5ead-416a-9ef7-151a824031a5",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": [],
+                "read_at": null,
+                "created_at": "2018-09-19 13:53:29",
+                "updated_at": "2018-09-19 13:53:29"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/pharmacy/notifications?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/pharmacy/notifications?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/pharmacy/notifications",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 5,
+        "total": 5
+    }
+}
+```
+
+###Get all unread messages
+
+**`Get api/pharmacy/notifications`**
+
+```json
+{
+    "message": "Unread notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "afcc59f0-9865-4984-81f3-99601e590280",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:26:43",
+                "updated_at": "2018-09-20 01:26:43"
+            },
+            {
+                "id": "56251ca9-aa40-4bee-867a-cfe2c9d109ca",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-19 14:24:27",
+                "updated_at": "2018-09-19 14:24:27"
+            },
+            {
+                "id": "7963cfac-9f8f-4e07-b644-6ad8cc3c73ff",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Pharmacy",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-19 14:24:19",
+                "updated_at": "2018-09-19 14:24:19"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/pharmacy/notification/unread?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/pharmacy/notification/unread?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/pharmacy/notification/unread",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 5,
+        "total": 5
+    }
+}
+```
+
+###Mark unread message as read
+
+**`Get api/pharmacy/notification/read/{id}`**
+
+``` 
+{id} = 9bc7417f-5ead-416a-9ef7-151a824031a5
+```
+
+```json
+{
+    "message": "Mark as read",
+    "notification": {
+        "id": "9bc7417f-5ead-416a-9ef7-151a824031a5",
+        "type": "App\\Notifications\\PatientProfileSharedNotification",
+        "notifiable_type": "App\\Models\\Pharmacy",
+        "notifiable_id": 1,
+        "data": [],
+        "read_at": "2018-09-20 14:42:14",
+        "created_at": "2018-09-19 13:53:29",
+        "updated_at": "2018-09-20 14:42:14"
+    }
+}
+```
+
+### delete message
+
+**`Get api/pharmacy/notification/delete/{id}`**
+
+``` 
+{id} = 9bc7417f-5ead-416a-9ef7-151a824031a5
+```
+
+```json
+{
+    "message": "notification deleted"
+}
+```
