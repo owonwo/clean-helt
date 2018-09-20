@@ -33,7 +33,7 @@ class ProfileShareController extends Controller
 
     public function accept(ProfileShare $profileShare)
     {
-        if($profileShare->exists && $profileShare->update(['status' => request('accept')])){
+        if($profileShare->exists && $profileShare->update(['status' => 1])){
 
             return response()->json([
                 'message' => 'Profile share has been accepted',
@@ -47,7 +47,7 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        if($profileShare->update(['status' => request('decline')])){
+        if($profileShare->update(['status' => 2])){
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'profileShare' => $profileShare
