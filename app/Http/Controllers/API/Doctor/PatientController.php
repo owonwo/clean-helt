@@ -81,7 +81,7 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient LabTest retrieved successfully',
-                'labTest' => $patient->medicalRecords('App\Models\LabTest')->get()->load('data'),
+                'labTest' => $patient->medicalRecords("App\Models\LabTest")->get()->load('data'),
             ], 200);
         }
         return response()->json([

@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
          $this->middleware('auth:doctor-api');
     }
     //
@@ -16,7 +17,8 @@ class ProfileShareController extends Controller
         $doctor =  auth()->guard('doctor-api')->user();
         $pendingPatients = ProfileShare::where('provider_id', optional($doctor)->id)->where('status','0')->where('provider_type','App\Models\Doctor')->get();
 
-        if($pendingPatients){
+        if($pendingPatients)
+        { 
              return response()->json([
             'message' => 'All Pending patients loaded',
             'pendingPatients' => $pendingPatients
@@ -30,7 +32,20 @@ class ProfileShareController extends Controller
 
         //steps one check the get the provider->id and use it to get all his patients and check his status column
     }
-
+    public function accepted(ProfileShare $profileShare){
+        $doctor =  auth()->guard('doctor-api')->user();
+        $acceptedPatients = ProfileShare::where('provider_id', optional($doctor)->id)->where('status','1')->where('provider_type','App\Models\Doctor')->get();
+        if($acceptedPatients)
+        {
+            return response()->json([
+                'message' => 'All Accepted patients loaded',
+                'acceptedPatients' => $acceptedPatients
+            ]);
+        }
+        return response()->json([
+            'message' => 'Shit!! get outta here'
+        ],403);
+    }
     public function accept(ProfileShare $profileShare)
     
     {
