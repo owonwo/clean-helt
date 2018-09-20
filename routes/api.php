@@ -105,7 +105,8 @@ Route::group(['namespace' => 'API'], function() {
     });
     //End of all routes for doctor
 
-    Route::post('patient/register', 'PatientController@store')->name('patient.register');
+    Route::post('patient/register', 'Patient/PatientController@store')->name('patient.register');
+    Route::get('patient/verify/{email}/{verifyToken}', 'Patient/PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function() {
         Route::get('/{patient}/medical-records','PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
@@ -113,9 +114,8 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('/medical-record/{patient}', 'PatientController@showDate');
         Route::get('/{patient}/labtest', 'PatientController@showLabtest');
         Route::get('/{patient}/prescription', 'PatientController@showPrescription');
-        Route::get('/verify/{email}/{verifyToken}', 'PatientController@verify')->name('patient.confirmation.mail');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
-<<<<<<< HEAD
+
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');
         Route::get('laboratories', 'PatientController@showLaboratories');
@@ -123,12 +123,11 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('pharmacies', 'PatientController@showPharmacies');
         Route::get('pharmacy/{pharmacy}', 'PatientController@showPharmacy');
         Route::get('medical-centers','PatientController@showMedicalCenter');
-=======
 
->>>>>>> d96d4b0864aa26367f18683000e1067e017fcc74
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::get('notifications', 'NotificationController@showNotification')->name('patient.notification');
-        Route::get('notification/unread/{id}', 'NotificationController@unreadNotification')->name('patient.unread.notification');
+        Route::get('notification/unread', 'NotificationController@unreadNotification')->name('patient.unread.notification');
+        Route::get('notification/read/{id}', 'NotificationController@readNotification')->name('patient.read.notification');
         Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('patient.delete.notification');
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
@@ -151,6 +150,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('patient/{patient}/records/{medicalRecord}/{labTest}', 'MedicalRecordController@testrecord');
         Route::patch('patient/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
         Route::patch('patient/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
+        Route::get('notifications', 'NotificationController@showNotification')->name('laboratory.notification');
+        Route::get('notification/read/{id}', 'NotificationController@readNotification')->name('laboratory.read.notification');
+        Route::get('notification/unread', 'NotificationController@unreadNotification')->name('laboratory.unread.notification');
+        Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('laboratory.delete.notification');
     });
 
     Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital', 'middleware' => ['api', 'auth:hospital-api']], function() {
@@ -170,6 +173,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('doctors/{doctor}/accept', 'DoctorController@accept');
         Route::patch('doctors/{doctor}/decline', 'DoctorController@decline');
         Route::delete('doctors/{doctor}/delete', 'DoctorController@remove');
+        Route::get('notifications', 'NotificationController@showNotification')->name('hospital.notification');
+        Route::get('notification/read/{id}', 'NotificationController@readNotification')->name('hospital.read.notification');
+        Route::get('notification/unread', 'NotificationController@unreadNotification')->name('hospital.unread.notification');
+        Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('hospital.delete.notification');
     });
 
     Route::group(['prefix' => 'pharmacy', 'namespace' => 'Pharmacy', 'middleware' => ['api', 'auth:pharmacy-api']], function() {
@@ -182,6 +189,10 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('patients/{patient}/records', 'MedicalRecordController@index');
         Route::get('patients/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
         Route::patch('patients/{patient}/records/{medicalRecord}/{prescription}', 'MedicalRecordController@dispense');
+        Route::get('notifications', 'NotificationController@showNotification')->name('pharmacy.notification');
+        Route::get('notification/read/{id}', 'NotificationController@readNotification')->name('pharmacy.read.notification');
+        Route::get('notification/unread', 'NotificationController@unreadNotification')->name('pharmacy.unread.notification');
+        Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('pharmacy.delete.notification');
     });
 });
 

@@ -33,7 +33,23 @@ class NotificationController extends Controller
         }
     }
 
-    public function unreadNotification($id)
+    public function unreadNotification()
+    {
+        try {
+            $notification = optional($this->patient)->unreadNotifications()->paginate(10);
+
+            return response()->json([
+                'message' => 'Unread notification loaded successfully',
+                'notification' => $notification,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 403);
+        }
+    }
+
+    public function readNotification($id)
     {
         try {
             $notification = optional($this->patient)->notifications()->where('id', $id)->first();
@@ -52,19 +68,7 @@ class NotificationController extends Controller
                 'error' => $e->getMessage()
             ],403);
         }
-//        try {
-//            foreach ($this->patient->unreadNotifications as $notification)
-//            {
-//                return response()->json([
-//                    'message' => 'Notification read successfully',
-//                    'notification' => $notification->markAsRead(),
-//                ]);
-//            }
-//        } catch (Exception $e) {
-//            return response()->json([
-//                'error' => $e->getMessage()
-//            ], 403);
-//        }
+
     }
 
     public function deleteNotification($id)
