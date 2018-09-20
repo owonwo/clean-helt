@@ -11,7 +11,7 @@
 
             <div class="column is-half">
                 <section class="card">
-                    <div class="card-header"><span class="card-header-title"> Add A Hospital</span></div>
+                    <div class="card-header"><span class="card-header-title">Join a Hospital</span></div>
                     <div class="card-content">
                         <AddServiceProvider @success="success" model="DOCTOR"/>
                     </div>

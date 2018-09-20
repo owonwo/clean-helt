@@ -36,6 +36,12 @@
 	</section>
 </template>
 
+<style scoped>
+	.notifications {
+		position: relative;
+	}
+</style>
+
 <script>
 import NotificationCard from '@/components/NotificationCard.vue';
 

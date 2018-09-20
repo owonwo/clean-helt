@@ -84,12 +84,12 @@
 					    <accordion class="menu">
 							<template slot="heading">Next of Kin<!-- Emergency Contact --></template>
 							<section slot="content" class="content">
-								<h1 class="title is-5 mb-0">Micheal Obiks</h1>
+								<h1 class="title is-5 mb-0">{{ user.nok_name }}</h1>
 								<div>
-									<small>Email Address: mic.obiks@gmail.com</small>
+									<small>Email Address: {{ user.nok_email }}</small>
 								</div>
 								<div>
-									<small>Phone Number: 03859300959</small>
+									<small>Phone Number: {{ user.nok_phone }}</small>
 								</div>
 							</section>
 						</accordion>

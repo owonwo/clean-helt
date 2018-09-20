@@ -4,7 +4,6 @@
 <head>
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/admin.css') }}">
     <script src="{{ asset('/js/admin.js') }}"></script>
     <style>
     	[v-cloak] { display: none;}

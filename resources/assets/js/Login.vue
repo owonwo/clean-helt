@@ -54,8 +54,8 @@ export default {
             'HOSPITAL': {auth_key: 'hospital', name: 'hospitals'},
         },
         apiClient: {
-            client_id: '2',
-            client_secret: 'q0NNWjUhZTNqLlFq0noYyru70LkADVuK5kZj8M9b',
+            client_id: '8',
+            client_secret: 'qBn2wu2iumJRVACf8sDfjlEGtTHjXc1f2FsYO9qr',
             grant_type: 'password'
         }
     }},

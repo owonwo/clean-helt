@@ -16741,7 +16741,7 @@ a[ghost] {
   display: grid;
   background-color: white;
   grid-template-columns: 282px 1fr;
-  grid-template-rows: 209px 300px;
+  grid-template-rows: minmax(209px, 1fr) auto;
   grid-template-areas: "aside section" "nav section";
 }
 

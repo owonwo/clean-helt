@@ -142,7 +142,8 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
-        $exists = DB::table('doctor_hospital')->where('hospital_id',$hospital->id)->where('doctor_id',$doctor->id)->first();
+        $hospital = Hospital::where(['chcode' => $chcode])->first();
+        $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id',$doctor->id)->first();
         try {
             if (!$exists) {
                 DoctorHospital::forceCreate([

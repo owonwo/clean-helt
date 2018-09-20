@@ -146,6 +146,7 @@
         <notifications group="create" :position="['right', 'bottom']"></notifications>
     </section>
 </template>
+
 <script>
 export default {
     name: 'CreateServiceProvider',
@@ -194,7 +195,7 @@ export default {
             return this.model === model;
         },
         set(model, node) {
-        	log($(event.target).addClass('is-primary').siblings().removeClass('is-primary')
+        	$(event.target).addClass('is-primary').siblings().removeClass('is-primary')
         	this.model = model
         },
         getData() {

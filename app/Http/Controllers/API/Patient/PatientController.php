@@ -52,7 +52,7 @@ class PatientController extends Controller
             if ($patient = Patient::create(array_merge($data, $token))) {
                 $accessToken = $patient->createToken(config('app.name'))->accessToken;
 
-                // $this->sendConfirmationMail($patient);
+                $this->sendConfirmationMail($patient);
 
                 return response()->json([
                     'message' => 'Congratulation! you have successfully created patient record',

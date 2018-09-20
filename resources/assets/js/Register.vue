@@ -106,6 +106,9 @@
                         <input v-model="field.nok_name" placeholder="Next of Kin" class="input" type="text">
                     </div>
                     <div class="field">
+                        <input v-model="field.nok_email" placeholder="Email" class="input" type="email">
+                    </div>                    
+                    <div class="field">
                         <input v-model="field.nok_phone" min="0" minlength="11" placeholder="Phone Number" class="input" type="number">
                     </div>                    
                     <div class="field">
@@ -158,7 +161,7 @@
                 <section slot="p4">
                     <div>
                         <h3 class="title mt-30 is-4">Registration Succesful</h3>
-                        <p class="mb-50">You have successfully registered you account. A account verification email has been sent to your 
+                        <p class="mb-50">You have successfully registered you account. An account verification email has been sent to your 
                         email.</p>
                         <button @click="visit_login" class="button is-primary">Login</button>
                     </div>
@@ -182,7 +185,7 @@ export default {
     data() {
         return {
             page: 0,
-            field: {"first_name":"Joseph","middle_name":"Julius ","last_name":"Owonvwon","dob":"2018-09-21","gender":"male","phone":"08135957512","email":"joseph.owonwo@gmail.com","password":"secret","address":"27 Ataba Street, Mile 3 Diobu, Port-Harcourt","city":"Port Harcourt","state":"Rivers","country":"Nigeria","religion":"Christainity","marital_status":"Single","nok_name":"Jonathan Owovnwon","nok_phone":"08038897204","nok_address":"27b Ataba Street, Mile 3 Diobu","nok_city":"Port Harcourt","nok_state":"Bayelsa","nok_country":"Nigeria"},
+            field: {},
             login_details: {
                 username: "",
                 password: "",

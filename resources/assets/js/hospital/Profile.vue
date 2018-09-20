@@ -7,11 +7,10 @@
 			<aside>
 				<img style="height: 100px; width: 100px" src="/images/assets/avatar.jpg" alt=""
 					class="avatar has-shadow">
-				<p class="subtitle is-5 mb-5 has-text-white">{{ user.name }}</p>
 				<div class="has-text-centered" style="width: 100%">
-					<div class="is-small"><small>{{ user.chcode }}</small></div>
+					<p class="subtitle is-5 mb-5 has-text-white">{{ user.name }}</p>
 					<button class="button is-primary is-rounded">change logo <i class="ml-5 ti ti-pencil"></i></button>
-				</div>
+				</div> 
 			</aside>
 			<nav class="osq-sidenav p-10">
 				<div class="menu">
@@ -37,7 +36,7 @@
 									<th>Email</th>
 									<td>{{ user.email }}</td>
 								</tr>
-								<tr>
+								<tr> 
 									<th>Telephone</th>
 									<td>{{user.phone}}</td>
 								</tr>
