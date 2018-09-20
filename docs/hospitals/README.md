@@ -607,7 +607,7 @@ Sample Response:
 
 ## Notification
 
-###Get all notification
+### Get all notification
 
 **`Get api/hospital/notifications`**
 
@@ -666,7 +666,7 @@ Sample Response:
 }
 ```
 
-###Get unread messages
+### Get unread messages
 
 **`Get api/hospital/notification/unread`**
 
@@ -703,7 +703,7 @@ Sample Response:
 }
 ```
 
-###Mark message as read
+### Mark message as read
 
 **`GET api/hospital/notification/read/{id}`**
 
@@ -732,7 +732,7 @@ response
 }
 ```
 
-###Delete message
+### Delete message
 
 **`GET api/hospital/notification/read/{id}`**
 

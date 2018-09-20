@@ -189,33 +189,6 @@ Response
 <br/>
 
 ## Medical Record view 
-### Patient Medical Record by Date 
-
-
-**`GET  api/patient/medical-record/{patient}`**
-```
-{patient} = chcode 
-```
-
-```json
-{
-    "message": "access medical record by date",
-    "patient": [
-        {
-            "id": 2,
-            "reference": "CHR750289728",
-            "patient_id": 51,
-            "type": "App\\Models\\Diagnosis",
-            "issuer_type": "App\\Models\\Doctor",
-            "issuer_id": 2,
-            "created_at": "2018-09-05 13:41:35",
-            "updated_at": "2018-09-05 13:41:35",
-            "deleted_at": null,
-            "data": []
-        }
-    ]
-}
-```
 
 ### Get The Patient Profile Share 
 
@@ -815,7 +788,7 @@ Response
 
 ### Get all patient laboratory test
 
-**`GET api/patient/{patient}/labtest`**
+**`GET api/patient/labtest`**
 
 ```json
 {
@@ -866,7 +839,7 @@ Response
 
 ### Patient viewing prescription or pharmacy 
 
-**`GET api/patient/{patient}/prescription`**
+**`GET api/patient/prescription`**
 
 ```
 {patient} = chcode  
@@ -933,11 +906,8 @@ Response
 ```
 ### Get medical record
 
-**`GET api/patient/{patient}/medical-records`**
-
-```
-{patient} = chcode 
-```
+**`GET api/patient/medical-records`**
+`
 
 ```json
 {

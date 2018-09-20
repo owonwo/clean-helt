@@ -407,7 +407,7 @@ Sample Response:
 
 ## Notification
 
-###Get all notification
+### Get all notification
 
 **`Get api/pharmacy/notifications`** 
 
@@ -490,7 +490,7 @@ Sample Response:
 }
 ```
 
-###Get all unread messages
+### Get all unread messages
 
 **`Get api/pharmacy/notifications`**
 
@@ -551,7 +551,7 @@ Sample Response:
 }
 ```
 
-###Mark unread message as read
+### Mark unread message as read
 
 **`Get api/pharmacy/notification/read/{id}`**
 
