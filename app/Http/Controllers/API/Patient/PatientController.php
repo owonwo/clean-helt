@@ -10,7 +10,7 @@ use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Exception;                                             
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
@@ -31,7 +31,6 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $rule = $this->getRegRule();
-
         try {
             $this->validate($request, $rule);
         } catch (ValidationException $exception) {
@@ -53,7 +52,7 @@ class PatientController extends Controller
             if ($patient = Patient::create(array_merge($data, $token))) {
                 $accessToken = $patient->createToken(config('app.name'))->accessToken;
 
-                $this->sendConfirmationMail($patient);
+                // $this->sendConfirmationMail($patient);
 
                 return response()->json([
                     'message' => 'Congratulation! you have successfully created patient record',
@@ -216,59 +215,55 @@ class PatientController extends Controller
 
     public function showHospitals()
     {
-
         $hospital = Hospital::orderBy('name', 'desc')->paginate(20);
 
         return response()->json([
             'message' => 'fetch all hospital by name',
-            'hospitals' => $hospital
+            'hospitals' => $hospital,
         ], 200);
     }
 
-    public  function showHospital(Hospital $hospital)
+    public function showHospital(Hospital $hospital)
     {
         return response()->json([
             'message' => 'fetch all hospital by name',
-            'hospital' => $hospital
+            'hospital' => $hospital,
         ], 200);
     }
 
     public function showLaboratories()
     {
-
         $laboratory = Laboratory::orderBy('name', 'desc')->paginate(20);
 
         return response()->json([
             'message' => 'fetch all laboratory by name',
-            'laboratories' => $laboratory
+            'laboratories' => $laboratory,
         ], 200);
     }
 
-    public  function showLaboratory(Laboratory $laboratory)
+    public function showLaboratory(Laboratory $laboratory)
     {
         return response()->json([
             'message' => 'fetch individual laboratory',
-            'laboratory' => $laboratory
+            'laboratory' => $laboratory,
         ], 200);
     }
 
-
     public function showPharmacies()
     {
-
         $pharmacy = Pharmacy::orderBy('name', 'desc')->paginate(20);
 
         return response()->json([
             'message' => 'fetch all pharmacy by name',
-            'pharmacies' => $pharmacy
+            'pharmacies' => $pharmacy,
         ], 200);
     }
 
-    public  function showPharmacy(Pharmacy $pharmacy)
+    public function showPharmacy(Pharmacy $pharmacy)
     {
         return response()->json([
             'message' => 'fetch individual pharmacy',
-            'pharmacy' => $pharmacy
+            'pharmacy' => $pharmacy,
         ], 200);
     }
 
@@ -291,7 +286,13 @@ class PatientController extends Controller
         try {
             return response()->json([
                 'message' => 'Medical records successfully Loaded',
-                'records' => $patient->medicalRecords()->latest()->get()->load('data'),
+                'records' => $patient->medicalRecords()->latest()->get()->each(function ($model) {
+                    $model->data;
+                    $model->data->extras = json_decode($model->data->extras);
+                    $model->data->symptoms = json_decode($model->data->symptoms);
+
+                    return $model;
+                }),
             ], 200);
         } catch (Exception $exception) {
             return response()->json([
@@ -345,7 +346,7 @@ class PatientController extends Controller
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6',
-            'phone' => 'required|digit:11',
+            'phone' => 'required|unique:patients|digits:11',
         ];
     }
 
@@ -361,21 +362,21 @@ class PatientController extends Controller
             'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
     }
-    
-    public function showDoctor(){
-        
+
+    public function showDoctor()
+    {
         $chcode = request()->chcode;
         $doctor = Doctor::whereChcode($chcode)->get()->first();
-        
+
         if ($doctor) {
             return response()->json([
                 'message' => 'Doctor retrieved successfully',
                 'doctor' => $doctor,
             ], 200);
         } else {
-             return response()->json([
+            return response()->json([
                 'message' => 'Doctor not found',
-                $doctor => null
+                $doctor => null,
             ], 200);
         }
 

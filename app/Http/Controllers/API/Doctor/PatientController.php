@@ -53,7 +53,7 @@ class PatientController extends Controller
             
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
-                'records' => $records
+                'data' => $records
             ], 200);
         }
 
@@ -83,7 +83,9 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient LabTest retrieved successfully',
-                'labTest' => $patient->medicalRecords('App\Models\LabTest')->get()->load('data'),
+                'data' => $patient->medicalRecords('App\Models\LabTest')->get()->each(function($test) {
+                    return $test->data;
+                }),
             ], 200);
         }
 
@@ -100,7 +102,9 @@ class PatientController extends Controller
         }
 
         return response()->json([
-            'data' => $medicalRecord->get()->load('data'),
+            'data' => $medicalRecord->get()->each(function($record) {
+                return $record->data;
+            }),
         ], 200);
     }
 
@@ -110,7 +114,9 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient Prescription retrieved successfully',
-                'prescriptions' => $patient->medicalRecords('App\Models\Prescription')->get()->load('data'),
+                'data' => $patient->medicalRecords('App\Models\Prescription')->get()->each(function($pre) {
+                    return $pre->data;
+                }),
             ], 200);
         }
 

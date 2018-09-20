@@ -151,6 +151,7 @@ class DoctorController extends Controller
                     'actor' => get_class($doctor),
                 ]);
             } else {
+                return response()->json([
                     'message' => 'You have added this hospital already.',
                 ], 409);
             }

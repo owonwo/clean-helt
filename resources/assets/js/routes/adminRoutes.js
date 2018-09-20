@@ -1,6 +1,7 @@
 import Router from 'vue-router'
 import Dashboard from '@/admin/Dashboard.vue'
 import NotificationPage from '@/admin/NotificationPage.vue'
+import CreateServiceProvider from '@/admin/CreateServiceProvider.vue'
 import Notifications from '@/components/Notifications.vue'
 import Users from '@/admin/Users.vue'
 
@@ -16,6 +17,11 @@ const adminRoutes = [
   {
     path: '/users', name: 'users',
     component: Users,
+  }, 
+  {
+    path: '/create-provider', 
+    name: 'create_provider',
+    component: CreateServiceProvider,
   }, 
   {
     path: '/notifications', name: 'notificaiton',

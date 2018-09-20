@@ -17,8 +17,7 @@ class MedicalRecordController extends Controller
     public function __construct()
     {
         $this->middleware('auth:pharmacy-api');
-        $this->middleware(function($request, $next) {
-
+        $this->middleware(function ($request, $next) {
             $this->pharmacy = auth()->user();
 
             return $next($request);
@@ -29,13 +28,14 @@ class MedicalRecordController extends Controller
     {
         if ($patient->exists && $this->pharmacy->canViewProfile($patient)) {
             $records = $patient->medicalRecords('App\Models\Prescription')
-                                ->filter($filters)
+                                // ->filter($filters)
                                 ->latest()
                                 ->paginate(30);
+            $records->each(function ($record) {
+                return $record->data;
+            });
 
-            return response()->json([
-                'records' => $records
-            ], 200);
+            return response()->json($records, 200);
         }
 
         return response()->json(['message' => 'Unauthorized'], 401);
@@ -43,39 +43,41 @@ class MedicalRecordController extends Controller
 
     public function show(Patient $patient, MedicalRecord $medicalRecord)
     {
-        if (!$this->pharmacy->canViewProfile($patient))
+        if (!$this->pharmacy->canViewProfile($patient)) {
             return response()->json(['message' => 'Unauthorized'], 401);
+        }
 
         return response()->json([
             'record' => $medicalRecord,
-            'data' => $medicalRecord->data
+            'data' => $medicalRecord->data,
         ], 200);
     }
 
     public function update(Patient $patient, MedicalRecord $medicalRecord, Prescription $prescription)
     {
-        if (!$this->pharmacy->canUpdatePatientPrescription($patient, $medicalRecord, $prescription))
+        if (!$this->pharmacy->canUpdatePatientPrescription($patient, $medicalRecord, $prescription)) {
             return response()->json(['message' => 'Data not found'], 404);
+        }
 
         $this->pharmacy->notify(new PatientPrescriptionNotification($patient, $prescription));
 
-        if ($prescription->update(request()->all()))
-        {
+        if ($prescription->update(request()->all())) {
             return response()->json([
                 'message' => 'Prescription dispensed successfully',
                 'prescription' => $prescription->fresh(),
-                'record' => $medicalRecord
+                'record' => $medicalRecord,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Prescription could not be dispensed'
+            'message' => 'Prescription could not be dispensed',
         ], 400);
     }
 
     public function dispense(Patient $patient, MedicalRecord $medicalRecord, Prescription $prescription)
     {
         request()->request->add(['status' => true]);
+
         return $this->update($patient, $medicalRecord, $prescription);
     }
 }
