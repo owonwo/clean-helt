@@ -109,12 +109,11 @@ Route::group(['namespace' => 'API'], function() {
     Route::post('patient/register', 'Patient/PatientController@store')->name('patient.register');
     Route::get('patient/verify/{email}/{verifyToken}', 'Patient/PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function() {
-        Route::get('/{patient}/medical-records','PatientController@showRecords');
+        Route::get('medical-records','PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch("/profile/update", 'PatientController@update');
-        Route::get('/medical-record/{patient}', 'PatientController@showDate');
-        Route::get('/{patient}/labtest', 'PatientController@showLabtest');
-        Route::get('/{patient}/prescription', 'PatientController@showPrescription');
+        Route::get('/labtest', 'PatientController@showLabtest');
+        Route::get('/prescription', 'PatientController@showPrescription');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
 
         Route::get('hospitals', 'PatientController@showHospitals');
