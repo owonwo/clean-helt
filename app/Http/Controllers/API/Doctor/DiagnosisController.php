@@ -126,10 +126,10 @@ class DiagnosisController extends Controller
                     'record_id' => $record,
                     'test_name' => $test['test_name'],
                     'description' => $test['description'],
-                    'result' => $test['result'],
-                    'conclusion' => $test['conclusion'],
-                    'status' => $test['status'],
-                    'taker' => $test['taker'],
+                    'result' => request('result'),
+                    'conclusion' => request('conclusion'),
+                    'status' => request('status'),
+                    'taker' => request('taker'),
                     'diagnosis_id' => $diagnosis
                 ]);
             }

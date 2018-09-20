@@ -13,8 +13,8 @@ class ProfileShareController extends Controller
     }
     //
     public function pending(){
-        $doctor =  auth()->guard('doctor')->user();
-        $pendingPatients = ProfileShare::where([['provider_id', optional($doctor)->id],['status','=','0']])->get();
+        $doctor =  auth()->guard('doctor-api')->user();
+        $pendingPatients = ProfileShare::where('provider_id', optional($doctor)->id)->where('status','0')->where('provider_type','App\Models\Doctor')->get();
 
         if($pendingPatients){
              return response()->json([
@@ -32,12 +32,14 @@ class ProfileShareController extends Controller
     }
 
     public function accept(ProfileShare $profileShare)
+    
     {
-        if($profileShare->exists && $profileShare->update(['status' => 1])){
-
+    
+        if($profileShare->exists && $profileShare->update(['status' => "1"])){
+            $profileShare->save();
             return response()->json([
                 'message' => 'Profile share has been accepted',
-                'profileShare' => $profileShare
+                'profileShare' => $profileShare->fresh()
             ]);
         }
         return response()->json([
@@ -47,7 +49,7 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        if($profileShare->update(['status' => 2])){
+        if($profileShare->update(['status' => "2"])){
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'profileShare' => $profileShare
