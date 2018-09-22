@@ -6,6 +6,7 @@ use App\Events\PatientSharedProfile;
 use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
 use App\Models\ProfileShare;
+use App\Traits\Utilities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,8 @@ use Illuminate\Validation\ValidationException;
 
 class ProfileShareController extends Controller
 {
+    use Utilities;
+
     private $patient;
 
     public function __construct()
@@ -59,6 +62,7 @@ class ProfileShareController extends Controller
             }
 
             $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
+
             if (!$exists) {
                 $share = $this->patient->profileShares()->create([
                     'provider_type' => $providerClass,
@@ -120,15 +124,6 @@ class ProfileShareController extends Controller
         return response()->json([
             'message' => 'Share could not be extended at this time',
         ], 400);
-    }
-
-    private function getProvider($code)
-    {
-        $prefixes = config('ch.chcode_prefixes');
-
-        $prefix = substr($code, 0, 3);
-
-        return @$prefixes[$prefix];
     }
 
     private function getRules()

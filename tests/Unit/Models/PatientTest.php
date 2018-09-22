@@ -38,4 +38,10 @@ class PatientTest extends TestCase
     {
         $this->assertInstanceOf(Collection::class,$this->patient->medicalRecords);
     }
+
+    /** @test */
+    public function a_patient_has_many_contacts()
+    {
+        $this->assertInstanceOf(Collection::class,$this->patient->contacts);
+    }
 }

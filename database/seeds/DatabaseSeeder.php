@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PharmacySeeder::class);
         $this->call(LaboratorySeeder::class);
         $this->call(MedicalRecordSeeder::class);
+        $this->call(ContactSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

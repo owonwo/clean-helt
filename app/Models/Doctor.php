@@ -17,8 +17,7 @@ class Doctor extends Authenticatable
 
     protected $hidden = ['password'];
 
-    protected $with = ['profile','hospitals'];
-
+    protected $with = ['profile', 'hospitals'];
 
     protected $casts = [
         'confirm' => 'boolean',

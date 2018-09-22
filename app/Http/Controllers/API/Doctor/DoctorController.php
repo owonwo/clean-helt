@@ -69,56 +69,52 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
 
-      
         // $doctor->save();
         // request()->validate($this->rules);
         // return json_encode(dd(request()->all()));
-       
-        try{
-             $doctor->update([
-                "first_name" => request('first_name') == null ? $doctor->first_name : request('first_name') ,
-                "middle_name" => request('middle_name') == null ? $doctor->middle_name : request('middle_name') ,
-                "last_name" => request('last_name') == null ? $doctor->last_name : request('last_name'),
-                "email" => request('email') == null ? $doctor->email :  request('email'),
-                "phone" => request('phone') == null ? $doctor->phone : request('phone'),
-                "gender" => request('gender') == null ? $doctor->gender : request('gender'),
-                "specialization" => request('specialization') == null ? $doctor->specialization : request('specialization'),
-                "folio" => request('folio') == null ?  $doctor->folio : request('folio') ,
+
+        try {
+            $doctor->update([
+                'first_name' => null == request('first_name') ? $doctor->first_name : request('first_name'),
+                'middle_name' => null == request('middle_name') ? $doctor->middle_name : request('middle_name'),
+                'last_name' => null == request('last_name') ? $doctor->last_name : request('last_name'),
+                'email' => null == request('email') ? $doctor->email : request('email'),
+                'phone' => null == request('phone') ? $doctor->phone : request('phone'),
+                'gender' => null == request('gender') ? $doctor->gender : request('gender'),
+                'specialization' => null == request('specialization') ? $doctor->specialization : request('specialization'),
+                'folio' => null == request('folio') ? $doctor->folio : request('folio'),
             ]);
-        
+
             $doctor->profile()->update([
-                    "address" => request('address'),
-                    "city" => request('city'),
-                    "state" => request('state'),
-                    "country" => request('country'),
-                    "mode_of_contact" => request('mode_of_contact'),
-                    "marital_status" => request('marital_status'),
-                    "religion" => request('religion'),
-                    "kin_fullname" => request('kin_fullname'),
-                    "kin_address" => request('kin_address'),
-                    "kin_phone" => request('kin_phone'),
-                    "kin_city" => request('kin_city'),
-                    "kin_state" => request('kin_state'),
-                    "kin_country" => request('kin_country'),
-                    "name_of_degree" => request('name_of_degree'),
-                    "institution" => request('institution'),
-                    "additional_degree" => request('additional_degree'),
-                    "years_in_practice" => request('years_in_practice'),
-                    "avatar" => $file = request()->file('avatar') == null ? $doctor->avatar : $file->store('avatar') ,
-                    "disability" => request('disability'),
+                    'address' => request('address'),
+                    'city' => request('city'),
+                    'state' => request('state'),
+                    'country' => request('country'),
+                    'mode_of_contact' => request('mode_of_contact'),
+                    'marital_status' => request('marital_status'),
+                    'religion' => request('religion'),
+                    'kin_fullname' => request('kin_fullname'),
+                    'kin_address' => request('kin_address'),
+                    'kin_phone' => request('kin_phone'),
+                    'kin_city' => request('kin_city'),
+                    'kin_state' => request('kin_state'),
+                    'kin_country' => request('kin_country'),
+                    'name_of_degree' => request('name_of_degree'),
+                    'institution' => request('institution'),
+                    'additional_degree' => request('additional_degree'),
+                    'years_in_practice' => request('years_in_practice'),
+                    'avatar' => $file = null == request()->file('avatar') ? $doctor->avatar : $file->store('avatar'),
+                    'disability' => request('disability'),
                 ]);
-            
 
             return response()->json([
                 'message' => 'Doctor updated successfully',
-                'doctor' => $doctor->fresh()
+                'doctor' => $doctor->fresh(),
             ], 200);
-            
-        } catch(Exception $e){
-             
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'There was an error',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
@@ -142,8 +138,14 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
-        $hospital = Hospital::where(['chcode' => $chcode])->first();
-        $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id',$doctor->id)->first();
+        try {
+            $hospital = Hospital::whereChcode($chcode)->get()->first();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Theres an Error'.$e->getMessage(),
+            ], 403);
+        }
+        $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id', $doctor->id)->first();
         try {
             if (!$exists) {
                 DoctorHospital::forceCreate([

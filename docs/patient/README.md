@@ -189,33 +189,6 @@ Response
 <br/>
 
 ## Medical Record view 
-### Patient Medical Record by Date 
-
-
-**`GET  api/patient/medical-record/{patient}`**
-```
-{patient} = chcode 
-```
-
-```json
-{
-    "message": "access medical record by date",
-    "patient": [
-        {
-            "id": 2,
-            "reference": "CHR750289728",
-            "patient_id": 51,
-            "type": "App\\Models\\Diagnosis",
-            "issuer_type": "App\\Models\\Doctor",
-            "issuer_id": 2,
-            "created_at": "2018-09-05 13:41:35",
-            "updated_at": "2018-09-05 13:41:35",
-            "deleted_at": null,
-            "data": []
-        }
-    ]
-}
-```
 
 ### Get The Patient Profile Share 
 
@@ -227,69 +200,587 @@ Response
     "shares": [
         {
             "id": 1,
-            "patient_id": 51,
+            "patient_id": 1,
             "provider_type": "App\\Models\\Doctor",
-            "provider_id": 61,
-            "expired_at": "2018-09-06 00:00:00",
+            "provider_id": 1,
+            "expired_at": "2018-09-18 00:00:00",
             "doctor_id": null,
-            "status": "0",
-            "created_at": "2018-09-05 15:38:59",
-            "updated_at": "2018-09-05 15:39:00"
+            "status": "1",
+            "created_at": "2018-09-17 17:21:54",
+            "updated_at": "2018-09-17 17:21:54",
+            "provider": {
+                "id": 1,
+                "first_name": "Loraine",
+                "middle_name": "Predovic",
+                "last_name": "Miller",
+                "email": "example@gmail.com",
+                "phone": "694.804.3517 x2875",
+                "gender": "male",
+                "specialization": "cardiologist",
+                "folio": "MB/12/KN",
+                "confirm": false,
+                "validation": 0,
+                "chcode": "CHD473019709",
+                "token": "4WFF79kzgbpi6HpR0uEXhGyxZC0T7z37V7icAi3K",
+                "remember_token": null,
+                "deleted_at": null,
+                "created_at": "2018-09-12 14:00:23",
+                "updated_at": "2018-09-12 14:00:23",
+                "profile": {
+                    "id": 1,
+                    "doctors_id": 1,
+                    "address": "6107 Smith Fork Suite 279\nKingberg, PA 60500",
+                    "city": "McDermottshire",
+                    "state": "Michelfort",
+                    "country": "Central African Republic",
+                    "mode_of_contact": 1,
+                    "marital_status": "Single",
+                    "religion": "Christianity",
+                    "kin_fullname": "Cali Krajcik",
+                    "kin_address": "581 Legros Junctions\nNew Laila, NC 96170-9711",
+                    "kin_phone": "818-357-6848",
+                    "kin_city": "Lake Otiliashire",
+                    "kin_state": "North Tyreek",
+                    "kin_country": "Panama",
+                    "name_of_degree": "Doctrate Degree",
+                    "institution": "Rivers State university",
+                    "additional_degree": "Bachelor of Science",
+                    "years_in_practice": 4,
+                    "active": 1,
+                    "avatar": "avatar/avatar.jpg",
+                    "disability": "At mollitia in eaque omnis nemo. Suscipit quidem fugiat exercitationem nobis dolores. Ut quibusdam accusamus magni qui. Sint et aperiam vel tempore voluptatem ullam.",
+                    "created_at": "2018-09-12 14:00:23",
+                    "updated_at": "2018-09-12 14:00:23"
+                },
+                "hospitals": []
+            }
         },
         {
             "id": 2,
-            "patient_id": 51,
-            "provider_type": "App\\Models\\Doctor",
-            "provider_id": 62,
-            "expired_at": "2018-09-06 00:00:00",
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 4,
+            "expired_at": "2018-09-20 00:00:00",
             "doctor_id": null,
             "status": "0",
-            "created_at": "2018-09-05 15:38:59",
-            "updated_at": "2018-09-05 15:39:00"
+            "created_at": "2018-09-19 13:36:38",
+            "updated_at": "2018-09-19 13:36:38",
+            "provider": {
+                "id": 4,
+                "name": "Brittany Durgan",
+                "chcode": "CHL805929735",
+                "licence_no": "GVBQ23YVkDuQ3oC",
+                "email": "ireichert@example.net",
+                "phone": "810.251.3617",
+                "address": "5948 Tillman Groves\nWest Ryderfurt, HI 25913",
+                "city": "Tressieport",
+                "state": "Amayamouth",
+                "country": "Macao",
+                "lab_owner": "Dr. Jayden Gutkowski",
+                "cac_reg": "I7qnQzL1nbDaHuh",
+                "fmoh_reg": "x1iEZ60ste5evZo",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Corrupti voluptas quidem ea deleniti nihil nam. Nisi enim et consequatur eum. Optio porro minus quas consequatur nihil eos exercitationem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            }
         },
         {
             "id": 3,
-            "patient_id": 51,
-            "provider_type": "App\\Models\\Doctor",
-            "provider_id": 63,
-            "expired_at": "2018-09-06 00:00:00",
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 4,
+            "expired_at": "2018-09-20 00:00:00",
             "doctor_id": null,
             "status": "0",
-            "created_at": "2018-09-05 15:38:59",
-            "updated_at": "2018-09-05 15:39:00"
+            "created_at": "2018-09-19 13:44:14",
+            "updated_at": "2018-09-19 13:44:14",
+            "provider": {
+                "id": 4,
+                "name": "Brittany Durgan",
+                "chcode": "CHL805929735",
+                "licence_no": "GVBQ23YVkDuQ3oC",
+                "email": "ireichert@example.net",
+                "phone": "810.251.3617",
+                "address": "5948 Tillman Groves\nWest Ryderfurt, HI 25913",
+                "city": "Tressieport",
+                "state": "Amayamouth",
+                "country": "Macao",
+                "lab_owner": "Dr. Jayden Gutkowski",
+                "cac_reg": "I7qnQzL1nbDaHuh",
+                "fmoh_reg": "x1iEZ60ste5evZo",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Corrupti voluptas quidem ea deleniti nihil nam. Nisi enim et consequatur eum. Optio porro minus quas consequatur nihil eos exercitationem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            }
+        },
+        {
+            "id": 4,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 4,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 13:47:39",
+            "updated_at": "2018-09-19 13:47:39",
+            "provider": {
+                "id": 4,
+                "name": "Brittany Durgan",
+                "chcode": "CHL805929735",
+                "licence_no": "GVBQ23YVkDuQ3oC",
+                "email": "ireichert@example.net",
+                "phone": "810.251.3617",
+                "address": "5948 Tillman Groves\nWest Ryderfurt, HI 25913",
+                "city": "Tressieport",
+                "state": "Amayamouth",
+                "country": "Macao",
+                "lab_owner": "Dr. Jayden Gutkowski",
+                "cac_reg": "I7qnQzL1nbDaHuh",
+                "fmoh_reg": "x1iEZ60ste5evZo",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Corrupti voluptas quidem ea deleniti nihil nam. Nisi enim et consequatur eum. Optio porro minus quas consequatur nihil eos exercitationem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            }
+        },
+        {
+            "id": 5,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Laboratory",
+            "provider_id": 4,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 13:51:50",
+            "updated_at": "2018-09-19 13:51:50",
+            "provider": {
+                "id": 4,
+                "name": "Brittany Durgan",
+                "chcode": "CHL805929735",
+                "licence_no": "GVBQ23YVkDuQ3oC",
+                "email": "ireichert@example.net",
+                "phone": "810.251.3617",
+                "address": "5948 Tillman Groves\nWest Ryderfurt, HI 25913",
+                "city": "Tressieport",
+                "state": "Amayamouth",
+                "country": "Macao",
+                "lab_owner": "Dr. Jayden Gutkowski",
+                "cac_reg": "I7qnQzL1nbDaHuh",
+                "fmoh_reg": "x1iEZ60ste5evZo",
+                "active": 1,
+                "avatar": null,
+                "token": null,
+                "offers": "Corrupti voluptas quidem ea deleniti nihil nam. Nisi enim et consequatur eum. Optio porro minus quas consequatur nihil eos exercitationem.",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:26",
+                "updated_at": "2018-09-12 14:00:26"
+            }
+        },
+        {
+            "id": 6,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Hospital",
+            "provider_id": 8,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 13:53:00",
+            "updated_at": "2018-09-19 13:53:00",
+            "provider": {
+                "id": 8,
+                "name": "Dr. Marjolaine Brekke II Hospital",
+                "email": "ebeatty@example.org",
+                "chcode": "CHH521721893",
+                "director_mdcn": "nisi",
+                "phone": "437-914-8121 x44229",
+                "address": "357 Cole Cove\nMorarhaven, AZ 88190",
+                "city": "Kaitlynchester",
+                "state": "Port Oswald",
+                "country": "Antigua and Barbuda",
+                "website": null,
+                "facility_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "admin_name": null,
+                "admin_position": null,
+                "admin_phone": null,
+                "services": null,
+                "bank_name": null,
+                "bank_branch": null,
+                "account_name": null,
+                "account_number": null,
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:25",
+                "updated_at": "2018-09-12 14:00:25",
+                "deleted_at": null
+            }
+        },
+        {
+            "id": 7,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 13:53:24",
+            "updated_at": "2018-09-19 13:53:24",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
+        },
+        {
+            "id": 8,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 13:53:29",
+            "updated_at": "2018-09-19 13:53:29",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
+        },
+        {
+            "id": 9,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 14:04:03",
+            "updated_at": "2018-09-19 14:04:03",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
+        },
+        {
+            "id": 10,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 14:05:18",
+            "updated_at": "2018-09-19 14:05:18",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
         },
         {
             "id": 11,
-            "patient_id": 51,
-            "provider_type": "App\\Models\\Doctor",
-            "provider_id": 23,
-            "expired_at": "2018-09-06 00:00:00",
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
             "doctor_id": null,
             "status": "0",
-            "created_at": "2018-09-05 22:01:08",
-            "updated_at": "2018-09-05 22:01:08"
+            "created_at": "2018-09-19 14:07:23",
+            "updated_at": "2018-09-19 14:07:23",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
         },
         {
             "id": 12,
-            "patient_id": 51,
-            "provider_type": "App\\Models\\Doctor",
-            "provider_id": 23,
-            "expired_at": "2018-09-06 00:00:00",
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 11,
+            "expired_at": "2018-09-20 00:00:00",
             "doctor_id": null,
             "status": "0",
-            "created_at": "2018-09-05 22:01:47",
-            "updated_at": "2018-09-05 22:01:47"
+            "created_at": "2018-09-19 14:08:03",
+            "updated_at": "2018-09-19 14:08:03",
+            "provider": {
+                "id": 11,
+                "name": "Ms. Maegan Howell",
+                "chcode": "CHF383071692",
+                "email": "daron.reilly@example.net",
+                "phone": "791.234.5306 x6288",
+                "address": "6275 Duane Estate Suite 148\nEast Vinnie, WA 03632",
+                "city": "Keiraburgh",
+                "state": "Gwenmouth",
+                "country": "Algeria",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "dicta",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
         },
         {
             "id": 13,
-            "patient_id": 51,
-            "provider_type": "App\\Models\\Doctor",
-            "provider_id": 23,
-            "expired_at": "2018-09-06 00:00:00",
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 12,
+            "expired_at": "2018-09-20 00:00:00",
             "doctor_id": null,
             "status": "0",
-            "created_at": "2018-09-05 22:05:00",
-            "updated_at": "2018-09-05 22:05:00"
+            "created_at": "2018-09-19 14:24:19",
+            "updated_at": "2018-09-19 14:24:19",
+            "provider": {
+                "id": 12,
+                "name": "Gabriella McClure",
+                "chcode": "CHF180682954",
+                "email": "hermiston.mckayla@example.com",
+                "phone": "736-768-5658 x0310",
+                "address": "6431 Hills Center\nMannmouth, IL 78098-1900",
+                "city": "South Kristyberg",
+                "state": "North Don",
+                "country": "Cocos (Keeling) Islands",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "quo",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
+        },
+        {
+            "id": 14,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 12,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 14:24:27",
+            "updated_at": "2018-09-19 14:24:27",
+            "provider": {
+                "id": 12,
+                "name": "Gabriella McClure",
+                "chcode": "CHF180682954",
+                "email": "hermiston.mckayla@example.com",
+                "phone": "736-768-5658 x0310",
+                "address": "6431 Hills Center\nMannmouth, IL 78098-1900",
+                "city": "South Kristyberg",
+                "state": "North Don",
+                "country": "Cocos (Keeling) Islands",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "quo",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
+        },
+        {
+            "id": 15,
+            "patient_id": 1,
+            "provider_type": "App\\Models\\Pharmacy",
+            "provider_id": 12,
+            "expired_at": "2018-09-20 00:00:00",
+            "doctor_id": null,
+            "status": "0",
+            "created_at": "2018-09-19 14:24:28",
+            "updated_at": "2018-09-19 14:24:28",
+            "provider": {
+                "id": 12,
+                "name": "Gabriella McClure",
+                "chcode": "CHF180682954",
+                "email": "hermiston.mckayla@example.com",
+                "phone": "736-768-5658 x0310",
+                "address": "6431 Hills Center\nMannmouth, IL 78098-1900",
+                "city": "South Kristyberg",
+                "state": "North Don",
+                "country": "Cocos (Keeling) Islands",
+                "business_name": null,
+                "business_type": null,
+                "facility_owner": null,
+                "cac_reg": null,
+                "cac_date": null,
+                "fmoh_reg": null,
+                "fmoh_date": null,
+                "chief_pharmacist_reg": "quo",
+                "active": 1,
+                "avatar": "avatar/avatar.jpeg",
+                "chief_pharmacist_reg_date": null,
+                "chief_pharmacist_name": null,
+                "chief_pharmacist_phone": null,
+                "services": null,
+                "remember_token": null,
+                "created_at": "2018-09-12 14:00:29",
+                "updated_at": "2018-09-12 14:00:29"
+            }
         }
     ]
 }
@@ -297,7 +788,7 @@ Response
 
 ### Get all patient laboratory test
 
-**`GET api/patient/{patient}/labtest`**
+**`GET api/patient/labtest`**
 
 ```json
 {
@@ -348,7 +839,7 @@ Response
 
 ### Patient viewing prescription or pharmacy 
 
-**`GET api/patient/{patient}/prescription`**
+**`GET api/patient/prescription`**
 
 ```
 {patient} = chcode  
@@ -415,11 +906,8 @@ Response
 ```
 ### Get medical record
 
-**`GET api/patient/{patient}/medical-records`**
-
-```
-{patient} = chcode 
-```
+**`GET api/patient/medical-records`**
+`
 
 ```json
 {
@@ -3005,6 +3493,9 @@ Response
 ```
 
 ### Search for doctors with chcode 
+
+**`POST api/patient/doctors`** 
+
  sample data
  
 ``` 
@@ -3039,4 +3530,160 @@ response
     }
 }
 ```
+
+## Patient Notification
+
+### All Patient Notification 
+
+**`GET api/patient/notification`**
+
+```json
+{
+    "message": "Notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "ae42d3ae-a4a8-4e4d-975b-de3f9ddd21d6",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:55",
+                "updated_at": "2018-09-17 17:38:55"
+            },
+            {
+                "id": "2dcee6b8-38f4-4131-929f-0fad216abdbf",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:52",
+                "updated_at": "2018-09-17 17:38:52"
+            },
+            {
+                "id": "c5ee551c-c7d5-436f-870b-c96ccf0461ed",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:45",
+                "updated_at": "2018-09-17 17:38:45"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/notifications?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/notifications?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/notifications",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}
+```
+<br>
+
+### Get all unread message
+
+**`GET api/patient/notification/unread`**
+
+```json
+{
+    "message": "Unread notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "ae42d3ae-a4a8-4e4d-975b-de3f9ddd21d6",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:55",
+                "updated_at": "2018-09-17 17:38:55"
+            },
+            {
+                "id": "2dcee6b8-38f4-4131-929f-0fad216abdbf",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:52",
+                "updated_at": "2018-09-17 17:38:52"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/notification/unread?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/notification/unread?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/notification/unread",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+    }
+}
+```
+
+<br>
+
+### Mark unread message as read
+
+**`GET api/patient/notification/read/{id}`**
+
+``` 
+{id} = c5ee551c-c7d5-436f-870b-c96ccf0461ed
+```
+
+```json
+{
+    "message": "Mark as read",
+    "notification": {
+        "id": "c5ee551c-c7d5-436f-870b-c96ccf0461ed",
+        "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+        "notifiable_type": "App\\Models\\Patient",
+        "notifiable_id": 1,
+        "data": {
+            "data": "You have a new medical record added"
+        },
+        "read_at": "2018-09-19 02:00:09",
+        "created_at": "2018-09-17 17:38:45",
+        "updated_at": "2018-09-19 02:00:09"
+    }
+}
+```
+
+### Delete notification
+**`GET api/patient/notification/delete/{id}`**
+
+``` 
+{id} = f789cc03-4c51-481f-b52a-812fbf614663
+```
+
+response 
+```json
+{
+    "message": "Notification deleted"
+}
+```
+
 

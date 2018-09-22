@@ -25,11 +25,9 @@ class DiagnosisController extends Controller
     public function store(Request $request, Patient $patient, RecordLogger $logger)
     {
        $rules = $this->getRules();
-       
+
         Log::info(['request' => $request->prescriptions]);
-       
-        $this->validate($request, $rules);
-       
+
 
         try {
             $this->validate($request, $rules);
@@ -37,13 +35,10 @@ class DiagnosisController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         }
 
         $doctor = auth()->guard('doctor-api')->user();
-        
-        
-       
 
         if ($patient && $doctor->canViewProfile($patient)) {
             try {
@@ -97,7 +92,7 @@ class DiagnosisController extends Controller
 
         return response()->json([
             'message' => 'Unauthorized access'
-        ], 400);
+        ], 401);
     }
 
     private function getRules()

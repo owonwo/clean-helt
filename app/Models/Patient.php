@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use DB;
 use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Utilities;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 
 class Patient extends Authenticatable
 {
-    use HasMultiAuthApiTokens, CodeGenerator,Notifiable;
+    use HasMultiAuthApiTokens, CodeGenerator, Notifiable, Utilities;
 
     protected $codePrefix = 'CHP';
 
@@ -24,11 +22,11 @@ class Patient extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        self::creating(function($model) {
+        self::creating(function ($model) {
             $model->chcode = $model->generateUniqueCode();
         });
     }
-    
+
     public function getRouteKeyName()
     {
         return 'chcode';
@@ -48,8 +46,9 @@ class Patient extends Authenticatable
     {
         $records = $this->hasMany(MedicalRecord::class);
 
-        if ($type)
+        if ($type) {
             $records = $records->where('type', $type);
+        }
 
         return $records;
     }
@@ -64,7 +63,21 @@ class Patient extends Authenticatable
         return $this->hasMany(Prescription::class, 'record_id');
     }
 
-    public function hasAlreadySharedChcode($provider) {
-        return DB::table('profile_shares')->where(['patient_id' => $this->id, 'provider_id' => $provider->id ])->count() > 1;
+    public function contacts()
+    {
+        return $this->morphMany(Contact::class, 'owner');
+    }
+
+    public function ownsContact($chcode)
+    {
+        $modelClass = $this->getProvider($chcode);
+
+        if ($modelClass && $model = $modelClass::whereChcode($chcode)->first()) {
+            return $this->contacts()->where('contact_type', $modelClass)
+                ->where('contact_id', $model->id)
+                ->first();
+        }
+
+        return null;
     }
 }
