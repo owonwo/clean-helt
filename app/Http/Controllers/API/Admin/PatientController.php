@@ -22,9 +22,9 @@ class PatientController extends Controller
 
     public function index()
     {
-        $labs = Patient::latest()->paginate(15);
+        $patients = Patient::latest()->paginate(15);
         return response()->json([
-            'labs' => $labs
+            'patients' => $patients
         ], 200);
     }
 
@@ -46,23 +46,31 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = [
-            'first_name' => 'required|string|max:190',
-            'last_name' => 'required|string|max:190',
-            'middle_name' => 'required|string|max:190',
-            'email' => 'required|string|max:190|unique:patients',
-            'phone' => 'required|unique:patients',
+            'first_name' => 'required|string|max:60',
+            'last_name' => 'required|string|max:60',
+            'email' => 'required|string|max:60|unique:patients',
+            'phone' => 'required|digits:11|max:60|unique:patients',
         ];
 
-        $this->validate($request,$rules);
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'errors' => $exception->errors(),
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
 
         $data = $request->all();
 
         $data['password'] = str_random(10);
 
-        if ($labs = Patient::create($data)) {
+        if ($patients = Patient::create($data)) {
             return response()->json([
-                'message' => 'Laboratory created successfully ',
+                'message' => 'Patient created successfully',
+                'patient' =>$patients
             ], 200);
         }
 
@@ -117,12 +125,10 @@ class PatientController extends Controller
      */
     public function update(Request $request,  Patient $patient)
     {
-
-
         if ($patient->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $patient
+                'patient' => $patient
             ], 200);
         }
 
@@ -142,8 +148,7 @@ class PatientController extends Controller
         try {
             $patient->delete();
             return response()->json([
-                'message' => 'Laboratory was successfully deleted ',
-                'patient' => $patient
+                'message' => 'Patient was successfully deleted ',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

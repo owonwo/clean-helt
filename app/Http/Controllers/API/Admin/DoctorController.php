@@ -15,7 +15,7 @@ class DoctorController extends Controller
 
         public function index()
         {
-            $doctors = Doctor::all();
+            $doctors = Doctor::paginate(10);
             return response()->json([
                 'message' => 'Doctor fetched successfully',
                 'doctors' => $doctors
@@ -62,8 +62,8 @@ class DoctorController extends Controller
                 'message' => 'Deactivated successfully'
             ]);
         }
-        public function activate(Doctor $doctor){
 
+        public function activate(Doctor $doctor){
             $doctor->profile->update([
                 'active' => true
             ]);
@@ -71,7 +71,5 @@ class DoctorController extends Controller
                 'doctor' => $doctor,
                 'message' => 'Activated successfully'
             ]);
-
         }
-
 }

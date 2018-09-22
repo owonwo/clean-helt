@@ -6,6 +6,7 @@ use App\Filters\MedicalRecordsFilter;
 use App\Models\LabTest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Notifications\PatientLaboratoryNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,8 +18,7 @@ class MedicalRecordController extends Controller
     {
         $this->middleware('auth:laboratory-api');
         $this->middleware(function($request, $next) {
-
-            $this->laboratory = auth()->guard('laboratory')->user();
+            $this->laboratory = auth()->user();
 
             return $next($request);
         });
@@ -47,29 +47,34 @@ class MedicalRecordController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
 
         return response()->json([
-            'data' => $medicalRecord->load('data')
+            'record' => $medicalRecord,
+            'data' => $medicalRecord->data,
         ], 200);
     }
 
     public function update(Patient $patient, MedicalRecord $medicalRecord, LabTest $labTest)
     {
-        $laboratory = auth()->guard('laboratory')->user();
+        $laboratory = auth()->guard('laboratory-api')->user();
+        if ($laboratory->canUpdatePatienLabTest($patient, $medicalRecord, $labTest)){
 
-        if (!$laboratory->canUpdatePatientPrescription($patient, $medicalRecord, $labTest))
             return response()->json(['message' => 'Data not found'], 404);
 
-        if ($labTest->update(request()->all()))
-        {
+        }else{
+
+            $labTest->update(request()->all());
+            $labTest->save();
+            $laboratory->notify(new PatientLaboratoryNotification($patient, $labTest));
             return response()->json([
                 'message' => 'Test successfully Carried out',
-                'labtest' => $labTest->fresh(),
+                'labtest' => $labTest,
                 'record' => $medicalRecord
             ], 200);
         }
 
-        return response()->json([
-            'message' => 'Prescription could not be dispensed'
-        ], 400);
+
+//        return response()->json([
+//            'message' => 'labtest could not be carried out'
+//        ], 400);
     }
 
     public function testrecord(Patient $patient, MedicalRecord $medicalRecord, LabTest $labTest)

@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\API\Patient;
 
 use App\Mail\PatientVerifyEmail;
+use App\Models\Hospital;
+use App\Models\Laboratory;
 use App\Models\Patient;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Exception;                                             
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use App\Models\Doctor;
 
 
 class PatientController extends Controller
@@ -17,7 +22,7 @@ class PatientController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('store', 'verify');
+        $this->middleware('auth:patient-api',['except' => ['store', 'verify']]);
 
         $this->middleware(function($request, $next) {
             $this->patient = auth()->user();
@@ -25,24 +30,6 @@ class PatientController extends Controller
         });
     }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rule = $this->getRegRule();
@@ -53,7 +40,7 @@ class PatientController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         }
 
         try {
@@ -74,7 +61,7 @@ class PatientController extends Controller
 
                 return response()->json([
                     'message' => 'Congratulation! you have successfully created patient record',
-                    'patients' => $patient,
+                    'data' => $patient,
                     'accessToken' => $accessToken,
                 ], 200);
             }
@@ -102,7 +89,7 @@ class PatientController extends Controller
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'Congratulation you have just verified you account, login to continue',
-                    'patient' => $patient,
+                    'data' => $patient,
                 ], 200);
             }
         }
@@ -131,7 +118,7 @@ class PatientController extends Controller
 
         return response()->json([
             'message' => 'you have successfully log into your account',
-            'patient' => $patient,
+            'data' => $patient,
         ], 200);
 
     }
@@ -166,7 +153,7 @@ class PatientController extends Controller
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'congratulation you have updated your emergency profile',
-                    'patient' => $patient,
+                    'data' => $patient,
                 ]);
             }
 
@@ -198,7 +185,7 @@ class PatientController extends Controller
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         }
 
         try {
@@ -217,7 +204,7 @@ class PatientController extends Controller
             if($this->patient->update($data)){
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
-                    'patient' => $this->patient,
+                    'data' => $this->patient,
                 ], 200);
             }
 
@@ -243,12 +230,15 @@ class PatientController extends Controller
         //
     }
 
-    public function showRecords(Patient $patient)
+    public function showRecords()
     {
         try {
             return response()->json([
                 'message' => "Medical records successfully Loaded",
-                'records' => $patient->medicalRecords()->latest()->get()->load('data')
+                'data' => $this->patient->medicalRecords()->latest()->get()->each(function($record){
+                    $record->data;
+                    return $record;
+                }),
             ], 200);
         } catch (Exception $exception){
             return response()->json([
@@ -257,44 +247,30 @@ class PatientController extends Controller
         }
     }
 
-    public function showDate(Patient $patient)
+    public function showLabtest()
     {
-        $retrievePatient = $patient->medicalRecords()->latest()->get()->load('data');
-
-        return response()->json([
-            'message' => 'access medical record by date',
-            'patient' => $retrievePatient,
-        ], 200);
-    }
-
-    public function showLabtest(Patient $patient)
-    {
-        $patient = $patient->laboratoryRecords()->latest()->get();
-
+        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
 
         return response()->json([
             'message' => 'You can access all laboratory record here',
-            'patient' => $patient,
+            'data' => $data,
         ], 200);
-
-        return response()->json([
-            'message' => 'Something went wrong'
-        ], 400);
     }
 
     public function showPrescription(Patient $patient)
     {
-        $patient = $patient->pharmacyRecords()->latest()->get();
+        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
 
         return response()->json([
             'message' => 'access medical record by date',
-            'patient' => $patient,
+            'data' => $data,
         ], 200);
-
-        return response()->json([
-            'message' => 'Something went wrong'
-        ], 400);
-
     }
 
     private function getRegRule()
@@ -319,5 +295,24 @@ class PatientController extends Controller
             'country' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
+    }
+
+    public function showDoctor()
+    {
+        $chcode = request()->chcode;
+        $doctor = Doctor::whereChcode($chcode)->get()->first();
+        
+        if ($doctor) {
+            return response()->json([
+                'message' => 'Doctor retrieved successfully',
+                'data' => $doctor,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Doctor not found',
+            $doctor => null
+        ], 404);
+
     }
 }

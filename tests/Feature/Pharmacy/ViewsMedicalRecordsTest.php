@@ -188,5 +188,6 @@ class ViewsMedicalRecordsTest extends TestCase
             'status' => true,
             'comment' => $update["comment"]
         ]);
+
     }
 }

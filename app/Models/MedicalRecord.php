@@ -13,7 +13,7 @@ class MedicalRecord extends Model
 
     protected $codePrefix = 'CHR';
     
-    protected $with = 'issuer';
+    protected $with = ['issuer'];
 
     protected static function boot()
     {
@@ -36,7 +36,7 @@ class MedicalRecord extends Model
 
     public function data()
     {
-        return $this->hasMany($this->type, 'record_id');
+        return $this->hasOne($this->type, 'record_id');
     }
 
     public function issuer()

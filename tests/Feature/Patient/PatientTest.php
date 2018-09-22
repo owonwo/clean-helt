@@ -43,9 +43,9 @@ class PatientTest extends TestCase
 
         $this->makeAuthRequest()
             ->withExceptionHandling()
-
             ->post('api/patient/register')
             ->assertStatus(200);
+        $this->assertDatabaseHas('patients', $patient);
     }
 
     /** @test */
@@ -82,20 +82,6 @@ class PatientTest extends TestCase
         $this->assertDatabaseHas('patients', $updated);
     }
 
-    /** @test */
-    public function a_patient_can_view_his_medical_records_by_date()
-    {
-        $patient = create(Patient::class);
-
-        $medical_records = create(MedicalRecord::class,['patient_id' =>  $patient->id]);
-
-        $this->signIn($patient, 'patient');
-
-
-        $this->makeAuthRequest()
-            ->get("api/patient/medical-record/{$patient->chcode}")
-            ->assertSee($medical_records->id);
-    }
 
     /** @test */
     public function a_patient_can_view_his_laboratory_test_record()
@@ -106,7 +92,7 @@ class PatientTest extends TestCase
         $this->signIn($patient, 'patient');
 
         $this->makeAuthRequest()
-            ->get("api/patient/{$patient->chcode}/labtest")
+            ->get("api/patient/labtest")
             ->assertSee($labtest->id);
     }
 
@@ -121,7 +107,7 @@ class PatientTest extends TestCase
         $this->signIn($patient, 'patient');
 
         $this->makeAuthRequest()
-            ->get("api/patient/{$patient->chcode}/prescription")
+            ->get("api/patient/prescription")
             ->assertSee($prescription->id);
     }
 
@@ -134,7 +120,7 @@ class PatientTest extends TestCase
         $this->signIn($patient, 'patient');
 
         $this->makeAuthRequest()
-            ->get("api/patient/".$patient->chcode."/medical-records")
+            ->get("api/patient/medical-records")
             ->assertStatus(200);
     }
 }

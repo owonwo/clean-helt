@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\NewUserRegistered;
 use App\Events\PatientSharedProfile;
 use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
@@ -35,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProfileShareExpired::class => [
             'App\Listeners\ProfileShareExpirationRequest'
+        ],
+        NewUserRegistered::class => [
+            'App\Listeners\NewUserRegisteredRequest'
         ]
     ];
 
