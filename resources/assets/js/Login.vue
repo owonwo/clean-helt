@@ -1,8 +1,9 @@
 <template>
     <div id="osq-login">
-        <form name="login" method="POST" :action="'/login/' + auth" class="has-text-centered">
-            <img class="logo" src="/images/assets/logo-full@4.png" alt="">
-            <p class="mt-50 mb-15">Login as </p>
+        <form name="login" method="POST" :action="form_action" class="has-text-centered">
+            <img class="logo" src="/images/assets/logo.png" alt="">
+            <p v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as </p>
+            <p v-else class="mt-50 mb-15">Login</p>
             <slot></slot>
             <!-- error notification -->
 
@@ -52,14 +53,16 @@ export default {
             'DOCTOR': {auth_key: 'doctor', name: 'doctors'},
             'PHARMACY': {auth_key: 'pharmacy', name: 'pharmacies'},
             'HOSPITAL': {auth_key: 'hospital', name: 'hospitals'},
+            'ADMIN': {auth_key: 'admins', name: 'admins'},
         },
         apiClient: {
-            client_id: '8',
-            client_secret: 'qBn2wu2iumJRVACf8sDfjlEGtTHjXc1f2FsYO9qr',
+            client_id: '2',
+            client_secret: 'q0NNWjUhZTNqLlFq0noYyru70LkADVuK5kZj8M9b',
             grant_type: 'password'
         }
     }},
     computed: {
+        form_action() { return this.$props.model !== 'ADMIN' ? '/login/' + this.auth : '/admin/login' },
         provider() {
             let {model} = this.$props;
             return !['DOCTOR', 'PATIENT'].includes(model) ? model : (this.type === 1) ? 'PATIENT' : 'DOCTOR';

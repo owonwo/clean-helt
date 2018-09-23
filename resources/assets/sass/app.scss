@@ -362,10 +362,8 @@ ul {
 
 
 //MODAL
-.modal-backdrop {
-    // background-color: white;
-    &.show {
-    }
+.modal-background {
+    background-color: rgba($primary-color, .75) !important;
 }
 
 .modal {

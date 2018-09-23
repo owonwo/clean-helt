@@ -6,7 +6,7 @@
 					<div class="menu">
 						<div class="menu-label"><i class="ti icon ti-settings" style="font-size: 1.5em;vertical-align: middle;"></i> Settings</div>
 						<ul class="menu-list" v-pager-controls.prevent="{activeClass: 'active'}">
-							<li v-for="(name, index) in ['Account','Notification', 'Shares']"><a href="#">{{ name }}</a></li>
+							<li v-for="(name, index) in ['Notification', 'Share Logs', 'Bookmarks']"><a href="#">{{ name }}</a></li>
 						</ul>
 					</div>
 				</aside>
@@ -14,41 +14,15 @@
 				<section class="content">
 					<pager :current="page">
 						<div slot="p1" class="p-10">
-							<div class="menu-label">Edit Bio</div>
-							<table class="table">
-								<tr class="">
-									<th width="150">Full Name</th>
-									<td>Kelvin Morrison</td>
-								</tr>
-								<tr class="">
-									<th>Age</th>
-									<td>30</td>
-								</tr>
-								<tr>
-									<th>Email:</th>
-									<td>kelvin.morrison@gmail.com</td>
-								</tr>
-								<tr>
-									<th>Gender</th>
-									<td>Male</td>
-								</tr>
-								<tr>
-									<th>Address</th>
-									<td>1 Khana Street, D/Line, Port Harcourt</td>
-								</tr>
-								<tr>
-									<th>ID</th>
-									<td>
-										CHD-909-399 
-										<button class="button is-small is-text">COPY</button>
-									</td>
-								</tr>
-							</table>
+							<toggle-switch size="sm" :value="false"/>
+							<span class="menu-label">Notifications</span>
+							<p style="font-size: small" class="is-small">I want to receive notifications.</p>
 						</div>
 						<div slot="p2" class="p-10">
-							<toggle-switch size="sm" :value="false"/>
-							<span>Notifications</span>
-							<p style="font-size: small" class="is-small">I want to receive notifications.</p>
+							<span class="menu-label">Shares</span>
+						</div>
+						<div slot="p3" class="p-10">
+							<span class="menu-label">Bookmarks</span>
 						</div>
 					</pager>
 				</section>

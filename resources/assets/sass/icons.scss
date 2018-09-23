@@ -1,14 +1,13 @@
-@mixin icon-maker($name) {
-	background-image: url("../assets/svgs/osq-#{$name}.svg");
+@mixin icon-maker($name, $folder: 'black') {
+	background-image: url("../assets/svgs/#{$folder}/#{$name}-#{$folder}.svg");
 }
 
-$icons: hospital hospital-white 
-	department settings remove patient 
-	dashboard patient-white note
-	doctor doctor-white	pharmacy pharmacy-white 
-	lab lab-white search users bell bell-gray 
-	bell-green signout comment;
- 
+
+$icons: hospital department settings cancel 
+	dashboard doctor pharmacy history
+	lab search users notification back-alt forum
+	add bookmark client-alt more share update user;
+
 .osf {
 	width: 24px;
     height: 24px;
@@ -31,10 +30,11 @@ $icons: hospital hospital-white
 @each $name in $icons {
 	.osf-#{$name} {
 		@include icon-maker(#{$name});
-		@if #{$name} == "bell-gray" {
-			&.hoverable:hover {
-				@include icon-maker(bell-green);				
-			}
-		}
+	}  
+	.osf-#{$name}-green {
+		@include icon-maker(#{$name}, 'green');
+	}
+	.osf-#{$name}-white {
+		@include icon-maker(#{$name}, 'white');
 	}
 }

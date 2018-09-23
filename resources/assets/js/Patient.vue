@@ -16,31 +16,31 @@
 				<ul>
 					<router-link to="/dashboard" tag="li">
 						<a href="#">
-							<i class="osf osf-dashboard"></i> Dashboard</a>
+							<i class="osf osf-dashboard-white"></i> Dashboard</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
 
 					<router-link to="/services" tag="li">
 						<a href="#">
-							<i class="osf osf-department"></i> Health Services</a>
+							<i class="osf osf-department-white"></i> Health Services</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
 
 					<router-link to="/profile" tag="li">
 						<a href="#">
-							<i class="osf osf-patient-white"></i> Profile</a>
+							<i class="osf osf-client-alt-white"></i> Profile</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
 
 					<router-link to="/Notifications" tag="li">
 						<a href="#">
-							<i class="osf osf-bell"></i> Notifications</a>
+							<i class="osf osf-notification-white"></i> Notifications</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
 
 					<router-link to="/settings" tag="li">
 						<a href="#">
-							<i class="osf osf-settings"></i> Settings</a>
+							<i class="osf osf-settings-white"></i> Settings</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
 				</ul>
@@ -49,11 +49,11 @@
 				<ul class="">
 					<li>
 						<a @click.prevent="logout">
-							<i class="osf osf-signout"></i> Sign Out</a>
+							<i class="osf osf-back-alt-white"></i> Sign Out</a>
 					</li>
 					<li>
 						<a href="#">
-							<i class="osf osf-comment"></i> Log into Forum</a>
+							<i class="osf osf-forum-white"></i> Log into Forum</a>
 					</li>
 				</ul>
 			</footer>
@@ -98,11 +98,11 @@
 				settings: {
 					profile: {
 						route: `/api/patient/profile`,
-						key: 'patient'
+						key: 'data'
 					},
 					patients: {
 						route: '/api/patient',
-						key: 'patients'
+						key: 'data'
 					}
 				},
 				shares: [],

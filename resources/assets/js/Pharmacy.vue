@@ -14,16 +14,16 @@
     <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
-          <custom-link to="/dashboard" icon="osf osf-dashboard" name="Dashboard"/>
-          <custom-link to="/patients" icon="osf osf-patient-white" name="Clients"/>
-          <custom-link to="/notifications" icon="osf osf-bell" name="Notifications"/>
+          <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard"/>
+          <custom-link to="/patients" icon="osf osf-client-alt-white" name="Clients"/>
+          <custom-link to="/notifications" icon="osf osf-notification-white" name="Notifications"/>
           <custom-link to="/profile" icon="osf osf-pharmacy-white" name="Profile"/>
         </ul>
       </nav>
       <footer>
         <ul class="">
-          <li><a @click="logout" href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
-          <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
+          <li><a @click="logout" href="#"><i class="osf osf-back-alt-white"></i> Sign Out</a></li>
+          <li><a href="#"><i class="osf osf-forum-white"></i> Log into Forum</a></li>
         </ul>
       </footer>
     </aside>

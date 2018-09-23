@@ -3,9 +3,15 @@
         <div class="content-top-bar">Create a Service Provider</div>
         <div class="level " style="justify-content: flex-start;">
             <div class="buttons">
-                <button @click="set('hospital', $event)" class="button is-normal">Hospital</button>
-                <button @click="set('pharmacy', $event)" class="button is-normal">Pharmacy</button>
-                <button @click="set('laboratory', $event)" class="button is-normal">Laboratory</button>
+                <button @click="set('hospital', $event)" class="button is-normal">
+                    <i class="osf osf-hospital"></i> Hospital
+                </button>
+                <button @click="set('pharmacy', $event)" class="button is-normal">
+                    <i class="osf osf-pharmacy"></i> Pharmacy
+                </button>
+                <button @click="set('laboratory', $event)" class="button is-normal">
+                    <i class="osf osf-lab"></i> Laboratory
+                </button>
             </div>
         </div>
         <div id="create-user-form">

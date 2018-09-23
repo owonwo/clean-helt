@@ -9,18 +9,18 @@
     <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
-          <custom-link to="/dashboard" icon="osf osf-dashboard" name="Dashboard"/>
-          <custom-link to="/patients" icon="osf osf-patient-white" name="Clients"/>
+          <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard"/>
+          <custom-link to="/patients" icon="osf osf-client-alt-white" name="Clients"/>
           <custom-link to="/doctors" icon="osf osf-doctor-white" name="Departments"/>
           <custom-link to="/profile" icon="osf osf-profile" name="Profile"/>
-          <custom-link to="/settings" icon="osf osf-settings" name="Settings"/>
+          <custom-link to="/settings" icon="osf osf-settings-white" name="Settings"/>
         </ul>
       </nav>
       
       <footer>
         <ul class="">
-          <li><a @click.prevent="logout"><i class="osf osf-signout"></i> Sign Out</a></li>
-          <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
+          <li><a @click.prevent="logout"><i class="osf osf-back-alt-white"></i> Sign Out</a></li>
+          <li><a href="#"><i class="osf osf-forum-white"></i> Log into Forum</a></li>
         </ul>
       </footer>
     </aside>

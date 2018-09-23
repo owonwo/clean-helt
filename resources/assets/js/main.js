@@ -5,7 +5,6 @@ import VueMoment from 'vue-moment'
 import Notification from 'vue-notification'
 
 // #pages
-import Admin from '@/Admin.vue'
 import Doctor from '@/Doctor.vue'
 import Patient from '@/Patient.vue'
 import Hospital from '@/Hospital.vue'
@@ -22,9 +21,6 @@ import store from '@/store/';
 
 require('@/directives');
 require('@/Mixins/global');
-
-window.preloadClass = ['slide', 'content-preloader'];
-
 
 new Vue({
 	el: "#app",

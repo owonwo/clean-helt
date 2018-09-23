@@ -1,6 +1,6 @@
 <template>
 	<aside class="content">
-		<h5 @click.stop="$root.toggleNotification()"><i class="icon osf osf-bell-gray hoverable mr-20"></i> Notifications</h5>
+		<h5 @click.stop="$root.toggleNotification()"><i class="icon osf osf-notification hoverable mr-20"></i> Notifications</h5>
 		<section class="notifications">
 			<notification type="info">
 				A new patient was admitted by UPTH

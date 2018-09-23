@@ -1,15 +1,17 @@
-import ProfileBox from './ProfileBox'
-import AddServiceProvider from './AddServiceProvider'
-import SearchBox from './SearchBox'
 import Modal from './Modal.vue'
+import SearchBox from './SearchBox'
+import ProfileBox from './ProfileBox'
+import Pager from '@/components/Pager.vue'
 import vScrollbar from 'vue-perfect-scrollbar'
+import ProfileLoader from './ProfileLoader.vue'
 import Accordion from '@/components/Accordion.vue'
-import Pager from '@/components/Pager.vue';
-import CustomLink from '@/components/CustomLink.vue';
+import CustomLink from '@/components/CustomLink.vue'
+import AddServiceProvider from './AddServiceProvider'
 
 export default {
 	Accordion,
     ProfileBox, 
+    ProfileLoader, 
     Modal,
     vScrollbar, 
     CustomLink,

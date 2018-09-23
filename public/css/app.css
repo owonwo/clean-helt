@@ -11652,11 +11652,6 @@ label.panel-block:hover {
   padding: 30px 15px;
 }
 
-.card.short-card .icon,
-#create-user-form > section.short-card .icon {
-  margin-right: 30px;
-}
-
 .content-preloader.sm.slide::after,
 table .content-preloader.slide::after {
   width: 100px;
@@ -14057,179 +14052,255 @@ a[ghost] {
 }
 
 .osf-hospital {
-  background-image: url(/images/osq-hospital.svg?11f41c0299ad092a8850132438a804e9);
+  background-image: url(/images/hospital-black.svg?55e0f65d09f24622176c45bbdb82c874);
 }
 
-.osf-hospital.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-hospital-green {
+  background-image: url(/images/hospital-green.svg?b8fa8b4fa13967ae44740e253034e380);
 }
 
 .osf-hospital-white {
-  background-image: url(/images/osq-hospital-white.svg?e641d12963d841497ec2b1cdb5c0b623);
-}
-
-.osf-hospital-white.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+  background-image: url(/images/hospital-white.svg?d7d5fd01e807437f799fa603f0752df7);
 }
 
 .osf-department {
-  background-image: url(/images/osq-department.svg?d6c686a1c4af6841998469c432f3cc8e);
+  background-image: url(/images/department-black.svg?da29d29a07377982fbc46504fbf90a6a);
 }
 
-.osf-department.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-department-green {
+  background-image: url(/images/department-green.svg?6d459890a6b5d2fb4eba1a84b63b6fd2);
+}
+
+.osf-department-white {
+  background-image: url(/images/department-white.svg?39ab4783e54257715c268503da11eaf1);
 }
 
 .osf-settings {
-  background-image: url(/images/osq-settings.svg?1cea3f80d8f281bd1c9533aea96143f8);
+  background-image: url(/images/settings-black.svg?f365c906306c83024c80facbd15f78b6);
 }
 
-.osf-settings.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-settings-green {
+  background-image: url(/images/settings-green.svg?08e33d4f24e53c91ba01ed04998e4960);
 }
 
-.osf-remove {
-  background-image: url(/images/osq-remove.svg?ed5daecea83791d6f43a48136455cd2f);
+.osf-settings-white {
+  background-image: url(/images/settings-white.svg?af4c701a4b37745081c750ac6aa48762);
 }
 
-.osf-remove.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-cancel {
+  background-image: url(/images/cancel-black.svg?da824aae26b39701897fa89509f59888);
 }
 
-.osf-patient {
-  background-image: url(/images/osq-patient.svg?ed0b4d0153e3c641dd9294e327412bae);
+.osf-cancel-green {
+  background-image: url(/images/cancel-green.svg?2e16d9352d3f568b70f94584e0b74ca4);
 }
 
-.osf-patient.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-cancel-white {
+  background-image: url(/images/cancel-white.svg?71bcebd7d1335fa2852a6a29414c163f);
 }
 
 .osf-dashboard {
-  background-image: url(/images/osq-dashboard.svg?85855c71f7e272e06e23998755a7b910);
+  background-image: url(/images/dashboard-black.svg?402213f2714b0c6844d911f899b6fced);
 }
 
-.osf-dashboard.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-dashboard-green {
+  background-image: url(/images/dashboard-green.svg?68e03062ef239ed11af36947d1d55953);
 }
 
-.osf-patient-white {
-  background-image: url(/images/osq-patient-white.svg?4d0e268665bbd47117018bb26d9b231e);
-}
-
-.osf-patient-white.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
-}
-
-.osf-note {
-  background-image: url(/images/osq-note.svg?a757870c798a6de7477767cf6aa073e7);
-}
-
-.osf-note.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-dashboard-white {
+  background-image: url(/images/dashboard-white.svg?ceb1922e1f220ab2f1d399cd4f240cf6);
 }
 
 .osf-doctor {
-  background-image: url(/images/osq-doctor.svg?65827f1e9b6f33afa245d7d2476e0139);
+  background-image: url(/images/doctor-black.svg?920c6df73ba8a8b2a2419e7b452eeece);
 }
 
-.osf-doctor.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-doctor-green {
+  background-image: url(/images/doctor-green.svg?b37bb277133ca7b1f4f1420f9bbdfb9a);
 }
 
 .osf-doctor-white {
-  background-image: url(/images/osq-doctor-white.svg?7ac9d7a8a91ba3c25518f174c9d72e52);
-}
-
-.osf-doctor-white.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+  background-image: url(/images/doctor-white.svg?f7cc7fa822cde44a12d843ada7df59ae);
 }
 
 .osf-pharmacy {
-  background-image: url(/images/osq-pharmacy.svg?a9c3f5995372fc6f2478d4b8ba9cfe6c);
+  background-image: url(/images/pharmacy-black.svg?b7f47a98f5d38b3cec1203a7a1a8306b);
 }
 
-.osf-pharmacy.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-pharmacy-green {
+  background-image: url(/images/pharmacy-green.svg?f92da6b7770a4c67f86688968de86cec);
 }
 
 .osf-pharmacy-white {
-  background-image: url(/images/osq-pharmacy-white.svg?214de6cbf18b776d2197416b90abce2b);
+  background-image: url(/images/pharmacy-white.svg?39547bda9c73c2c17051665a17e02582);
 }
 
-.osf-pharmacy-white.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-history {
+  background-image: url(/images/history-black.svg?faab6683b2d25c44dd6f08cf95cb833f);
+}
+
+.osf-history-green {
+  background-image: url(/images/history-green.svg?967db1c89b442c5e704792c30f8cb73c);
+}
+
+.osf-history-white {
+  background-image: url(/images/history-white.svg?ceb23f014fcd61274f2de62afcb8b25a);
 }
 
 .osf-lab {
-  background-image: url(/images/osq-lab.svg?a75fc85b4336f85a64ce1b1082cbdf6f);
+  background-image: url(/images/lab-black.svg?2f0c18ddd9a9ef035dd2b01ef6390d45);
 }
 
-.osf-lab.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-lab-green {
+  background-image: url(/images/lab-green.svg?027e2e4077e5334eff53de57bde6bd8f);
 }
 
 .osf-lab-white {
-  background-image: url(/images/osq-lab-white.svg?afc7427b6d5cdd87ee16dc1e433704f9);
-}
-
-.osf-lab-white.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+  background-image: url(/images/lab-white.svg?41e25efc631e9b5e3468607cb40690d3);
 }
 
 .osf-search {
-  background-image: url(/images/osq-search.svg?cd72fc169228e9eac569b7cfee4e0db0);
+  background-image: url(/images/search-black.svg?622c353f7ca8aed28e1c307c33ba1444);
 }
 
-.osf-search.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-search-green {
+  background-image: url(/images/search-green.svg?516d42fd3fd236faa736389a6ebcb8ca);
+}
+
+.osf-search-white {
+  background-image: url(/images/search-white.svg?17017e2a99994bcede2e5b77fe12a471);
 }
 
 .osf-users {
-  background-image: url(/images/osq-users.svg?b089ce7c35a0b4b671eeb917500ec624);
+  background-image: url(/images/users-black.svg?f63e7dcbb6ccbd254bb0968c26aef6ca);
 }
 
-.osf-users.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-users-green {
+  background-image: url(/images/users-green.svg?0a4340f001409cddabe603b99bed69b4);
 }
 
-.osf-bell {
-  background-image: url(/images/osq-bell.svg?5d4b3c1ed6586a47816ef0e18e6541bb);
+.osf-users-white {
+  background-image: url(/images/users-white.svg?8a9f71773d799651a872103d5af6686a);
 }
 
-.osf-bell.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-notification {
+  background-image: url(/images/notification-black.svg?91efb2fc85162c0933bfbd353329557a);
 }
 
-.osf-bell-gray {
-  background-image: url(/images/osq-bell-gray.svg?c750d34f51e5b09f7c49a66e23a5f28d);
+.osf-notification-green {
+  background-image: url(/images/notification-green.svg?387bf9941651deb104a5178fb9ee5800);
 }
 
-.osf-bell-gray.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-notification-white {
+  background-image: url(/images/notification-white.svg?c1a60d24bb442ab9d43b1811a35d57d8);
 }
 
-.osf-bell-green {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-back-alt {
+  background-image: url(/images/back-alt-black.svg?1b2491303768a736b916c6f266a95149);
 }
 
-.osf-bell-green.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-back-alt-green {
+  background-image: url(/images/back-alt-green.svg?fc89c6f63b93299cd5f6785d1cf6f089);
 }
 
-.osf-signout {
-  background-image: url(/images/osq-signout.svg?5a9904bf2b1dd554df6c3582bb4af72a);
+.osf-back-alt-white {
+  background-image: url(/images/back-alt-white.svg?adf3a24b9bb88d5a4531d07cb85c2431);
 }
 
-.osf-signout.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-forum {
+  background-image: url(/images/forum-black.svg?9fb1e518bf28e154adb4c6a718539bdc);
 }
 
-.osf-comment {
-  background-image: url(/images/osq-comment.svg?f1bc22e345ec7249ea5065431a15d65e);
+.osf-forum-green {
+  background-image: url(/images/forum-green.svg?b8d7287d504abb24ecf5e0dc56c3a985);
 }
 
-.osf-comment.hoverable:hover {
-  background-image: url(/images/osq-bell-green.svg?df3c07edfd7cbf3f0f011b8b448e4b9c);
+.osf-forum-white {
+  background-image: url(/images/forum-white.svg?e3d3824d5f6a8bc4578b232ba8754c41);
+}
+
+.osf-add {
+  background-image: url(/images/add-black.svg?612fd8e938a429e6fc29070e505679bd);
+}
+
+.osf-add-green {
+  background-image: url(/images/add-green.svg?61ff9f722feb991ffaac29696f524a62);
+}
+
+.osf-add-white {
+  background-image: url(/images/add-white.svg?0d7221101fdae835780874b093acea72);
+}
+
+.osf-bookmark {
+  background-image: url(/images/bookmark-black.svg?5f5a053275b5e1ef17413e8cb51fedd2);
+}
+
+.osf-bookmark-green {
+  background-image: url(/images/bookmark-green.svg?2ec5069d79b5716c5a77d451488d29d6);
+}
+
+.osf-bookmark-white {
+  background-image: url(/images/bookmark-white.svg?c6be78362619a988f0e26d9df66da43a);
+}
+
+.osf-client-alt {
+  background-image: url(/images/client-alt-black.svg?9a16d0ba2926a78adfb44cbaa021af7d);
+}
+
+.osf-client-alt-green {
+  background-image: url(/images/client-alt-green.svg?2e5ab39daf16cdb68a7e32ca18b77082);
+}
+
+.osf-client-alt-white {
+  background-image: url(/images/client-alt-white.svg?8ce956b5342cd5b76bf4c61b19e2b07c);
+}
+
+.osf-more {
+  background-image: url(/images/more-black.svg?def4434d318533f8d57c681a62eaad2d);
+}
+
+.osf-more-green {
+  background-image: url(/images/more-green.svg?eb2cb5be0bc34ac6f1946d2cfe2a0016);
+}
+
+.osf-more-white {
+  background-image: url(/images/more-white.svg?9c964f1a5a84e11b6517765f457c4686);
+}
+
+.osf-share {
+  background-image: url(/images/share-black.svg?9a07e1285b53382f9f74f26d229a1e90);
+}
+
+.osf-share-green {
+  background-image: url(/images/share-green.svg?c938bdf44fc402873d95d7a321719ef2);
+}
+
+.osf-share-white {
+  background-image: url(/images/share-white.svg?eeeef1d700a7caf184e25a39c9fed50d);
+}
+
+.osf-update {
+  background-image: url(/images/update-black.svg?bf034afc5b81dc6caf7183f89d3d46c0);
+}
+
+.osf-update-green {
+  background-image: url(/images/update-green.svg?709ea2dc8ba4e1c545a3a4988fe85e0b);
+}
+
+.osf-update-white {
+  background-image: url(/images/update-white.svg?d6a1fb842aeee96fba08068fc2553824);
+}
+
+.osf-user {
+  background-image: url(/images/user-black.svg?469510144ef9da9954b88808110b60b4);
+}
+
+.osf-user-green {
+  background-image: url(/images/user-green.svg?654e1c67c9073d2d2d8557677369a749);
+}
+
+.osf-user-white {
+  background-image: url(/images/user-white.svg?621535c82f4d6fb9406b6a0e192848e8);
 }
 
 .control.has-shadow input {
@@ -14294,11 +14365,6 @@ a[ghost] {
 .card.short-card,
 #create-user-form > section.short-card {
   padding: 30px 15px;
-}
-
-.card.short-card .icon,
-#create-user-form > section.short-card .icon {
-  margin-right: 30px;
 }
 
 .content-preloader.sm.slide::after,
@@ -17275,6 +17341,10 @@ ul {
 .nav-tabs li a.nav-link.active {
   background-color: transparent;
   border-bottom: solid 4px var(--sidebar-color);
+}
+
+.modal-background {
+  background-color: rgba(32, 177, 113, 0.75) !important;
 }
 
 .modal .modal-header {

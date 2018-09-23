@@ -1,7 +1,7 @@
 <template>
 	<section class="card">
 		<div class="card-header">
-			<span class="card-header-icon"><i class="icon osf osf-bell-gray"></i></span>
+			<span class="card-header-icon"><i class="icon osf osf-notification"></i></span>
 			<span class="card-header-title">Notification</span>
 		</div>
 		<div class="tabs">

@@ -31,13 +31,17 @@ export default {
     mounted() {
         //for profiles
         const {profile, patients} = this.settings;
-        if("undefined" !== typeof profile.route) 
-        this.$http.get(profile.route).then((res) => {
-            const USER_DATA = _.extend(this.user, res.data[profile.key])
-            this.set_user(USER_DATA);
-        });
-        //for services providers
-        this.$store.commit('set_account_type', this.componentName);
+        if("undefined" !== typeof profile.route)
+        try {
+            this.$http.get(profile.route).then((res) => {
+                const USER_DATA = _.extend(this.user, res.data[profile.key])
+                this.set_user(USER_DATA);
+            });
+            //for services providers
+            this.$store.commit('set_account_type', this.componentName);
+        }catch(x) {
+            console.warn(`Account Error: invalid profile route.`)
+        }
 
         !ServiceProviders.includes(this.componentName) || this.fetchPatients();
     },
@@ -48,9 +52,11 @@ export default {
             "remove_from_pending", 
             "set_shared_profiles"
         ]),
+        //gets the name of the component attached to
         getComponentName() {
-            return this.$vnode.componentOptions.tag;
+            return 'undefined' !== typeof this.$vnode ? this.$vnode.componentOptions.tag : 'ADMIN';
         },
+        //accept pending shares
         async acceptShare(id) {
             const url = `/api/${this.componentName}/patients/pending/${id}/accept`;
             return await this.$http.patch(url).then(() => {
@@ -74,14 +80,22 @@ export default {
                 this.set_shared_profiles(PATIENTS);
             });
         },
+        // creates a logout form and submit it.
         logout() {
             let input = document.createElement('input');
             input.value = $('meta[name=csrf-token]').attr('content');
             input.name = "_token";
             let form = $('<form></form>');
-            form.attr('action','/logout').attr('method', 'POST').append(input).submit();
+            let route = this.getComponentName() === 'ADMIN' ? `/admin/logout` : '/logout'
+            form.attr('action', route).attr('method', 'POST').append(input).submit();
             $('body').append(form);
+            this.clearApiToken();
             form.submit(); 
+        },
+        //clears the api tokens created at login time
+        clearApiToken() {
+            localStorage.removeItem('api-token');
+            localStorage.removeItem('refresh-token');
         }
     },
 }

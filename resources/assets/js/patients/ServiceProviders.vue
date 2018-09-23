@@ -12,7 +12,7 @@
 		
 		<section class="card">
 			<div class="card-header">
-				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
+				<span class="card-header-icon"><i class="icon osf osf-department-white"></i></span>
 				<span class="card-header-title">Departments</span>
 				<div class="m-10">
 					<button @click="show = !show" class="button is-outlined is-rounded is-white">

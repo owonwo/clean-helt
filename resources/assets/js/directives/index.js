@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+const preloadClass = ['slide', 'content-preloader'];
+
 Vue.directive('height', {
     bind(el, binding, vnode) {
         let {when} = binding.modifiers;
@@ -85,7 +87,7 @@ Vue.directive('checkbox', {
 Vue.directive('preload', {
     bind: function (el, binding) {
         let {sm} = binding.modifiers;
-        window.preloadClass.map(p => $(el).addClass(p));
+        preloadClass.map(p => $(el).addClass(p));
     },
     componentUpdated(el, binding) {
         let {value} = binding;

@@ -15,35 +15,35 @@
       <nav>
         <ul>
           <router-link to="/dashboard" tag="li">
-            <a href="#"><i class="osf osf-dashboard"></i> Dashboard</a> 
+            <a href="#"><i class="osf osf-dashboard-white"></i> Dashboard</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
 
           <router-link to="/services" tag="li">
-            <a href="#"><i class="osf osf-department"></i> Departments</a> 
+            <a href="#"><i class="osf osf-department-white"></i> Departments</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
 
           <router-link to="/profile" tag="li">
-            <a href="#"><i class="osf osf-patient-white"></i> Profile</a> 
+            <a href="#"><i class="osf osf-client-alt-white"></i> Profile</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
 
           <router-link to="/Notifications" tag="li">
-            <a href="#"><i class="osf osf-bell"></i> Notifications</a> 
+            <a href="#"><i class="osf osf-notification-white"></i> Notifications</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
 
           <router-link to="/settings" tag="li">
-            <a href="#"><i class="osf osf-settings"></i> Settings</a> 
+            <a href="#"><i class="osf osf-settings-white"></i> Settings</a> 
             <span class="toggler" @click="$root.toggleSidebar"></span>
           </router-link>
         </ul>
       </nav>
       <footer>
         <ul class="">
-          <li><a href="#"><i class="osf osf-signout"></i> Sign Out</a></li>
-          <li><a href="#"><i class="osf osf-comment"></i> Log into Forum</a></li>
+          <li><a href="#"><i class="osf osf-back-alt-white"></i> Sign Out</a></li>
+          <li><a href="#"><i class="osf osf-forum-white"></i> Log into Forum</a></li>
         </ul>
       </footer>
     </aside>
