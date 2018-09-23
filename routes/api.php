@@ -28,6 +28,7 @@ Route::group(['namespace' => 'API'], function () {
     });
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+        Route::get('users/counts', 'AdminController@getUsersCount');
         Route::get('hospitals', 'HospitalController@index');
         Route::post('hospitals', 'HospitalController@store');
         Route::get('hospitals/{hospital}', 'HospitalController@show');
@@ -102,8 +103,8 @@ Route::group(['namespace' => 'API'], function () {
     });
     //End of all routes for doctor
 
-    Route::post('patient/register', 'Patient/PatientController@store')->name('patient.register');
-    Route::get('patient/verify/{email}/{verifyToken}', 'Patient/PatientController@verify')->name('patient.confirmation.mail');
+    Route::post('patient/register', 'Patient\PatientController@store')->name('patient.register');
+    Route::get('patient/verify/{email}/{verifyToken}', 'Patient\PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function () {
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');

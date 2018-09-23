@@ -23,7 +23,7 @@ class LaboratoryController extends Controller
         $labs = Laboratory::latest()->paginate(15);
 
         return response()->json([
-            'labs' => $labs,
+            'data' => $labs,
         ], 200);
     }
 
@@ -71,13 +71,12 @@ class LaboratoryController extends Controller
 
     public function deactivate(Laboratory $laboratory)
     {
-
         $laboratory->update([
-            'active' => $laboratory->active == true ? false : true,
+            'active' => true == $laboratory->active ? false : true,
         ]);
 
         return response()->json([
-            'Laboratory' => $laboratory,
+            'data' => $laboratory,
             'message' => 'Active changed',
         ]);
     }
@@ -93,7 +92,7 @@ class LaboratoryController extends Controller
     {
         return response()->json(
             ['message' => 'Laboratory fetched successfully',
-            'laboratory' => $laboratory,
+            'data' => $laboratory,
             ], 200
         );
     }
@@ -122,7 +121,7 @@ class LaboratoryController extends Controller
         if ($laboratory->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'labs' => $laboratory,
+                'data' => $laboratory,
             ], 200);
         }
 
@@ -145,7 +144,7 @@ class LaboratoryController extends Controller
 
             return response()->json([
                 'message' => 'Laboratory was successfully deleted ',
-                'Laboratory' => $laboratory,
+                'data' => $laboratory,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
