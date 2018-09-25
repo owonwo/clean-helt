@@ -87,10 +87,7 @@ class PatientController extends Controller
             $data['status'] = 1;
             $data['verify_token'] = null;
             if($patient->update($data)){
-                return response()->json([
-                    'message' => 'Congratulation you have just verified you account, login to continue',
-                    'data' => $patient,
-                ], 200);
+                return redirect('/login');
             }
         }
 
@@ -219,12 +216,7 @@ class PatientController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
