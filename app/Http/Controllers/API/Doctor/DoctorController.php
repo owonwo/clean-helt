@@ -67,6 +67,7 @@ class DoctorController extends Controller
 
     public function update()
     {
+        $file = null;
         $doctor = auth()->guard('doctor-api')->user();
 
       
