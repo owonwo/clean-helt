@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Models\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
 use App\Http\Controllers\Controller;
 
 class PatientController extends Controller
@@ -14,7 +13,6 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function __construct()
     {
         $this->middleware('auth:admin-api');
@@ -23,8 +21,9 @@ class PatientController extends Controller
     public function index()
     {
         $patients = Patient::latest()->paginate(15);
+
         return response()->json([
-            'patients' => $patients
+            'data' => $patients,
         ], 200);
     }
 
@@ -35,13 +34,13 @@ class PatientController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -70,37 +69,39 @@ class PatientController extends Controller
         if ($patients = Patient::create($data)) {
             return response()->json([
                 'message' => 'Patient created successfully',
-                'patient' =>$patients
+                'data' => $patients,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'All data were submitted'
+            'message' => 'All data were submitted',
         ], 400);
     }
 
-    public function deactivate(Patient $patient){
+    public function deactivate(Patient $patient)
+    {
         $patient->update([
             'active' => false,
         ]);
 
         return response()->json([
-            'patient' => $patient,
-            'message' => 'Deactivated successfully'
+            'data' => $patient,
+            'message' => 'Deactivated successfully',
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Patient $patient)
     {
         return response()->json(
             ['message' => 'Laboratory fetched successfully',
-            'patient' => $patient,
+            'data' => $patient,
             ], 200
         );
     }
@@ -108,51 +109,54 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  Patient $patient)
+    public function update(Request $request, Patient $patient)
     {
         if ($patient->update($request->all())) {
             return response()->json([
                 'message' => 'Laboratory updated successfully ',
-                'patient' => $patient
+                'data' => $patient,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'All data were submitted'
+            'message' => 'All data were submitted',
         ], 400);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Patient $patient)
     {
         try {
             $patient->delete();
+
             return response()->json([
                 'message' => 'Patient was successfully deleted ',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 400);
         }
     }

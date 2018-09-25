@@ -1,7 +1,7 @@
 <template>
     <div id="osq-login">
         <section class="has-text-centered">
-            <img class="logo" src="/images/assets/logo-full@4.png" alt="">
+            <img class="logo" src="/images/assets/logo.png" alt="">
             <p v-if="page !== 3" class="mt-50 mb-15">Sign up here. Only takes a few minutes</p>
             <pager :current="page">
                 <!-- Personal Details -->
@@ -161,7 +161,7 @@
                 <section slot="p4">
                     <div>
                         <h3 class="title mt-30 is-4">Registration Succesful</h3>
-                        <p class="mb-50">You have successfully registered you account. An account verification email has been sent to your 
+                        <p class="mb-50">You have successfully registered your account. An account verification email has been sent to your 
                         email.</p>
                         <button @click="visit_login" class="button is-primary">Login</button>
                     </div>

@@ -20,7 +20,7 @@
                         </div>
                         <v-scrollbar slot="p2" class="p-10">
                             <!-- preloader -->
-                            <div v-preload v-if="!!!doctors.length" class="block is-rounded mx-15 my-5 mb-0" style="height:10px;border-radius: 0" />
+                            <div v-preload v-if="!!!doctors.length && !isLoaded" class="block is-rounded mx-15 my-5 mb-0" style="height:10px;border-radius: 0" />
                             <!--  top navigation -->
                             <nav class="mb-15">
                                 <search-box></search-box>
@@ -36,7 +36,9 @@
                                         Dr. {{ doctor.first_name }} {{ doctor.last_name }}
                                         <span v-if="!doctor.status" class="tag ml-15">pending</span>
                                         <br>
-                                        <small><span class="osq-text-green mr-15">{{ doctor.chcode }}</span> {{ doctor.phone }}</small>
+                                    </td>
+                                    <td>
+                                       <span class="osq-text-green mr-15">{{ doctor.chcode }}</span> {{ doctor.phone }}
                                     </td>
                                     <td>
                                         <button v-if="doctor.status" @click="modal.remove = true" class="button is-hovered-danger has-no-motion is-outlined is-rounded">
@@ -109,6 +111,7 @@ export default {
     data() {
         return {
             page: 0,
+            isLoaded: false,
             password: "",
             doctors: [],
             modal: { add: false, remove: false, },
@@ -142,6 +145,7 @@ export default {
             //TODO: Remove the buildStatus function
             fetchDoctors.then((res) => {
                 let [acceptedDoctors, pendingDoctors] = res;
+                this.isLoaded = true;
                 this.doctors = [
                     ...buildStatus(pendingDoctors.data.doctors)(false),
                     ...buildStatus(acceptedDoctors.data.doctors)(true)

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
 use App\Traits\Utilities;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
@@ -80,4 +81,6 @@ class Patient extends Authenticatable
 
         return null;
     }
+
+
 }

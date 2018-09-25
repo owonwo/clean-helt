@@ -1,6 +1,6 @@
 <template>
 	<section class="">
-		<form id="add-record">
+		<form id="add-record" @submit.prevent="">
 			<!-- HEADER -->
 			<section id="header" style="grid-area: header">
 				<h1 class="title is-4 mb-0">Add Record</h1>
@@ -125,7 +125,12 @@
 						<label for="" class="menu-label">Patient Condition</label>
 					</div>
 					<div class="has-text-left">
-						<input type="radio" v-for="a in 3" class="ml-10" name="patient_condition" :value="a" @click="fields.patient_condition = a">						
+						Fair
+						<input type="radio" class="ml-10" name="patient_condition" value="1" @click="fields.patient_condition = 1"> <br>			
+						Critical
+						<input type="radio" class="ml-10" name="patient_condition" value="1" @click="fields.patient_condition = 2">		 <br>				
+						Severe
+						<input type="radio" class="ml-10" name="patient_condition" value="1" @click="fields.patient_condition = 3">		 <br>				
 					</div>
 					<small class="help">The Severity of the Patient's Condition</small>
 				</div>

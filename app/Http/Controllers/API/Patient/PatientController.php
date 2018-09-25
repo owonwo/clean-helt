@@ -209,16 +209,16 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
+        //
     }
 
     public function showRecords()
     {
         try {
             return response()->json([
-                'message' => 'Medical records successfully Loaded',
-                'data' => $this->patient->medicalRecords()->latest()->get()->each(function ($record) {
+                'message' => "Medical records successfully Loaded",
+                'data' => $this->patient->medicalRecords()->latest()->get()->each(function($record){
                     $record->data;
-
                     return $record;
                 }),
             ], 200);
@@ -231,9 +231,8 @@ class PatientController extends Controller
 
     public function showLabtest()
     {
-        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function ($record) {
+        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function($record){
             $record->data;
-
             return $record;
         });
 
@@ -245,9 +244,8 @@ class PatientController extends Controller
 
     public function showPrescription(Patient $patient)
     {
-        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
+        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function($record){
             $record->data;
-
             return $record;
         });
 
@@ -295,7 +293,8 @@ class PatientController extends Controller
 
         return response()->json([
             'message' => 'Doctor not found',
-            $doctor => null,
+            $doctor => null
         ], 404);
+
     }
 }

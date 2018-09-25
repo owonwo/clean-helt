@@ -16,8 +16,9 @@ class PharmacyController extends Controller
     public function index()
     {
         $pharmacies = Pharmacy::latest()->paginate(20);
+
         return response()->json([
-            'pharmacies' => $pharmacies
+            'data' => $pharmacies,
         ], 200);
     }
 
@@ -28,13 +29,13 @@ class PharmacyController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -50,45 +51,47 @@ class PharmacyController extends Controller
         if ($pharmacy = Pharmacy::create($data)) {
             return response()->json([
                 'message' => 'Pharmacy created successfully',
-                'pharmacy' => $pharmacy
+                'data' => $pharmacy,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Pharmacy could not be created'
+            'message' => 'Pharmacy could not be created',
         ], 400);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Pharmacy $pharmacy)
     {
         return response()->json([
             'message' => 'Pharmacy fetched successfully',
-            'pharmacy' => $pharmacy
+            'data' => $pharmacy,
         ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param Pharmacy $pharmacy
+     * @param \Illuminate\Http\Request $request
+     * @param Pharmacy                 $pharmacy
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Pharmacy $pharmacy)
@@ -96,12 +99,12 @@ class PharmacyController extends Controller
         if ($pharmacy->update($request->all())) {
             return response()->json([
                 'message' => 'Pharmacy updated successfully',
-                'pharmacy' => $pharmacy
+                'data' => $pharmacy,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Pharmacy could not be updated'
+            'message' => 'Pharmacy could not be updated',
         ], 400);
     }
 
@@ -109,25 +112,28 @@ class PharmacyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Pharmacy $pharmacy
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Pharmacy $pharmacy)
     {
         try {
             $pharmacy->delete();
+
             return response()->json([
                 'message' => 'Pharmacy deleted successfully',
-                'pharmacy' => $pharmacy
+                'data' => $pharmacy,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 400);
         }
     }
 
     /**
-     * Returns validation rules for pharmacy resource
+     * Returns validation rules for pharmacy resource.
+     *
      * @return array
      */
     private function getRules()
@@ -140,7 +146,7 @@ class PharmacyController extends Controller
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
-            'country' => 'required'
+            'country' => 'required',
         ];
     }
 }

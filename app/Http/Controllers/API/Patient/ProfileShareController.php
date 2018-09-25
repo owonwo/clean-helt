@@ -55,12 +55,6 @@ class ProfileShareController extends Controller
         $providerClass = $this->getProvider($chcode);
 
         if ((bool) $providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
-            if ($this->patient->hasAlreadySharedChcode($provider)) {
-                return response()->json([
-                    'message' => 'Profile Already Shared!',
-                ], 409);
-            }
-
             $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
 
             if (!$exists) {
@@ -70,7 +64,7 @@ class ProfileShareController extends Controller
                     'expired_at' => request('expiration'),
                 ]);
                 //Fire an event that tells providers that patient has been shared
-                event(new PatientSharedProfile($provider, $this->patient));
+                // event(new PatientSharedProfile($provider, $this->patient));
 
                 if ($share) {
                     return response()->json([

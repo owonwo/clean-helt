@@ -93,7 +93,7 @@ export default {
                     let {response} = err;
                     this.reset();
                     response.status === 409 ? this.notify(response.data.message) :
-                    this.notify('There was an error sending request', 'error');
+                    this.notify(err.response.data.message, 'error');
                     this.$emit('error', err);
                 });
         },

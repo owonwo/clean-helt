@@ -138,6 +138,7 @@ class DoctorController extends Controller
     {
         $doctor = auth()->guard('doctor-api')->user();
         $chcode = request('chcode');
+
         try {
             $hospital = Hospital::whereChcode($chcode)->get()->first();
         } catch (Exception $e) {

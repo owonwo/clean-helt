@@ -53,9 +53,14 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
-Route::get('admin/{any?}', function () {
-    return view('admin.base');
-})->name('admin.login');
+Route::group(['prefix' => 'admin'], function () {
+    //login routes
+    Route::get('login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('login', 'Auth\AdminLoginController@login');
+    Route::post('logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+    //main routes
+    Route::get('/{any?}', 'AdminController@index')->name('admin.dashboard');
+});
 
 Route::get('clients/{any?}', function () { return view('all', ['user' => 'Patient']); })
     ->middleware('auth-session:patient')

@@ -35,9 +35,9 @@
 			individual_counts() { return {
 				Patients: {count: this.counts.patients , icon_name: "client-alt"},
 				Doctors: {count: this.counts.doctors, icon_name: "doctor"},
+				Pharmacies: {count: this.counts.pharmacies, icon_name: "pharmacy"},
 				Laboratories: {count: this.counts.labs, icon_name: "lab"},
 				Hospitals: {count: this.counts.hospitals, icon_name: "hospital"},
-				Pharmacies: {count: this.counts.pharmacies, icon_name: "pharmacy"},
 			}}
 		}
 	}

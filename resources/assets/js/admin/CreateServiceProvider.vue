@@ -3,7 +3,7 @@
         <div class="content-top-bar">Create a Service Provider</div>
         <div class="level " style="justify-content: flex-start;">
             <div class="buttons">
-                <button @click="set('hospital', $event)" class="button is-normal">
+                <button @click="set('hospital', $event)" class="button is-normal is-primary">
                     <i class="osf osf-hospital"></i> Hospital
                 </button>
                 <button @click="set('pharmacy', $event)" class="button is-normal">
@@ -16,7 +16,7 @@
         </div>
         <div id="create-user-form">
             <section>
-                <div class="menu-label">{{ model | ucfirst }} Informations</div>
+                <div class="menu-label">{{ model | ucfirst }} Information</div>
                 <div class="field">
                     <input type="text" class="input" placeholder="Name" v-model="forms.generic.name">
                 </div>
@@ -29,7 +29,7 @@
                 <div class="field">
                     <div class="select is-block">
                         <select v-model="forms.generic.city" name="city" class="input">
-                            <option disabled="" value="0" selected="">Pick City...</option>
+                            <option disabled="" value="0" selected="">Select City...</option>
                             <option>Port Harcourt</option>
                             <option>Town</option>
                             <option>Borikir</option>
@@ -39,7 +39,7 @@
                 <div class="field">
                     <div class="select is-block">
                         <select class="input" v-model="forms.generic.state">
-                            <option disabled=""> State...</option>
+                            <option disabled="" value="0">Select State...</option>
                             <option>Rivers</option>
                             <option>Bayelsa</option>
                             <option>Delta</option>
@@ -49,7 +49,7 @@
                 <div class="field">
                     <div class="select is-block">
                         <select class="input" v-model="forms.generic.country">
-                            <option disabled="" value="0" selected=""> Country...</option>
+                            <option value="0" selected="">Select Country...</option>
                             <option>Nigeria</option>
                             <option>Ghana</option>
                         </select>
@@ -91,10 +91,13 @@
                     <div class="field">
                         <input v-model="forms.pharmacy.chief_pharmacist_phone" type="text" placeholder="Chief Pharmacist Phone Number" class="input">
                     </div>
+
                     <div class="field">
                         <input v-model="forms.pharmacy.chief_pharmacist_reg" type="text" placeholder="Chief Pharmacist Reg. No" class="input">
                     </div>
+
                     <div class="field">
+                        <label class="menu-label" for="">Chief Pharmacist Reg. Date</label>
                         <input v-model="forms.pharmacy.chief_pharmacist_reg_date" type="date" placeholder="Chief Pharmacist Reg. Date" class="input">
                     </div>
                 </div>
@@ -125,10 +128,14 @@
                 <div class="field">
                     <input type="text" v-model="forms.generic.fmoh_reg" class="input" placeholder="FMOH Reg. No">
                 </div>
+
                 <div class="field">
+                    <label class="menu-label" for="">CAC Reg. Date</label>
                     <input type="date" v-model="forms.generic.cac_date" class="input" placeholder="CAC Date">
                 </div>
+
                 <div class="field">
+                    <label class="menu-label" for="">FMOH Reg. Date</label>
                     <input type="date" v-model="forms.generic.fmoh_date" class="input" placeholder="FMOH Date">
                 </div>
                 <div v-if="is('hospital')">
@@ -168,30 +175,36 @@ export default {
             forms: {
                 pharmacy: {},
                 laboratory: {},
-                hospital: {
-                    "director_mdcn": "MD-30939-3093940092",
-                    "website": "http://fishes.com",
-                    "bank_name": "Fidelitiy Bank",
-                    "bank_branch": "Diobu",
-                    "account_name": "Bradley Yarrow",
-                    "account_number": "090909090",
-                    "services": "Surgery, Heart Diseases, X-ray"
-                },
+                hospital: {},
+                //  {
+                //     "director_mdcn": "MD-30939-3093940092",
+                //     "website": "http://fishes.com",
+                //     "bank_name": "Fidelitiy Bank",
+                //     "bank_branch": "Diobu",
+                //     "account_name": "Bradley Yarrow",
+                //     "account_number": "090909090",
+                //     "services": "Surgery, Heart Diseases, X-ray"
+                // },
                 generic: {
-                	"name": "New Era Hospital",
-                    "email": "kelley20@example.com",
-                    "phone": "252-582-5657 x62181",
-                    "address": "673 Niko Corner Apt. 054\nVivianneville, IA 48169",
-                    "city": "Luisfurt",
-                    "state": "Hodkiewiczview",
-                    "country": "Mongolia",
-                    "facility_type": "3",
-                    "facility_owner": "6",
-                    "cac_reg": "RC039950930",
-                    "fmoh_reg": "FMOH-3094-0848",
-                    "cac_date": "2018-03-07",
-                    "fmoh_date": "2008-12-25",
-                }
+                    "city": 0,
+                    "state": 0,
+                    "country": 0,
+                },
+                //  {
+                // 	"name": "New Era Hospital",
+                //     "email": "kelley20@example.com",
+                //     "phone": "252-582-5657 x62181",
+                //     "address": "673 Niko Corner Apt. 054\nVivianneville, IA 48169",
+                //     "city": "Luisfurt",
+                //     "state": "Hodkiewiczview",
+                //     "country": "Mongolia",
+                //     "facility_type": "3",
+                //     "facility_owner": "6",
+                //     "cac_reg": "RC039950930",
+                //     "fmoh_reg": "FMOH-3094-0848",
+                //     "cac_date": "2018-03-07",
+                //     "fmoh_date": "2008-12-25",
+                // }
             },
         }
     },

@@ -22,7 +22,7 @@ class PatientController extends Controller
         $start = request('startDate');
         $end = request('endDate');
         try {
-            $patients = optional($doctor->profileShares(), function ($doctor) use ($end, $start, $filter) {
+            $patients = optional($doctor->allShares(), function ($doctor) use ($end, $start, $filter) {
                 return $doctor->filter($filter, $filter->dateRange($start, $end))
                     ->activeShares()
                     ->with('patient')
@@ -39,21 +39,21 @@ class PatientController extends Controller
             ], 403);
         }
     }
-    public function diagnosis(Patient $patient){
+
+    public function diagnosis(Patient $patient)
+    {
         $doctor = auth()->guard('doctor-api')->user();
-          
-           
+
         if ($patient && $doctor->canViewProfile($patient)) {
-            
-             $records = $patient->medicalRecords('App\Models\Diagnosis')->get();
-           
-              $records->each(function($record) {
-                  $record->data = $record->data;
-              });
-            
+            $records = $patient->medicalRecords('App\Models\Diagnosis')->get();
+
+            $records->each(function ($record) {
+                $record->data = $record->data;
+            });
+
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
-                'data' => $records
+                'data' => $records,
             ], 200);
         }
 
@@ -83,7 +83,7 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient LabTest retrieved successfully',
-                'data' => $patient->medicalRecords('App\Models\LabTest')->get()->each(function($test) {
+                'data' => $patient->medicalRecords('App\Models\LabTest')->get()->each(function ($test) {
                     return $test->data;
                 }),
             ], 200);
@@ -102,7 +102,7 @@ class PatientController extends Controller
         }
 
         return response()->json([
-            'data' => $medicalRecord->get()->each(function($record) {
+            'data' => $medicalRecord->get()->each(function ($record) {
                 return $record->data;
             }),
         ], 200);
@@ -114,7 +114,7 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient Prescription retrieved successfully',
-                'data' => $patient->medicalRecords('App\Models\Prescription')->get()->each(function($pre) {
+                'data' => $patient->medicalRecords('App\Models\Prescription')->get()->each(function ($pre) {
                     return $pre->data;
                 }),
             ], 200);

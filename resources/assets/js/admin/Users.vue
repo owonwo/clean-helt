@@ -19,6 +19,7 @@
 		</div>
 		<v-scrollbar style="max-height: 70vh">
 			<pager align="top" :current="current">
+				<!-- PATIENTS_TABLE -->
 				<div class="px-15" slot="p1">
 					<table class="table is-small is-hoverable is-fullwidth" style="font-size: smaller">
 						<tr>
@@ -34,13 +35,14 @@
 							<td>{{ record.phone }}</td>
 							<td>{{ record.email }}</td>
 							<td>
+								<button @click="showModal('PATIENT', record.chcode)" class="button is-normal is-small">View</button>
 								<span v-if="record.active == 1" class="tag is-success">Active</span>
 								<span v-if="record.active == 0" class="tag is-danger">Inactive</span>
-								<button @click="showModal('PATIENT', record.chcode)" class="button is-normal is-small">View</button>
 							</td>
 						</tr>
 					</table>
-				</div>	
+				</div>
+				<!-- DOCTORS_TABLE -->
 				<div class="px-15" slot="p2">
 					<table class="table is-small is-hoverable is-fullwidth" style="font-size: smaller">
 						<tr>
@@ -58,9 +60,13 @@
 							<td>{{ record.email }}</td>
 							<td>{{ record.specialization }}</td>
 							<td>
-								<span v-if="record.validation == true" class="tag is-success">verified</span>
-								<span v-if="record.validation == false" class="button is-small is-info" @click="verifyDoctor(record)">unverified</span>
 								<button @click="showModal('DOCTOR', record.chcode)" class="button is-normal is-small">View</button>
+								<button v-if="record.confirm == true" class="button is-small is-success"
+									@click="lock('DOCTOR', record)"><i class="ti ti-lock"></i></button>
+								<button v-else-if="record.confirm == false" @click="unlock('DOCTOR', record)"
+									class="button is-small is-info"><i class="ti ti-unlock"></i></button>
+								<span v-if="record.validation == true" class="button is-small  is-success">verified</span>
+								<span @click="verifyDoctor(record)" v-if="record.validation == false" class="button  is-small is-danger">inactive</span>
 							</td>
 						</tr>
 					</table>
@@ -80,9 +86,9 @@
 							<td>{{ record.phone }}</td>
 							<td>{{ record.email }}</td>
 							<td>
-								<span v-if="record.active == 1" @click="deactivate('HOSPITAL')" class="button is-small is-success">Active</span>
-								<span v-if="record.active == 0" @click="activate('HOSPITAL')" class="button is-small is-info">Inactive</span>
 								<button @click="showModal('HOSPITAL', record.chcode)" class="button is-normal is-small">View</button>
+								<span v-if="record.active == 1" @click="lock('HOSPITAL', record)" class="button is-small is-success">Active</span>
+								<span v-if="record.active == 0" @click="unlock('HOSPITAL', record)" class="button is-small is-danger">Inactive</span>
 							</td>
 						</tr>
 					</table>
@@ -105,9 +111,9 @@
 							<td>{{ record.email }}</td>
 							<td>{{ record.state }}</td>
 							<td>
-								<span v-if="record.active == 1" class="tag is-success">verified</span>
-								<span v-if="record.active == 0" class="tag is-info">unverified</span>
 								<button @click="showModal('PHARMACY', record.chcode)" class="button is-normal is-small">View</button>
+								<span v-if="record.active == 1" class="tag is-success">verified</span>
+								<span v-if="record.active == 0" class="tag is-danger">inactive</span>
 							</td>
 						</tr>
 					</table>
@@ -130,7 +136,7 @@
 							<td>{{ record.state }}</td>
 							<td>
 								<span v-if="record.active == 1" class="tag is-success">verified</span>
-								<span v-if="record.active == 0" class="tag is-info">unverified</span>
+								<span v-if="record.active == 0" class="tag is-info">inactive</span>
 								<!-- <button @click="showModal('LABORATORY', record.chcode)" class="button is-normal is-small">View</button> -->
 							</td>
 						</tr>
@@ -149,6 +155,33 @@
 
 <script>
 	import Pager from '@/components/Pager.vue';
+
+	const lockUrlMap = {
+		modelMaps: Object.freeze({
+			DOCTOR: `/api/admin/doctors/{chcode}/deactivate`,
+			LABORATORY: `/api/admin/laboratories/{chcode}/deactivate`,
+			PATIENT: `/api/admin/patients/{chcode}/deactivate`,					
+		}),
+		__proto: { 
+			urlIsValid() { 
+				return this.isValid 
+			}, 
+			url(chcode) { 
+				return this._url.replace('{chcode}', chcode)
+			},
+			getUnlockUrl(chcode) {
+				return this._url.replace('deactivate', 'activate').replace('{chcode}', chcode)
+			},
+			_url: '' ,
+			isValid: false
+		},
+		find(model) {
+			return Object.assign(this.__proto, {
+				isValid: Object.keys(this.modelMaps).includes(model), 
+				_url: this.modelMaps[model]
+			});
+		}
+	}
 
 	export default {
 		components: {Pager},
@@ -193,8 +226,21 @@
 					});
 				})
 			},
-			deactivate(model) {
-				
+			lock(model, account) {
+				account.confirm = false;
+				const lockState = lockUrlMap.find(model);
+				!lockState.urlIsValid() ||
+					this.$http.patch(lockState.url(account.chcode)).catch(err => {
+					account.confirm = true;
+				});
+			},
+			unlock(model, account) {
+				account.confirm = true;
+				const lockState = lockUrlMap.find(model);
+				!lockState.urlIsValid() ||
+					this.$http.patch(lockState.getUnlockUrl(account.chcode)).catch(err => {
+					account.confirm = false;
+				});
 			},
 			showModal(model, chcode) {
 				this.model = model
