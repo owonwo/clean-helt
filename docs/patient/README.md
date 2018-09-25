@@ -189,33 +189,6 @@ Response
 <br/>
 
 ## Medical Record view 
-### Patient Medical Record by Date 
-
-
-**`GET  api/patient/medical-record/{patient}`**
-```
-{patient} = chcode 
-```
-
-```json
-{
-    "message": "access medical record by date",
-    "patient": [
-        {
-            "id": 2,
-            "reference": "CHR750289728",
-            "patient_id": 51,
-            "type": "App\\Models\\Diagnosis",
-            "issuer_type": "App\\Models\\Doctor",
-            "issuer_id": 2,
-            "created_at": "2018-09-05 13:41:35",
-            "updated_at": "2018-09-05 13:41:35",
-            "deleted_at": null,
-            "data": []
-        }
-    ]
-}
-```
 
 ### Get The Patient Profile Share 
 
@@ -815,7 +788,7 @@ Response
 
 ### Get all patient laboratory test
 
-**`GET api/patient/{patient}/labtest`**
+**`GET api/patient/labtest`**
 
 ```json
 {
@@ -866,7 +839,7 @@ Response
 
 ### Patient viewing prescription or pharmacy 
 
-**`GET api/patient/{patient}/prescription`**
+**`GET api/patient/prescription`**
 
 ```
 {patient} = chcode  
@@ -933,11 +906,8 @@ Response
 ```
 ### Get medical record
 
-**`GET api/patient/{patient}/medical-records`**
-
-```
-{patient} = chcode 
-```
+**`GET api/patient/medical-records`**
+`
 
 ```json
 {
@@ -3629,9 +3599,54 @@ response
 
 **`GET api/patient/notification/unread`**
 
+```json
+{
+    "message": "Unread notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "ae42d3ae-a4a8-4e4d-975b-de3f9ddd21d6",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:55",
+                "updated_at": "2018-09-17 17:38:55"
+            },
+            {
+                "id": "2dcee6b8-38f4-4131-929f-0fad216abdbf",
+                "type": "App\\Notifications\\PatientMedicalRecordsNotification",
+                "notifiable_type": "App\\Models\\Patient",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "You have a new medical record added"
+                },
+                "read_at": null,
+                "created_at": "2018-09-17 17:38:52",
+                "updated_at": "2018-09-17 17:38:52"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/patient/notification/unread?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/patient/notification/unread?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/patient/notification/unread",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+    }
+}
+```
+
 <br>
 
-### Make unread message as read
+### Mark unread message as read
 
 **`GET api/patient/notification/read/{id}`**
 

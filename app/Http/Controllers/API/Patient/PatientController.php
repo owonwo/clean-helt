@@ -52,6 +52,7 @@ class PatientController extends Controller
             $token = ['token' => str_random(40)];
 
             $data['verify_token'] = Str::random(40);
+            $data['avatar'] = 'public/defaults/avatars/client.png';
 
             if($patient = Patient::create(array_merge($data, $token))){
 
@@ -61,7 +62,7 @@ class PatientController extends Controller
 
                 return response()->json([
                     'message' => 'Congratulation! you have successfully created patient record',
-                    'patients' => $patient,
+                    'data' => $patient,
                     'accessToken' => $accessToken,
                 ], 200);
             }
@@ -89,7 +90,7 @@ class PatientController extends Controller
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'Congratulation you have just verified you account, login to continue',
-                    'patient' => $patient,
+                    'data' => $patient,
                 ], 200);
             }
         }
@@ -118,7 +119,7 @@ class PatientController extends Controller
 
         return response()->json([
             'message' => 'you have successfully log into your account',
-            'patient' => $patient,
+            'data' => $patient,
         ], 200);
 
     }
@@ -153,7 +154,7 @@ class PatientController extends Controller
             if($patient->update($data)){
                 return response()->json([
                     'message' => 'congratulation you have updated your emergency profile',
-                    'patient' => $patient,
+                    'data' => $patient,
                 ]);
             }
 
@@ -193,8 +194,6 @@ class PatientController extends Controller
             if(request()->hasFile('avatar'))
             {
                 $avatarName = request()->avatar->store('public/avatar');
-            }else{
-                $avatarName = 'avatar/avatar.jpeg';
             }
 
             $data = request()->all();
@@ -204,7 +203,7 @@ class PatientController extends Controller
             if($this->patient->update($data)){
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
-                    'patient' => $this->patient,
+                    'data' => $this->patient,
                 ], 200);
             }
 
@@ -230,12 +229,15 @@ class PatientController extends Controller
         //
     }
 
-    public function showRecords(Patient $patient)
+    public function showRecords()
     {
         try {
             return response()->json([
                 'message' => "Medical records successfully Loaded",
-                'records' => $patient->medicalRecords()->latest()->get()->load('data')
+                'data' => $this->patient->medicalRecords()->latest()->get()->each(function($record){
+                    $record->data;
+                    return $record;
+                }),
             ], 200);
         } catch (Exception $exception){
             return response()->json([
@@ -244,34 +246,29 @@ class PatientController extends Controller
         }
     }
 
-    public function showDate(Patient $patient)
+    public function showLabtest()
     {
-        $retrievePatient = $patient->medicalRecords()->latest()->get()->load('data');
-
-        return response()->json([
-            'message' => 'access medical record by date',
-            'patient' => $retrievePatient,
-        ], 200);
-    }
-
-    public function showLabtest(Patient $patient)
-    {
-        $patient = $patient->laboratoryRecords()->latest()->get();
-
+        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
 
         return response()->json([
             'message' => 'You can access all laboratory record here',
-            'patient' => $patient,
+            'data' => $data,
         ], 200);
     }
 
     public function showPrescription(Patient $patient)
     {
-        $patient = $patient->pharmacyRecords()->latest()->get();
+        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
 
         return response()->json([
             'message' => 'access medical record by date',
-            'patient' => $patient,
+            'data' => $data,
         ], 200);
     }
 
@@ -307,7 +304,7 @@ class PatientController extends Controller
         if ($doctor) {
             return response()->json([
                 'message' => 'Doctor retrieved successfully',
-                'doctor' => $doctor,
+                'data' => $doctor,
             ], 200);
         }
 

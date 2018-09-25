@@ -39,7 +39,6 @@ class ProfileShareController extends Controller
 
     public function store()
     {
-
         $rules = $this->getRules();
         try {
             $this->validate(request(), $rules);
@@ -56,7 +55,10 @@ class ProfileShareController extends Controller
 
         if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
 
-            $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
+            $exists = DB::table('profile_shares')
+                        ->where('patient_id', $this->patient->id)
+                        ->where('provider_type', $providerClass)
+                        ->where('provider_id', $provider->id)->first();
 
             if (!$exists) {
                 $share = $this->patient->profileShares()->create([

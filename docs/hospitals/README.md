@@ -604,3 +604,147 @@ Sample Response:
 }
 ```
 <br/>
+
+## Notification
+
+### Get all notification
+
+**`Get api/hospital/notifications`**
+
+```json
+{
+    "message": "Notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "64e2f3d9-321a-45de-a0dc-5a8758d670fc",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Hospital",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:31:52",
+                "updated_at": "2018-09-20 01:31:52"
+            },
+            {
+                "id": "89d8fecf-a088-4e68-af93-72ed3454fe12",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Hospital",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:30:48",
+                "updated_at": "2018-09-20 01:30:48"
+            },
+            {
+                "id": "68ac49ff-5c39-44e6-884c-5769efb89d3e",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Hospital",
+                "notifiable_id": 1,
+                "data": [],
+                "read_at": null,
+                "created_at": "2018-09-19 13:53:00",
+                "updated_at": "2018-09-19 13:53:00"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/hospital/notifications?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/hospital/notifications?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/hospital/notifications",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}
+```
+
+### Get unread messages
+
+**`Get api/hospital/notification/unread`**
+
+```json
+{
+    "message": "Unread notification loaded successfully",
+    "notification": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "64e2f3d9-321a-45de-a0dc-5a8758d670fc",
+                "type": "App\\Notifications\\PatientProfileSharedNotification",
+                "notifiable_type": "App\\Models\\Hospital",
+                "notifiable_id": 1,
+                "data": {
+                    "data": "Benton Kassulke shared his profile with you please accept or ignore"
+                },
+                "read_at": null,
+                "created_at": "2018-09-20 01:31:52",
+                "updated_at": "2018-09-20 01:31:52"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/hospital/notification/unread?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/hospital/notification/unread?page=1",
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/hospital/notification/unread",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}
+```
+
+### Mark message as read
+
+**`GET api/hospital/notification/read/{id}`**
+
+sample
+
+``` 
+{id} = 64e2f3d9-321a-45de-a0dc-5a8758d670fc
+```
+response
+
+```json
+{
+    "message": "Mark as read",
+    "notification": {
+        "id": "64e2f3d9-321a-45de-a0dc-5a8758d670fc",
+        "type": "App\\Notifications\\PatientProfileSharedNotification",
+        "notifiable_type": "App\\Models\\Hospital",
+        "notifiable_id": 1,
+        "data": {
+            "data": "Benton Kassulke shared his profile with you please accept or ignore"
+        },
+        "read_at": "2018-09-20 15:33:01",
+        "created_at": "2018-09-20 01:31:52",
+        "updated_at": "2018-09-20 15:33:01"
+    }
+}
+```
+
+### Delete message
+
+**`GET api/hospital/notification/read/{id}`**
+
+sample
+
+``` 
+{id} = 64e2f3d9-321a-45de-a0dc-5a8758d670fc
+```
+response
+
+```json
+{
+    "message": "notification deleted"
+}
+```

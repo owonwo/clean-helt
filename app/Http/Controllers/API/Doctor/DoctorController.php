@@ -20,7 +20,6 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth:doctor-api')->except('store');
-
     }
 
     protected $rules = [
@@ -47,9 +46,13 @@ class DoctorController extends Controller
         }
         $data = request()->all();
         $data['password'] = bcrypt($data['password']);
+
         $token = ['token' => str_random(40)];
         if ($doctor = Doctor::forceCreate(array_merge($data, $token))) {
-            DoctorProfile::forceCreate(['doctors_id' => $doctor->id]);
+            DoctorProfile::forceCreate([
+                'doctors_id' => $doctor->id,
+                'avatar' => 'public/defaults/avatars/client.png'
+            ]);
             event(new Registered($doctor));
 
             $accessToken = $doctor->createToken(config('app.name'))->accessToken;
@@ -57,11 +60,12 @@ class DoctorController extends Controller
             return response()->json([
                 'message' => 'Doctor has been created successfully',
                 'access_token' => $accessToken,
-                'doctor' => $doctor
+                'doctor' => $doctor,
             ], 200);
         }
+
         return response()->json([
-            'message' => "There was an error"
+            'message' => 'There was an error',
         ], 400);
     }
 
@@ -70,56 +74,52 @@ class DoctorController extends Controller
         $file = null;
         $doctor = auth()->guard('doctor-api')->user();
 
-      
         // $doctor->save();
         // request()->validate($this->rules);
         // return json_encode(dd(request()->all()));
-       
-        try{
-             $doctor->update([
-                "first_name" => request('first_name') == null ? $doctor->first_name : request('first_name') ,
-                "middle_name" => request('middle_name') == null ? $doctor->middle_name : request('middle_name') ,
-                "last_name" => request('last_name') == null ? $doctor->last_name : request('last_name'),
-                "email" => request('email') == null ? $doctor->email :  request('email'),
-                "phone" => request('phone') == null ? $doctor->phone : request('phone'),
-                "gender" => request('gender') == null ? $doctor->gender : request('gender'),
-                "specialization" => request('specialization') == null ? $doctor->specialization : request('specialization'),
-                "folio" => request('folio') == null ?  $doctor->folio : request('folio') ,
+
+        try {
+            $doctor->update([
+                'first_name' => null == request('first_name') ? $doctor->first_name : request('first_name'),
+                'middle_name' => null == request('middle_name') ? $doctor->middle_name : request('middle_name'),
+                'last_name' => null == request('last_name') ? $doctor->last_name : request('last_name'),
+                'email' => null == request('email') ? $doctor->email : request('email'),
+                'phone' => null == request('phone') ? $doctor->phone : request('phone'),
+                'gender' => null == request('gender') ? $doctor->gender : request('gender'),
+                'specialization' => null == request('specialization') ? $doctor->specialization : request('specialization'),
+                'folio' => null == request('folio') ? $doctor->folio : request('folio'),
             ]);
-        
+
             $doctor->profile()->update([
-                    "address" => request('address'),
-                    "city" => request('city'),
-                    "state" => request('state'),
-                    "country" => request('country'),
-                    "mode_of_contact" => request('mode_of_contact'),
-                    "marital_status" => request('marital_status'),
-                    "religion" => request('religion'),
-                    "kin_fullname" => request('kin_fullname'),
-                    "kin_address" => request('kin_address'),
-                    "kin_phone" => request('kin_phone'),
-                    "kin_city" => request('kin_city'),
-                    "kin_state" => request('kin_state'),
-                    "kin_country" => request('kin_country'),
-                    "name_of_degree" => request('name_of_degree'),
-                    "institution" => request('institution'),
-                    "additional_degree" => request('additional_degree'),
-                    "years_in_practice" => request('years_in_practice'),
-                    "avatar" => $file = request()->file('avatar') == null ? $doctor->avatar : $file->store('avatar') ,
-                    "disability" => request('disability'),
+                    'address' => request('address'),
+                    'city' => request('city'),
+                    'state' => request('state'),
+                    'country' => request('country'),
+                    'mode_of_contact' => request('mode_of_contact'),
+                    'marital_status' => request('marital_status'),
+                    'religion' => request('religion'),
+                    'kin_fullname' => request('kin_fullname'),
+                    'kin_address' => request('kin_address'),
+                    'kin_phone' => request('kin_phone'),
+                    'kin_city' => request('kin_city'),
+                    'kin_state' => request('kin_state'),
+                    'kin_country' => request('kin_country'),
+                    'name_of_degree' => request('name_of_degree'),
+                    'institution' => request('institution'),
+                    'additional_degree' => request('additional_degree'),
+                    'years_in_practice' => request('years_in_practice'),
+                    'avatar' => $file = null == request()->file('avatar') ? $doctor->avatar : $file->store('avatar'),
+                    'disability' => request('disability'),
                 ]);
-            
 
             return response()->json([
                 'message' => 'Doctor updated successfully',
-                'doctor' => $doctor->fresh()
+                'doctor' => $doctor->fresh(),
             ], 200);
-            
-        } catch(Exception $e){
-             
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'There was an error',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
@@ -134,11 +134,11 @@ class DoctorController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 403);
         }
-
     }
+
     public function addHospital()
     {
         $doctor = auth()->guard('doctor-api')->user();
@@ -148,32 +148,31 @@ class DoctorController extends Controller
             $hospital = Hospital::whereChcode($chcode)->get()->first();
         } catch (Exception $e) {
             return response()->json([
-                'error' => 'Theres an Error' . $e->getMessage()
-            ],403);
+                'error' => 'Theres an Error'.$e->getMessage(),
+            ], 403);
         }
-        $exists = DB::table('doctor_hospital')->where('hospital_id',$hospital->id)->where('doctor_id',$doctor->id)->first();
+        $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id', $doctor->id)->first();
         try {
-            if(!$exists){
+            if (!$exists) {
                 DoctorHospital::forceCreate([
                     'hospital_id' => $hospital->id,
                     'doctor_id' => $doctor->id,
-                    'actor' => get_class($doctor)
+                    'actor' => get_class($doctor),
                 ]);
-            }else{
+            } else {
                 return response()->json([
-                    'message' => 'sorry please you have added this hospital already'
-                ],409);
+                    'message' => 'You have added this hospital already.',
+                ], 409);
             }
-
         } catch (Exception $e) {
             return response()->json([
-                'error' => 'Theres an Error' . $e->getMessage()
-            ],403);
+                'error' => 'Theres an Error'.$e->getMessage(),
+            ], 403);
         }
 
         return response()->json([
             'message' => 'Please wait for hospital to accept you',
-            'hospital' => $hospital
+            'hospital' => $hospital,
         ]);
 
         //doctor first submits
@@ -184,13 +183,13 @@ class DoctorController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         if ($hospital->exists && $doctor->acceptHospital($hospital)) {
             return response()->json([
-                'message' => 'You have successfully accepted'
+                'message' => 'You have successfully accepted',
             ], 200);
         }
-        return response()->json([
-            'error' => 'Something went wrong'
-        ], 400);
 
+        return response()->json([
+            'error' => 'Something went wrong',
+        ], 400);
     }
 
     public function readNotifications(Doctor $doctor)
@@ -201,9 +200,8 @@ class DoctorController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
-            ],403);
-
+                'error' => $e->getMessage(),
+            ], 403);
         }
     }
 
@@ -212,16 +210,16 @@ class DoctorController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         try {
             $activeHospitals = optional($doctor)->activeHospitals()->get();
+
             return response()->json([
                 'message' => 'Active Hospitals loaded successfully',
-                'activeHospitals' => $activeHospitals
+                'hospitals' => $activeHospitals,
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         }
-
     }
 
     public function pendingHospitals()
@@ -230,16 +228,16 @@ class DoctorController extends Controller
 
         try {
             $pendingHospitals = optional($doctor)->pendingHospitals()->get();
+
             return response()->json([
                 'message' => 'Pending hospitals Loaded Successfully',
-                'pendingHospitals' => $pendingHospitals
+                'hospitals' => $pendingHospitals,
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
-            ],403);
+                'error' => $e->getMessage(),
+            ], 403);
         }
-
     }
 
     public function sentHospitals()
@@ -248,14 +246,15 @@ class DoctorController extends Controller
 
         try {
             $sentHospitals = optional($doctor)->sentHospitals()->get();
+
             return response()->json([
                 'message' => 'Sent Hospitals loaded successfully',
-                'sentHospitals' => $sentHospitals,
+                'hospitals' => $sentHospitals,
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ],403);
+            ], 403);
         }
     }
 
@@ -269,10 +268,9 @@ class DoctorController extends Controller
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         }
-
     }
 
     public function decline(Hospital $hospital)
@@ -280,11 +278,12 @@ class DoctorController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         if ($hospital->exists && $doctor->declineHospital($hospital)) {
             return response()->json([
-                'message' => 'You have successfully declined'
+                'message' => 'You have successfully declined',
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Something went wrong'
+            'message' => 'Something went wrong',
         ], 400);
     }
 
@@ -293,12 +292,12 @@ class DoctorController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         if ($hospital->exists && $doctor->hospitals()->detach($hospital->id)) {
             return response()->json([
-                'message' => 'You have successfully Removed'
+                'message' => 'You have successfully Removed',
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Something went wrong'
+            'message' => 'Something went wrong',
         ], 400);
     }
 }
