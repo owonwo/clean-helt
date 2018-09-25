@@ -6,7 +6,6 @@ use App\Traits\CodeGenerator;
 use Illuminate\Notifications\Notifiable;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Storage;
 
 class Doctor extends Authenticatable
 {
@@ -125,10 +124,5 @@ class Doctor extends Authenticatable
         return null != $this->activeHospitals()
                     ->where('hospital_id', (string) $hospital->id)
                     ->first();
-    }
-
-    public function getAvatarAttribute($avatar)
-    {
-        return asset(Storage::url($avatar));
     }
 }
