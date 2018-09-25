@@ -3,6 +3,9 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Hospital;
+use App\Notifications\HospitalCreatedNotification;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,7 +54,16 @@ class ManagesHospitalTest extends TestCase
             ->get("/api/admin/hospitals/{$hospital->chcode}")
             ->assertSee($hospital->name);
     }
-
+    /** @test */
+    public function a_hospital_recieves_a_notification_by_mail()
+    {
+        Notification::fake();
+        $this->signIn(null, 'admin');
+        $hospital = create(Hospital::class);
+        $password = "Fishes";
+        $hospital->notify(new HospitalCreatedNotification($hospital,$password));
+        Notification::assertSentTo($hospital,HospitalCreatedNotification::class);
+    }
     /** @test */
     public function an_authenticated_admin_can_update_a_registered_hospital()
     {

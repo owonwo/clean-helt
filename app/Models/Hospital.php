@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\CodeGenerator;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
+use Storage;
 
 class Hospital extends Authenticatable
 {
@@ -115,5 +116,10 @@ class Hospital extends Authenticatable
     {
         return $this->doctors()->wherePivot('doctor_id', $doctor->id)
             ->updateExistingPivot($doctor->id, ['status' => "2"]);
+    }
+
+    public function getAvatarAttribute($avatar)
+    {
+        return asset(Storage::url($avatar));
     }
 }

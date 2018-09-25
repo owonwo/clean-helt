@@ -52,6 +52,7 @@ class PatientController extends Controller
             $token = ['token' => str_random(40)];
 
             $data['verify_token'] = Str::random(40);
+            $data['avatar'] = 'public/defaults/avatars/client.png';
 
             if($patient = Patient::create(array_merge($data, $token))){
 
@@ -190,8 +191,6 @@ class PatientController extends Controller
             if(request()->hasFile('avatar'))
             {
                 $avatarName = request()->avatar->store('public/avatar');
-            }else{
-                $avatarName = 'avatar/avatar.jpeg';
             }
 
             $data = request()->all();

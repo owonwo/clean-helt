@@ -83,7 +83,6 @@ Route::get('hospital/{any?}', function () { return view('all', ['user' => 'Hospi
     ->where('any', '(.){0,}')->name('hospital.dashboard');
 
 Route::get('/make-fake-session/{type}', function (Request $request, $type) {
-
     $emails = [
         'doctor' => 'dessie.conrey@gmail.com',
         'patient' => 'rocio.daniel@example.com',
