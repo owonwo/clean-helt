@@ -54,6 +54,7 @@ class HospitalController extends Controller
 
         $password = str_random(10);
         $data['password'] = bcrypt($password);
+        $data['avatar'] = 'public/defaults/avatars/provider.png';
 
         if ($hospital = Hospital::create($data)) {
 

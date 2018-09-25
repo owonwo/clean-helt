@@ -46,6 +46,8 @@ class DoctorController extends Controller
         }
         $data = request()->all();
         $data['password'] = bcrypt($data['password']);
+        $data['avatar'] = 'public/defaults/avatars/client.png';
+
         $token = ['token' => str_random(40)];
         if ($doctor = Doctor::forceCreate(array_merge($data, $token))) {
             DoctorProfile::forceCreate(['doctors_id' => $doctor->id]);

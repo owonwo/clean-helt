@@ -46,7 +46,9 @@ class PharmacyController extends Controller
 
         $data = $request->all();
 
-        $data['password'] = str_random(10);
+        $password = str_random(10);
+        $data['password'] = bcrypt($password);
+        $data['avatar'] = 'public/defaults/avatars/provider.png';
 
         if ($pharmacy = Pharmacy::create($data)) {
             return response()->json([
