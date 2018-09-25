@@ -26,7 +26,6 @@ class PatientSharedProfile implements ShouldBroadcast
      */
     public function __construct($provider,Patient $patient)
     {
-        //
         $this->provider = $provider;
         $this->patient = $patient;
     }

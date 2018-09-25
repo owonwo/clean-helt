@@ -57,6 +57,7 @@ class ProfileShareController extends Controller
         if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
 
             $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
+
             if (!$exists) {
                 $share = $this->patient->profileShares()->create([
                     'provider_type' => $providerClass,

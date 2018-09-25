@@ -22,8 +22,9 @@ class HospitalController extends Controller
     public function index()
     {
         $hospitals = Hospital::latest()->paginate(20);
+
         return response()->json([
-            'hospitals' => $hospitals
+            'data' => $hospitals,
         ], 200);
     }
 
@@ -34,13 +35,13 @@ class HospitalController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,12 +64,12 @@ class HospitalController extends Controller
 
             return response()->json([
                 'message' => 'Hospital created successfully',
-                'hospital' => $hospital
+                'data' => $hospital,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Hospital could not be created'
+            'message' => 'Hospital could not be created',
         ], 400);
     }
 
@@ -76,32 +77,34 @@ class HospitalController extends Controller
      * Display the specified resource.
      *
      * @param Hospital $hospital
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Hospital $hospital)
     {
         return response()->json([
             'message' => 'Hospital fetched successfully',
-            'hospital' => $hospital
+            'data' => $hospital,
         ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param Hospital $hospital
+     * @param \Illuminate\Http\Request $request
+     * @param Hospital                 $hospital
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Hospital $hospital)
@@ -109,12 +112,12 @@ class HospitalController extends Controller
         if ($hospital->update($request->all())) {
             return response()->json([
                 'message' => 'Hospital updated successfully',
-                'hospital' => $hospital
+                'data' => $hospital,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Hospital could not be updated'
+            'message' => 'Hospital could not be updated',
         ], 400);
     }
 
@@ -122,25 +125,28 @@ class HospitalController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Hospital $hospital
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Hospital $hospital)
     {
         try {
             $hospital->delete();
+
             return response()->json([
                 'message' => 'Hospital deleted successfully',
-                'hospital' => $hospital
+                'data' => $hospital,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 400);
         }
     }
 
     /**
-     * Returns validation rules for hospital resource
+     * Returns validation rules for hospital resource.
+     *
      * @return array
      */
     private function getRules()
@@ -153,7 +159,7 @@ class HospitalController extends Controller
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
-            'country' => 'required'
+            'country' => 'required',
         ];
     }
 }

@@ -81,4 +81,6 @@ class Patient extends Authenticatable
 
         return null;
     }
+
+
 }

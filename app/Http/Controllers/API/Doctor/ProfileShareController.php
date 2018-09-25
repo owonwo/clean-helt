@@ -8,15 +8,18 @@ use App\Http\Controllers\Controller;
 
 class ProfileShareController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
          $this->middleware('auth:doctor-api');
     }
     //
-    public function pending(){
-        $doctor =  auth()->guard('doctor')->user();
-        $pendingPatients = ProfileShare::where([['provider_id', optional($doctor)->id],['status','=','0'],['']])->get();
+    public function pending()
+    {
+        $doctor =  auth()->guard('doctor-api')->user();
+        $pendingPatients = ProfileShare::where([['provider_id', optional($doctor)->id],['status','=','0']])->get();
 
-        if($pendingPatients){
+        if($pendingPatients)
+        {
              return response()->json([
             'message' => 'All Pending patients loaded',
             'pendingPatients' => $pendingPatients
@@ -30,10 +33,23 @@ class ProfileShareController extends Controller
 
         //steps one check the get the provider->id and use it to get all his patients and check his status column
     }
-
+    public function accepted(ProfileShare $profileShare){
+        $doctor =  auth()->guard('doctor-api')->user();
+        $acceptedPatients = ProfileShare::where('provider_id', optional($doctor)->id)->where('status','1')->where('provider_type','App\Models\Doctor')->get();
+        if($acceptedPatients)
+        {
+            return response()->json([
+                'message' => 'All Accepted patients loaded',
+                'pendingPatients' => $acceptedPatients
+            ]);
+        }
+        return response()->json([
+            'message' => 'Shit!! get outta here'
+        ],403);
+    }
     public function accept(ProfileShare $profileShare)
     {
-        if($profileShare->exists && $profileShare->update(['status' => request('accept')])){
+        if($profileShare->exists && $profileShare->update(['status' => 1])){
 
             return response()->json([
                 'message' => 'Profile share has been accepted',
@@ -47,7 +63,7 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        if($profileShare->update(['status' => request('decline')])){
+        if($profileShare->update(['status' => 2])){
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'profileShare' => $profileShare
