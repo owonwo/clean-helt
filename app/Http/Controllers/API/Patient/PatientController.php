@@ -18,9 +18,10 @@ class PatientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:patient-api')->except('store', 'verify');
+        $this->middleware('auth:patient-api', ['except' => ['store', 'verify']]);
+
         $this->middleware(function ($request, $next) {
-            $this->patient = auth('patient-api')->user();
+            $this->patient = auth()->user();
 
             return $next($request);
         });
@@ -46,6 +47,7 @@ class PatientController extends Controller
             $token = ['token' => str_random(40)];
 
             $data['verify_token'] = Str::random(40);
+            $data['avatar'] = 'public/defaults/avatars/client.png';
 
             if ($patient = Patient::create(array_merge($data, $token))) {
                 $accessToken = $patient->createToken(config('app.name'))->accessToken;
@@ -74,11 +76,9 @@ class PatientController extends Controller
         if ($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first()) {
             $data['status'] = 1;
             $data['verify_token'] = null;
+
             if ($patient->update($data)) {
-                return response()->json([
-                    'message' => 'Congratulation you have just verified you account, login to continue',
-                    'data' => $patient,
-                ], 200);
+                return redirect('/login');
             }
         }
 
@@ -175,8 +175,6 @@ class PatientController extends Controller
         try {
             if (request()->hasFile('avatar')) {
                 $avatarName = request()->avatar->store('public/avatar');
-            } else {
-                $avatarName = 'avatar/avatar.jpeg';
             }
 
             $data = request()->all();
@@ -209,16 +207,19 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 
     public function showRecords()
     {
         try {
             return response()->json([
-                'message' => "Medical records successfully Loaded",
-                'data' => $this->patient->medicalRecords()->latest()->get()->each(function($record){
+                'message' => 'Medical records successfully Loaded',
+                'data' => $this->patient->medicalRecords()->latest()->get()->each(function ($record) {
                     $record->data;
+                    $record->data->tests = json_decode($record->data->tests);
+                    $record->data->extras = json_decode($record->data->extras);
+                    $record->data->symptoms = explode(',', $record->data->symptoms);
+
                     return $record;
                 }),
             ], 200);
@@ -231,8 +232,9 @@ class PatientController extends Controller
 
     public function showLabtest()
     {
-        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function($record){
+        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function ($record) {
             $record->data;
+
             return $record;
         });
 
@@ -244,8 +246,9 @@ class PatientController extends Controller
 
     public function showPrescription(Patient $patient)
     {
-        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function($record){
+        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
             $record->data;
+
             return $record;
         });
 
@@ -291,10 +294,11 @@ class PatientController extends Controller
             ], 200);
         }
 
+        $doctorN = null;
+
         return response()->json([
             'message' => 'Doctor not found',
-            $doctor => null
+            'data' => $doctorN,
         ], 404);
-
     }
 }

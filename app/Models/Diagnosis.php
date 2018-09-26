@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\RecordLogger;
 use Illuminate\Database\Eloquent\Model;
 
 class Diagnosis extends Model
@@ -16,9 +15,10 @@ class Diagnosis extends Model
     {
         return $this->belongsTo(MedicalRecord::class, 'record_id');
     }
+
     //Diagnosis Belongs to patient
-    public function getPatientAttribute(){
+    public function getPatientAttribute()
+    {
         return $this->record->patient;
     }
-
 }

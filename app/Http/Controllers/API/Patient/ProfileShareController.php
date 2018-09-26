@@ -33,9 +33,7 @@ class ProfileShareController extends Controller
     {
         return response()->json([
             'message' => 'Shares retrieved successfully',
-            'shares' => $this->patient->profileShares()
-                ->with('provider')
-                ->get(),
+            'shares' => $this->patient->profileShares,
         ], 200);
     }
 
@@ -54,8 +52,11 @@ class ProfileShareController extends Controller
         $chcode = request('chcode');
         $providerClass = $this->getProvider($chcode);
 
-        if ((bool) $providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
-            $exists = DB::table('profile_shares')->where('patient_id', $this->patient->id)->where('provider_type', $providerClass)->where('provider_id', $provider->id)->first();
+        if ($providerClass && $provider = $providerClass::whereChcode($chcode)->first()) {
+            $exists = DB::table('profile_shares')
+                        ->where('patient_id', $this->patient->id)
+                        ->where('provider_type', $providerClass)
+                        ->where('provider_id', $provider->id)->first();
 
             if (!$exists) {
                 $share = $this->patient->profileShares()->create([

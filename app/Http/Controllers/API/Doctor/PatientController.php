@@ -48,12 +48,15 @@ class PatientController extends Controller
             $records = $patient->medicalRecords('App\Models\Diagnosis')->get();
 
             $records->each(function ($record) {
-                $record->data = $record->data;
+                $record->data;
+                $record->data->tests = json_decode($record->data->tests);
+                $record->data->extras = json_decode($record->data->extras);
+                $record->data->symptoms = explode(',', $record->data->symptoms);
             });
 
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
-                'data' => $records,
+                'records' => $records,
             ], 200);
         }
 
@@ -103,7 +106,7 @@ class PatientController extends Controller
 
         return response()->json([
             'data' => $medicalRecord->get()->each(function ($record) {
-                return $record->data;
+                $record->data;
             }),
         ], 200);
     }
