@@ -300,9 +300,11 @@ class PatientController extends Controller
             ], 200);
         }
 
+        $doctorN = null;
+
         return response()->json([
             'message' => 'Doctor not found',
-            $doctor => null
+            'data' => $doctorN
         ], 404);
 
     }
