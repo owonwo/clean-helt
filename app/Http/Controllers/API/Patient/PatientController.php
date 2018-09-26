@@ -3,29 +3,26 @@
 namespace App\Http\Controllers\API\Patient;
 
 use App\Mail\PatientVerifyEmail;
-use App\Models\Hospital;
 use App\Models\Laboratory;
 use App\Models\Patient;
-use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Exception;                                             
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use App\Models\Doctor;
 
-
 class PatientController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth:patient-api',['except' => ['store', 'verify']]);
+        $this->middleware('auth:patient-api', ['except' => ['store', 'verify']]);
 
-        $this->middleware(function($request, $next) {
+        $this->middleware(function ($request, $next) {
             $this->patient = auth()->user();
+
             return $next($request);
         });
     }
@@ -44,7 +41,6 @@ class PatientController extends Controller
         }
 
         try {
-
             $data = $request->all();
 
             $data['password'] = bcrypt($data['password']);
@@ -54,8 +50,7 @@ class PatientController extends Controller
             $data['verify_token'] = Str::random(40);
             $data['avatar'] = 'public/defaults/avatars/client.png';
 
-            if($patient = Patient::create(array_merge($data, $token))){
-
+            if ($patient = Patient::create(array_merge($data, $token))) {
                 $accessToken = $patient->createToken(config('app.name'))->accessToken;
 
                 $this->sendConfirmationMail($patient);
@@ -66,68 +61,63 @@ class PatientController extends Controller
                     'accessToken' => $accessToken,
                 ], 200);
             }
-
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
             ], 403);
         }
 
-
         return response()->json([
-            'message' => 'Your update failed due to incorrect data'
+            'message' => 'Your update failed due to incorrect data',
         ]);
     }
 
     public function verify($email, $verifyToken)
     {
-
-        if($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first())
-        {
+        if ($patient = Patient::where(['email' => $email, 'verify_token' => $verifyToken])->first()) {
             $data['status'] = 1;
             $data['verify_token'] = null;
-            if($patient->update($data)){
+
+            if ($patient->update($data)) {
                 return redirect('/login');
             }
         }
 
         return response()->json([
-            'message' => 'Your account was not verified'
+            'message' => 'Your account was not verified',
         ], 401);
-
     }
 
     public function sendConfirmationMail($patient)
-
     {
         Mail::to($patient['email'])->send(new PatientVerifyEmail($patient));
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-
         $patient = $this->patient;
 
         return response()->json([
             'message' => 'you have successfully log into your account',
             'data' => $patient,
         ], 200);
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Patient $patient)
+    public function edit(Request $request, Patient $patient)
     {
         $rules = [
             'emergency_hospital_address' => 'required',
@@ -143,21 +133,18 @@ class PatientController extends Controller
             ], 422);
         }
 
-
         try {
-
             $data = $request->all();
 
-            if($patient->update($data)){
+            if ($patient->update($data)) {
                 return response()->json([
                     'message' => 'congratulation you have updated your emergency profile',
                     'data' => $patient,
                 ]);
             }
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                'errors' => 'Ooops! ' .$e->getMessage(),
+                'errors' => 'Ooops! '.$e->getMessage(),
             ]);
         }
     }
@@ -165,8 +152,9 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -174,7 +162,6 @@ class PatientController extends Controller
         /**
          * @check if the patient is inserting an image of not
          */
-
         $rule = $this->getUpdateRule();
 
         try {
@@ -187,9 +174,7 @@ class PatientController extends Controller
         }
 
         try {
-
-            if(request()->hasFile('avatar'))
-            {
+            if (request()->hasFile('avatar')) {
                 $avatarName = request()->avatar->store('public/avatar');
             }
 
@@ -197,41 +182,42 @@ class PatientController extends Controller
 
             $data['avatar'] = $avatarName;
 
-            if($this->patient->update($data)){
+            if ($this->patient->update($data)) {
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
                     'data' => $this->patient,
                 ], 200);
             }
-
         } catch (\Exception $exception) {
             return response()->json([
-                'errors' => 'Ooops! '. $exception->getMessage(),
+                'errors' => 'Ooops! '.$exception->getMessage(),
             ]);
         }
 
         return response()->json([
-            'message' => 'Your update failed due to incorrect data'
+            'message' => 'Your update failed due to incorrect data',
         ], 200);
     }
 
-
     public function destroy($id)
     {
-        //
     }
 
     public function showRecords()
     {
         try {
             return response()->json([
-                'message' => "Medical records successfully Loaded",
-                'data' => $this->patient->medicalRecords()->latest()->get()->each(function($record){
+                'message' => 'Medical records successfully Loaded',
+                'data' => $this->patient->medicalRecords()->latest()->get()->each(function ($record) {
                     $record->data;
+                    $record->data->tests = json_decode($record->data->tests);
+                    $record->data->extras = json_decode($record->data->extras);
+                    $record->data->symptoms = explode(',', $record->data->symptoms);
+
                     return $record;
                 }),
             ], 200);
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
             ], 403);
@@ -240,8 +226,9 @@ class PatientController extends Controller
 
     public function showLabtest()
     {
-        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function($record){
+        $data = $this->patient->medicalRecords('App\Models\LabTest')->latest()->get()->each(function ($record) {
             $record->data;
+
             return $record;
         });
 
@@ -253,8 +240,9 @@ class PatientController extends Controller
 
     public function showPrescription(Patient $patient)
     {
-        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function($record){
+        $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
             $record->data;
+
             return $record;
         });
 
@@ -271,7 +259,7 @@ class PatientController extends Controller
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6',
-            'phone' => 'required|digit:11'
+            'phone' => 'required|digit:11',
         ];
     }
 
@@ -292,7 +280,7 @@ class PatientController extends Controller
     {
         $chcode = request()->chcode;
         $doctor = Doctor::whereChcode($chcode)->get()->first();
-        
+
         if ($doctor) {
             return response()->json([
                 'message' => 'Doctor retrieved successfully',
@@ -300,10 +288,11 @@ class PatientController extends Controller
             ], 200);
         }
 
+        $doctorN = null;
+
         return response()->json([
             'message' => 'Doctor not found',
-            $doctor => null
+            'data' => $doctorN,
         ], 404);
-
     }
 }
