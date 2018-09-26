@@ -43,7 +43,7 @@ class ProfileShareController extends Controller
             ]);
         }
         return response()->json([
-            'message' => 'Shit!! get outta here'
+            'message' => 'Something went Wrong'
         ],403);
     }
     public function accept(ProfileShare $profileShare)

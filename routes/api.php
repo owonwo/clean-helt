@@ -18,18 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'API'], function() {
-
+Route::group(['namespace' => 'API'], function () {
     Route::get('entity/{type?}', 'General\EntityController@index');
 
     Route::post('login/{guard}', 'Auth\LoginController@newLogin')->middleware('oauth.providers');
-    Route::post('logout/{guard}','Auth\LoginController@logout');
+    Route::post('logout/{guard}', 'Auth\LoginController@logout');
     Route::middleware('auth:hospital-api')->get('/hospital', function (Request $request) {
         return $request->user();
     });
 
-
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+        Route::get('users/counts', 'AdminController@getUsersCount');
         Route::get('hospitals', 'HospitalController@index');
         Route::post('hospitals', 'HospitalController@store');
         Route::get('hospitals/{hospital}', 'HospitalController@show');
@@ -42,23 +41,22 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('pharmacies/{pharmacy}', 'PharmacyController@update');
         Route::delete('pharmacies/{pharmacy}', 'PharmacyController@destroy');
 
-
         //Routes for doctors
-        Route::get('doctors','DoctorController@index');
-        Route::get('doctors/{doctor}','DoctorController@show');
-        Route::patch('doctors/verify/{doctor}','DoctorController@verify')->name('admin.doctor.verify');
-        Route::patch('doctors/activate/{doctor}','DoctorController@activate');
-        Route::patch('doctors/deactivate/{doctor}','DoctorController@deactivate');
-        Route::delete('doctors/destroy/{doctor}','DoctorController@destroy');
-        Route::get('doctors/{doctor}','DoctorController@show');
-        Route::patch('doctors/update/{doctor}','DoctorController@update');
+        Route::get('doctors', 'DoctorController@index');
+        Route::get('doctors/{doctor}', 'DoctorController@show');
+        Route::patch('doctors/verify/{doctor}', 'DoctorController@verify')->name('admin.doctor.verify');
+        Route::patch('doctors/activate/{doctor}', 'DoctorController@activate');
+        Route::patch('doctors/deactivate/{doctor}', 'DoctorController@deactivate');
+        Route::delete('doctors/destroy/{doctor}', 'DoctorController@destroy');
+        Route::get('doctors/{doctor}', 'DoctorController@show');
+        Route::patch('doctors/update/{doctor}', 'DoctorController@update');
 
         //Routes for laboratory
         Route::get('/laboratories', 'LaboratoryController@index');
         Route::post('/laboratories', 'LaboratoryController@store');
         Route::get('/laboratories/{laboratory}', 'LaboratoryController@show');
         Route::patch('/laboratories/{laboratory}', 'LaboratoryController@update');
-        Route::patch('/laboratories/deactivate/{laboratory}','LaboratoryController@deactivate');
+        Route::patch('/laboratories/deactivate/{laboratory}', 'LaboratoryController@deactivate');
         Route::delete('/laboratories/{laboratory}', 'LaboratoryController@destroy');
 
         //admin access to patients
@@ -66,52 +64,54 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('/patients', 'PatientController@store');
         Route::get('/patients/{patient}', 'PatientController@show');
         Route::patch('/patients/{patient}', 'PatientController@update');
-        Route::patch('/patients/{patient}/deactivate','PatientController@deactivate');
+        Route::patch('/patients/{patient}/deactivate', 'PatientController@deactivate');
         Route::delete('/patients/{patient}', 'PatientController@destroy');
         //A patient can view all his medical records from this route
 
-
         //Admin can create an Admin
-        Route::post('/create','AdminController@store')->name('admin.store');
+        Route::post('/create', 'AdminController@store')->name('admin.store');
     });
 
     //Start of all routes for doctor
-    Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function() {
-        Route::post('create','DoctorController@store')->name('doctor.create');
-        Route::get('register/confirm','RegistrationConfirmationController@index')->name('doctor.register.confirm');
-        Route::get('profile','DoctorController@show')->name('doctor.profile');
-        Route::patch('update','DoctorController@update')->name('doctor.update');
-        Route::get('hospital','DoctorController@hospitals')->name('doctor.hospital');
-        Route::post('add-hospital','DoctorController@addHospital')->name('doctor.addHospital');
-        Route::patch('{hospital}/accept-hospital','DoctorController@accept')->name('doctor.hospital.accept');
-        Route::patch('{hospital}/decline-hospital','DoctorController@decline')->name('doctor.hospital.decline');
-        Route::patch('{hospital}/remove-hospital','DoctorController@remove')->name('doctor.hospital.remove');
-        Route::get('/active-hospitals','DoctorController@activeHospitals')->name('doctor.hospital.active');
-        Route::get('/pending-hospitals','DoctorController@pendingHospitals')->name('doctor.hospital.pending');
-        Route::get('/sent-hospitals','DoctorController@sentHospitals')->name('doctor.hospital.sent');
+    Route::group(['prefix' => 'doctor', 'namespace' => 'Doctor'], function () {
+        Route::post('create', 'DoctorController@store')->name('doctor.create');
+        Route::get('register/confirm', 'RegistrationConfirmationController@index')->name('doctor.register.confirm');
+        Route::get('profile', 'DoctorController@show')->name('doctor.profile');
+        Route::patch('update', 'DoctorController@update')->name('doctor.update');
+        Route::get('hospital', 'DoctorController@hospitals')->name('doctor.hospital');
+        Route::post('add-hospital', 'DoctorController@addHospital')->name('doctor.addHospital');
+        Route::patch('{hospital}/accept-hospital', 'DoctorController@accept')->name('doctor.hospital.accept');
+        Route::patch('{hospital}/decline-hospital', 'DoctorController@decline')->name('doctor.hospital.decline');
+        Route::patch('{hospital}/remove-hospital', 'DoctorController@remove')->name('doctor.hospital.remove');
+        Route::get('/active-hospitals', 'DoctorController@activeHospitals')->name('doctor.hospital.active');
+        Route::get('/pending-hospitals', 'DoctorController@pendingHospitals')->name('doctor.hospital.pending');
+        Route::get('/sent-hospitals', 'DoctorController@sentHospitals')->name('doctor.hospital.sent');
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
+        Route::get('patients/pending', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
         Route::get('patients/{patient}/diagnosis', 'PatientController@diagnosis');
         Route::get('patients/{patient}/prescriptions', 'PatientController@showPrescriptions')->name('doctor.patient.prescription');
         Route::get('patients/{patient}/labtest', 'PatientController@showLabTest')->name('doctor.patient.labTest');
         Route::get('patients/{patient}/records/{medicalRecord}', 'PatientController@showMedicalRecords');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
-        Route::get('patients/accepted/patients','ProfileShareController@accepted')->name('doctor.patient.accepted');
+
+        Route::get('patients/accepted/patients', 'ProfileShareController@accepted')->name('doctor.patient.accepted');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
+
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('doctor.accept.patient');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('doctor.decline.patient');
 
-        Route::delete('notification/{id}','NotificationController@delete')->name('doctor.notifications.read');
-        Route::get('notifications','NotificationController@show')->name('doctor.notifications.show');
+        Route::delete('notification/{id}', 'NotificationController@delete')->name('doctor.notifications.read');
+        Route::get('notifications', 'NotificationController@show')->name('doctor.notifications.show');
     });
     //End of all routes for doctor
 
-    Route::post('patient/register', 'Patient/PatientController@store')->name('patient.register');
-    Route::get('patient/verify/{email}/{verifyToken}', 'Patient/PatientController@verify')->name('patient.confirmation.mail');
-    Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function() {
-        Route::get('medical-records','PatientController@showRecords');
+    Route::post('patient/register', 'Patient\PatientController@store')->name('patient.register');
+    Route::get('patient/verify/{email}/{verifyToken}', 'Patient\PatientController@verify')->name('patient.confirmation.mail');
+    Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function () {
+        Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
-        Route::patch("/profile/update", 'PatientController@update');
+        Route::patch('/profile/update', 'PatientController@update');
         Route::get('/labtest', 'PatientController@showLabtest');
         Route::get('/prescription', 'PatientController@showPrescription');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
@@ -122,7 +122,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('laboratory/{laboratory}', 'PatientController@showLaboratory');
         Route::get('pharmacies', 'PatientController@showPharmacies');
         Route::get('pharmacy/{pharmacy}', 'PatientController@showPharmacy');
-        Route::get('medical-centers','PatientController@showMedicalCenter');
+        Route::get('medical-centers', 'PatientController@showMedicalCenter');
 
         Route::get('profile/shares', 'ProfileShareController@index');
         Route::get('notifications', 'NotificationController@showNotification')->name('patient.notification');
@@ -140,7 +140,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::delete('contacts/{contact}', 'ContactController@delete');
     });
 
-    Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory', 'middleware' => ['api', 'auth:laboratory-api']], function (){
+    Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory', 'middleware' => ['api', 'auth:laboratory-api']], function () {
         Route::get('/profile', 'LaboratoryController@index');
         Route::patch('profile/update', 'LaboratoryController@update');
         Route::get('patient', 'ProfileShareController@index');
@@ -156,7 +156,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('laboratory.delete.notification');
     });
 
-    Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital', 'middleware' => ['api', 'auth:hospital-api']], function() {
+    Route::group(['prefix' => 'hospital', 'namespace' => 'Hospital', 'middleware' => ['api', 'auth:hospital-api']], function () {
         Route::get('profile', 'ProfileController@index');
         Route::patch('profile', 'ProfileController@update');
         Route::get('patients', 'PatientController@index');
@@ -166,6 +166,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::patch('patients/{profileShare}/assign/{doctor}', 'PatientController@assign');
         Route::get('patients/{patient}/records', 'MedicalRecordController@index');
         Route::get('patients/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
+
         Route::get('doctors', 'DoctorController@index');
         Route::get('doctors/pending', 'DoctorController@pending');
         Route::get('doctors/sent', 'DoctorController@sent');
@@ -179,7 +180,7 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('hospital.delete.notification');
     });
 
-    Route::group(['prefix' => 'pharmacy', 'namespace' => 'Pharmacy', 'middleware' => ['api', 'auth:pharmacy-api']], function() {
+    Route::group(['prefix' => 'pharmacy', 'namespace' => 'Pharmacy', 'middleware' => []], function () {
         Route::get('profile', 'ProfileController@index');
         Route::patch('profile', 'ProfileController@update');
         Route::get('patients', 'PatientController@index');
@@ -195,4 +196,3 @@ Route::group(['namespace' => 'API'], function() {
         Route::get('notification/delete/{id}', 'NotificationController@deleteNotification')->name('pharmacy.delete.notification');
     });
 });
-

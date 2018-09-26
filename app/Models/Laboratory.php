@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\LaboratoryResetPasswordNotification;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
+use Storage;
 
 class Laboratory extends Authenticatable
 {
@@ -87,5 +88,8 @@ class Laboratory extends Authenticatable
             $labTest->record_id == $medicalRecord->id;
     }
 
-
+    public function getAvatarAttribute($avatar)
+    {
+        return asset(Storage::url($avatar));
+    }
 }
