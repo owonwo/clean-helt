@@ -52,6 +52,7 @@ class PatientController extends Controller
             $token = ['token' => str_random(40)];
 
             $data['verify_token'] = Str::random(40);
+            $data['avatar'] = 'public/defaults/avatars/client.png';
 
             if($patient = Patient::create(array_merge($data, $token))){
 
@@ -87,10 +88,7 @@ class PatientController extends Controller
             $data['status'] = 1;
             $data['verify_token'] = null;
             if($patient->update($data)){
-                return response()->json([
-                    'message' => 'Congratulation you have just verified you account, login to continue',
-                    'data' => $patient,
-                ], 200);
+                return redirect('/login');
             }
         }
 
@@ -193,8 +191,6 @@ class PatientController extends Controller
             if(request()->hasFile('avatar'))
             {
                 $avatarName = request()->avatar->store('public/avatar');
-            }else{
-                $avatarName = 'avatar/avatar.jpeg';
             }
 
             $data = request()->all();
@@ -219,12 +215,7 @@ class PatientController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //

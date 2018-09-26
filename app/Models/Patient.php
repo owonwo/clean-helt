@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
+use Storage;
 
 class Patient extends Authenticatable
 {
@@ -82,5 +83,9 @@ class Patient extends Authenticatable
         return null;
     }
 
+    public function getAvatarAttribute($avatar)
+    {
+        return asset(Storage::url($avatar));
+    }
 
 }

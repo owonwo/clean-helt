@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 
 use App\Models\Hospital;
+use App\Notifications\HospitalCreatedNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -51,9 +52,17 @@ class HospitalController extends Controller
 
         $data = $request->only(array_keys($rules));
 
-        $data['password'] = str_random(10);
+        $password = str_random(10);
+        $data['password'] = bcrypt($password);
+        $data['avatar'] = 'public/defaults/avatars/provider.png';
 
         if ($hospital = Hospital::create($data)) {
+
+            $delay = now()->addMinute(1);
+            $hospital->notify((
+                new HospitalCreatedNotification($hospital, $password)
+            )->delay($delay));
+
             return response()->json([
                 'message' => 'Hospital created successfully',
                 'data' => $hospital,
