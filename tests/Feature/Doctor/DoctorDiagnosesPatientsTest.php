@@ -102,4 +102,8 @@ class DoctorDiagnosesPatientsTest extends TestCase
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);
     }
+
+    public function a_doctor_can_update_his_patients_medical_records(){
+
+    }
 }
