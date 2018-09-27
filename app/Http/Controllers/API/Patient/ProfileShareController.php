@@ -122,6 +122,50 @@ class ProfileShareController extends Controller
         ], 400);
     }
 
+    public function pending()
+    {
+        $referredDoctor = ProfileShare::where([['patient_id', optional($this->patient)->id], ['referral_status', '=', null]])->get();
+
+        if($referredDoctor)
+        {
+            return response()->json([
+                'message' => 'Retrieve pending referred doctor',
+                'data' => $referredDoctor
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Failed to fetch resource'
+        ], 403);
+    }
+
+    public function accept(ProfileShare $profileShare)
+    {
+        if($profileShare->exists && $profileShare->update(['referral_status' => true])){
+
+            return response()->json([
+                'message' => 'Profile share has been accepted',
+                'data' => $profileShare
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Profile share acceptance failed'
+        ], 403);
+    }
+
+    public function decline(ProfileShare $profileShare)
+    {
+        if($profileShare->update(['referral_status' => false])){
+            return response()->json([
+                'message' => 'Profile share has been accepted',
+                'data' => $profileShare
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Profile share acceptance failed'
+        ],403);
+    }
+
     private function getRules()
     {
         return [

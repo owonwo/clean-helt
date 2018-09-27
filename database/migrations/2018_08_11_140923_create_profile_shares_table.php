@@ -22,6 +22,7 @@ class CreateProfileSharesTable extends Migration
             $table->dateTime('expired_at');
             $table->integer('doctor_id')->nullable();
             $table->enum('status', [0, 1, 2])->default(0);
+            $table->boolean('referral_status')->nullable();
             $table->timestamps();
         });
     }
