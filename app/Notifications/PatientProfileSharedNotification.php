@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Patient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class PatientProfileSharedNotification extends Notification
@@ -16,12 +15,9 @@ class PatientProfileSharedNotification extends Notification
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct(Patient $patient, $provider)
     {
-        //
         $this->patient = $patient;
         $this->provider = $provider;
     }
@@ -29,23 +25,25 @@ class PatientProfileSharedNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail', 'database'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->greeting('Hello '.$this->provider->name)
                     ->line('Clean-Helt (Profile Shares)')
                     ->line($this->patient->first_name.' '.$this->patient->last_name.' shared his profile with you')
@@ -55,13 +53,14 @@ class PatientProfileSharedNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            'data' => $this->patient->first_name.' '.$this->patient->last_name.' shared his profile with you please accept or ignore'
+            'data' => $this->patient->first_name.' '.$this->patient->last_name.' shared his profile with you please accept or ignore',
         ];
     }
 }

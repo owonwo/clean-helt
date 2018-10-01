@@ -131,4 +131,8 @@ class DiagnosisController extends Controller
                 ]);
         }
     }
+
+    public function update(Patient $patient,Diagnosis $diagnosis){
+        dd($diagnosis);
+    }
 }

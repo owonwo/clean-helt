@@ -146,6 +146,7 @@ class DoctorTest extends TestCase
         $this->delete(route('doctor.notifications.read', $id))->assertStatus(200);
     }
 
+
     /** @test */
     public function a_doctor_can_add_hospital()
     {
