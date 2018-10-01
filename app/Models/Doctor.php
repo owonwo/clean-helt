@@ -65,7 +65,7 @@ class Doctor extends Authenticatable
      */
     public function canViewProfile(Patient $patient)
     {
-        return null !== $this->profileShares()
+        return null !== $this->allShares()
                 ->activeShares()
                 ->where('patient_id', (string) $patient->id)
                 ->first();

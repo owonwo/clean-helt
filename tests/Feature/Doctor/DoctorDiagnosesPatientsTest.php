@@ -102,4 +102,48 @@ class DoctorDiagnosesPatientsTest extends TestCase
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);
     }
+
+    /** @test */
+    public function a_doctor_can_update_his_patients_medical_records(){
+        $doctor = create(Doctor::class);
+
+        $patient = create(Patient::class);
+
+        create(ProfileShare::class, [
+            'patient_id' => $patient->id,
+            'provider_id' => $doctor->id,
+            'expired_at' => now()->addDays(2),
+
+        ]);
+
+        $this->signIn($doctor, 'doctor');
+
+        $diagnosis = create(Diagnosis::class)->toArray();
+        $data = [
+            'quantity' => 5,
+            'frequency' =>5,
+            'name' => 'Panadol'
+        ];
+        $labData = [
+            'test_name' => 'Drug Test',
+            'description' => 'This is the description of the test',
+            'result' => 'This is the result of the test',
+            'conclusion' => 'We think you have just two weeks to live',
+            'status' => 1,
+            'taker' => 'Taker',
+
+        ];
+
+        unset($diagnosis['record_id']);
+        $this->makeAuthRequest()
+            ->post("/api/doctor/patients/{$patient->chcode}/diagnose", array_merge($diagnosis,$data,$labData))
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('diagnoses', $diagnosis);
+
+        $diagnosis["complaint_history"] = "New Complaint History";
+
+        $this->makeAuthRequest()->patch(route('doctor.patient.patch.diagnosis',$patient,$diagnosis),['complaint_history' => $diagnosis["complaint_history"]]);
+        $this->assertDatabaseHas('diagnoses', ['complaint_history' => $diagnosis['complaint_history']]);
+    }
 }
