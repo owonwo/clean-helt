@@ -7,6 +7,7 @@ import ProfileLoader from './ProfileLoader.vue'
 import Accordion from '@/components/Accordion.vue'
 import CustomLink from '@/components/CustomLink.vue'
 import AddServiceProvider from './AddServiceProvider'
+import SaveEditButton from './SaveEditButton'
 
 export default {
 	Accordion,
@@ -18,4 +19,5 @@ export default {
     Pager,
     AddServiceProvider,
     SearchBox,
+    SaveEditButton,
 }

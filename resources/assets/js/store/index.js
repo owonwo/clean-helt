@@ -26,6 +26,7 @@ export default new Vuex.Store({
 		user: {
             first_name: "",
             last_name: "",
+            avatar: "",
             profile: {},
             get full_name() {
                 return [this.first_name, this.last_name].join(' ')
@@ -34,6 +35,7 @@ export default new Vuex.Store({
         ACCOUNT_TYPE: "",
         pending: [],
 		sharedProfiles: [],
+		notifications: [],
 		settings: {
 			notification: true,
 		},
@@ -43,6 +45,7 @@ export default new Vuex.Store({
 		getProfileByPatientId: store => id => {
 			return _.find(store.sharedProfiles, profile => profile.patient.id === parseInt(id));
 		},
+		notifs: (store) => store.notifications,
 		accountType: store => store.ACCOUNT_TYPE,
 		getPendingUsers: store => {
 			return store.pending;
@@ -54,6 +57,12 @@ export default new Vuex.Store({
 	mutations: {
 		set_account_type (store, payload) {
 			store.ACCOUNT_TYPE = payload;
+		},
+		set_notifs(store, payload) {
+			store.notifications = payload;
+		},
+		set_avatar(store, payload) {
+			store.user.avatar = payload;
 		},
 		set_shared_profiles(store, payload) {
 			store.sharedProfiles = payload.map(profile => lockProfile(profile));

@@ -1,19 +1,19 @@
 <template>
 	<aside class="content">
-		<h5 @click.stop="$root.toggleNotification()"><i class="icon osf osf-notification hoverable mr-20"></i> Notifications</h5>
-		<section class="notifications">
-			<notification type="info">
-				A new patient was admitted by UPTH
+		<h5 @click.stop="$root.toggleNotification()" 
+		    class="notif-heading">
+			<i :class="{'is-dotted': unread.length > 0}"class="icon osf osf-notification hoverable mr-20"></i> 
+			<span>Notifications</span>
+		</h5>
+		<v-scrollbar class="notifications">
+			<div v-if="!notifs.length" class="has-text-centered is-italic">There are no Notifications</b></div>
+			<notification v-for="(notif, index) in [...unread,...read]" 
+				:key="index" @click="markAsRead(notif)"
+				:type="notif.read ? '' : 'info'">
+				<template slot="time">{{notif.created_at | moment('from', 'now')}}</template>
+				{{ notif.data.data }}
 			</notification>
-			<notification type="danger">
-				Password reset was not successful, due to the updates on the 
-				server.
-			</notification>
-			<notification type="warning">
-				You have a query from the Admin for abusing a patient and 
-				add false information to he's record.
-			</notification>
-		</section>
+		</v-scrollbar>
 	</aside>
 </template>
 <style lang="scss">
@@ -30,7 +30,8 @@
 	}
 </style>
 <script>
-	import NotificationCard from '@/components/NotificationCard.vue';
+	import {mapGetters} from 'vuex'
+	import NotificationCard from '@/components/NotificationCard.vue'
 
 	export default {
 		name: 'Notifications',
@@ -38,6 +39,24 @@
 		data() {return {
 			show: false,
 			notifications: [],
-		}}
+		}},
+		computed: {
+			read() {
+				return this.notifs.filter(e => e.read);
+			},
+			unread() {
+				return this.notifs.filter(e => !e.read);
+			},
+			...mapGetters(['notifs'])
+		},
+		methods: {
+			markAsRead(notif) {
+				notif.isRead().then((res) => {
+					notif.read = true;
+				}).catch(err => {
+					console.trace(err, 'Notification Error!');
+				});
+			}
+		}
 	}
 </script>

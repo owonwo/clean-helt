@@ -12,7 +12,7 @@
           <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard"/>
           <custom-link to="/patients" icon="osf osf-client-alt-white" name="Clients"/>
           <custom-link to="/doctors" icon="osf osf-doctor-white" name="Departments"/>
-          <custom-link to="/profile" icon="osf osf-profile" name="Profile"/>
+          <custom-link to="/profile" icon="osf osf-hospital-white" name="Profile"/>
           <custom-link to="/settings" icon="osf osf-settings-white" name="Settings"/>
         </ul>
       </nav>
@@ -27,7 +27,7 @@
 
     <section class="osq-content">
       <section id="content"> 
-        <keep-alive :exclude="['Patients','DoctorDirectory']">
+        <keep-alive :exclude="['Modal', 'Patients','DoctorDirectory']">
           <router-view/>
         </keep-alive>
       </section>

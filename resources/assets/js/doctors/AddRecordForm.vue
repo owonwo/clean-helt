@@ -153,7 +153,7 @@
 		return build(question);
 	}
 	const testFactory = (object = {}) => {
-		const test = Object.assign(data,{name: '', description: '', result: ''}, object)
+		const test = Object.assign(data, {name: '', description: '', result: ''}, object)
 		return build(test);
 	}
 	const prescriptFactory = (object = {}) => {
@@ -195,10 +195,26 @@
 			},
 			submit() {
 				let {chcode} = this.$route.params,
-					data = this.fields;
+					data = Object.assign({}, this.fields);
+					//filter symptoms
+					data.extras = data.extras.filter(e => e.visible == true).map(e => {
+						return {question: e.question, answer: e.answer}
+					}).join();
+					data.symptoms = data.symptoms.filter(e => e.visible == true).map(e => e.text).join();
+					//filter tests
+					data.tests = data.tests.filter(e => (e.name.trim().length > 0) && e.visible == true )
+					.map(e => { return {
+						test_name: e.name,
+						description: e.description, 
+						result: e.result}
+					});
+
 				this.$http.post(`/api/doctor/patients/${chcode}/diagnose`, data).then((res) => {
-					console.log('hello man!', res);
-				});
+					this.$notify({text: 'Record added successfully', type: 'success'});
+					this.$router.back();
+				}).catch((err) => {
+					this.$notify({text: err.response.data.message, type: 'error'});
+				})
 			},
 		}
 	}

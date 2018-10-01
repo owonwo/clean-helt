@@ -29,6 +29,13 @@ const personalify = (person) => {
 Vue.mixin({
     components: {...GlobalComponents},
     methods: {
+        changeAvatar(evt) {
+            const file = evt.target.files[0];
+            const form =  new FormData('name');
+            form.append('avatar', file);
+
+            this.updateAvatar(form);
+        },
         testChCode(chcode = "") {
             return RegExp('^CH(P|H|D|L|F)([0-9]{9})$').test(chcode);
         },
@@ -36,6 +43,8 @@ Vue.mixin({
         personalify(e) {
             const {chcodeIs} = this;
             return chcodeIs('CHP', e.chcode) || chcodeIs('CHD', e.chcode) ? personalify(e) : e;
+        },
+        error_message() {
         }
     },
     filters: {

@@ -1,9 +1,10 @@
 <template>
-	<section class="notification activity-notification" :class="[notif_type]">
+	<section @click="$emit('click', $event)" class="notification activity-notification" :class="[notif_type]">
 		<span v-if="$props.account !== 'bell'" class="notification-icon is-pulled-left">
 			<i class="icon" :class="[icon_name]"></i>
 		</span>
 		<slot class="content"></slot>
+		<small class="notification-time"><slot name="time">Just now</slot></small>
 	</section>
 </template>
 
@@ -38,11 +39,21 @@ export default {
 <style lang="scss">
 	.activity-notification {
 		display: flex;
+		flex-wrap: wrap;
+		user-select: none;
 		align-items: flex-start;
+		padding: {left: 10px; right: 10px;}
+
+		.notification-time {
+			width: 100%;
+			opacity: 0.6;
+			text-align: right;
+			line-height: 15px;
+		}
 
 		&-icon {
-			margin-left: -1rem;
 			margin-top: 3px;
+			margin-left: -1rem;
 			margin-right: 1rem;
 		}
 	}

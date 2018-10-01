@@ -52,9 +52,6 @@ export default {
     mixins: [LoggedIn], // comes with all mutations and getters
     created() {
       this.fetchHospitals();
-      axios.get('/api/doctor/notifications').then((res) => {
-        res.data;
-      })
     },
     data() {return {
       settings : {

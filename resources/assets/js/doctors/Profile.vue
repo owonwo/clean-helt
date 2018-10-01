@@ -58,7 +58,7 @@
 			<h6 v-if="hospitals.length > 0" class="">These are the Hospitals you work in.</h6>
 			<h6 v-if="!!!hospitals.length" class="notification is-info">
 				<span class="ml-i-15 mr-10"><i class="ti ti-info"></i></span>
-				You currently don't work for any hospital</h6>
+				You have not joined any Hospital.</h6>
 		</hgroup>
 		
 		<section class="columns is-multiline">

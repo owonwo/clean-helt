@@ -2,20 +2,17 @@
     <div id="osq-login">
         <form name="login" method="POST" :action="form_action" class="has-text-centered">
             <img class="logo" src="/images/assets/logo.png" alt="">
-            <p v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as </p>
+            <p v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as a</p>
             <p v-else class="mt-50 mb-15">Login</p>
             <slot></slot>
             <!-- error notification -->
 
             <div v-if="['DOCTOR','PATIENT'].includes(provider)" class="field is-flex" style="justify-content: center">
-                <div class="control has-icons-left">
-                    <span class="icon is-left"><i class="ti ti-user"></i></span>
-                    <div class="select is-rounded">
-                        <select v-model="type">
-                            <option selected :value="1">Client</option>
-                            <option :value="2">Doctor</option>
-                        </select>
-                    </div>
+                <div class="select is-rounded" style="width: 180px">
+                    <select v-model="type" class="has-text-centered">
+                        <option selected :value="1">Client</option>
+                        <option :value="2">Doctor</option>
+                    </select>
                 </div>
             </div>
             <transition name="fade">
@@ -30,8 +27,10 @@
                 <input name="password" placeholder="Password..." class="input" type="password" v-model="password">
             </div>
             <button @click.prevent="login" type="submit" class="button is-submit">LOGIN</button>
-            <div class="mt-15">Not Registered with CleanHelt?</div>
-            <small><a href="/register">Sign Up Here</a></small>
+            <template v-if="modelIs('PATIENT', 'DOCTOR')">
+                <div class="mt-15">Not Registered with CleanHelt?</div>
+                <a class="has-text-primary" :href="register">Sign Up Here</a>
+            </template>
         </form>
     </div>
 </template>
@@ -43,8 +42,8 @@ export default {
         model: { type: String, default: "", required: true},
     },
     data() {return {
-        username: "rocio.daniel@example.com",
-        password: "secret",
+        username: "",
+        password: "",
         remember: false,
         type: 1,
         error: false,
@@ -62,6 +61,9 @@ export default {
         }
     }},
     computed: {
+        register() { 
+            return this.type === 1 ? '/register' : '/register?type=doctor' 
+        },
         form_action() { return this.$props.model !== 'ADMIN' ? '/login/' + this.auth : '/admin/login' },
         provider() {
             let {model} = this.$props;
@@ -69,9 +71,15 @@ export default {
         },
         auth() {
             return this.providerMap[this.provider].auth_key;
+        },
+        modelstate() {
+            return this.modelIs('PATIENT', 'DOCTOR');
         }
     },
     methods: {
+        modelIs(...args) {
+            return args.includes(this.$props.model);
+        },
         login() {
             let {username, password, providerMap} = this;
             const provider = providerMap[this.provider].name;

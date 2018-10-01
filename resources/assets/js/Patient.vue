@@ -6,7 +6,7 @@
 			</div>
 
 			<div class="avatar-holder">
-				<img :src="$root.avatar" alt="" class="avatar">
+				<img :src="user.avatar" alt="" class="avatar">
 				<span>{{ user.full_name }}</span>
 			</div>
 		</header>
@@ -86,7 +86,7 @@
 			status: Number(share.status),
 			provider: Object.assign(share.provider, { name: pickName() }),
 		}
-		return Object.assign(share, overwrites);
+		return Object.assign({visible: true}, share, overwrites);
 	}
 
 	export default {
@@ -107,9 +107,9 @@
 				},
 				shares: [],
 				recordUrlMap: Object.freeze({
-					labtest:"/api/patient/{patient}/labtest",
-					prescription: "/api/patient/{patient}/prescription",
-					medicalRecord: "/api/patient/{patient}/medical-records",
+					labtest:"/api/patient/labtest",
+					prescription: "/api/patient/prescription",
+					medicalRecord: "/api/patient/medical-records",
 				}),
 			}
 		},
@@ -121,11 +121,15 @@
 				return await this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'));
 			},
 			fetchProfileShares() {
-				this.$http.get('/api/patient/profile/shares').then((res) => {
-					this.shares = res.data.shares.map(shareFactory);
-				}).catch((err) => {
-					console.log('An Error Occured. Trying to fetch Patient Shares!', err);
-				})
+				return new Promise((resolve, rej) => {
+					this.$http.get('/api/patient/profile/shares').then((res) => {
+						this.shares = res.data.shares.map(shareFactory);
+						resolve(this.shares);
+					}).catch((err) => {
+						console.log('An Error Occured. Trying to fetch Patient Shares!', err);
+						rej(err);
+					})
+				});
 			}
 		}
 	}

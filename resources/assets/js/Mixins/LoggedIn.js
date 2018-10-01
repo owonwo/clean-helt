@@ -4,15 +4,14 @@ const ServiceProviders = ['hospital', 'doctor', 'pharmacy', 'laboratory']
 export default {
     props: ['id'],
     data() {return {
-        notifications: []
+        notifsUrl: {
+            DOCTOR: `/api/doctor/notifications`,
+            HOSPITAL: `/api/hospital/notifications`,    
+            LABORATORY: `/api/laboratories/notifications`,
+            PATIENT: `/api/patient/notifications`,
+            PHARMACY: `/api/pharmacy/notifications`,
+        }
     }},
-    computed: {
-        ...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'}),
-        /**
-         * @return String
-         */
-        componentName() { return this.getComponentName().toLowerCase() }
-    },
     created() {
         //create the token for the application
         const token = localStorage.getItem('api-token');//$('meta[name=api-token]').attr('content');
@@ -42,12 +41,21 @@ export default {
         }catch(x) {
             console.warn(`Account Error: invalid profile route.`)
         }
-
+        this.fetchNotifications();
         !ServiceProviders.includes(this.componentName) || this.fetchPatients();
+    },
+    computed: {
+        ...mapGetters(['accountType']),
+        ...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'}),
+        /**
+         * @return String
+         */
+        componentName() { return this.getComponentName().toLowerCase() }
     },
     methods: {
         ...mapMutations([
             "set_user", 
+            "set_notifs",
             "set_pending_patients", 
             "remove_from_pending", 
             "set_shared_profiles"
@@ -96,6 +104,46 @@ export default {
         clearApiToken() {
             localStorage.removeItem('api-token');
             localStorage.removeItem('refresh-token');
+        },
+        fetchNotifications() {
+            let url = this.notifsUrl[this.accountType.toUpperCase()];
+            console.assert(url, 'The Notification Url is invalid');
+            axios.get(url).then(({data}) => {
+                let notifs = data.notifications.data
+                    .map(e => notificationFactory(e, this.accountType.toUpperCase()).make());
+                this.set_notifs(notifs);
+            });
         }
     },
+}
+const readMaps = {
+    PATIENT: `api/patient/notification/unread`,
+    HOSPITAL: `api/hospital/notification/unread`,
+    PHARMACY: `api/pharmacy/notification/unread`,
+    LABORATORY: `api/laboratories/notification/unread`,
+    DOCTOR: `api/doctor/notification/unread`,
+}
+
+const getNotificationUrl = (model) => {
+    model = model.toUpperCase();
+    const modelFound = Object.keys(readMaps).includes(model);
+    console.assert(modelFound, "Invalid Model supplied for Notification Model")
+    return modelFound ? readMaps[model] : readMaps['PATIENT'];
+}
+
+const notificationFactory = (data = {}, model) => {
+    let __proto = Object.create({read: false});
+    __proto = Object.assign(data, {
+        read: !_.isNull(data.read_at),
+        message: data.data,
+        async isRead() {
+            return axios.get(getNotificationUrl(model) + '/' + data.id);
+        },
+    });
+
+    return {
+        make() {
+            return __proto;
+        }
+    }
 }

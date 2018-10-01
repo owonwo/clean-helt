@@ -1,4 +1,4 @@
-@mixin icon-maker($name, $folder: 'black') {
+	@mixin icon-maker($name, $folder: 'black') {
 	background-image: url("../assets/svgs/#{$folder}/#{$name}-#{$folder}.svg");
 }
 
@@ -16,6 +16,7 @@ $icons: hospital department settings cancel
 	background-position: center center;
 	background-repeat: no-repeat;
     object-fit: cover;
+    position: relative;
     margin-right: 5px;
     margin-left: 5px;
     vertical-align: middle;
@@ -25,6 +26,19 @@ $icons: hospital department settings cancel
     	width:14px;
     	height:14px
     }
+}
+
+
+.is-dotted::after {
+	content: '';
+    width: 8px;
+    height: 8px;
+    background: #f16161;
+    display: inline-block;
+    position: absolute;
+    border-radius: 30px;
+    top: 0;
+    left: 26px;
 }
 
 @each $name in $icons {

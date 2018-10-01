@@ -2,21 +2,25 @@
 	<section>
 		<!-- diagnosis -->
 		<section v-if="$route.query.type === 'diagnosis'" class="content">
-			<div>
-				Diagnosis
-			</div>
+			<h5>Diagnosis Records</h5>
 			<table class="table is-bordered is-fullwidth table-hoverable" style="font-size: smaller">
 				<tr>
 					<th class="has-text-centered">S/N</th>
-					<th>Complaint History</th>
-					<th>Complaint Relationship</th>
+					<th>References</th>
+					<th>Comment</th>
+					<th>Issuer</th>
 					<th>Preview</th>
 				</tr>
-				<tr v-for="(record, index) of record_references" :key="index">
+				<tr v-for="(record, index) of records" :key="index">
 					<td class="has-text-centered">{{ index + 1 }}</td>
-					<td>{{ record.complaint_history }}</td>
-					<td>{{ record.complaint_relationship}}</td>
-					<td><button @click="showRecordModal = true" class="button is-small is-primary is-outlined">View Record</button></td>
+					<td>{{ record.reference }}</td>
+					<td>{{ record.data.comments }}</td>
+					<td>{{ record.issuer.fullname }}</td>
+					<td>
+						<button @click="showModal(record)" class="button is-small is-primary is-outlined">
+							View Record
+						</button>
+					</td>
 				</tr>
 			</table>
 		</section>
@@ -52,45 +56,60 @@
 			</table>
 		</section>
 
-		<!-- <Modal class="is-note" :show="showRecordModal" :show-header="false" @closed="showRecordModal = false">
-			<section v-if="$route.query.type === 'doctor'" class="content">
-				<hgroup>
-					<h3 class="mb-5">Diagnosis Record</h3>
-					<span class="mb-5">by <b class="osq-text-primary">{{physician}}</b> at <b class="osq-text-primary">{{ time }}</b></span>
-				</hgroup>
-				<hr>
-				<h5>Generic</h5>
-				<div class="menu is-medium mb-15">
+		<Modal class="is-note" :show="showRecordModal" :show-header="false" @closed="showRecordModal = false">
+			<div class="content is-center">
+				<section v-if="'App\\Models\\Prescription' === current.type">
+					<h3>Prescription</h3>
 					<ul>
-						<li class="menu-list" v-for="a in prescriptions">{{ a }}</li>
+						<li>{{ current.data.name }}</li>
+						<li>Frequency: {{ current.data.frequency }}</li>
+						<li>Quantity: {{ current.data.frequency }}</li>
+						<li> Status: 
+							<span v-if="current.data.status" class="tag is-primary">dispensed</span>
+							<span v-else class="tag is-danger">not dispensed</span>
+						</li>
 					</ul>
-				</div>
-				<h5>Dispensed</h5>
-				<div class="menu is-medium mb-15">
-					<ul>
-						<li class="menu-list" v-for="a in dispensed">{{ a }}</li>
-					</ul>
-				</div>
-				<h5>Comment</h5>
-				<blockquote class="">
-					{{ comment }}
-				</blockquote>
-			</section>
-			<section v-if="$route.query.type === 'laboratory'" class="content">
-				<hgroup>
-					<h3 class="mb-5">Lab Test Record</h3>
-					<span class="mb-5">by <b class="osq-text-primary">Dr. Martha Kent</b> at <b class="osq-text-primary">{{ time }}</b></span>
-				</hgroup>
+				</section>
+
+				<section v-if="'App\\Models\\Diagnosis' === current.type">
+					<!-- condition severity -->
+			        <div>
+			        	<h3 class="subtitle is-6">Condition Severity: {{current.data.patient_condition}}</h3>
+			        </div>
+					<section>
+			        	<h3 class="subtitle is-5">Complaint History</h3>
+						<div>{{current.data.complaint_history}}</div>
+						<hr>
+			        	<h3 class="subtitle is-5">Complaint Relationship</h3>						
+				        <div>{{current.data.complaint_relationship}}</div>
+					</section>
+			        <hr>
+			        <!-- symptoms -->
+			        <section>
+			        	<h1 class="subtitle is-5">Symptoms</h1>
+			        	<div>
+			        		<span style="font-size: 1rem" class="tag is-primary mr-15" v-for="(symptom, index) in current.data.symptoms">
+			        			{{symptom}}
+			        		</span>
+			        	</div>
+			        </section>
+			        <hr>
+			        <!-- questions -->
+			        <section>
+			        	<h1 class="subtitle is-5">Questions</h1>
+			        	<div class="mb-10" v-for="(extra, index) in current.data.extras" :key="question">
+			        	 	<span class="tag is-info">Question {{index + 1}}</span> {{ extra.question }} <br>
+			        	 	<span class="tag is-primary">Answer</span> {{ extra.answer }}
+			        	</div>
+			        </section>
+				</section>
 				<hr>
-				<h5></h5>
-				<p style="font-size:24px">Chest X-ray for Tuberculosis showed that White  Cell Count measured 0-200 X 106/L against 0-4/L approved limit.
-					CSF glucose measured 45 < mg/dL against the 60-90mg/dL
-				</p>
-				<h5>Comment</h5>
-				<blockquote class="is-primary">
-					WCC result exceeded acceptable limit. CSF below range.
-				</blockquote>
-			</section>
+				<div>
+					<h3 class="title">Comment</h3>
+					<p v-if="'App\\Models\\Diagnosis' === current.type">{{ current.data.comments }}</p>
+					<p v-else-if="'App\\Models\\Prescription' === current.type">{{current.data.comment}}</p>
+				</div>
+			</div>
 			<section v-if="$route.query.type === 'pharmacy'" class="content">
 				<hgroup>
 					<h3 class="mb-5">MEDICATION DISPENSED</h3>
@@ -114,7 +133,7 @@
 					{{ comment }}
 				</blockquote>
 			</section>
-		</Modal> -->
+		</Modal>
 	</section>
 </template>
 
@@ -126,7 +145,10 @@
 		activated () {
 			const {query: {type}, params} = this.$route;
 			this.getPatientRecord().then(({data: {data}}) => {
-				this.records = data;
+				this.records = data.map(e => {
+					e.issuer = this.personalify(e.issuer);
+					return e;
+				})
 			}).catch((Error) => {
 				console.log('PatientRecordsDirectory', Error, 'Error Fetching The Patient\'s Record');
 				this.$router.replace({name: 'patient-profile', params});
@@ -134,6 +156,7 @@
 		},
 		data() {return {
 			records: [],
+			current: {data: {}},
 			showRecordModal: false,
 		}},
 		computed: {
@@ -146,6 +169,10 @@
 			},
 			getComponentName() {
 				return this.$parent.getComponentName();
+			},
+			showModal(diagnosis) {
+				this.showRecordModal = true;
+				this.$set(this, 'current', diagnosis);
 			},
 			dispense(record) {
 				const {chcode} = this.$route.params;
