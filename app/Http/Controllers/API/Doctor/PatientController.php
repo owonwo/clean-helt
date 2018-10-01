@@ -152,6 +152,7 @@ class PatientController extends Controller
         if (!$doctor->canViewProfile($patient)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
+        die('');
 
         return response()->json([
             'data' => $medicalRecord->get()->each(function ($record) {

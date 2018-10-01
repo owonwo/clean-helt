@@ -113,6 +113,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
+        Route::post('/profile/update/image', 'PatientController@updateAvatar');
         Route::get('/labtest', 'PatientController@showLabtest');
         Route::get('/prescription', 'PatientController@showPrescription');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
