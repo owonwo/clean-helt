@@ -6,6 +6,7 @@ use App\Events\PatientSharedProfile;
 use App\Events\ProfileShareExpired;
 use App\Events\ProfileShareExtended;
 use App\Models\ProfileShare;
+use App\Notifications\DoctorReferralNotification;
 use App\Traits\Utilities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -60,12 +61,14 @@ class ProfileShareController extends Controller
                         ->where('provider_id', $provider->id)->first();
 
             if (!$exists) {
-                $share = $this->patient->profileShares()->create([
+                $share = $this->patient->profileShares()->forceCreate([
                     'provider_type' => $providerClass,
+                    'patient_id' => $this->patient->id,
                     'provider_id' => $provider->id,
                     'expired_at' => request('expiration'),
                 ]);
-                //Fire an event that tells providers that patient has been shared
+
+                                //Fire an event that tells providers that patient has been shared
                 event(new PatientSharedProfile($provider, $this->patient));
 
                 if ($share) {
@@ -141,8 +144,12 @@ class ProfileShareController extends Controller
 
     public function accept(ProfileShare $profileShare)
     {
-        if($profileShare->exists && $profileShare->update(['referral_status' => true])){
+        if($profileShare->exists && $profileShare->isActive){
+            $profileShare->update(['referral_status' => true]);
 
+            //not done
+
+            $this->patient->notify(new  DoctorReferralNotification($this->patient, $profileShare));
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'data' => $profileShare
@@ -155,7 +162,8 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-        if($profileShare->update(['referral_status' => false])){
+        if($profileShare->exists && $profileShare->isActive){
+            $profileShare->update(['referral_status' => false]);
             return response()->json([
                 'message' => 'Profile share has been accepted',
                 'data' => $profileShare
