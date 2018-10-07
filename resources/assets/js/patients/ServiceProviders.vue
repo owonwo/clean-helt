@@ -6,7 +6,7 @@
 
 		<div class="columns is-centered" v-slide="show">
 			<div class="column is-half">
-				<AddServiceProvider class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
+				<AddServiceProvider @success="" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
 			</div>
 		</div>
 		
@@ -31,13 +31,13 @@
 			<div v-preload v-if="loading" class="block is-rounded mx-15" style="height:10px;"/>	
 			<pager align="top" :current="current">
 				<div :slot="'p'+(index+1)" :key="index" class="px-15"
-				   v-for="(shareKey, index) in ['Hospital', 'Doctor', 'Pharmacy', 'Laboratory']">
+				   v-for="(non, shareKey, index) in shares">
 					<table class="table is-hoverable is-fullwidth">
 						<tr>
 							<th>Photo</th>
 							<th>Provider Name</th>
 							<th width="100">CHCODE</th>
-							<th>Email</th>
+							<th>Expiration Date</th>
 							<th width="50">Status</th>
 							<th>Actions</th>
 						</tr>
@@ -45,15 +45,18 @@
 							<td><i class="ti ti-user"></i> &nbsp;&nbsp;</td>
 							<td>{{share.provider.name}}</td>
 							<td class="has-text-grey-darker">{{share.provider.chcode}}</td>
-							<td>{{share.provider.email}}</td>
+							<td>{{ $moment(share.expired_at).fromNow() }}</td>
 							<td>
 								<span v-if="share.status === 1" class="tag is-primary">Active</span>
 								<span v-else-if="share.status === 0" class="tag is-info">Pending</span>
 								<span v-else-if="share.status === 2" class="tag is-primary">Expired</span>
 							</td>
 							<td>
-								<button @click="expire(share)" class="button has-no-motion is-normal is-small">
-									<i class="ti ti-trash"></i> <span>Revoke Access</span>
+								<button v-if="isExpired(share)" @click="(modal = true) && (lastClicked = share)" class="button has-no-motion is-normal is-small">	
+									<i class="ti ti-control-forward icon"></i> <span>Extend Date</span>
+								</button>
+								<button @click="expire(share)" class="button has-no-motion is-danger is-small">
+									<i class="ti ti-close icon"></i> <span>Cancel</span>
 								</button>
 							</td>
 						</tr>
@@ -61,6 +64,20 @@
 				</div>
 			</pager>
 		</section>
+		<modal size="sm" :show="modal" :show-footer="false" @closed="modal=false">
+			<hgroup class="has-text-centered mb-30">
+				<h4 class="title is-5 mb-0">Extend Share</h4>
+				<small>Extends the expiration time.</small>
+			</hgroup>
+			<div class="field">
+				<input class="input" type="date" v-model="extension"/>
+			</div>
+			<div class="has-text-centered">
+				<button @click="extend(lastClicked)" class="button has-no-motion is-primary">
+					<i class="ti ti-close icon"></i> <span>Extend</span>
+				</button>
+			</div>
+		</modal>
 	</section>
 </template>
 
@@ -69,18 +86,21 @@
 
 	export default {
 		components: {Pager},
-		name: 'Departments',
+		name: 'ServiceProviders',
 		mounted() {
-			this.$parent.fetchProfileShares().then(shares=> {
-				this.loading = false;
-				this.shares = this.groupSharesByDeparment(shares)				
-			});
+			this.loadShares();
 		},
 		data() {return {
 			loading: true,
 			current: 0,
+			lastClicked: {},
+			extension: "",
 			show: true,
-			shares: {},
+			modal: false,
+			shares: {
+				Hospital: [], Pharmacy: [], Laboratory: [],
+				Doctor: [], 
+			},
 		}},
 		methods: {
 			groupSharesByDeparment(shares = []) {
@@ -93,9 +113,41 @@
 				})
 				return groups;
 			},
+			loadShares() {
+				let groups = {};
+
+				this.$parent.fetchProfileShares().then(shares=> {
+					this.loading = false;
+					groups = this.groupSharesByDeparment(shares);
+					this.$set(this, "shares", groups);
+				});
+			},
+			isExpired(share) {
+				let {$moment} = this, 
+					expiration_date = $moment(share.expired_at),
+					now = $moment();
+
+				return expiration_date.isValid() ?
+					 expiration_date.isSameOrBefore(now) : false;
+			},
 			success(share, res) {
 				share.visible = false;
 				this.$notify({duration: 3000, title: 'Access Revoked', text: `${share.provider.name}`, type: "info"});
+			},
+			extend(share) {
+				let {$moment, extension } = this;
+				const data = { extension }
+
+				extension = $moment(extension)
+				!extension.isValid() 
+				? this.$notify({type: 'error', text: 'Extended Date is invalid!'})
+				: this.$http.patch(`/api/patient/profile/shares/${share.id}/extend`, data).then((res) => {
+					// share.expired_at = res.data.share.expired_at;
+					this.$notify({type: 'success', text: 'Profile Share Extended successfully!'});
+					this.loadShares();
+					this.modal = false;
+				});
+				this.extension = "";
 			},
 			expire(share) {
 				this.$http.patch(`/api/patient/profile/shares/${share.id}/expire`)

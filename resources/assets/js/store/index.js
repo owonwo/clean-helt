@@ -24,10 +24,7 @@ const lockProfile = (profile) => {
 export default new Vuex.Store({
 	state: {
 		user: {
-            first_name: "",
-            last_name: "",
             avatar: "",
-            profile: {},
             get full_name() {
                 return [this.first_name, this.last_name].join(' ')
             }
@@ -52,7 +49,9 @@ export default new Vuex.Store({
 		}
 	}, 
 	actions: {
-		
+		// fetchUser(context) {
+		// 	context.commit('getUser')
+		// },
 	},
 	mutations: {
 		set_account_type (store, payload) {

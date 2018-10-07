@@ -8,7 +8,7 @@
                 </ProfileBox>
             </div>
             <div class="column is-half">
-                <accordion v-if="$parent.pendingUsers.length > 0">
+                <accordion>
                     <template slot="heading">
                         <i class="tag is-primary p-5 mr-15">{{ $parent.pendingUsers.length }}</i> New Clients Shared their Medical Records                      
                     </template>

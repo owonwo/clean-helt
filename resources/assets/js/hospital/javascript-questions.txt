@@ -1,0 +1,334 @@
+QUESTION: What is the name of this function? var ptBreak = function(swellSize)
+A. var
+B. ptBreak
+C. function
+D. swellSize
+ANSWER: B
+
+QUESTION: What command is used to ask the user a question in a pop up window?
+A. confirm
+B. prompt
+C. function 
+D. alert
+ANSWER: B
+
+QUESTION: What happens when you concatenate ("this" + "that") ?
+A. this
+B. tt
+C. null 
+D. thisthat
+ANSWER: D
+
+QUESTION: What happens when you concatenate ("this" + "that") ?
+A. this
+B. tt
+C. null 
+D. thisthat
+ANSWER: D
+
+QUESTION: What happens when you concatenate var this = "GROWTH"; with var that = "MINDSET"; (this + that)
+A. GROWTHMINDSET
+B. this
+C. GROWTH MINDSET
+D. thisthat
+ANSWER: A
+
+QUESTION: Find the Camel Case!
+A. camelcase
+B. camelCase
+C. CamelCase
+D. Camelcase
+ANSWER: B
+
+QUESTION: How long will the loop run? for(var i = 10; i &lt; 10; i++)
+A. 	10
+B. 0
+C. 1
+D. 9
+ANSWER: B
+
+QUESTION: What does not belong? for(var i = 0; i &lt; 0; i++)
+A. =
+B. var
+C. &lt;
+D. ;
+ANSWER: D
+
+QUESTION: What is mom? var mom = "Vary Nice!";
+A. Nice
+B. Very
+C. Very Nice
+D. Vary Nice
+ANSWER: D
+
+QUESTION: Variables are the part of the program that...
+A. Repeats
+B. Remembers
+C. Chooses
+D. Varies
+ANSWER: B
+
+QUESTION: Conditionals are the part of the program that...
+A. Repeats
+B. Remembers
+C. Chooses
+D. Varies
+ANSWER: C
+
+QUESTION: Loops are the part of the program that...
+A. Repeats
+B. Remembers
+C. Chooses
+D. Varies
+ANSWER: A
+
+QUESTION: What is the parameter? var apples = function(amount)
+A. var 
+B. apples
+C. function
+D. amount
+ANSWER: D
+
+QUESTION: Arguments are Arethe same as parameters?
+A. Yes 
+B. No
+ANSWER: A
+
+QUESTION: Pick the for loop that runs 3 times...
+A. for(var i = 3; i &lt; 10; i++)
+B. for(var i = 10; i &lt; 10; i++)
+C. for(var i = 2; i &lt; 3; i++)
+D. for(var i = 4; i &lt; 7; i++)
+ANSWER: D
+
+QUESTION: TRUE or FALSE????? if(5 + 43 &lt;= 48)
+A. False
+B. True
+ANSWER: B
+
+QUESTION: True or False? if(500 &gt; 499)
+A. True
+B. False
+ANSWER: A
+
+QUESTION: When we surround a word with quotes "David" it's called...?
+A. a program
+B. a string
+C. a loop
+D.  a command
+ANSWER: B
+
+QUESTION: When we're done with a line of code we finish it with...?
+A. a colon (:)
+B. a semi-colon (;)
+C. a period (.)
+D.  a quotation mark(")
+ANSWER: B
+
+QUESTION: Which of the following is a string and a finished line of code?
+A. ^David^
+B. David;
+C. "David;
+D.  "Dav" + "id"
+ANSWER: B
+
+QUESTION: Which of the following is a string and a finished line of code?
+A. ^David^
+B. David;
+C. "David:
+D.  "Dav" + "id"
+ANSWER: B
+
+QUESTION: JavaScript also has built-in features, called functions. What is a function?
+A. Write a word (with quotes) and end it with parentheses.
+B. Write a word and end it with parentheses & semi-colon
+C. Write a word and end it with parentheses & colon.
+D. Write a word (without quotes) and end it with parentheses.
+ANSWER: D
+
+QUESTION: Which of the following is a function and a finished line of code?
+A. alert();
+B. alert)(;
+C. alert():
+D. I'm Lost ;-(
+ANSWER: A
+
+QUESTION: Many functions (like the alert function) can take instructions, which we call...?
+A. circumference
+B. pointers
+C. parameters
+D. variables
+ANSWER: C
+
+QUESTION: An abbreviated or short form of variable can be written as...?
+A. VAR
+B. var
+C. let
+D. None of the above.
+ANSWER: B
+
+QUESTION: A value can be extracted from an Array using the following methods
+A. Array[0]
+B. Array.0
+C. Array(0)
+D. None of the above.
+ANSWER: A
+
+QUESTION: A value can be extracted from an Object using the following methods
+A. Person.name
+B. Person['name']
+C. Person.john.age
+D. All of the above.
+ANSWER: D
+
+QUESTION: How do i add a click event to an element?
+A. el.click()
+B. el.addEventListener('mouseenter')
+C. el.addEventListener('click')
+D. None of the above.
+ANSWER: C
+
+QUESTION: The correct HTML to import a JavaScript file is?
+A. &lt;script href=""&gt;
+B. &lt;script src=""&gt;
+C. &lt;link src=""&gt;
+D. &lt;javascript src=""&gt;
+ANSWER: B
+
+QUESTION: The correct way to define a function in JavaScript is:
+A. const name = () =&gt; {}
+B. function name() {}
+C. var name = function() {}
+D. All of the above.
+ANSWER: D
+
+QUESTION: &lt;SCRIPT&gt; tags can be placed in the:
+A. &lt; head &gt;
+B. &lt;body&gt;
+C. &lt;head&gt; or &lt;body&gt;
+D. &lt;code&gt;
+ANSWER: C
+
+QUESTION: What does the _console.log_ method do?
+A. prints in the log console
+B. shows a pop up box
+C. ask the user to provide console data
+D. None of the above.
+ANSWER: A
+
+QUESTION: What does the _console.log_ method do?
+A. prints in the log console
+B. shows a pop up box
+C. ask the user to provide console data
+D. None of the above.
+ANSWER: A
+
+QUESTION: Using console.log() statements in a JavaScript program is useful because you can:
+A. Monitor progress
+B. Inspect Variables
+C. Watch program flow
+D. All of the above.
+ANSWER: D
+
+QUESTION: To select an element in the DOM with id equal to 'test' we use:
+A. document.get('test')
+B. document.getElementsById('#test')
+C. document.getElementById('#test')
+D. document.getElementById('test')
+ANSWER: D
+
+QUESTION: To select an element in the DOM with id equal to 'test' using JQuery:
+A. $('test')
+B. $('#test')
+C. $(test)
+D. $(#test)
+ANSWER: B
+
+QUESTION: JavaScript is a type of Java.
+A. True
+B. False
+ANSWER: B
+
+QUESTION: What does a web browser do with code it sees? 
+A. Deletes It
+B. Executes It
+C. Debugs It
+D. Displays It
+ANSWER: B
+
+QUESTION: JavaScript handles web page interaction or the behaviours.
+A. TRUE
+B. FALSE
+ANSWER: A
+
+QUESTION: You can check for code errors in the browser's _____________
+A. console
+B. cache
+C. inspector
+D. source
+ANSWER: A
+
+
+QUESTION: These symbols {} represents ____________
+A. Object
+B. Array
+C. Form
+D. None of the above.
+ANSWER: A
+
+QUESTION: What will this do: document.write(Hello!);
+A. Creates a document named "Hello!"
+B. Produces a pop-up dialog box
+C. Writes "Hello!" into an HTML file
+D. Nothing
+ANSWER: D
+
+QUESTION: To get elements by tag name, we use.
+A. document.getElementByTagName('p')
+B. document.getElementsByTagName('p')
+C. document.getElementById('p')
+D. None of the above.
+ANSWER: B
+
+QUESTION: SyntaxError is a type of Javascript Error.
+A. True
+B. False
+ANSWER: A
+
+QUESTION: The items in an Array are serialized?
+A. True
+B. False
+ANSWER: A
+
+QUESTION: The properties added to an Object can't be serialized?
+A. False
+B. True
+ANSWER: B
+
+QUESTION: These symbols [] represents ____________
+A. Object
+B. Array
+C. Form
+D. None of the above.
+ANSWER: B
+
+QUESTION: the `const` statement means _____________ 
+A. A variable that can't be overwritten
+B. A variable that can be overwritten
+C. defines a variables that can't be overwritten
+D. All of the above.
+ANSWER: C
+
+QUESTION: This symbol `&&` donotes.
+A. And
+B. Or
+C. Greater than
+D. Equal
+ANSWER: A
+
+QUESTION: What will this condition return: var a = 30; var b = 300; (a =&gt; b && b == a) 
+A. And
+B. Or
+C. Greater than
+D. Equal
+ANSWER: A

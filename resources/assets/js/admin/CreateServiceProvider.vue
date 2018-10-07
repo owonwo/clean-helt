@@ -1,16 +1,16 @@
 <template>
     <section class="content">
-        <div class="content-top-bar">Create a Service Provider</div>
-        <div class="level " style="justify-content: flex-start;">
+        <div class="content-top-bar is-flex" style="justify-content: space-between">
+            <span>Create a Service Provider</span>
             <div class="buttons">
-                <button @click="set('hospital', $event)" class="button is-normal is-primary">
-                    <i class="osf osf-hospital"></i> Hospital
+                <button v-select-form="'hospital'" class="button is-normal is-rounded is-primary">
+                    <i class="osf icon osf-hospital"></i> <span>Hospital</span>
                 </button>
-                <button @click="set('pharmacy', $event)" class="button is-normal">
-                    <i class="osf osf-pharmacy"></i> Pharmacy
+                <button v-select-form="'pharmacy'" class="button is-normal is-rounded">
+                    <i class="osf icon osf-pharmacy"></i> <span>Pharmacy</span>
                 </button>
-                <button @click="set('laboratory', $event)" class="button is-normal">
-                    <i class="osf osf-lab"></i> Laboratory
+                <button v-select-form="'laboratory'" class="button is-normal is-rounded">
+                    <i class="osf icon osf-lab"></i> <span>Laboratory</span>
                 </button>
             </div>
         </div>
@@ -106,14 +106,14 @@
             <section>
                 <div class="menu-label">Business Information</div>
                 <div v-if="is('laboratory')" class="field">
-                    <input type="number" v-model="forms.laboratory.licence_no" class="input" placeholder="License No">
+                    <input type="text" v-model="forms.laboratory.licence_no" class="input" placeholder="License No">
                 </div>                
                 <section v-if="is('pharmacy')" class="field">
                     <div class="field">
-                        <input type="number" v-model="forms.pharmacy.business_name" class="input" placeholder="Business Name">
+                        <input type="text" v-model="forms.pharmacy.business_name" class="input" placeholder="Business Name">
                     </div>
                     <div class="field">
-                        <input type="number" v-model="forms.pharmacy.business_type" class="input" placeholder="Business Type">
+                        <input type="text" v-model="forms.pharmacy.business_type" class="input" placeholder="Business Type">
                     </div>
                 </section>
                 <div v-if="is('hospital')" class="field">
@@ -123,15 +123,18 @@
                     <input type="number" v-model="forms.generic.facility_owner" class="input" placeholder="Facility Owner">
                 </div>
                 <div class="field">
+                    <label class="menu-label" for="">CAC Reg. No</label>
                     <input type="text" v-model="forms.generic.cac_reg" class="input" placeholder="CAC Reg. No">
                 </div>
-                <div class="field">
-                    <input type="text" v-model="forms.generic.fmoh_reg" class="input" placeholder="FMOH Reg. No">
-                </div>
-
+                
                 <div class="field">
                     <label class="menu-label" for="">CAC Reg. Date</label>
                     <input type="date" v-model="forms.generic.cac_date" class="input" placeholder="CAC Date">
+                </div>
+
+                <div class="field">
+                    <label class="menu-label" for="">FMOH Reg. No</label>
+                    <input type="text" v-model="forms.generic.fmoh_reg" class="input" placeholder="FMOH Reg. No">
                 </div>
 
                 <div class="field">
@@ -159,6 +162,16 @@
         <notifications group="create" :position="['right', 'bottom']"></notifications>
     </section>
 </template>
+
+<style lang="sass">
+    .buttons
+        > .button
+            margin-top: -16px
+            border-radius: 0 0 20px 20px
+
+            .icon 
+                height: 1.2em !important
+</style>
 
 <script>
 export default {
@@ -208,14 +221,23 @@ export default {
             },
         }
     },
-    computed: {},
+    directives: {
+        "select-form": {
+            bind(el, binding, vnode) {
+                let {context} = vnode;
+                $(el).click(() => {
+                    $(el).addClass('is-primary').siblings().removeClass('is-primary')
+                    context.$set(context,'model', binding.value);
+                });
+            },
+            inserted(el, binding, vnode) {
+                console.log('inserted!');
+            }
+        }
+    },
     methods: {
         is(model) {
             return this.model === model;
-        },
-        set(model, node) {
-        	$(event.target).addClass('is-primary').siblings().removeClass('is-primary')
-        	this.model = model
         },
         getData() {
             let { generic, [this.model]: model } = this.forms;

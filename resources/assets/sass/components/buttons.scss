@@ -23,7 +23,8 @@ button.no-style, button[ghost]{
 			color: $color;
 		}
 	}
-} 
+}
+
 .button {
 	&:hover, &:focus {
 		transform: translateY(-3px);
@@ -33,6 +34,10 @@ button.no-style, button[ghost]{
 	&.is-hovered {
 		@include hovered($danger, 'danger');
 		@include hovered($success, 'success');
+	}
+
+	&.is-primary {
+		color: rgba(black, .7);
 	}
 }
 

@@ -56,7 +56,7 @@ export default {
         },
         apiClient: {
             client_id: '2',
-            client_secret: 'q0NNWjUhZTNqLlFq0noYyru70LkADVuK5kZj8M9b',
+            client_secret: '5BPTzV4pvEboaEigTGC0vGhPVjxdpAs6Nv7OmwFj',
             grant_type: 'password'
         }
     }},

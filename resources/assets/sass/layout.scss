@@ -152,7 +152,7 @@
         z-index: 1;
 
         #content {
-	        padding: 15px; 
+	        padding: 15px 30px; 
 	        flex: 0 1 calc(100% - 60px);
 
             .content-top-bar {
@@ -160,11 +160,15 @@
                 min-height: 50px;
                 background: white;
                 line-height: 50px;
-                padding: 0 15px;
+                padding: 0 30px;
+                border-bottom: solid 1px $accent-color;
+                position: sticky;
+                top: 50px;
+                z-index: 30;
                 margin: {
-                    right: -15px;
+                    right: -30px;
+                    left: -30px;
                     top: -15px;
-                    left: -15px;
                     bottom: 15px;
                 }
 
@@ -232,7 +236,20 @@
        "aside section"
        "nav section";
 
-    aside { grid-area: aside; @extend .is-green }
+    aside { 
+        grid-area: aside; @extend .is-green;
+        .avatar {
+            width: 100px;         
+            height: 100px; 
+        }
+        input[type=file] {
+            left:0;
+            opacity:0;
+            width:0.1px;
+            height: 0.1px;
+            position:absolute;
+        }
+    }
     nav { grid-area: nav }
     section { grid-area: section }
 }

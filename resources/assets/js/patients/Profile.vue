@@ -3,27 +3,16 @@
 		<section class="content-top-bar">
 			<h3>Profile</h3>
 		</section>
-		<div id="profile-grid">
-			<aside>
-				<img style="height: 100px; width: 100px" :src="user.avatar" class="avatar has-shadow">
-				<p class="subtitle is-4 my-10 has-text-white">{{ user.full_name }}</p>
-				<div class="has-text-centered mt-5" style="width: 100%">
-					<label for="change-avatar" class="button is-primary is-rounded">change photo <i class="ml-5 ti ti-pencil"></i></label>
-					<input type="file" @change="changeAvatar($event)" id="change-avatar" style="position:absolute;left:0;width:0.1px;height: 0.1px;opacity:0"/>
-				</div>
-			</aside>
-			<nav class="osq-sidenav p-10">
-				<div class="menu">
-					<ul v-pager-controls.prevent="{activeClass: 'active'}" class="menu-list">
-						<li><a href="#">User Profile</a></li>
-						<li class=""><a href="#">Pharmacy Dispensing Record</a></li>
-						<li class=""><a href="#">Doctor's Diagnosis</a></li>
-						<li class=""><a href="#">Lab Record</a></li>
-					</ul>
-				</div>
-			</nav>
-			<v-scrollbar>
-				<pager :current="page">
+ 
+		<profile-grid :name="user.full_name" :avatar="user.avatar" :avatar-url="edit.avatarUrl">
+			<template slot="navigation" class="osq-sidenav p-10">
+				<li><a href="#">User Profile</a></li>
+				<li class=""><a href="#">Pharmacy Dispensing Record</a></li>
+				<li class=""><a href="#">Doctor's Diagnosis</a></li>
+				<li class=""><a href="#">Lab Record</a></li>
+			</template>
+			<template slot-scope="pager">
+				<pager :current="pager.page">
 					<div slot="p1" class="">
 						<div class="menu-label">User Information</div>
 						<accordion :show="false">
@@ -112,7 +101,7 @@
 										<th>ID</th>
 										<td>
 											{{ user.chcode }} 
-											<button class="button is-small is-text">COPY</button>
+											<button @click="copyTextToClipboard(user.chcode)" class="button is-small is-text">COPY</button>
 										</td>
 									</tr>
 								</table>
@@ -135,10 +124,13 @@
 						<accordion :show=true>
 							<template slot="heading">Emergency Hospital</template>
 							<section slot="content">
-								<save-edit-button :saved="!edit.emergency" @click="save_emerg"/>
+								<save-edit-button :saved="edit.emergency" @click="save_emerg"/>
 								<div v-if="!edit.emergency">
-									<h3 class="mb-5">{{ user.emergency_hospital_name }}</h3>
-									<p style="opacity: 0.8">{{ user.emergency_hospital_address }}</p>
+									<span v-if="!user.emergency_hospital_name">No Emergency Address Yet</span>
+									<template v-else>
+										<h3 class="mb-5">{{ user.emergency_hospital_name }}</h3>
+										<p style="opacity: 0.8">{{ user.emergency_hospital_address }}</p>
+									</template>
 								</div>
 								<div v-else>
 									<div class="field">
@@ -167,8 +159,8 @@
 						<div class="menu-label">Laboratory Tests</div>
 					</div>
 				</pager>
-			</v-scrollbar>
-		</div>
+			</template>
+		</profile-grid>
 
 		<modal :show="modal" @closed="modal = false">
 			<div class="content is-center">
@@ -238,10 +230,15 @@
 </template>
 
 <script>
+import EditProfile from '@/Mixins/EditProfile.js'
+import ProfileGrid from '@/components/ProfileGrid.vue'
+
 export default {
 	name: 'Profile',
+	components: {ProfileGrid},
+	mixins: [EditProfile],
 	mounted() { 
-		document.title = "Profile | CleanHelt"
+		document.title = "Profile | CleanHelt";
 		const records = Object.keys(this.records);
 		const XHRs = records.map(route => {
 			return this.$parent.getRecord(route);
@@ -257,9 +254,37 @@ export default {
 	data() {return {
 		page: 0,
 		edit: {
-			emergency: false, 
 			basic: false,
-			whiteList: ["first_name", "middle_name", "last_name", "avatar", "email", "password", "dob", "gender", "phone", "address", "city", "state", "country", "religion", "marital_status", "nok_name", "nok_phone", "nok_email", "nok_address", "nok_city", "nok_state", "emergency_hospital_address", "emergency_hospital_name", "nok_country", "nok_relationship"],
+			emergency: false,
+			avatarUrl: '/api/patient/profile/update/image',
+			url: `/api/patient/profile/update`,
+			whiteList: [
+				"first_name",
+				"middle_name",
+				"last_name",
+				"avatar",
+				"email",
+				"password",
+				"dob",
+				"gender",
+				"phone",
+				"address",
+				"city",
+				"state",
+				"country",
+				"religion",
+				"marital_status",
+				"nok_name",
+				"nok_phone",
+				"nok_email",
+				"nok_address",
+				"nok_city",
+				"nok_state",
+				"emergency_hospital_address",
+				"emergency_hospital_name",
+				"nok_country",
+				"nok_relationship"
+			],
 		},
 		modal: false,
 		current: {data: {}, issuer: {}},
@@ -280,46 +305,7 @@ export default {
 		closeModal() {
 			this.current.reset();
 			this.modal = false;
-		},
-		save_emerg() {
-			if(this.edit.emergency === false) {
-				this.edit.emergency = true;
-			} else {
-				const {emergency_hospital_name, emergency_hospital_address} = this.user;
-				let data =  {emergency_hospital_name, emergency_hospital_address}
-				this.$http.patch(`/api/patient/${this.user.chcode}/emergency`, data).then(response => {
-					this.edit.emergency = false;
-					this.$notify({text: 'Emergency Profile Updated!', type: 'success', duration: 2000});
-				}).catch(err => {
-					this.$notify({type:'error', text: err.response.data.message, duration: 2500});
-				});
-			}
-		},
-		save_basic() {
-			if(this.edit.basic === false) {
-				this.edit.basic = true;
-			} else {
-				let {edit, user} = this;
-				let data = Object.assign({}, user);
-
-				for(let key of Object.keys(data)) {	
-					edit.whiteList.includes(key) || (delete data[key]);
-				}
-				this.$http.patch(`/api/patient/profile/update`, data).then(response => {
-					this.edit.basic = false;
-					this.$notify({text: 'Profile Updated!', type: 'success', duration: 2000});
-				}).catch(err => {
-					this.$notify({type:'error', text: err.response.data.message, duration: 2500});
-				});
-			}
-		},
-		updateAvatar(form) {
-			this.$http.post('/api/patient/profile/update/image', form).then((res) => {
-				this.$store.commit('set_avatar', res.data.path);
-			}).catch(err => {
-				this.$notify({type:'error', text: err.response.data.message, duration: 2500});
-			});
-		},
+		}
 	}
 }
 </script>

@@ -27,7 +27,7 @@
 
     <section class="osq-content">
       <section id="content"> 
-        <keep-alive :exclude="['Modal', 'Patients','DoctorDirectory']">
+        <keep-alive :exclude="['Modal', 'HospitalProfile', 'Patients','DoctorDirectory']">
           <router-view/>
         </keep-alive>
       </section>

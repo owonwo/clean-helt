@@ -16,7 +16,7 @@
         </div>
         <div class="modal-card-foot">
           <slot name="modal-footer">
-            <button type="button" class="button is-primary"  @click.prevent="hideSelf"> Close </button>
+            <button type="button" class="button is-primary is-small"  @click.prevent="hideSelf"> Close </button>
           </slot>
         </div>
       </v-scrollbar>
