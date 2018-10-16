@@ -62,7 +62,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/{any?}', 'AdminController@index')->name('admin.dashboard');
 });
 
-Route::get('clients/{any?}', function () { return view('all', ['user' => 'Patient']); })
+Route::get('clients/{any?}', function () {
+    return view('all', ['user' => 'Patient']);
+})
     ->middleware('auth-session:patient')
     ->where('any', '(.){0,}')->name('patient.dashboard');
 
@@ -70,17 +72,29 @@ Route::get('doctors/{any?}', function (Request $request) {
     return view('all', ['user' => 'Doctor']);
 })->middleware('auth-session:doctor')->where('any', '(.){0,}')->name('doctor.dashboard');
 
-Route::get('pharmacy/{any?}', function () { return view('all', ['user' => 'Phamarcy']); })
+Route::get('pharmacy/{any?}', function () {
+    return view('all', ['user' => 'Phamarcy']);
+})
     ->middleware('auth-session:pharmacy')
     ->where('any', '(.){0,}')->name('pharmacy.dashboard');
 
-Route::get('lab/{any?}', function () { return view('all', ['user' => 'Laboratory']); })
+Route::get('lab/{any?}', function () {
+    return view('all', ['user' => 'Laboratory']);
+})
     ->middleware('auth-session:laboratory')
     ->where('any', '(.){0,}');
 
-Route::get('hospital/{any?}', function () { return view('all', ['user' => 'Hospital']); })
+Route::get('hospital/{any?}', function () {
+    return view('all', ['user' => 'Hospital']);
+})
     ->middleware('auth-session:hospital')
     ->where('any', '(.){0,}')->name('hospital.dashboard');
+
+Route::get('laboratory/{any?}', function () {
+    return view('all', ['user' => 'Laboratory']);
+})
+    ->middleware('auth-session:laboratory')
+    ->where('any', '(.){0,}')->name('laboratory.dashboard');
 
 Route::get('/make-fake-session/{type}', function (Request $request, $type) {
     $emails = [

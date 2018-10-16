@@ -89,13 +89,13 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
         Route::get('patients/pending', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
-        Route::post('patients/{patient}/referral','PatientController@refer')->name('doctor.patient.refer');
+        Route::post('patients/{patient}/referral', 'PatientController@refer')->name('doctor.patient.refer');
         Route::get('patients/{patient}/diagnosis', 'PatientController@diagnosis');
         Route::get('patients/{patient}/prescriptions', 'PatientController@showPrescriptions')->name('doctor.patient.prescription');
         Route::get('patients/{patient}/labtest', 'PatientController@showLabTest')->name('doctor.patient.labTest');
         Route::get('patients/{patient}/records/{medicalRecord}', 'PatientController@showMedicalRecords');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
-        Route::patch('patients/{patient}/diagnose/{diagnosis}','DiagnosisController@update')->name('doctor.patient.patch.diagnosis');
+        Route::patch('patients/{patient}/diagnose/{diagnosis}', 'DiagnosisController@update')->name('doctor.patient.patch.diagnosis');
         Route::get('patients/accepted/patients', 'ProfileShareController@accepted')->name('doctor.patient.accepted');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
 
@@ -142,16 +142,18 @@ Route::group(['namespace' => 'API'], function () {
         Route::delete('contacts/{contact}', 'ContactController@delete');
     });
 
-    Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory', 'middleware' => ['api', 'auth:laboratory-api']], function () {
+    Route::group(['prefix' => 'laboratory', 'namespace' => 'Laboratory', 'middleware' => ['api', 'auth:laboratory-api']], function () {
         Route::get('/profile', 'LaboratoryController@index');
         Route::patch('profile/update', 'LaboratoryController@update');
-        Route::get('patient', 'ProfileShareController@index');
-        Route::get('patient/pending', 'ProfileShareController@pending');
-        Route::get('patient/{patient}/records', 'MedicalRecordController@index');
-        Route::get('patient/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
-        Route::post('patient/{patient}/records/{medicalRecord}/{labTest}', 'MedicalRecordController@testrecord');
-        Route::patch('patient/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
-        Route::patch('patient/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
+        Route::post('/profile/update/image', 'LaboratoryController@updateAvatar');
+        
+        Route::get('patients', 'ProfileShareController@index');
+        Route::get('patients/pending', 'ProfileShareController@pending');
+        Route::get('patients/{patient}/records', 'MedicalRecordController@index');
+        Route::get('patients/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
+        Route::post('patients/{patient}/records/{medicalRecord}/{labTest}', 'MedicalRecordController@testrecord');
+        Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('laboratory.accept.patient');
+        Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline')->name('laboratory.decline.patient');
         Route::get('notifications', 'NotificationController@showNotification')->name('laboratory.notification');
         Route::get('notification/read/{id}', 'NotificationController@readNotification')->name('laboratory.read.notification');
         Route::get('notification/unread', 'NotificationController@unreadNotification')->name('laboratory.unread.notification');

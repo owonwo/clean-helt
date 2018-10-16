@@ -40,6 +40,9 @@ export default {
                 });
             }
         },
+        showCopiedNotification() {
+            this.$notify({text: 'CHCODE COPIED', type: 'success', duration: 500 });
+        },
         fallbackCopyTextToClipboard(text) {
             let textArea = document.createElement("textarea");
             textArea.value = text;
@@ -50,7 +53,8 @@ export default {
             try {
                 let successful = document.execCommand('copy');
                 let msg = successful ? 'successful' : 'unsuccessful';
-                console.log('Fallback: Copying text command was ' + msg);
+                // console.log('Fallback: Copying text command was ' + msg);
+                this.showCopiedNotification();
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
             }
@@ -61,8 +65,9 @@ export default {
                 this.fallbackCopyTextToClipboard(text);
                 return;
             }
-            navigator.clipboard.writeText(text).then(function() {
-                console.log('Async: Copying to clipboard was successful!');
+            navigator.clipboard.writeText(text).then(function() {                
+                this.showCopiedNotification();
+                // console.log('Async: Copying to clipboard was successful!');
             }, function(err) {
                 console.error('Async: Could not copy text: ', err);
             });

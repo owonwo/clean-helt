@@ -16,63 +16,65 @@
         </div>
         <div id="create-user-form">
             <section>
-                <div class="menu-label">{{ model | ucfirst }} Information</div>
-                <div class="field">
-                    <input type="text" class="input" placeholder="Name" v-model="forms.generic.name">
-                </div>
-                <div class="field">
-                    <input type="text" class="input" placeholder="Email" v-model="forms.generic.email">
-                </div>
-                <div class="field">
-                    <input type="text" class="input" placeholder="Telephone" v-model="forms.generic.phone">
-                </div>
-                <div class="field">
-                    <div class="select is-block">
-                        <select v-model="forms.generic.city" name="city" class="input">
-                            <option disabled="" value="0" selected="">Select City...</option>
-                            <option>Port Harcourt</option>
-                            <option>Town</option>
-                            <option>Borikir</option>
-                        </select>
+                <div>
+                    <div class="menu-label">{{ model | ucfirst }} Information</div>
+                    <div class="field">
+                        <input type="text" class="input" placeholder="Name" v-model="forms.generic.name">
                     </div>
-                </div>
-                <div class="field">
-                    <div class="select is-block">
-                        <select class="input" v-model="forms.generic.state">
-                            <option disabled="" value="0">Select State...</option>
-                            <option>Rivers</option>
-                            <option>Bayelsa</option>
-                            <option>Delta</option>
-                        </select>
+                    <div class="field">
+                        <input type="text" class="input" placeholder="Email" v-model="forms.generic.email">
                     </div>
-                </div>
-                <div class="field">
-                    <div class="select is-block">
-                        <select class="input" v-model="forms.generic.country">
-                            <option value="0" selected="">Select Country...</option>
-                            <option>Nigeria</option>
-                            <option>Ghana</option>
-                        </select>
+                    <div class="field">
+                        <input type="text" class="input" placeholder="Telephone" v-model="forms.generic.phone">
                     </div>
+                    <div class="field">
+                        <div class="select is-block">
+                            <select v-model="forms.generic.city" name="city" class="input">
+                                <option disabled="" value="0" selected="">Select City...</option>
+                                <option>Port Harcourt</option>
+                                <option>Town</option>
+                                <option>Borikir</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="select is-block">
+                            <select class="input" v-model="forms.generic.state">
+                                <option disabled="" value="0">Select State...</option>
+                                <option>Rivers</option>
+                                <option>Bayelsa</option>
+                                <option>Delta</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="select is-block">
+                            <select class="input" v-model="forms.generic.country">
+                                <option value="0" selected="">Select Country...</option>
+                                <option>Nigeria</option>
+                                <option>Ghana</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <textarea class="textarea" placeholder="Address" v-model="forms.generic.address"></textarea>
+                    </div>
+                    <div v-if="model !== 'laboratory'" class="field">
+                        <input type="text" class="input" placeholder="Services" v-model="forms.generic.services">
+                        <div class="help is-bold"><b>Seperate by comma (,)</b></div>
+                    </div>
+                    <div v-else class="field">
+                        <input type="text" class="input" placeholder="Offers" v-model="forms.laboratory.offers">
+                        <div class="help is-bold"><b>Seperate by comma (,)</b></div>                	
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input" placeholder="https://hospital.care" v-model="forms.hospital.website">
+                        <div class="help is-bold">Hospital Website if any.</div>
+                    </div>
+                    <button :class="{'is-loading': loading }" @click="register" class="button is-primary">
+                        Register
+                    </button>
                 </div>
-                <div class="field">
-                    <textarea class="textarea" placeholder="Address" v-model="forms.generic.address"></textarea>
-                </div>
-                <div v-if="model !== 'laboratory'" class="field">
-                    <input type="text" class="input" placeholder="Services" v-model="forms.generic.services">
-                    <div class="help is-bold"><b>Seperate by comma (,)</b></div>
-                </div>
-                <div v-else class="field">
-                    <input type="text" class="input" placeholder="Offers" v-model="forms.laboratory.offers">
-                    <div class="help is-bold"><b>Seperate by comma (,)</b></div>                	
-                </div>
-                <div class="field">
-                    <input type="text" class="input" placeholder="https://hospital.care" v-model="forms.hospital.website">
-                    <div class="help is-bold">Hospital Website if any.</div>
-                </div>
-                <button :class="{'is-loading': loading }" @click="register" class="button is-primary">
-                    Register
-                </button>
             </section>
             <!-- directors form -->
             <section>
@@ -127,7 +129,7 @@
                     <input type="text" v-model="forms.generic.cac_reg" class="input" placeholder="CAC Reg. No">
                 </div>
                 
-                <div class="field">
+                <div class="field" v-if="is('hospital') || is('pharmacy')">
                     <label class="menu-label" for="">CAC Reg. Date</label>
                     <input type="date" v-model="forms.generic.cac_date" class="input" placeholder="CAC Date">
                 </div>
@@ -137,10 +139,11 @@
                     <input type="text" v-model="forms.generic.fmoh_reg" class="input" placeholder="FMOH Reg. No">
                 </div>
 
-                <div class="field">
+                <div class="field" v-if="is('hospital') || is('pharmacy')">
                     <label class="menu-label" for="">FMOH Reg. Date</label>
                     <input type="date" v-model="forms.generic.fmoh_date" class="input" placeholder="FMOH Date">
                 </div>
+
                 <div v-if="is('hospital')">
                     <hr>
                     <div class="menu-label">BANK INFORMATION</div>

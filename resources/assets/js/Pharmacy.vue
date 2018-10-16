@@ -6,7 +6,7 @@
       </div>
 
       <div class="avatar-holder">
-        <img :src="$root.avatar" alt="" class="avatar">
+        <img :src="user.avatar" alt="" class="avatar">
         <span>{{ user.name }}</span>
       </div>
     </header>

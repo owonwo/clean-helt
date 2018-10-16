@@ -100,17 +100,6 @@ export default {
 	components: {ProfileGrid},
 	mounted() {
 		document.title = "Hospital Profile | CleanHelt";
-		// let updated = false;
-		// const render = () => {
-		// 	console.log('waiting for the user', this.user);
-		// 	if(Object.keys(this.user).length > 3 && !updated) { 
-		// 		updated = true;
-		// 		this.$forceUpdate()
-		// 	}else{
-		// 		render();
-		// 	}
-		// }
-		// _.debounce(render, 1000)();
 	},
 	data() {return {
 		edit: {

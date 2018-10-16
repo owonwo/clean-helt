@@ -26,7 +26,7 @@
             <div class="field">
                 <input name="password" placeholder="Password..." class="input" type="password" v-model="password">
             </div>
-            <button @click.prevent="login" type="submit" class="button is-submit">LOGIN</button>
+            <button @click.prevent="login" :class="{'is-loading': isLoading}" type="submit" class="button is-submit">LOGIN</button>
             <template v-if="modelIs('PATIENT', 'DOCTOR')">
                 <div class="mt-15">Not Registered with CleanHelt?</div>
                 <a class="has-text-primary" :href="register">Sign Up Here</a>
@@ -46,6 +46,7 @@ export default {
         password: "",
         remember: false,
         type: 1,
+        isLoading: false,
         error: false,
         providerMap: {
             'PATIENT': {auth_key: 'patient',name: 'patients'},
@@ -53,6 +54,7 @@ export default {
             'PHARMACY': {auth_key: 'pharmacy', name: 'pharmacies'},
             'HOSPITAL': {auth_key: 'hospital', name: 'hospitals'},
             'ADMIN': {auth_key: 'admins', name: 'admins'},
+            'LABORATORY': {auth_key: 'laboratory', name: 'laboratories'},
         },
         apiClient: {
             client_id: '2',
@@ -81,6 +83,7 @@ export default {
             return args.includes(this.$props.model);
         },
         login() {
+            this.isLoading = true;
             let {username, password, providerMap} = this;
             const provider = providerMap[this.provider].name;
             const data = Object.assign({provider}, {username, password, provider}, this.apiClient);
@@ -93,6 +96,7 @@ export default {
                 document.forms.login.submit();
 
             }).catch((err) => {
+                this.isLoading = false;
                 if(err.response.status === 401) this.error = true;
                 setTimeout(() => {
                     this.error = false;

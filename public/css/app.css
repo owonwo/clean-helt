@@ -14513,7 +14513,9 @@ a[ghost] {
 }
 
 .osq-content #content {
+  z-index: 1;
   padding: 15px 30px;
+  position: relative;
   -webkit-box-flex: 0;
       -ms-flex: 0 1 calc(100% - 60px);
           flex: 0 1 calc(100% - 60px);

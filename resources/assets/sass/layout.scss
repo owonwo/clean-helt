@@ -152,7 +152,9 @@
         z-index: 1;
 
         #content {
-	        padding: 15px 30px; 
+            z-index: 1;
+            padding: 15px 30px; 
+            position: relative;
 	        flex: 0 1 calc(100% - 60px);
 
             .content-top-bar {

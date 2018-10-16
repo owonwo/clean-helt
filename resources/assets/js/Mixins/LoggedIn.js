@@ -7,7 +7,7 @@ export default {
         notifsUrl: {
             DOCTOR: `/api/doctor/notifications`,
             HOSPITAL: `/api/hospital/notifications`,    
-            LABORATORY: `/api/laboratories/notifications`,
+            LABORATORY: `/api/laboratory/notifications`,
             PATIENT: `/api/patient/notifications`,
             PHARMACY: `/api/pharmacy/notifications`,
         }
@@ -77,12 +77,16 @@ export default {
         // fetches both pending and active patients
         fetchPatients() {
             let {patients} = this.settings;
-            
+                
             this.$http.get(`/api/${this.componentName}/patients/pending`).then((res) => {
                 const PATIENTS = res.data.patients;
-                this.set_pending_patients(PATIENTS);
+                let found = (!!PATIENTS);
+                found
+                    ? this.set_pending_patients(PATIENTS)
+                    : console.assert(found, "Pending Patients could not be fetched!");
             });
 
+            if(!!patients.route)
             this.$http.get(patients.route).then((res) => {
                 const PATIENTS = res.data[patients.key]
                 this.set_shared_profiles(PATIENTS);
@@ -116,12 +120,13 @@ export default {
         }
     },
 }
+
 const readMaps = {
-    PATIENT: `api/patient/notification/unread`,
-    HOSPITAL: `api/hospital/notification/unread`,
-    PHARMACY: `api/pharmacy/notification/unread`,
-    LABORATORY: `api/laboratories/notification/unread`,
-    DOCTOR: `api/doctor/notification/unread`,
+    DOCTOR: `/api/doctor/notification/unread`,
+    PATIENT: `/api/patient/notification/unread`,
+    PHARMACY: `/api/pharmacy/notification/read`,
+    HOSPITAL: `/api/hospital/notification/unread`,
+    LABORATORY: `/api/laboratory/notification/read`,
 }
 
 const getNotificationUrl = (model) => {
@@ -136,6 +141,7 @@ const notificationFactory = (data = {}, model) => {
     __proto = Object.assign(data, {
         read: !_.isNull(data.read_at),
         message: data.data,
+        /** sets a notification to read */
         async isRead() {
             return axios.get(getNotificationUrl(model) + '/' + data.id);
         },
