@@ -134,9 +134,11 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
+        Route::get('profile/shares/pending', 'ProfileShareController@pending');
+        Route::patch('profile/shares/{profileShare}/accept', 'ProfileShareController@accept');
+        Route::patch('profile/shares/{profileShare}/decline', 'ProfileShareController@decline');
 
         Route::post('doctors', 'PatientController@showDoctor')->name('patient.doctors.show');
-
         Route::get('contacts', 'ContactController@index');
         Route::post('contacts', 'ContactController@store');
         Route::delete('contacts/{contact}', 'ContactController@delete');
