@@ -76,8 +76,8 @@ class ProfileShareController extends Controller
             }
 
             return response()->json([
-                'message' => 'Profile could not be shared at this time maybe you have shared',
-            ], 400);
+                'message' => 'Profile already shared.',
+            ], 409);
         }
 
         return response()->json(['message' => 'Provider not found'], 400);
