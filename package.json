@@ -12,6 +12,7 @@
         "docs:build": "vuepress build docs"
     },
     "devDependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.0.0",
         "axios": "^0.18",
         "browser-sync": "^2.24.7",
         "browser-sync-webpack-plugin": "^2.0.1",

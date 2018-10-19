@@ -2,14 +2,14 @@
     <div id="osq-login">
         <form name="login" method="POST" :action="form_action" class="has-text-centered">
             <img class="logo" src="/images/assets/logo.png" alt="">
-            <p v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as a</p>
-            <p v-else class="mt-50 mb-15">Login</p>
+            <label id="account" v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as a</label>
+            <label id="account" v-else class="mt-50 mb-15">Login</label>
             <slot></slot>
             <!-- error notification -->
 
             <div v-if="['DOCTOR','PATIENT'].includes(provider)" class="field is-flex" style="justify-content: center">
                 <div class="select is-rounded" style="width: 180px">
-                    <select v-model="type" class="has-text-centered">
+                    <select id="account" v-model="type" class="has-text-centered">
                         <option selected :value="1">Client</option>
                         <option :value="2">Doctor</option>
                     </select>
@@ -21,10 +21,12 @@
                 </div>
             </transition>
             <div class="field">
-                <input name="email" placeholder="Email..." class="input" type="text" v-model="username">
+                <label for="email">Email</label>
+                <input name="email" id="email" placeholder="Email..." class="input" type="text" v-model="username">
             </div>
             <div class="field">
-                <input name="password" placeholder="Password..." class="input" type="password" v-model="password">
+                <label for="pass">Password</label>
+                <input id="pass" name="password" placeholder="Password..." class="input" type="password" v-model="password">
             </div>
             <button @click.prevent="login" :class="{'is-loading': isLoading}" type="submit" class="button is-submit">LOGIN</button>
             <template v-if="modelIs('PATIENT', 'DOCTOR')">

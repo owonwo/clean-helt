@@ -29,31 +29,21 @@
                     </div>
                     <div class="field">
                         <div class="select is-block">
-                            <select v-model="forms.generic.city" name="city" class="input">
-                                <option disabled="" value="0" selected="">Select City...</option>
-                                <option>Port Harcourt</option>
-                                <option>Town</option>
-                                <option>Borikir</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="select is-block">
-                            <select class="input" v-model="forms.generic.state">
-                                <option disabled="" value="0">Select State...</option>
-                                <option>Rivers</option>
-                                <option>Bayelsa</option>
-                                <option>Delta</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="select is-block">
                             <select class="input" v-model="forms.generic.country">
                                 <option value="0" selected="">Select Country...</option>
                                 <option>Nigeria</option>
-                                <option>Ghana</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="field" v-if="forms.generic.country !== 0">
+                        <div class="select is-block">
+                           <select-state @changed="(e) => (forms.generic.state = e) && (forms.generic.city = 0)"/>
+                        </div>
+                    </div>
+                    <div class="field" v-if="forms.generic.state !== 0">
+                        <div class="select is-block">
+                            <select-city @changed="e => forms.generic.city = e" 
+                                v-model="forms.generic.city" :state="forms.generic.state"/>
                         </div>
                     </div>
                     <div class="field">
@@ -69,7 +59,7 @@
                     </div>
                     <div class="field">
                         <input type="text" class="input" placeholder="https://hospital.care" v-model="forms.hospital.website">
-                        <div class="help is-bold">Hospital Website if any.</div>
+                        <div class="help is-bold">Service provider website if any.</div>
                     </div>
                     <button :class="{'is-loading': loading }" @click="register" class="button is-primary">
                         Register
@@ -83,7 +73,7 @@
                     <input type="text" v-model="forms.hospital.director_mdcn" class="input" placeholder="Director MDCN">
                 </div>
                 <div v-if="is('laboratory')" class="field">
-                    <input type="number" v-model="forms.laboratory.lab_owner" class="input" placeholder="Laboratory  Owner">
+                    <input type="text" v-model="forms.laboratory.lab_owner" class="input" placeholder="Owner's Name">
                 </div>                
                 <!-- pharmacy chief information -->
                 <div v-show="is('pharmacy')">
@@ -190,7 +180,9 @@ export default {
             },
             forms: {
                 pharmacy: {},
-                laboratory: {},
+                laboratory: {
+                    offers: "",
+                },
                 hospital: {},
                 //  {
                 //     "director_mdcn": "MD-30939-3093940092",

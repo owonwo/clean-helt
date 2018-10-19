@@ -8,15 +8,19 @@ import Accordion from '@/components/Accordion.vue'
 import CustomLink from '@/components/CustomLink.vue'
 import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
+import SelectCity from './SelectCity'
+import SelectState from './SelectState'
 
 export default {
-	Accordion,
+    Modal,
+    Pager,
+    Accordion,
     ProfileBox, 
     ProfileLoader, 
-    Modal,
     vScrollbar, 
+    SelectCity,
+    SelectState,
     CustomLink,
-    Pager,
     AddServiceProvider,
     SearchBox,
     SaveEditButton,
