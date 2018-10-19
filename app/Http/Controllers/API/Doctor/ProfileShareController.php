@@ -47,6 +47,7 @@ class ProfileShareController extends Controller
             'message' => 'Something went Wrong'
         ],403);
     }
+
     public function accept(ProfileShare $profileShare)
     {
         if($profileShare->exists && $profileShare->update(['status' => 1])){

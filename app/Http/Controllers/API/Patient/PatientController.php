@@ -259,7 +259,7 @@ class PatientController extends Controller
         ], 200);
     }
 
-    public function showPrescription(Patient $patient)
+    public function showPrescription()
     {
         $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
             $record->data;

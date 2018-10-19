@@ -107,3 +107,4 @@ class LoginController extends AccessTokenController
         return 6 * 60 * 60;
     }
 }
+

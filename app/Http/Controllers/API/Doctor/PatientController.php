@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API\Doctor;
 use App\Filters\PatientFilter;
 use App\Models\Doctor;
 use App\Models\ProfileShare;
+use App\Notifications\PatientToDoctorReferral;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
@@ -55,32 +57,47 @@ class PatientController extends Controller
                     $hospitalDoctors = $hospital->doctors()->get();
                     foreach ($hospitalDoctors as $hospitalDoctor) {
                         if (request('chcode') == $hospitalDoctor->chcode) {
-                            $this->doctorReferral($doctor, $patient, $hospitalDoctor);
+                            return $this->doctorReferral($doctor, $patient, $hospitalDoctor);
                         }
+
                     }
                 }
             }
-            return response()->json([
-                "message" => "Profile Referred successfully"
-            ]);
         } else {
             $chcode = request('chcode');
             $refferedDoctor = Doctor::whereChcode($chcode)->get()->first();
-            $this->doctorReferral($doctor, $patient, $refferedDoctor);
+            return $this->doctorReferral($doctor, $patient, $refferedDoctor);
+            return response()->json([
+                "message" => "Profile Referred successfully"
+            ], 200);
+
         }
     }
 
 
     public function doctorReferral($doctor,$patient,$refferedDoctor){
+
             $provider_type ='App\Models\Doctor';
             //Doctor places in the chcode of another doctor
             $chcode = request('chcode');
-            if($doctor->canViewProfile($patient)){
+            foreach ($patient->profileShares as $profileShare){
+                if($profileShare->provider_id == $doctor->id && $profileShare->patient_id == $patient->id){
+                   $expiration =  $profileShare->expired_at;
+                }
+            }
+
+        $exists = DB::table('profile_shares')
+            ->where('patient_id', $patient->id)
+            ->where('provider_type', $provider_type)
+            ->where('provider_id', $refferedDoctor->id)->first();
+
+            if($doctor->canViewProfile($patient) && !$exists){
                 $patient->profileShares()->create([
                     'provider_type' => $provider_type,
                     'provider_id' => $refferedDoctor->id,
-                    'expired_at' => request('expiration'),
+                    'expired_at' => $expiration,
                 ]);
+                $doctor->notify(new PatientToDoctorReferral($refferedDoctor, $patient));
                 return response()->json([
                     'message' => "You have successfully referred ".$refferedDoctor->first_name. "to " . $patient->first_name
                 ],200);
