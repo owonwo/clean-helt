@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers\API\Admin;
 
-use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\Laboratory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Validator;
 
 class LaboratoryController extends Controller
 {
+    const whiteList = [
+        "address",
+        "cac_reg",
+        "city",
+        "country",
+        "email",
+        "fmoh_reg",
+        "lab_owner",
+        "licence_no",
+        "name",
+        "offers",
+        "phone",
+        "state",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -56,12 +71,12 @@ class LaboratoryController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if (!$validator->fails()) {
-            $data = $request->all();
+            $data = $this->filterData($request->all());
 
             $password = str_random(10);
             $data['password'] = bcrypt($password);
             $data['avatar'] = 'public/defaults/avatars/provider.png';
-
+            
             if ($labs = Laboratory::create($data)) {
                 return response()->json([
                     'message' => 'Laboratory created successfully ',
@@ -70,6 +85,13 @@ class LaboratoryController extends Controller
         }
 
         return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    private function filterData($data = [])
+    {
+        return Collection::make($data)->filter(function ($e, $key) {
+            return in_array($key, $this::whiteList);
+        })->toArray();
     }
 
     public function deactivate(Laboratory $laboratory)
