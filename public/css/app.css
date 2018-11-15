@@ -11678,10 +11678,6 @@ label.panel-block:hover {
   color: #666;
 }
 
-.control.has-shadow input:-ms-input-placeholder {
-  color: #666;
-}
-
 .control.has-shadow input::-ms-input-placeholder {
   color: #666;
 }
@@ -11694,15 +11690,9 @@ label.panel-block:hover {
 #create-user-form > section {
   border: none;
   overflow: hidden;
-  border-radius: 15px;
+  border-radius: 0px;
   -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.card > .card-header,
-#create-user-form > section > .card-header {
-  background: #00E6A1;
-  color: rgba(0, 0, 0, 0.57);
 }
 
 .card > .card-header .osf,
@@ -14401,7 +14391,7 @@ a[ghost] {
 .osq-wrapper {
   display: grid;
   min-height: 100vh;
-  grid: "navbar navbar" 50px  "sidebar  content" auto / 250px 1fr;
+  grid: "navbar navbar" 50px "sidebar  content" auto/200px 1fr;
 }
 
 .osq-main-navbar {
@@ -14440,7 +14430,7 @@ a[ghost] {
   position: fixed;
   left: 0px;
   z-index: 3;
-  width: 250px;
+  width: 200px;
   background: #20B171;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -14487,7 +14477,7 @@ a[ghost] {
 .osq-sidebar nav,
 .osq-sidebar footer {
   color: white;
-  width: 250px;
+  width: 200px;
   height: auto;
   margin-right: -15px;
   margin-left: -15px;
@@ -14531,7 +14521,7 @@ a[ghost] {
   pointer-events: fill;
   position: absolute;
   border: solid 12px black;
-  border-color: #f0f4ff #f0f4ff transparent transparent;
+  border-color: #ECECEC #ECECEC transparent transparent;
   visibility: hidden;
   -webkit-transform: rotate(-135deg) translate(-24px);
           transform: rotate(-135deg) translate(-24px);
@@ -14580,11 +14570,19 @@ a[ghost] {
 
 .osq-content #content {
   z-index: 1;
-  padding: 15px 30px;
+  padding: 15px 30px 0;
   position: relative;
   -webkit-box-flex: 0;
       -ms-flex: 0 1 calc(100% - 60px);
           flex: 0 1 calc(100% - 60px);
+}
+
+.osq-content #content .content-top-bar,
+.osq-content #content .welcome-banner {
+  margin-right: -30px;
+  margin-left: -30px;
+  margin-top: -15px;
+  margin-bottom: 15px;
 }
 
 .osq-content #content .content-top-bar {
@@ -14593,20 +14591,32 @@ a[ghost] {
   background: white;
   line-height: 50px;
   padding: 0 30px;
-  border-bottom: solid 1px #00E6A1;
   position: -webkit-sticky;
   position: sticky;
   top: 50px;
   z-index: 30;
-  margin-right: -30px;
-  margin-left: -30px;
-  margin-top: -15px;
-  margin-bottom: 15px;
 }
 
 .osq-content #content .content-top-bar h3 {
   font-weight: 300;
   line-height: unset;
+  margin-bottom: 0 !important;
+}
+
+.osq-content #content .welcome-banner {
+  background: white;
+  min-height: 144px;
+  line-height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .osq-content #osq-logs {
@@ -14674,7 +14684,8 @@ a[ghost] {
   display: grid;
   background-color: white;
   grid-template-columns: 282px 1fr;
-  grid-template-rows: 250px 1fr;
+  grid-template-rows: 200px minmax(200px, 300px);
+  max-height: calc(100vh - 140px);
   grid-template-areas: "aside section" "nav section";
 }
 
@@ -14685,6 +14696,9 @@ a[ghost] {
 #profile-grid aside .avatar {
   width: 100px;
   height: 100px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
 }
 
 #profile-grid aside input[type=file] {
@@ -14695,11 +14709,13 @@ a[ghost] {
   position: absolute;
 }
 
-#profile-grid nav {
+#profile-grid .osq-profile-nav {
+  padding: 0;
   grid-area: nav;
+  border-right: solid 1px #dedede;
 }
 
-#profile-grid section {
+#profile-grid .osq-profile-section {
   grid-area: section;
 }
 
@@ -14840,7 +14856,7 @@ a[ghost] {
 
 body {
   margin: 0;
-  background-color: #f0f4ff;
+  background-color: #ECECEC;
   font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
 }
 
@@ -14883,10 +14899,6 @@ h6 {
   margin-bottom: 0;
   border-radius: 0;
   padding: 1.5rem 2.5rem 1.5rem 1.5rem;
-}
-
-.osq-content {
-  min-height: 100vh;
 }
 
 .osq-main-navbar,
@@ -14941,10 +14953,19 @@ ul {
   border: none;
 }
 
+.card .tabs li a,
+#create-user-form > section .tabs li a {
+  border: none !important;
+}
+
 .card .tabs li.is-active a,
 #create-user-form > section .tabs li.is-active a {
+  border: none;
+  margin-left: 10px;
   font-weight: bold;
-  border-bottom-width: 3px;
+  border-radius: 15px;
+  padding: 0.1rem .5rem;
+  background: rgba(0, 230, 161, 0.3);
 }
 
 .card .tabs a,
@@ -14960,20 +14981,18 @@ ul {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 1rem 1.5rem;
+  border-radius: 0;
 }
 
 .card.is-service-provider .osf,
 #create-user-form > section.is-service-provider .osf {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 10px;
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
 }
 
 .is-green,
@@ -15140,10 +15159,6 @@ ul {
   color: #cbcbcb;
 }
 
-.osq-search-field input:-ms-input-placeholder {
-  color: #cbcbcb;
-}
-
 .osq-search-field input::-ms-input-placeholder {
   color: #cbcbcb;
 }
@@ -15294,28 +15309,35 @@ ul {
 
 .osq-two-columns aside {
   background: #e5e5e5;
-  border-right: solid 1px #f0f4ff;
+  border-right: solid 1px #ECECEC;
+}
+
+.osq-sidenav {
+  padding-bottom: 60px;
 }
 
 .osq-sidenav li {
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 
 .osq-sidenav li > a {
   color: #7a7a7a;
-  border-radius: 30px;
-  padding: 10px 5px;
+  border-bottom: solid 1px #dedede;
+  padding: 1rem;
   text-indent: 15px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-radius: 0 !important;
   outline: none !important;
-}
-
-.osq-sidenav li:hover a {
-  background-color: white;
 }
 
 .osq-sidenav li.active > a {
   color: #20B171;
-  border: solid 1px rgba(32, 177, 113, 0.4);
+  background-color: #F9F9F9;
+}
+
+.hospital-card {
+  margin-bottom: 15px;
 }
 
 /*** login & registration ***/
@@ -15337,7 +15359,11 @@ ul {
 #osq-login img.logo {
   width: 200px;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 30px;
+}
+
+#osq-login .field label {
+  display: none;
 }
 
 #osq-login > section,
@@ -15428,4 +15454,6 @@ ul {
     width: 100%;
   }
 }
+
+/* end login & registration */
 

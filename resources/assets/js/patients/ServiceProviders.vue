@@ -1,7 +1,7 @@
 <template>
 	<section>
-		<section class="content-top-bar">
-			<h3>Health Service Providers</h3>
+		<section class="content-top-bar is-flex" style="justify-content: space-between; align-items: center">
+			<h3>Health Services</h3>
 		</section>
 
 		<div class="columns is-centered" v-slide="show">
@@ -11,14 +11,13 @@
 		</div>
 		
 		<section class="card">
-			<div class="card-header">
+			<div v-if="!shares.length" class="card-header">
 				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
-				<span class="card-header-title">Departments</span>
-				<div class="m-10">
-					<button @click="show = !show" class="button is-outlined is-rounded is-dark">
-						<i class="ti" :class="[show ? 'ti-plus' : 'ti-angle-down']"></i>
-					</button>
-				</div>
+				<span class="card-header-title">No Service Provider.</span>
+				<HoverRevealButton text="Add" @click="(show = !show)" class="mr-15 mt-5">
+					<span class="ti" :class="{'ti-plus': show, 'ti-angle-down': !show}" slot="icon"></span>
+					<span slot="text">{{ show ? 'Add' : 'Close' }}</span>
+				</HoverRevealButton>
 			</div>
 			<div class="tabs mb-5">
 				<ul>
@@ -29,6 +28,11 @@
 				</ul>
 			</div>
 			<div v-preload v-if="loading" class="block is-rounded mx-15" style="height:10px;"/>	
+			<div>
+				<blockquote class="notification is-info p-5 mx-15">
+					<i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
+				</blockquote>
+			</div>
 			<pager align="top" :current="current">
 				<div :slot="'p'+(index+1)" :key="index" class="px-15"
 				   v-for="(non, shareKey, index) in shares">

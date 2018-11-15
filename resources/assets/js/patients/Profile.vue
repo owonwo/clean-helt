@@ -6,10 +6,17 @@
  
 		<profile-grid :name="user.full_name" :avatar="user.avatar" :avatar-url="edit.avatarUrl">
 			<template slot="navigation" class="osq-sidenav p-10">
-				<li><a href="#">User Profile</a></li>
-				<li class=""><a href="#">Pharmacy Dispensing Record</a></li>
-				<li class=""><a href="#">Doctor's Diagnosis</a></li>
-				<li class=""><a href="#">Lab Record</a></li>
+				<li><a href="#">Basic Information</a></li>
+				<li class=""><a href="#">Annual Medical Check</a></li>
+				<li class=""><a href="#">Medical History</a></li>
+				<li class=""><a href="#">Hospital Contacts</a></li>
+				<li class=""><a href="#">Health Insurance Providers</a></li>
+				<li class=""><a href="#">Emergency Contacts</a></li>
+				<li class=""><a href="#">Immunization</a></li>
+				<li class=""><a href="#">Allergies</a></li>
+				<li class=""><a href="#">Family Medical History</a></li>
+				<li class=""><a href="#">Hospitalization</a></li>
+				<li class=""><a href="#">Health Log</a></li>
 			</template>
 			<template slot-scope="pager">
 				<pager :current="pager.page">
@@ -144,19 +151,188 @@
 						</accordion>
 					</div>
 					<div slot="p2">
-						<h3 class="menu-label">Dispensing Records</h3>
+						<h3 class="menu-label">Annual Medical Check</h3>
+						<h5>Vital Signs</h5>
+						<table class="ml-30 mb-30" style="font-size: 13px">
+							<tr>
+								<td width="104px">Pulse:</td>
+								<td>95bmp</td>
+							</tr>
+							<tr>
+								<td>Temperature:</td>
+								<td>31&deg;C</td>
+							</tr>
+							<tr>
+								<td>Blood Pressure:</td>
+								<td>120/80 mmHg</td>
+							</tr>
+							<tr>
+								<td>Respiratory Rate:</td>
+								<td>16 breaths per minute</td>
+							</tr>
+						</table>
+						<h5>Examination of systems</h5>
+						<p class="ml-30 mb-30" style="font-size: 0.8em">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet</p>
+						<h5>Additional Information</h5>
 					</div>
 					<section slot="p3" class="">
-						<div class="menu-label is-pulled-right">{{ records.medicalRecord.length }} Diagnosis Data</div>
-						<div class="menu-label">Doctor Diagnosis</div>
-						
-						<div v-for="(record, index) in records.medicalRecord">
-							<a class="has-text-primary" @click.prevent="showModal(record, index)">{{ record.reference }}</a>
-							<p><small>by Dr. {{ record.issuer.first_name | ucfirst }} {{ record.issuer.last_name | ucfirst }}</small></p>
-						</div>
+						<div class="menu-label">Medical History</div>
+						<table class="table is-fullwidth">
+							<thead>
+								<tr>
+									<th>Illness</th>
+									<th>Date of Onset</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Acquired Immundefiiency Syndrome (AIDS or HIV Positive)</td>
+									<td>00/00/0000</td>
+								</tr>
+								<tr>
+									<td>Arthritis</td>
+									<td>00/00/0000</td>
+								</tr>
+								<tr>
+									<td>Asthma</td>
+									<td>00/00/0000</td>
+								</tr>
+								<tr>
+									<td>Bronchitis</td>
+									<td>00/00/0000</td>
+								</tr>
+								<tr>
+									<td>Cancer</td>
+									<td>00/00/0000</td>
+								</tr>
+							</tbody>
+						</table>	
 					</section>
+					<!-- HOSPITAL CONTACTS -->
 					<div slot="p4" class="">
-						<div class="menu-label">Laboratory Tests</div>
+						
+						<div class="menu-label">HOSPITAL CONTACTS</div>
+						<div class="hospital-card is-small">
+							<h5 class="title is-size-5 mb-10">Hospital 1</h5>
+							<p class="is-size-6">St Immanuel Memorial Hospital</p>
+							<ul class="is-size-7">
+								<li>Location: Tecno junction, Rumuola, Port Harcourt</li>
+								<li>Phone: 08034353580, 0904738745</li>
+								<li>Emails: stimmanuel@yahoo.com, info@stimmanuelmemorialhospital.com</li>
+							</ul>
+						</div>
+
+						<div class="hospital-card is-small">
+							<h5 class="title is-size-5 mb-10">Hospital 1</h5>
+							<p class="is-size-6">St Immanuel Memorial Hospital</p>
+							<ul class="is-size-7">
+								<li>Location: Tecno junction, Rumuola, Port Harcourt</li>
+								<li>Phone: 08034353580, 0904738745</li>
+								<li>Emails: stimmanuel@yahoo.com, info@stimmanuelmemorialhospital.com</li>
+							</ul>
+						</div>
+					</div>
+					<!-- HEALTH INSURANCE PROVIDERS -->
+					<div slot="p5">
+						<div class="menu-label">HEALTH INSUREANCE PROVIDER</div>
+						<table class="table is-fullwidth">
+							<tr>
+								<td>Insurance Provider Type</td>
+								<td>Leadway Insurance</td>
+							</tr>
+							<tr>
+								<td>Company Name</td>
+								<td>ABC Locks</td>
+							</tr>
+							<tr>
+								<td>Address</td>
+								<td>City</td>
+							</tr>
+							<tr>
+								<td>City</td>
+								<td>Lop</td>
+							</tr>
+							<tr>
+								<td>Phone</td>
+								<td>039903990</td>
+							</tr>
+							<tr>
+								<td>Emergency Phone</td>
+								<td>0399409309</td>
+							</tr>
+						</table>
+					</div>
+					<!-- EMERGENCY CONTACT -->
+					<div slot="p6">
+						<div class="menu-label">Emergency Contact</div>
+					</div>
+					<!-- Immunization -->
+					<div slot="p7">
+						<div class="menu-">IMMUNIZATIONS</div>
+						<table class="table is-fullwidth">
+							<tr>
+								<th>Immunization</th>
+								<th>Age</th>
+								<th>Date</th>
+							</tr>
+							<tr>
+								<td>Ditheria</td>
+								<td>03</td>
+								<td>00/00/1948</td>
+							</tr>
+						</table>
+					</div>
+					<!-- ALLERGIES -->
+					<div slot="p8">
+						<div class="menu-label">ALLERGIES</div>
+						<table class="table is-fullwidth">
+							<tr>
+								<th>Allergy</th>
+								<th>Reaction</th>
+								<th>Date of Occurence</th>
+							</tr>
+						</table>
+					</div>
+					<!-- FAMILY MEDICAL HISTORY -->
+					<div slot="p9">
+						<div class="menu-label">FAMILY MEDICAL HISTORY</div>
+						<table class="table is-fullwidth">
+							<tr>
+								<th></th>
+								<th v-for="(title, key) in family" :key="key">{{ title }}</th>
+							</tr>
+							<tr v-for="disease in diseases" :key="disease">
+								<td>{{disease}}</td>
+								<td class="has-text-centered" :key="key" v-for="(title, key) in family">
+									<input type="checkbox" value="title">
+								</td>
+							</tr>
+						</table>
+					</div>
+					<!-- HOSPITALIZATION -->
+					<div slot="p10">
+						<div class="menu-label">HOSPITALIZATION</div>
+						<div>
+							Hospital A
+							<p>Doctor: James Looker</p>
+							<p>Hospital: James Looker</p>
+							<p>Reason: James Looker</p>
+							<p>Complications: James Looker</p>
+						</div>
+					</div>
+					<!-- HEALTH LOGS -->
+					<div slot="p11">
+						<div class="menu-label">HEALTH LOG</div>
+						<table class="table is-fullwidth">
+							<tr>
+								<th width="150">Date</th>
+								<th>Nature of Health Problem</th>
+							</tr>
+							<tr>
+								<td>2018-30-05</td>
+								<td>Dr Patrick Odunze has accepted to view your Medical Profile</td>
+							</tr>
+						</table>
 					</div>
 				</pager>
 			</template>
@@ -286,6 +462,11 @@ export default {
 				"nok_relationship"
 			],
 		},
+		/**
+		  *@type <Array["string"]>
+		  */
+		family: ["Mother", "Father", "Sibling", "Grand Parent", "Child"],
+		diseases: ["Alcoholism","Asthma","Cancer","Diabetes","Heart Condition","Hepatitis","High Blood Pressure"],
 		modal: false,
 		current: {data: {}, issuer: {}},
 		records: {labtest: [], medicalRecord: [], prescription: []},

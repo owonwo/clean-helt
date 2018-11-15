@@ -10,6 +10,7 @@ import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
 import SelectCity from './SelectCity'
 import SelectState from './SelectState'
+import HoverRevealButton from './HoverRevealButton'
 
 export default {
     Modal,
@@ -21,6 +22,7 @@ export default {
     SelectCity,
     SelectState,
     CustomLink,
+    HoverRevealButton,
     AddServiceProvider,
     SearchBox,
     SaveEditButton,

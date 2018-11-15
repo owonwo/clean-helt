@@ -2,7 +2,7 @@
     <div id="profile-grid">
         <aside>
             <img :src="avatar" class="avatar has-shadow">
-            <p class="subtitle is-4 my-10 has-text-white">{{ name }}</p>
+            <p class="subtitle is-4 my-10">{{ name }}</p>
             <div class="has-text-centered mt-5 is-fullwidth">
                 <label for="change-avatar" class="button is-primary is-rounded">
                     change photo <i class="ml-5 ti ti-pencil"></i>
@@ -10,14 +10,14 @@
                 <input type="file" @change="changeAvatar($event)" id="change-avatar" />
             </div>
         </aside>
-        <nav class="osq-sidenav p-10">
+        <v-scrollbar class="osq-profile-nav osq-sidenav">
             <div class="menu">
                 <ul v-pager-controls.prevent="{activeClass: 'active'}" class="menu-list">
                     <slot name="navigation"></slot>
                 </ul>
             </div>
-        </nav>
-        <v-scrollbar>
+        </v-scrollbar>
+        <v-scrollbar class="osq-profile-section">
             <slot :page="page"></slot>
         </v-scrollbar>
     </div>

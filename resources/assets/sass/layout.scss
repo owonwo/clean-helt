@@ -1,11 +1,14 @@
+$sidebar-width: 200px;
+$profile-grid-width: 200px;
+
 .osq {
     &-wrapper {
         display: grid;
         min-height: 100vh;
-        grid: 
+        grid:
             "navbar navbar" 50px 
             "sidebar  content" auto
-            / 250px 1fr;
+            / $sidebar-width 1fr;
     }
 
     &-main-navbar {
@@ -34,8 +37,6 @@
 			align-items: center;
 		}
     }
-
-	$sidebar-width: 250px;
 
     &-sidebar {
         grid-area: sidebar;
@@ -153,33 +154,51 @@
 
         #content {
             z-index: 1;
-            padding: 15px 30px; 
+            padding: 15px 30px 0; 
             position: relative;
 	        flex: 0 1 calc(100% - 60px);
-
-            .content-top-bar {
-                width: auto;
-                min-height: 50px;
-                background: white;
-                line-height: 50px;
-                padding: 0 30px;
-                border-bottom: solid 1px $accent-color;
-                position: sticky;
-                top: 50px;
-                z-index: 30;
+           
+            %fill-margin {
                 margin: {
                     right: -30px;
                     left: -30px;
                     top: -15px;
                     bottom: 15px;
                 }
+            }
+
+            .content-top-bar {
+                @extend %fill-margin;
+
+                width: auto;
+                min-height: 50px;
+                background: white;
+                line-height: 50px;
+                padding: 0 30px;
+                // border-bottom: solid 1px $accent-color;
+                position: sticky;
+                top: 50px;
+                z-index: 30;
+                
 
                 h3 {
                     @extend .title;
                     @extend .is-5;
                     font-weight: 300;
                     line-height: unset;
+                    margin-bottom: 0 !important;
                 }
+            }
+
+            .welcome-banner {
+                @extend %fill-margin;
+
+                background: white;
+                min-height: 144px;
+                line-height: 30px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
             }
         }
 
@@ -233,7 +252,8 @@
     display: grid;
     background-color: white;
     grid-template-columns: 282px 1fr;
-    grid-template-rows: 250px 1fr;
+    grid-template-rows: $profile-grid-width minmax(200px, 300px);
+    max-height: calc(100vh - 140px);
     grid-template-areas: 
        "aside section"
        "nav section";
@@ -242,7 +262,8 @@
         grid-area: aside; @extend .is-green;
         .avatar {
             width: 100px;         
-            height: 100px; 
+            height: 100px;
+            flex: 0 0 100px;
         }
         input[type=file] {
             left:0;
@@ -252,8 +273,12 @@
             position:absolute;
         }
     }
-    nav { grid-area: nav }
-    section { grid-area: section }
+    .osq-profile-nav { 
+        padding: 0;
+        grid-area: nav; 
+        border-right: solid 1px $hr-color;
+    }
+    .osq-profile-section { grid-area: section }
 }
 
 #profile-grid {

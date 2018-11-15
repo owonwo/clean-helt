@@ -31,13 +31,7 @@
 							<i class="osf osf-client-alt-white"></i> Profile</a>
 						<span class="toggler" @click="$root.toggleSidebar"></span>
 					</router-link>
-
-					<router-link to="/Notifications" tag="li">
-						<a href="#">
-							<i class="osf osf-notification-white"></i> Notifications</a>
-						<span class="toggler" @click="$root.toggleSidebar"></span>
-					</router-link>
-
+					
 					<router-link to="/settings" tag="li">
 						<a href="#">
 							<i class="osf osf-settings-white"></i> Settings</a>
