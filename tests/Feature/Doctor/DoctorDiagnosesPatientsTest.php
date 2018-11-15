@@ -140,10 +140,9 @@ class DoctorDiagnosesPatientsTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('diagnoses', $diagnosis);
-
         $diagnosis["complaint_history"] = "New Complaint History";
 
-        $this->makeAuthRequest()->patch(route('doctor.patient.patch.diagnosis',$patient,$diagnosis),['complaint_history' => $diagnosis["complaint_history"]]);
+        $this->makeAuthRequest()->patch(route('doctor.patient.patch.diagnosis',['patient'=> $patient->chcode,'diagnosis' => $diagnosis['id']]),['complaint_history' => $diagnosis["complaint_history"]]);
         $this->assertDatabaseHas('diagnoses', ['complaint_history' => $diagnosis['complaint_history']]);
     }
 }

@@ -54,6 +54,10 @@ class Patient extends Authenticatable
 
         return $records;
     }
+    //Patient Immunization Records
+    public function immunizationRecord(){
+        return $this->hasMany(Immunization::class,'record_id');
+    }
 
     public function laboratoryRecords()
     {

@@ -133,6 +133,13 @@ class DiagnosisController extends Controller
     }
 
     public function update(Patient $patient,Diagnosis $diagnosis){
-        dd($diagnosis);
+        $diagnosis->update([
+            'complaint_relationship' => request('complaint_relationship'),
+            'complaint_history' => request('complaint_history'),
+            'patient_condition' => request('patient_condition'),
+            'symptoms' => request('symptoms'),
+            'extras' => request('extras'),
+            'comments' => request('comments'),
+        ]);
     }
 }
