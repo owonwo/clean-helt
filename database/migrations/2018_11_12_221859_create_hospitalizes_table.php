@@ -16,11 +16,11 @@ class CreateHospitalizesTable extends Migration
         Schema::create('hospitalizes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id');
-            $table->string("hospitalization_type");
-            $table->string("hospital");
-            $table->string("doctor");
-            $table->string("reason");
-            $table->string("complications");
+            $table->string("hospitalization_type")->nullable();
+            $table->string("hospital")->nullable();
+            $table->string("doctor")->nullable();
+            $table->string("reason")->nullable();
+            $table->string("complications")->nullable();
             $table->timestamps();
         });
     }

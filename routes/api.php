@@ -120,14 +120,17 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('/record/immunization','ImmunizationController@store')->name('patient.record.immunization');
         Route::patch('update/{immunization}/immunization','ImmunizationController@update')->name('patient.update.immunization');
         // Patient Updates Hospitaliation records
-
+        Route::post('/record/hospitalization','HospitalizationController@store')->name('patient.record.hospitalization');
+        Route::patch('/record/{hospitalize}/hospitalization','HospitalizationController@update')->name('patient.update.hospitalize');
         //Patient Updates Family Records
+
 
         //Patient Updates allergies
         Route::post('/record/allergy','AllergyController@store')->name('patient.record.allergy');
         Route::patch('update/{allergy}/allergy','AllergyController@update')->name("patient.update.allergy");
         //Patient  updates health insurance provider
         Route::post('/record/health-insurance','HealthInsuranceController@store')->name('patient.record.health-insurance');
+        Route::patch('/record/{healthInsurance}/health-insurance','HealthInsuranceController@update')->name('patient.health-insurance.update');
         //Patient  updates medical history
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');

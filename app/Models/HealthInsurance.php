@@ -1,10 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class HealthInsurance extends Model
 {
     //
+    protected $guarded = [];
+    
+    public function record()
+    {
+        return $this->belongsTo(MedicalRecord::class, 'record_id');
+    }
 }
