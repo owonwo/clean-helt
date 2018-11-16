@@ -10,7 +10,7 @@ class NotificationController extends Controller
     public function __construct()
     {
         $this->middleware('auth:laboratory-api');
-        $this->middleware(function ($request, $next){
+        $this->middleware(function ($request, $next) {
             $this->laboratory = auth()->user();
             return $next($request);
         });
@@ -23,7 +23,7 @@ class NotificationController extends Controller
 
             return response()->json([
                 'message' => 'Notification loaded successfully',
-                'notification' => $notification,
+                'notifications' => $notification,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -53,21 +53,22 @@ class NotificationController extends Controller
         try {
             $notification = optional($this->laboratory)->notifications()->where('id', $id)->first();
 
-            if($notification) {
+            if ($notification) {
                 $notification->markAsRead();
                 return response()->json([
                     'message' => 'Mark as read',
                     'notification' => $notification
                 ], 200);
-            } else return response()->json([
+            } else {
+                return response()->json([
                 'message' => 'Something went wrong'
             ], 400);
-        }catch (Exception $e) {
+            }
+        } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
-
     }
 
     public function deleteNotification($id)
@@ -79,15 +80,15 @@ class NotificationController extends Controller
                 return response()->json([
                     'message' => 'notification deleted'
                 ], 200);
-            } else return response()->json([
+            } else {
+                return response()->json([
                 'message' => 'Something went wrong'
             ], 400);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
     }
-
-
 }

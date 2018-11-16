@@ -174,29 +174,50 @@ class PatientController extends Controller
         }
 
         try {
-            if (request()->hasFile('avatar')) {
-                $avatarName = request()->avatar->store('public/avatar');
-            }
-
             $data = request()->all();
-
-            $data['avatar'] = $avatarName;
+            unset($data['avatar']);
 
             if ($this->patient->update($data)) {
                 return response()->json([
                     'message' => 'Your profile has been update successfully',
                     'data' => $this->patient,
-                ], 200);
+                ]);
             }
         } catch (\Exception $exception) {
             return response()->json([
                 'errors' => 'Ooops! '.$exception->getMessage(),
-            ]);
+            ], 422);
         }
 
         return response()->json([
             'message' => 'Your update failed due to incorrect data',
-        ], 200);
+        ], 422);
+    }
+
+    /**
+     * Updates the patients avatar.
+     *
+     * @return Json
+     **/
+    public function updateAvatar()
+    {
+        $this->validate(request(), ['avatar' => 'image|mimes:jpg,jpeg,png|max:200']);
+        if (request()->hasFile('avatar')) {
+            try {
+                $updated = $this->patient->update([
+                    'avatar' => request()->avatar->store('public/avatar'),
+                ]);
+            } catch (Exception $x) {
+                return response()->json(['message' => $x->getMessage()], 422);
+            }
+
+            return response()->json([
+                'message' => ($updated ? 'Avatar Updated!' : 'No changes'),
+                'path' => $this->patient->avatar,
+            ]);
+        }
+
+        return response()->json(['message' => 'File: `Avatar` not found!']);
     }
 
     public function destroy($id)
@@ -238,7 +259,7 @@ class PatientController extends Controller
         ], 200);
     }
 
-    public function showPrescription(Patient $patient)
+    public function showPrescription()
     {
         $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
             $record->data;
@@ -272,7 +293,6 @@ class PatientController extends Controller
             'city' => 'required',
             'state' => 'required',
             'country' => 'required',
-            'image' => 'image|mimes:jpg,jpeg,png|max:200',
         ];
     }
 
