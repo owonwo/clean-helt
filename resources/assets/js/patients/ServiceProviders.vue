@@ -28,7 +28,7 @@
 				</ul>
 			</div>
 			<div v-preload v-if="loading" class="block is-rounded mx-15" style="height:10px;"/>	
-			<div>
+			<div v-if="shares.length < 1">
 				<blockquote class="notification is-info p-5 mx-15">
 					<i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
 				</blockquote>

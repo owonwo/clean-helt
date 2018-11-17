@@ -235,30 +235,33 @@
 					<!-- HEALTH INSURANCE PROVIDERS -->
 					<div slot="p5">
 						<div class="menu-label">HEALTH INSUREANCE PROVIDER</div>
-						<table class="table is-fullwidth">
+					    <table class="table is-fullwidth" v-for="(insure, index) in records.insurance" :key="index">
+							<tr>
+								<td colspan="2"><h4 class="title is-5">{{insure.company_name}}</h4></td>
+							</tr>
 							<tr>
 								<td>Insurance Provider Type</td>
-								<td>Leadway Insurance</td>
+								<td>{{ insure.insurance_type }}</td>
 							</tr>
 							<tr>
 								<td>Company Name</td>
-								<td>ABC Locks</td>
+								<td>{{ insure.company_name }}</td>
 							</tr>
 							<tr>
 								<td>Address</td>
-								<td>City</td>
+								<td>{{insure.address}}</td>
 							</tr>
 							<tr>
 								<td>City</td>
-								<td>Lop</td>
+								<td>{{insure.city}}</td>
 							</tr>
 							<tr>
 								<td>Phone</td>
-								<td>039903990</td>
+								<td>{{insure.phone}}</td>
 							</tr>
 							<tr>
 								<td>Emergency Phone</td>
-								<td>0399409309</td>
+								<td>{{insure.emergency_phone}}</td>
 							</tr>
 						</table>
 					</div>
@@ -272,29 +275,45 @@
 						<table class="table is-fullwidth">
 							<tr>
 								<th>S/N</th>
-								<th>Age</th>
 								<th>Title</th>
+								<th>Age</th>
 								<th width="120">Date</th>
 							</tr>
-							<tr v-for="(entry, index) in records.immunization">
+							<tr v-for="(entry, index) in records.immunization" :key="index">
 								<td>{{ index + 1 }}</td>
-								<td>{{ entry.age }}</td>
 								<td>{{ entry.immunization_title }}</td>
+								<td>{{ entry.age }}</td>
 								<td>{{ entry.date_of_immunization }}</td>
 							</tr>
 						</table>
 					</div>
 					<!-- ALLERGIES -->
 					<div slot="p8">
-						<div class="menu-label">ALLERGIES</div>
-						<table class="table is-fullwidth">
+						<div class="level">
+							<div class="menu-label">
+								<span>ALLERGIES</span>
+							</div>
+							<HoverRevealButton class="mr-15 mt-5">
+								<span class="ti" :class="{'ti-plus': show, 'ti-angle-down': !show}" slot="icon"></span>
+								<span slot="text">{{ show ? 'Edit' : 'Save' }}</span>
+							</HoverRevealButton>
+						</div>
+						<table class="table is-small is-fullwidth" style="font-size:small">
 							<tr>
+								<th>S/N</th>
 								<th>Allergy</th>
 								<th>Reaction</th>
-								<th>Date of Occurence</th>
+								<th width="170">Date of Occurence</th>
+								<th></th>
 							</tr>
-							<tr v-for="(entry, index) in record.allergy">
-								<td>{{entry.name}}</td>
+							<tr v-for="(entry, index) in records.allergy" :key="index">
+								<td>{{index + 1}}</td>
+								<td>{{entry.allergy}}</td>
+								<td>{{entry.reaction}}</td>
+								<td>{{entry.last_occurance}}</td>
+								<td>
+									<i class="ti ti-more-alt ti-rotate-3"></i>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -317,12 +336,12 @@
 					<!-- HOSPITALIZATION -->
 					<div slot="p10">
 						<div class="menu-label">HOSPITALIZATION</div>
-						<div>
-							Hospital A
-							<p>Doctor: James Looker</p>
-							<p>Hospital: James Looker</p>
-							<p>Reason: James Looker</p>
-							<p>Complications: James Looker</p>
+						<div class="mb-20" v-for="(entry) in records.hospitalization" :key="entry.id">
+							<h1 class="title mb-5 is-5">{{ entry.hospitalization_type }}</h1>
+							<p>Doctor: {{ entry.doctor}}</p>
+							<p>Hospital: {{ entry.hospital}}</p>
+							<p>Reason: {{entry.reason}}</p>
+							<p>Complications: {{entry.complications}}</p>
 						</div>
 					</div>
 					<!-- HEALTH LOGS -->
@@ -430,6 +449,10 @@ export default {
 		Promise.all(XHRs).then((responses) => {
 			responses.map((res, index) =>
 				this.$set(this.records, getRecordKey(index), res.data.data || []));
+		}).catch(err => {
+			console.groupCollapsed('Patient Records Error')
+			console.trace(err);
+			console.groupEnd('Patient Records Error')
 		});
 	},
 	data() {return {
@@ -471,10 +494,10 @@ export default {
 		  *@type <Array["string"]>
 		  */
 		family: ["Mother", "Father", "Sibling", "Grand Parent", "Child"],
-		diseases: ["Alcoholism","Asthma","Cancer","Diabetes","Heart Condition","Hepatitis","High Blood Pressure"],
 		modal: false,
+		diseases: ["Alcoholism","Asthma","Cancer","Diabetes","Heart Condition","Hepatitis","High Blood Pressure"],
 		current: {data: {}, issuer: {}},
-		records: {labtest: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
+		records: {labtest: [], insurance: [], hospitalization: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
 	}},
 	computed: {
 		user() { return this.$parent.user },

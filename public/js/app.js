@@ -63258,6 +63258,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -63281,6 +63300,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			responses.map(function (res, index) {
 				return _this.$set(_this.records, getRecordKey(index), res.data.data || []);
 			});
+		}).catch(function (err) {
+			console.groupCollapsed('Patient Records Error');
+			console.trace(err);
+			console.groupEnd('Patient Records Error');
 		});
 	},
 	data: function data() {
@@ -63297,10 +63320,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      *@type <Array["string"]>
      */
 			family: ["Mother", "Father", "Sibling", "Grand Parent", "Child"],
-			diseases: ["Alcoholism", "Asthma", "Cancer", "Diabetes", "Heart Condition", "Hepatitis", "High Blood Pressure"],
 			modal: false,
+			diseases: ["Alcoholism", "Asthma", "Cancer", "Diabetes", "Heart Condition", "Hepatitis", "High Blood Pressure"],
 			current: { data: {}, issuer: {} },
-			records: { labtest: [], allergy: [], immunization: [], medicalRecord: [], prescription: [] }
+			records: { labtest: [], insurance: [], hospitalization: [], allergy: [], immunization: [], medicalRecord: [], prescription: [] }
 		};
 	},
 
@@ -64234,49 +64257,72 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { attrs: { slot: "p5" }, slot: "p5" }, [
-                      _c("div", { staticClass: "menu-label" }, [
-                        _vm._v("HEALTH INSUREANCE PROVIDER")
-                      ]),
-                      _vm._v(" "),
-                      _c("table", { staticClass: "table is-fullwidth" }, [
-                        _c("tr", [
-                          _c("td", [_vm._v("Insurance Provider Type")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("Leadway Insurance")])
+                    _c(
+                      "div",
+                      { attrs: { slot: "p5" }, slot: "p5" },
+                      [
+                        _c("div", { staticClass: "menu-label" }, [
+                          _vm._v("HEALTH INSUREANCE PROVIDER")
                         ]),
                         _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("Company Name")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("ABC Locks")])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("Address")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("City")])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("City")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("Lop")])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("Phone")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("039903990")])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("Emergency Phone")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("0399409309")])
-                        ])
-                      ])
-                    ]),
+                        _vm._l(_vm.records.insurance, function(insure, index) {
+                          return _c(
+                            "table",
+                            { key: index, staticClass: "table is-fullwidth" },
+                            [
+                              _c("tr", [
+                                _c("td", { attrs: { colspan: "2" } }, [
+                                  _c("h4", { staticClass: "title is-5" }, [
+                                    _vm._v(_vm._s(insure.company_name))
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("Insurance Provider Type")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(insure.insurance_type))
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("Company Name")]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(insure.company_name))])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("Address")]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(insure.address))])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("City")]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(insure.city))])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("Phone")]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(insure.phone))])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("td", [_vm._v("Emergency Phone")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(insure.emergency_phone))
+                                ])
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p6" }, slot: "p6" }, [
                       _c("div", { staticClass: "menu-label" }, [
@@ -64296,9 +64342,9 @@ var render = function() {
                           _c("tr", [
                             _c("th", [_vm._v("S/N")]),
                             _vm._v(" "),
-                            _c("th", [_vm._v("Age")]),
-                            _vm._v(" "),
                             _c("th", [_vm._v("Title")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Age")]),
                             _vm._v(" "),
                             _c("th", { attrs: { width: "120" } }, [
                               _vm._v("Date")
@@ -64309,14 +64355,14 @@ var render = function() {
                             entry,
                             index
                           ) {
-                            return _c("tr", [
+                            return _c("tr", { key: index }, [
                               _c("td", [_vm._v(_vm._s(index + 1))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(entry.age))]),
                               _vm._v(" "),
                               _c("td", [
                                 _vm._v(_vm._s(entry.immunization_title))
                               ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(entry.age))]),
                               _vm._v(" "),
                               _c("td", [
                                 _vm._v(_vm._s(entry.date_of_immunization))
@@ -64329,25 +64375,75 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p8" }, slot: "p8" }, [
-                      _c("div", { staticClass: "menu-label" }, [
-                        _vm._v("ALLERGIES")
-                      ]),
+                      _c(
+                        "div",
+                        { staticClass: "level" },
+                        [
+                          _c("div", { staticClass: "menu-label" }, [
+                            _c("span", [_vm._v("ALLERGIES")])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "HoverRevealButton",
+                            { staticClass: "mr-15 mt-5" },
+                            [
+                              _c("span", {
+                                staticClass: "ti",
+                                class: {
+                                  "ti-plus": _vm.show,
+                                  "ti-angle-down": !_vm.show
+                                },
+                                attrs: { slot: "icon" },
+                                slot: "icon"
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { attrs: { slot: "text" }, slot: "text" },
+                                [_vm._v(_vm._s(_vm.show ? "Edit" : "Save"))]
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "table",
-                        { staticClass: "table is-fullwidth" },
+                        {
+                          staticClass: "table is-small is-fullwidth",
+                          staticStyle: { "font-size": "small" }
+                        },
                         [
                           _c("tr", [
+                            _c("th", [_vm._v("S/N")]),
+                            _vm._v(" "),
                             _c("th", [_vm._v("Allergy")]),
                             _vm._v(" "),
                             _c("th", [_vm._v("Reaction")]),
                             _vm._v(" "),
-                            _c("th", [_vm._v("Date of Occurence")])
+                            _c("th", { attrs: { width: "170" } }, [
+                              _vm._v("Date of Occurence")
+                            ]),
+                            _vm._v(" "),
+                            _c("th")
                           ]),
                           _vm._v(" "),
-                          _vm._l(_vm.record.allergy, function(entry, index) {
-                            return _c("tr", [
-                              _c("td", [_vm._v(_vm._s(entry.name))])
+                          _vm._l(_vm.records.allergy, function(entry, index) {
+                            return _c("tr", { key: index }, [
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(entry.allergy))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(entry.reaction))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(entry.last_occurance))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("i", {
+                                  staticClass: "ti ti-more-alt ti-rotate-3"
+                                })
+                              ])
                             ])
                           })
                         ],
@@ -64411,22 +64507,47 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { attrs: { slot: "p10" }, slot: "p10" }, [
-                      _c("div", { staticClass: "menu-label" }, [
-                        _vm._v("HOSPITALIZATION")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _vm._v("\n\t\t\t\t\t\tHospital A\n\t\t\t\t\t\t"),
-                        _c("p", [_vm._v("Doctor: James Looker")]),
+                    _c(
+                      "div",
+                      { attrs: { slot: "p10" }, slot: "p10" },
+                      [
+                        _c("div", { staticClass: "menu-label" }, [
+                          _vm._v("HOSPITALIZATION")
+                        ]),
                         _vm._v(" "),
-                        _c("p", [_vm._v("Hospital: James Looker")]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v("Reason: James Looker")]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v("Complications: James Looker")])
-                      ])
-                    ]),
+                        _vm._l(_vm.records.hospitalization, function(entry) {
+                          return _c(
+                            "div",
+                            { key: entry.id, staticClass: "mb-20" },
+                            [
+                              _c("h1", { staticClass: "title mb-5 is-5" }, [
+                                _vm._v(_vm._s(entry.hospitalization_type))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Doctor: " + _vm._s(entry.doctor))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Hospital: " + _vm._s(entry.hospital))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Reason: " + _vm._s(entry.reason))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v(
+                                  "Complications: " +
+                                    _vm._s(entry.complications)
+                                )
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p11" }, slot: "p11" }, [
                       _c("div", { staticClass: "menu-label" }, [
@@ -65076,7 +65197,7 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm._m(2),
+          _vm.shares.length < 1 ? _c("div", [_vm._m(2)]) : _vm._e(),
           _vm._v(" "),
           _c(
             "pager",
@@ -65318,13 +65439,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("blockquote", { staticClass: "notification is-info p-5 mx-15" }, [
-        _c("i", [
-          _vm._v("Click the "),
-          _c("b", [_vm._v("Plus Button")]),
-          _vm._v(" (+) to add a Health Service Provider.")
-        ])
+    return _c("blockquote", { staticClass: "notification is-info p-5 mx-15" }, [
+      _c("i", [
+        _vm._v("Click the "),
+        _c("b", [_vm._v("Plus Button")]),
+        _vm._v(" (+) to add a Health Service Provider.")
       ])
     ])
   }
@@ -67695,7 +67814,9 @@ var shareFactory = function shareFactory(share) {
 				prescription: "/api/patient/prescription",
 				medicalRecord: "/api/patient/medical-records",
 				immunization: '/api/patient/record/immunization',
-				allergy: '/api/patient/record/allergy'
+				hospitalization: '/api/patient/record/hospitalization',
+				allergy: '/api/patient/record/allergy',
+				insurance: '/api/patient/record/health-insurance'
 			})
 		};
 	},
@@ -67710,14 +67831,21 @@ var shareFactory = function shareFactory(share) {
 							case 0:
 								recordUrlMap = this.recordUrlMap;
 
-								if (!Object.keys(recordUrlMap).includes(record_type)) new Error('Invalid Patient Record Name provided');
-								_context.next = 4;
+								if (Object.keys(recordUrlMap).includes(record_type)) {
+									_context.next = 3;
+									break;
+								}
+
+								return _context.abrupt('return', Promise.reject(new Error('Invalid Patient Record Key: "' + record_type + '"')));
+
+							case 3:
+								_context.next = 5;
 								return this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'));
 
-							case 4:
+							case 5:
 								return _context.abrupt('return', _context.sent);
 
-							case 5:
+							case 6:
 							case 'end':
 								return _context.stop();
 						}
@@ -68971,7 +69099,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             apiClient: {
                 client_id: '2',
-                client_secret: '5BPTzV4pvEboaEigTGC0vGhPVjxdpAs6Nv7OmwFj',
+                client_secret: 'Pvhfirm1ESLCIKC1j72CMEwYWOqr7D5EsfrTU5R6',
                 grant_type: 'password'
             }
         };

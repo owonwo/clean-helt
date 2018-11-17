@@ -11678,6 +11678,10 @@ label.panel-block:hover {
   color: #666;
 }
 
+.control.has-shadow input:-ms-input-placeholder {
+  color: #666;
+}
+
 .control.has-shadow input::-ms-input-placeholder {
   color: #666;
 }
@@ -15156,6 +15160,10 @@ ul {
 }
 
 .osq-search-field input::-webkit-input-placeholder {
+  color: #cbcbcb;
+}
+
+.osq-search-field input:-ms-input-placeholder {
   color: #cbcbcb;
 }
 

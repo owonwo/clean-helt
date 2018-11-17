@@ -105,7 +105,9 @@
 					prescription: "/api/patient/prescription",
 					medicalRecord: "/api/patient/medical-records",
 					immunization: `/api/patient/record/immunization`,
+					hospitalization: '/api/patient/record/hospitalization',
 					allergy: `/api/patient/record/allergy`,
+					insurance: `/api/patient/record/health-insurance`,
 				}),
 			}
 		},
@@ -113,7 +115,7 @@
 			async getRecord(record_type) {
 				const {recordUrlMap} = this;
 				if(!Object.keys(recordUrlMap).includes(record_type))
-					(new Error('Invalid Patient Record Name provided'));
+					return Promise.reject(new Error(`Invalid Patient Record Key: "${record_type}"`));
 				return await this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'));
 			},
 			fetchProfileShares() {

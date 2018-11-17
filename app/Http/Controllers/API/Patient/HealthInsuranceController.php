@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class HealthInsuranceController extends Controller
 {
-    //
+    use PatientRecords;
+
+    protected $model = HealthInsurance::class;
+
     public function store(RecordLogger $logger){
         $patient = auth()->guard('patient-api')->user();
 
