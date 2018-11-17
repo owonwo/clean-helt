@@ -63253,6 +63253,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -63295,7 +63300,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			diseases: ["Alcoholism", "Asthma", "Cancer", "Diabetes", "Heart Condition", "Hepatitis", "High Blood Pressure"],
 			modal: false,
 			current: { data: {}, issuer: {} },
-			records: { labtest: [], medicalRecord: [], prescription: [] }
+			records: { labtest: [], allergy: [], immunization: [], medicalRecord: [], prescription: [] }
 		};
 	},
 
@@ -64284,23 +64289,43 @@ var render = function() {
                         _vm._v("IMMUNIZATIONS")
                       ]),
                       _vm._v(" "),
-                      _c("table", { staticClass: "table is-fullwidth" }, [
-                        _c("tr", [
-                          _c("th", [_vm._v("Immunization")]),
+                      _c(
+                        "table",
+                        { staticClass: "table is-fullwidth" },
+                        [
+                          _c("tr", [
+                            _c("th", [_vm._v("S/N")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Age")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Title")]),
+                            _vm._v(" "),
+                            _c("th", { attrs: { width: "120" } }, [
+                              _vm._v("Date")
+                            ])
+                          ]),
                           _vm._v(" "),
-                          _c("th", [_vm._v("Age")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Date")])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v("Ditheria")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("03")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("00/00/1948")])
-                        ])
-                      ])
+                          _vm._l(_vm.records.immunization, function(
+                            entry,
+                            index
+                          ) {
+                            return _c("tr", [
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(entry.age))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(entry.immunization_title))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(entry.date_of_immunization))
+                              ])
+                            ])
+                          })
+                        ],
+                        2
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p8" }, slot: "p8" }, [
@@ -64308,15 +64333,26 @@ var render = function() {
                         _vm._v("ALLERGIES")
                       ]),
                       _vm._v(" "),
-                      _c("table", { staticClass: "table is-fullwidth" }, [
-                        _c("tr", [
-                          _c("th", [_vm._v("Allergy")]),
+                      _c(
+                        "table",
+                        { staticClass: "table is-fullwidth" },
+                        [
+                          _c("tr", [
+                            _c("th", [_vm._v("Allergy")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Reaction")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Date of Occurence")])
+                          ]),
                           _vm._v(" "),
-                          _c("th", [_vm._v("Reaction")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Date of Occurence")])
-                        ])
-                      ])
+                          _vm._l(_vm.record.allergy, function(entry, index) {
+                            return _c("tr", [
+                              _c("td", [_vm._v(_vm._s(entry.name))])
+                            ])
+                          })
+                        ],
+                        2
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p9" }, slot: "p9" }, [
@@ -67657,7 +67693,9 @@ var shareFactory = function shareFactory(share) {
 			recordUrlMap: Object.freeze({
 				labtest: "/api/patient/labtest",
 				prescription: "/api/patient/prescription",
-				medicalRecord: "/api/patient/medical-records"
+				medicalRecord: "/api/patient/medical-records",
+				immunization: '/api/patient/record/immunization',
+				allergy: '/api/patient/record/allergy'
 			})
 		};
 	},

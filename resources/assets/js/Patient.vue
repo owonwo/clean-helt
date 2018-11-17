@@ -104,6 +104,8 @@
 					labtest:"/api/patient/labtest",
 					prescription: "/api/patient/prescription",
 					medicalRecord: "/api/patient/medical-records",
+					immunization: `/api/patient/record/immunization`,
+					allergy: `/api/patient/record/allergy`,
 				}),
 			}
 		},

@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\DB;
 
 class AllergyController extends Controller
 {
-    //
-    public function store(RecordLogger $logger){
+    use PatientRecords;
+
+    protected $model = Allergy::class;
+
+    public function store(RecordLogger $logger)
+    {
         $patient = auth()->guard('patient-api')->user();
-        try{
+        try {
             DB::beginTransaction();
-            $record = $logger->logMedicalRecord($patient,$patient,"allergy");
+            $record = $logger->logMedicalRecord($patient, $patient, "allergy");
             $allergy = Allergy::forceCreate([
                 "record_id" => $record->id,
                 "allergy" => request("allergy"),
@@ -26,13 +30,14 @@ class AllergyController extends Controller
             return response()->json([
                 'message' => 'Allergy has been created successfully',
                 'data' => $allergy
-            ],200);
-        }catch (\Exception $e){
+            ], 200);
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(Allergy $allergy){
+    public function update(Allergy $allergy)
+    {
         $allergy->update([
             "allergy" => request("allergy"),
             "reaction" => request("reaction"),
@@ -41,6 +46,6 @@ class AllergyController extends Controller
         return response()->json([
             "message" => "Allergy updated successfully",
             "allergy" => $allergy->load('record')
-        ],200);
+        ], 200);
     }
 }

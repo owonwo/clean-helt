@@ -11,13 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 class ImmunizationController extends Controller
 {
+    use PatientRecords;
+
+    protected $model = Immunization::class;
     //
-    public function store(RecordLogger $logger){
+    public function store(RecordLogger $logger)
+    {
         $patient = auth()->guard('patient-api')->user();
         //Log a medical record
-        try{
+        try {
             DB::beginTransaction();
-            $record = $logger->logMedicalRecord($patient,$patient,'immunization');
+            $record = $logger->logMedicalRecord($patient, $patient, 'immunization');
 
 //            dd(request()->all());
             $immunization = Immunization::forceCreate([
@@ -31,17 +35,18 @@ class ImmunizationController extends Controller
                 'message' => 'Immunization Record Created Successfully',
                 'immunization' => $immunization->load('record'),
             ], 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' =>  "Could not successfully create immunization Record",
-            ],400);
+            ], 400);
         }
         //Save the actual data
     }
 
-    public function update(Immunization $immunization){
+    public function update(Immunization $immunization)
+    {
         $data = $immunization->update([
             'immunization_title' => request('immunization_title'),
             'age' => request('age'),
@@ -50,6 +55,6 @@ class ImmunizationController extends Controller
         return response()->json([
             'message' => "Immunization updated successfully",
             'immunization' => $immunization->load('record'),
-        ],200);
+        ], 200);
     }
 }

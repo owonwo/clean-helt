@@ -271,14 +271,16 @@
 						<div class="menu-">IMMUNIZATIONS</div>
 						<table class="table is-fullwidth">
 							<tr>
-								<th>Immunization</th>
+								<th>S/N</th>
 								<th>Age</th>
-								<th>Date</th>
+								<th>Title</th>
+								<th width="120">Date</th>
 							</tr>
-							<tr>
-								<td>Ditheria</td>
-								<td>03</td>
-								<td>00/00/1948</td>
+							<tr v-for="(entry, index) in records.immunization">
+								<td>{{ index + 1 }}</td>
+								<td>{{ entry.age }}</td>
+								<td>{{ entry.immunization_title }}</td>
+								<td>{{ entry.date_of_immunization }}</td>
 							</tr>
 						</table>
 					</div>
@@ -290,6 +292,9 @@
 								<th>Allergy</th>
 								<th>Reaction</th>
 								<th>Date of Occurence</th>
+							</tr>
+							<tr v-for="(entry, index) in record.allergy">
+								<td>{{entry.name}}</td>
 							</tr>
 						</table>
 					</div>
@@ -469,7 +474,7 @@ export default {
 		diseases: ["Alcoholism","Asthma","Cancer","Diabetes","Heart Condition","Hepatitis","High Blood Pressure"],
 		modal: false,
 		current: {data: {}, issuer: {}},
-		records: {labtest: [], medicalRecord: [], prescription: []},
+		records: {labtest: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
 	}},
 	computed: {
 		user() { return this.$parent.user },
