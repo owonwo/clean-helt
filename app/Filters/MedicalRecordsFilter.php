@@ -37,6 +37,18 @@ class MedicalRecordsFilter extends Filter
                 return 'App\Models\Diagnosis';
             case 'tests':
                 return 'App\Models\LabTest';
+            case 'immunizations' :
+                return 'App\Models\Immunization';
+            case 'hosptalization' :
+                return 'App\Models\Hospitalize';
+            case 'family-record':
+                return 'App\Models\FamilyRecord';
+            case 'allergies' :
+                return 'App\Models\Allergy';
+            case 'health-insurance' :
+                return 'App\Models\HealthInsurance';
+            case 'history' :
+                return 'App\Models\MedicalHistory';
             default:
                 return null;
         }

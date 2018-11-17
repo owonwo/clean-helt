@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Doctor;
 
 use App\Filters\PatientFilter;
 use App\Models\Doctor;
+use App\Models\MedicalRecord;
 use App\Models\ProfileShare;
 use App\Notifications\PatientToDoctorReferral;
 use Exception;
@@ -109,7 +110,6 @@ class PatientController extends Controller
     }
     public function diagnosis(Patient $patient)
     {
-
         $doctor = auth()->guard('doctor-api')->user();
 
         if ($patient && $doctor->canViewProfile($patient)) {
