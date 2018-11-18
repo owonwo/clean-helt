@@ -10,16 +10,16 @@
                 <input type="file" @change="changeAvatar($event)" id="change-avatar" />
             </div>
         </aside>
-        <v-scrollbar class="osq-profile-nav osq-sidenav">
-            <div class="menu">
+        <nav class="osq-profile-nav osq-sidenav">
+            <v-scrollbar class="menu">
                 <ul v-pager-controls.prevent="{activeClass: 'active'}" class="menu-list">
                     <slot name="navigation"></slot>
                 </ul>
-            </div>
-        </v-scrollbar>
-        <v-scrollbar class="osq-profile-section">
+            </v-scrollbar>
+        </nav>
+        <section class="osq-profile-section">
             <slot :page="page"></slot>
-        </v-scrollbar>
+        </section>
     </div>
 </template>
 <script>

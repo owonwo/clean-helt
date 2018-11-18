@@ -6,6 +6,7 @@ import vScrollbar from 'vue-perfect-scrollbar'
 import ProfileLoader from './ProfileLoader.vue'
 import Accordion from '@/components/Accordion.vue'
 import CustomLink from '@/components/CustomLink.vue'
+import Alert from '@/components/Alert.vue'
 import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
 import SelectCity from './SelectCity'
@@ -24,6 +25,7 @@ export default {
     CustomLink,
     HoverRevealButton,
     AddServiceProvider,
+    Alert,
     SearchBox,
     SaveEditButton,
 }

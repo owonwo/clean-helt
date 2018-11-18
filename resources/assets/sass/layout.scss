@@ -1,6 +1,11 @@
 $sidebar-width: 200px;
 $profile-grid-width: 200px;
 
+%fullheight-box {
+    min-height: calc(100vh - 140px);
+    max-height: calc(100vh - 140px);
+}
+
 .osq {
     &-wrapper {
         display: grid;
@@ -249,11 +254,12 @@ $profile-grid-width: 200px;
 }
 
 #profile-grid {
+    @extend %fullheight-box;
+
     display: grid;
     background-color: white;
     grid-template-columns: 282px 1fr;
-    grid-template-rows: $profile-grid-width minmax(200px, 300px);
-    max-height: calc(100vh - 140px);
+    grid-template-rows: $profile-grid-width minmax(40px, 1fr);
     grid-template-areas: 
        "aside section"
        "nav section";
@@ -277,6 +283,10 @@ $profile-grid-width: 200px;
         padding: 0;
         grid-area: nav; 
         border-right: solid 1px $hr-color;
+
+        > .menu {
+            height: 100%;
+        }
     }
     .osq-profile-section { grid-area: section }
 }

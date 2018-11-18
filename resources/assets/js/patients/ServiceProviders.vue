@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		
-		<section class="card">
+		<section class="card is-fullheight">
 			<div v-if="!shares.length" class="card-header">
 				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
 				<span class="card-header-title">No Service Provider.</span>

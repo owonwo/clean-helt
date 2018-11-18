@@ -11678,10 +11678,6 @@ label.panel-block:hover {
   color: #666;
 }
 
-.control.has-shadow input:-ms-input-placeholder {
-  color: #666;
-}
-
 .control.has-shadow input::-ms-input-placeholder {
   color: #666;
 }
@@ -14392,6 +14388,13 @@ a[ghost] {
   background-image: url(/images/user-white.svg?621535c82f4d6fb9406b6a0e192848e8);
 }
 
+#profile-grid,
+.card.is-fullheight,
+#create-user-form > section.is-fullheight {
+  min-height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+}
+
 .osq-wrapper {
   display: grid;
   min-height: 100vh;
@@ -14688,8 +14691,7 @@ a[ghost] {
   display: grid;
   background-color: white;
   grid-template-columns: 282px 1fr;
-  grid-template-rows: 200px minmax(200px, 300px);
-  max-height: calc(100vh - 140px);
+  grid-template-rows: 200px minmax(40px, 1fr);
   grid-template-areas: "aside section" "nav section";
 }
 
@@ -14717,6 +14719,10 @@ a[ghost] {
   padding: 0;
   grid-area: nav;
   border-right: solid 1px #dedede;
+}
+
+#profile-grid .osq-profile-nav > .menu {
+  height: 100%;
 }
 
 #profile-grid .osq-profile-section {
@@ -15160,10 +15166,6 @@ ul {
 }
 
 .osq-search-field input::-webkit-input-placeholder {
-  color: #cbcbcb;
-}
-
-.osq-search-field input:-ms-input-placeholder {
   color: #cbcbcb;
 }
 

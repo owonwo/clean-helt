@@ -9,7 +9,6 @@
 @import './icons.scss'; 
 @import './layout';
 
-
 %avatar {
     overflow: hidden;
     object-fit: cover;
@@ -150,6 +149,10 @@ ul {
             height: 30px;
             margin-right: 15px;
         } 
+    }
+
+    &.is-fullheight {
+        @extend %fullheight-box;
     }
 }
 

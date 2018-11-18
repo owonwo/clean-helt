@@ -19,10 +19,15 @@
         overflow: hidden;
         padding: 0;
         white-space: nowrap;
-        line-height: 30px;
+        line-height: 40px;
         background: #e9e9e9;
         border-radius: 30px;
         border: none;
+    }
+    
+    .hrb__wrap {
+        display: inline-flex;
+        align-items: center;
     }
     
     * {
@@ -38,7 +43,7 @@
     .wg-hrb .hrb__icon {
         width: 30px;
         display: inline-block;
-        line-height: inherit;
+        line-height: 30px;
         height: 30px;
         text-align: center;
         margin-left: 5px;

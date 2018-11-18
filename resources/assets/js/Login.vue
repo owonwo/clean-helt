@@ -2,8 +2,8 @@
     <div id="osq-login">
         <form name="login" method="POST" :action="form_action" class="has-text-centered">
             <img class="logo" src="/images/assets/logo.png" alt="">
-            <label id="account" v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as a</label>
-            <label id="account" v-else class="mt-50 mb-15">Login</label>
+            <!-- <label id="account" v-if="['DOCTOR','PATIENT'].includes(provider)" class="mt-50 mb-15">Login as a</label>
+            <label id="account" v-else class="mt-50 mb-15">Login</label> -->
             <slot></slot>
             <!-- error notification -->
 
@@ -60,7 +60,7 @@ export default {
         },
         apiClient: {
             client_id: '2',
-            client_secret: 'Pvhfirm1ESLCIKC1j72CMEwYWOqr7D5EsfrTU5R6',
+            client_secret: '5BPTzV4pvEboaEigTGC0vGhPVjxdpAs6Nv7OmwFj',
             grant_type: 'password'
         }
     }},
