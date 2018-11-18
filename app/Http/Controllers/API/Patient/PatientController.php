@@ -231,9 +231,11 @@ class PatientController extends Controller
                 'message' => 'Medical records successfully Loaded',
                 'data' => $this->patient->medicalRecords()->latest()->get()->each(function ($record) {
                     $record->data;
-                    $record->data->tests = json_decode($record->data->tests);
-                    $record->data->extras = json_decode($record->data->extras);
-                    $record->data->symptoms = explode(',', $record->data->symptoms);
+                    if (is_object($record->data)) {
+                        $record->data->tests = json_decode($record->data->tests);
+                        $record->data->extras = json_decode($record->data->extras);
+                        $record->data->symptoms = explode(',', $record->data->symptoms);
+                    }
 
                     return $record;
                 }),
