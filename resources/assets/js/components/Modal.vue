@@ -4,20 +4,22 @@
       <v-scrollbar class="modal-content" :style="sizeStyle">
         <div v-if="$props.showHeader" class="modal-card-head">
           <button type="button" class="modal-close" @click.prevent="hideSelf">
-            <i class="zmdi zmdi-close-circle"></i>
+            <i class="ti ti-close"></i>
           </button>
           <h4 class="modal-card-title">
             <slot name="modal-title"></slot>
           </h4>
         </div>
         <div class="modal-card-body">
+          <button v-if="!$props.showHeader" type="button" class="modal-close" @click.prevent="hideSelf">
+            <i class="ti ti-close"></i>
+          </button>
           <slot name="modal-image"></slot>
           <slot></slot>
         </div>
-        <div class="modal-card-foot">
+        <div v-if="$slots['modal-footer']" class="modal-card-foot">
           <slot name="modal-footer">
-            <button type="button" class="button is-primary is-small"  @click.prevent="hideSelf"> Close </button>
-          </slot>
+           </slot>
         </div>
       </v-scrollbar>
     </div>

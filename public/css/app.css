@@ -11678,6 +11678,10 @@ label.panel-block:hover {
   color: #666;
 }
 
+.control.has-shadow input:-ms-input-placeholder {
+  color: #666;
+}
+
 .control.has-shadow input::-ms-input-placeholder {
   color: #666;
 }
@@ -14727,6 +14731,7 @@ a[ghost] {
 
 #profile-grid .osq-profile-section {
   grid-area: section;
+  overflow: hidden;
 }
 
 #profile-grid > section,
@@ -15169,6 +15174,10 @@ ul {
   color: #cbcbcb;
 }
 
+.osq-search-field input:-ms-input-placeholder {
+  color: #cbcbcb;
+}
+
 .osq-search-field input::-ms-input-placeholder {
   color: #cbcbcb;
 }
@@ -15304,6 +15313,21 @@ ul {
 .modal .modal-content h5,
 .modal .modal-content h6 {
   color: #222222;
+}
+
+.modal .modal-close {
+  border: solid 1px #d8d8d8;
+  border-radius: 5px;
+  width: 30px;
+  opacity: 0.5;
+  position: absolute;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.31);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.31);
+}
+
+.modal .modal-close::after,
+.modal .modal-close::before {
+  background-color: #7c7c7c;
 }
 
 .menu.is-style-1 li {

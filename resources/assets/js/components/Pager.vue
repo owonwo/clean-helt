@@ -1,10 +1,9 @@
 <template>
 	<section :class="'va-'+align" id="page-holder" style="overflow: hidden;width: 100%;">
 		<div id="page-slider" :style="{width: slideWidth, left: slideLeft}">
-			<section class="page" :style="{width:(100 / pageCount)+'%'}" v-for="(p, index) in pages">
-				<slot :name="'p'+(index+1)">
-				</slot>
-			</section>
+			<v-scrollbar class="page" :key="index" :style="{width:`${100 / pageCount}%`}" v-for="(p, index) in pages">
+				<slot :name="'p'+(index+1)"></slot>
+			</v-scrollbar>
 		</div>
 	</section>
 </template>
@@ -53,8 +52,11 @@
 	@import '../../sass/components/_animations.scss';
 
 	#page-holder {
+		height: 100%;
+
 		#page-slider {
-			display: block;
+			display: inline-flex;
+			height: 100%;
 			margin:0;
 			position: relative;
 			transition: all .3s $ease-in-end;
@@ -63,6 +65,7 @@
 		.page {
 			display: inline-block;
 			margin-left: 0px;
+			height: 100%;
 			&:first-child {
 				margin-left: 0;
 			}

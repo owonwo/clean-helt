@@ -76,11 +76,13 @@
 			<div class="field">
 				<input class="input" type="date" v-model="extension"/>
 			</div>
+			<template slot="modal-footer">
 			<div class="has-text-centered">
 				<button @click="extend(lastClicked)" class="button has-no-motion is-primary">
-					<i class="ti ti-close icon"></i> <span>Extend</span>
+					<i class="ti ti-check icon"></i> <span>Extend</span>
 				</button>
 			</div>
+			</template>
 		</modal>
 	</section>
 </template>

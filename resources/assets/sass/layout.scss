@@ -288,7 +288,10 @@ $profile-grid-width: 200px;
             height: 100%;
         }
     }
-    .osq-profile-section { grid-area: section }
+    .osq-profile-section { 
+        grid-area: section;
+        overflow: hidden;
+    }
 }
 
 #profile-grid {
