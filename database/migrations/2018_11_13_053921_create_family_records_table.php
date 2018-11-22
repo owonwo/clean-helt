@@ -18,6 +18,7 @@ class CreateFamilyRecordsTable extends Migration
             $table->integer('record_id');
             $table->string("disease");
             $table->text("carriers");
+            $table->string("description");
             $table->timestamps();
         });
     }

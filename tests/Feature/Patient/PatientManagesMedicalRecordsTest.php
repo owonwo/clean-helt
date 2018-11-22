@@ -4,12 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Allergy;
 use App\Models\HealthInsurance;
+use App\Models\MedicalHistory;
 use App\Models\Hospitalize;
 use App\Models\Immunization;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Tests\TestCase;
 
 
@@ -132,4 +134,34 @@ class PatientManagesMedicalRecordsTest extends TestCase
         $this->patch(route('patient.update.hospitalize',$hospitalize),$data);
         $this->assertDatabaseHas('hospitalizes',['hospital' => $data['hospital']]);
     }
+     /** @test */
+     public function a_patient_can_add_his_medical_history(){
+        $data = [
+            'illness' => 'Sickness',
+            'date_of_onset' => Carbon::now()
+        ];      
+        $this->post(route('patient.record.history'),$data)->assertStatus(200);
+        $this->assertDatabaseHas('medical_histories',['illness' => $data['illness']]);
+    
+     }
+     /** @test */
+     public function a_patient_can_update_his_medical_history(){
+        $medicalHistory = create(MedicalHistory::class);
+        $data = [
+            'illness' => 'Sickness',
+            'date_of_onset' => Carbon::now()
+        ];
+        $this->patch(route('patient.update.history',$medicalHistory),$data);
+        $this->assertDatabaseHas('medical_histories',['illness' => $data['illness']]);
+     }
+     /** @test */
+     public function a_patient_can_add_family_medical_history(){
+        $data = [
+            'disease' => 'Malaria',
+            'carriers' => ['Brother','Mother'],
+            'description' =>  'Lorem ipsum'
+        ];
+        $this->post(route('patient.record.family'),$data);
+        $this->assertDatabaseHas('family_records',['disease' => $data['disease']]);
+     }
 }
