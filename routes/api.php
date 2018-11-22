@@ -133,6 +133,11 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('/record/health-insurance','HealthInsuranceController@store')->name('patient.record.health-insurance');
         Route::patch('/record/{healthInsurance}/health-insurance','HealthInsuranceController@update')->name('patient.health-insurance.update');
         //Patient  updates medical history
+        Route::post('/record/medical-history','MedicalHistoryController@store')->name('patient.record.history');
+        Route::patch('/record/{medicalHistory}/medical-history','MedicalHistoryController@update')->name('patient.update.history');
+
+        Route::post('/record/family-history','FamilyRecordController@store')->name('patient.record.family');
+        Route::patch('record/{familyRecord}/family-history','FamilyRecordController@update')->
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');
         Route::get('laboratories', 'PatientController@showLaboratories');
