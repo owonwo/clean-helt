@@ -11,21 +11,23 @@ import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
 import SelectCity from './SelectCity'
 import SelectState from './SelectState'
+import Dropdown from './Dropdown'
 import HoverRevealButton from './HoverRevealButton'
 
 export default {
-    Modal,
-    Pager,
-    Accordion,
-    ProfileBox, 
-    ProfileLoader, 
-    vScrollbar, 
-    SelectCity,
-    SelectState,
-    CustomLink,
-    HoverRevealButton,
-    AddServiceProvider,
-    Alert,
-    SearchBox,
-    SaveEditButton,
+	Modal,
+	Pager,
+	Accordion,
+	Dropdown,
+	ProfileBox, 
+	ProfileLoader, 
+	vScrollbar, 
+	SelectCity,
+	SelectState,
+	CustomLink,
+	HoverRevealButton,
+	AddServiceProvider,
+	Alert,
+	SearchBox,
+	SaveEditButton,
 }

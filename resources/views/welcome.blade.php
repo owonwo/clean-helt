@@ -76,9 +76,6 @@
                     @endauth
                 </div>
             @endif
-                <form action="">
-                    <input type="datetime-local">
-                </form>
             <div class="content">
                 <div class="title m-b-md">
                     Laravel

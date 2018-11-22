@@ -33,6 +33,7 @@
 					<i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
 				</blockquote>
 			</div>
+			<div style="max-width: 1000px">
 			<pager align="top" :current="current">
 				<div :slot="'p'+(index+1)" :key="index" class="px-15"
 				   v-for="(non, shareKey, index) in shares">
@@ -67,6 +68,7 @@
 					</table>
 				</div>
 			</pager>
+			</div>
 		</section>
 		<modal size="sm" :show="modal" :show-footer="false" @closed="modal=false">
 			<hgroup class="has-text-centered mb-30">

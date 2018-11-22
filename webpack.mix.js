@@ -25,4 +25,4 @@ mix
     }
 })
 // mix.disableNotifications();
-// mix.browserSync('http://clean-helt-api.test');
+mix.browserSync('http://clean-helt-api.test');

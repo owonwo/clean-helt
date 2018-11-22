@@ -1,8 +1,8 @@
 <template>
 	<section :class="'va-'+align" id="page-holder" style="overflow: hidden;width: 100%;">
-		<div id="page-slider" :style="{width: slideWidth, left: slideLeft}">
+		<div id="page-slider" :class="[transitionClass]" :style="{width: slideWidth, left: slideLeft}">
 			<v-scrollbar class="page" :key="index" :style="{width:`${100 / pageCount}%`}" v-for="(p, index) in pages">
-				<slot :name="'p'+(index+1)"></slot>
+				<slot :name="`p${index+1}`"></slot>
 			</v-scrollbar>
 		</div>
 	</section>
@@ -12,6 +12,7 @@
 	export default {
 		name: 'Pager',
 		props: {
+			'transitionClass': {type: String, default: 'wg--hr_bounce', required: false},
 			'current': {type: Number, default: 0, required: true}, 
 			'align': {type: String, default: 'top'},
 		},
@@ -26,16 +27,6 @@
 			pageCount() { return Object.keys(this.$slots).length },
 			pages() { return Array(this.pageCount).fill("") },
 		},
-		updated () {
-			console.log('Pager Updated!');
-			// let parent = this.$el,
-			// 	currentPageSelector = `.page:nth(${this.cp})`;
-			// const padding = () => parseInt(parent.style.paddingTop) + parseInt(parent.style.paddingBottom);
-			// let pagerHeight = parent.querySelector(currentPageSelector).offsetHeight;
-			// this.parentStyle = Object.assign({
-			// 	height: pagerHeight + padding() +'px'
-			// }, this.parentStyle)
-		}, 
 		watch: {
 			current () {
 				let {pageCount, current} = this;
@@ -49,17 +40,20 @@
 </script>
 
 <style scoped lang="scss">
-	@import '../../sass/components/_animations.scss';
+	.wg--hr_bounce {
+		transition-timing-function: cubic-bezier(.78,.05,.41,.92);
+	}
 
 	#page-holder {
 		height: 100%;
 
 		#page-slider {
-			display: inline-flex;
-			height: 100%;
 			margin:0;
+			display: block;
+			height: 100%;
 			position: relative;
-			transition: all .3s $ease-in-end;
+			transition-property: all;
+			transition-duration: .3s;
 		}
 
 		.page {

@@ -52,7 +52,8 @@
     methods: {
       showSelf () {
           // $('.modal').modal({backdrop: 'static'});
-          $(this.$el).addClass('is-active');
+          $(this.$el).addClass('is-active').delay(3000)
+          setTimeout(() => $(this.$el).find('.modal-content').addClass('reveal'), 0);
           $('body, html').addClass('is-clipped');
       },
       toggleSelf() {
@@ -60,10 +61,13 @@
           $('body, html').toggleClass('is-clipped');
       },
       hideSelf() {
-        $(this.$el).removeClass('is-active');
-        $('body, html').removeClass('is-clipped');
+        $(this.$el).find('.modal-content').removeClass('reveal')
+        setTimeout(() => {
+          $(this.$el).removeClass('is-active')
+          $('body, html').removeClass('is-clipped');
+          this.$emit('closed');
+        }, 300);
         
-        this.$emit('closed');
       }
     }
   };

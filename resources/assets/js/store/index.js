@@ -7,30 +7,30 @@ Vue.use(Vuex)
 //user mixin
 const lockProfile = (profile) => {
 	profile.patient = _.extend(Object.create({
-        get name () {
-        	return [this.first_name,this.last_name].join(' ');
-        },
-        get fullname () {
-        	return [this.first_name, this.middle_name, this.last_name].join(' ');
-        },
-        get full_name() {
+		get name () {
+        	return [this.first_name,this.last_name].join(' ')
+		},
+		get fullname () {
+        	return [this.first_name, this.middle_name, this.last_name].join(' ')
+		},
+		get full_name() {
         	return this.fullname;
-        }
-	}), profile.patient);
+		}
+	}), profile.patient)
 
-	return Object.freeze(profile);
+	return Object.freeze(profile)
 }
 
 export default new Vuex.Store({
 	state: {
 		user: {
-            avatar: "",
-            get full_name() {
-                return [this.first_name, this.last_name].join(' ')
-            }
-        },
-        ACCOUNT_TYPE: "",
-        pending: [],
+			avatar: '',
+			get full_name() {
+				return [this.first_name, this.last_name].join(' ')
+			}
+		},
+		ACCOUNT_TYPE: '',
+		pending: [],
 		sharedProfiles: [],
 		notifications: [],
 		settings: {
@@ -40,12 +40,12 @@ export default new Vuex.Store({
 	getters: {
 		getUser: (store) => store.user,
 		getProfileByPatientId: store => id => {
-			return _.find(store.sharedProfiles, profile => profile.patient.id === parseInt(id));
+			return _.find(store.sharedProfiles, profile => profile.patient.id === parseInt(id))
 		},
 		notifs: (store) => store.notifications,
 		accountType: store => store.ACCOUNT_TYPE,
 		getPendingUsers: store => {
-			return store.pending;
+			return store.pending
 		}
 	}, 
 	actions: {
@@ -55,25 +55,25 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		set_account_type (store, payload) {
-			store.ACCOUNT_TYPE = payload;
+			store.ACCOUNT_TYPE = payload
 		},
 		set_notifs(store, payload) {
-			store.notifications = payload;
+			store.notifications = payload
 		},
 		set_avatar(store, payload) {
-			store.user.avatar = payload;
+			store.user.avatar = payload
 		},
 		set_shared_profiles(store, payload) {
-			store.sharedProfiles = payload.map(profile => lockProfile(profile));
+			store.sharedProfiles = payload.map(profile => lockProfile(profile))
 		},
 		remove_from_pending(store, payload) {
-			store.pending = _.remove(store.pending, (e) => e.id !== payload);
+			store.pending = _.remove(store.pending, (e) => e.id !== payload)
 		},
 		set_user (store, payload) {
-			store.user = _.extend(store.user, payload);
+			store.user = _.extend(store.user, payload)
 		},
 		set_pending_patients(store, payload) {
-			store.pending = payload;
+			store.pending = payload
 		}
 	},
-});
+})

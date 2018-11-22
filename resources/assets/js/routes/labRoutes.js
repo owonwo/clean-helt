@@ -45,11 +45,11 @@ const routes = [
 			logBar: Notifications
 		}
 	},
-];
+]
 
 export default new Router({
-	mode: "history",
-	base: "laboratory/",
+	mode: 'history',
+	base: 'laboratory/',
 	routes,
 	linkActiveClass: 'active'
 })

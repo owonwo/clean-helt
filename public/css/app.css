@@ -6207,7 +6207,8 @@ a.tag:hover {
   padding-top: 0.5rem;
 }
 
-.dropdown-item {
+.dropdown-item,
+.dropdown .dropdown-menu .dropdown-content > li {
   color: #4a4a4a;
   display: block;
   font-size: 0.875rem;
@@ -11678,10 +11679,6 @@ label.panel-block:hover {
   color: #666;
 }
 
-.control.has-shadow input:-ms-input-placeholder {
-  color: #666;
-}
-
 .control.has-shadow input::-ms-input-placeholder {
   color: #666;
 }
@@ -11792,11 +11789,11 @@ figure img .circle {
   opacity: 0;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  -webkit-transition: all 1s cubic-bezier(0, 0, 0.1, 1.39) 0.3s;
-  transition: all 1s cubic-bezier(0, 0, 0.1, 1.39) 0.3s;
+  -webkit-transition: all 0.3s cubic-bezier(0, 0, 0.1, 1.39);
+  transition: all 0.3s cubic-bezier(0, 0, 0.1, 1.39);
 }
 
-.modal.slide-up.is-active .modal-content {
+.modal.slide-up .modal-content.reveal {
   opacity: 1;
   -webkit-transform: translateY(0%);
           transform: translateY(0%);
@@ -14402,7 +14399,9 @@ a[ghost] {
 .osq-wrapper {
   display: grid;
   min-height: 100vh;
-  grid: "navbar navbar" 50px "sidebar  content" auto/200px 1fr;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas: "navbar navbar" "sidebar content";
 }
 
 .osq-main-navbar {
@@ -14584,8 +14583,8 @@ a[ghost] {
   padding: 15px 30px 0;
   position: relative;
   -webkit-box-flex: 0;
-      -ms-flex: 0 1 calc(100% - 60px);
-          flex: 0 1 calc(100% - 60px);
+      -ms-flex: 0 0 calc(100% - 60px);
+          flex: 0 0 calc(100% - 60px);
 }
 
 .osq-content #content .content-top-bar,
@@ -14732,6 +14731,20 @@ a[ghost] {
 #profile-grid .osq-profile-section {
   grid-area: section;
   overflow: hidden;
+}
+
+#profile-grid .menu-label {
+  color: #111;
+}
+
+#profile-grid .menu-label::before {
+  content: "";
+  width: 15px;
+  height: 1px;
+  background: #7a7e7e;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 13px;
 }
 
 #profile-grid > section,
@@ -15174,10 +15187,6 @@ ul {
   color: #cbcbcb;
 }
 
-.osq-search-field input:-ms-input-placeholder {
-  color: #cbcbcb;
-}
-
 .osq-search-field input::-ms-input-placeholder {
   color: #cbcbcb;
 }
@@ -15292,7 +15301,7 @@ ul {
 }
 
 .modal-background {
-  background-color: rgba(0, 0, 0, 0.75) !important;
+  background-color: rgba(204, 204, 204, 0.75) !important;
 }
 
 .modal .modal-header {
@@ -15328,6 +15337,21 @@ ul {
 .modal .modal-close::after,
 .modal .modal-close::before {
   background-color: #7c7c7c;
+}
+
+.dropdown .dropdown-trigger {
+  cursor: pointer;
+}
+
+.dropdown .dropdown-menu {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.dropdown .dropdown-menu .dropdown-content > li {
+  cursor: pointer;
 }
 
 .menu.is-style-1 li {

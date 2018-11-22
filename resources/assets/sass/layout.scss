@@ -10,10 +10,11 @@ $profile-grid-width: 200px;
     &-wrapper {
         display: grid;
         min-height: 100vh;
-        grid:
-            "navbar navbar" 50px 
-            "sidebar  content" auto
-            / $sidebar-width 1fr;
+        grid-template-columns: $sidebar-width 1fr;
+        grid-template-rows: 50px 1fr;
+        grid-template-areas:
+            "navbar navbar"
+            "sidebar content";
     }
 
     &-main-navbar {
@@ -161,7 +162,7 @@ $profile-grid-width: 200px;
             z-index: 1;
             padding: 15px 30px 0; 
             position: relative;
-	        flex: 0 1 calc(100% - 60px);
+	        flex: 0 0 calc(100% - 60px);
            
             %fill-margin {
                 margin: {
@@ -295,6 +296,21 @@ $profile-grid-width: 200px;
 }
 
 #profile-grid {
+
+    .menu-label {
+        color: #111;
+        
+        &::before {
+            content: "";
+            width: 15px;
+            height: 1px;
+            background: #7a7e7e;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 13px;
+        }
+    }
+
     > section, > aside {
         padding: 15px;
         box-sizing: border-box;

@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Router from 'vue-router'
 import VueMoment from 'vue-moment'
 import Notification from 'vue-notification'
@@ -10,35 +9,35 @@ import Patient from '@/Patient.vue'
 import Hospital from '@/Hospital.vue'
 import Pharmacy from '@/Pharmacy.vue'
 import Laboratory from '@/Laboratory.vue'
-import Login from '@/Login.vue';
-import Register from '@/Register.vue';
+import Login from '@/Login.vue'
+import Register from '@/Register.vue'
 
 Vue.use(Router)
 Vue.use(VueMoment)
 Vue.use(Notification)
 
-import store from '@/store/';
+import store from '@/store/'
 
-require('@/directives');
-require('@/Mixins/global');
+require('@/directives')
+require('@/Mixins/global')
 
 new Vue({
-	el: "#app",
-    store,
+	el: '#app',
+	store,
 	components: {Doctor, Hospital, Patient, Pharmacy, Laboratory, Login, Register},
 	data: {
-        user: {},
+		user: {},
 		sidebars: {nav : false, notif: true}
 	},
 	methods: {
 		toggleSidebar() {
-			this.sidebars.nav = !this.sidebars.nav;
+			this.sidebars.nav = !this.sidebars.nav
 		},
 		toggleNotification() {
-			this.sidebars.notif = !this.sidebars.notif;
+			this.sidebars.notif = !this.sidebars.notif
 		},
 		getIcon(name) {
-			return ['osf osf-'].concat(name.toLowerCase()).join("");
+			return ['osf osf-'].concat(name.toLowerCase()).join('')
 		}
 	},
-});
+})

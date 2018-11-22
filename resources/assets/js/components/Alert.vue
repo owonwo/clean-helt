@@ -36,7 +36,6 @@ export default {
 	},
 	data() {return {
 		timestamp: {},
-		icon: "",
 		types: ["info","danger","dark","primary","link","warning","success"],
 		default_type: ['light'],
 	}},

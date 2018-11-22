@@ -31,11 +31,11 @@ const patientRoutes = [
 		path: '/profile',
 		component: Profile
 	},
-];
+]
 
 export default new Router({
-	mode: "history",
-	base: "clients/",
+	mode: 'history',
+	base: 'clients/',
 	routes: patientRoutes,
 	linkActiveClass: 'active'
 })

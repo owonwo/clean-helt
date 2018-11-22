@@ -1,20 +1,27 @@
 <template>
-	<aside class="content">
-		<h5 @click.stop="$root.toggleNotification()" 
-		    class="notif-heading">
-			<i :class="{'is-dotted': unread.length > 0}"class="icon osf osf-notification hoverable mr-20"></i> 
-			<span>Notifications</span>
-		</h5>
-		<v-scrollbar class="notifications">
-			<div v-if="!notifs.length" class="has-text-centered is-italic">There are no Notifications</b></div>
-			<notification v-for="(notif, index) in [...unread,...read]" 
-				:key="index" @click="markAsRead(notif)"
-				:type="notif.read ? '' : 'info'">
-				<template slot="time">{{notif.created_at | moment('from', 'now')}}</template>
-				{{ notif.data.data }}
-			</notification>
-		</v-scrollbar>
-	</aside>
+  <aside class="content">
+    <h5 
+      class="notif-heading" 
+      @click.stop="$root.toggleNotification()">
+      <i 
+        :class="{'is-dotted': unread.length > 0}"
+        class="icon osf osf-notification hoverable mr-20"/> 
+      <span>Notifications</span>
+    </h5>
+    <v-scrollbar class="notifications">
+      <div 
+        v-if="!notifs.length" 
+        class="has-text-centered is-italic">There are no Notifications</b></div>
+      <notification 
+        v-for="(notif, index) in [...unread,...read]" 
+        :key="index" 
+        :type="notif.read ? '' : 'info'"
+        @click="markAsRead(notif)">
+        <template slot="time">{{ notif.created_at | moment('from', 'now') }}</template>
+        {{ notif.data.data }}
+      </notification>
+    </v-scrollbar>
+  </aside>
 </template>
 <style lang="scss">
 	.notification {
@@ -30,33 +37,33 @@
 	}
 </style>
 <script>
-	import {mapGetters} from 'vuex'
-	import NotificationCard from '@/components/NotificationCard.vue'
+import {mapGetters} from 'vuex'
+import NotificationCard from '@/components/NotificationCard.vue'
 
-	export default {
-		name: 'Notifications',
-		components: {notification: NotificationCard},
-		data() {return {
-			show: false,
-			notifications: [],
-		}},
-		computed: {
-			read() {
-				return this.notifs.filter(e => e.read);
-			},
-			unread() {
-				return this.notifs.filter(e => !e.read);
-			},
-			...mapGetters(['notifs'])
+export default {
+	name: 'Notifications',
+	components: {notification: NotificationCard},
+	data() {return {
+		show: false,
+		notifications: [],
+	}},
+	computed: {
+		read() {
+			return this.notifs.filter(e => e.read)
 		},
-		methods: {
-			markAsRead(notif) {
-				notif.isRead().then((res) => {
-					notif.read = true;
-				}).catch(err => {
-					console.trace(err, 'Notification Error!');
-				});
-			}
+		unread() {
+			return this.notifs.filter(e => !e.read)
+		},
+		...mapGetters(['notifs'])
+	},
+	methods: {
+		markAsRead(notif) {
+			notif.isRead().then((res) => {
+				notif.read = true
+			}).catch(err => {
+				console.trace(err, 'Notification Error!')
+			})
 		}
 	}
+}
 </script>
