@@ -37,6 +37,8 @@ class RecordLogger
                 return 'App\\Models\\Prescription';
             case 'test':
                 return 'App\\Models\\LabTest';
+            case 'immunization' :
+                return 'App\\Models\\Immunization';
             default:
                 return 'App\\Models\\Diagnosis';
         }

@@ -14,8 +14,7 @@ class ProfileShareController extends Controller
     {
         $this->middleware('auth:laboratory-api');
 
-        $this->middleware(function($request, $next) {
-
+        $this->middleware(function ($request, $next) {
             $this->laboratory = auth()->user();
 
             return $next($request);
@@ -24,30 +23,29 @@ class ProfileShareController extends Controller
 
     public function index()
     {
-        return response()->json([
+        return response()->json(
+            [
                 'message' => 'You can view patient update profile',
-                'laboratory' => $this->laboratory->patients()->get(),
-            ], 200
+                'patients' => $this->laboratory->patients()->get(),
+            ],
+            200
         );
     }
 
     public function pending()
     {
-
         return response()->json([
            'message' => 'Patient Shared his medical record',
-            'laboratory' => $this->laboratory->pendingShares()->get(),
+            'patients' => $this->laboratory->pendingShares()->get(),
         ], 200);
     }
 
     public function accept(ProfileShare $profileShare)
     {
-
-        if($profileShare->exists && $profileShare->update(['status' => '1']))
-        {
+        if ($profileShare->exists && $profileShare->update(['status' => '1'])) {
             return response()->json([
                 'message' => 'You have accept patient profile for a period of time',
-                'laboratory' => $profileShare,
+                'patient' => $profileShare,
 
             ], 200);
         }
@@ -59,20 +57,15 @@ class ProfileShareController extends Controller
 
     public function decline(ProfileShare $profileShare)
     {
-
-        if($profileShare->exists && $profileShare->update(['status' => 2]))
-        {
-
+        if ($profileShare->exists && $profileShare->update(['status' => 2])) {
             return response()->json([
                 'message' => "You've just decline a patient profile share!",
-                'laboratory' => $profileShare,
-            ],200);
+                'patient' => $profileShare,
+            ], 200);
         }
 
         return response()->json([
             'message' => 'for some reason you decline was rejected',
         ], 400);
     }
-
-
 }

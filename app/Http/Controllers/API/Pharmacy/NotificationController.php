@@ -10,7 +10,7 @@ class NotificationController extends Controller
     public function __construct()
     {
         $this->middleware('auth:pharmacy-api');
-        $this->middleware(function ($request, $next){
+        $this->middleware(function ($request, $next) {
             $this->pharmacy = auth()->user();
             return $next($request);
         });
@@ -23,7 +23,7 @@ class NotificationController extends Controller
 
             return response()->json([
                 'message' => 'Notification loaded successfully',
-                'notification' => $notification,
+                'notifications' => $notification,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -39,7 +39,7 @@ class NotificationController extends Controller
 
             return response()->json([
                 'message' => 'Unread notification loaded successfully',
-                'notification' => $notification,
+                'notifications' => $notification,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -55,21 +55,22 @@ class NotificationController extends Controller
         try {
             $notification = optional($this->pharmacy)->notifications()->where('id', $id)->first();
 
-            if($notification) {
+            if ($notification) {
                 $notification->markAsRead();
                 return response()->json([
                     'message' => 'Mark as read',
                     'notification' => $notification
                 ], 200);
-            } else return response()->json([
+            } else {
+                return response()->json([
                 'message' => 'Something went wrong'
             ], 400);
-        }catch (Exception $e) {
+            }
+        } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
-
     }
 
     public function deleteNotification($id)
@@ -81,13 +82,15 @@ class NotificationController extends Controller
                 return response()->json([
                     'message' => 'notification deleted'
                 ], 200);
-            } else return response()->json([
+            } else {
+                return response()->json([
                 'message' => 'Something went wrong'
             ], 400);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],403);
+            ], 403);
         }
     }
 }

@@ -12,7 +12,7 @@ class LaboratoryController extends Controller
     {
         $this->middleware('auth:laboratory-api')->except('login');
 
-        $this->middleware(function($request, $next) {
+        $this->middleware(function ($request, $next) {
             $this->laboratory = auth()->user();
             return $next($request);
         });
@@ -97,6 +97,32 @@ class LaboratoryController extends Controller
      */
     public function edit($id)
     {
+    }
+
+    /**
+     * Updates the avatar for the laboratory model
+     *
+     * @return Json
+     **/
+    public function updateAvatar()
+    {
+        $this->validate(request(), ['avatar' => 'image|mimes:jpg,jpeg,png|max:200']);
+        if (request()->hasFile('avatar')) {
+            try {
+                $updated = $this->laboratory->update([
+                    'avatar' => request()->avatar->store('public/avatar'),
+                ]);
+            } catch (Exception $x) {
+                return response()->json(['message' => $x->getMessage()], 422);
+            }
+
+            return response()->json([
+                'message' => ($updated ? 'Avatar Updated!' : 'No changes'),
+                'path' => $this->laboratory->avatar,
+            ]);
+        }
+
+        return response()->json(['message' => 'File: `Avatar` not found!']);
     }
 
     /**

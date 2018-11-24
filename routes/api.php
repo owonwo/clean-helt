@@ -89,12 +89,13 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
         Route::get('patients/pending', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
+        Route::post('patients/{patient}/referral','PatientController@refer')->name('doctor.patient.refer');
         Route::get('patients/{patient}/diagnosis', 'PatientController@diagnosis');
         Route::get('patients/{patient}/prescriptions', 'PatientController@showPrescriptions')->name('doctor.patient.prescription');
         Route::get('patients/{patient}/labtest', 'PatientController@showLabTest')->name('doctor.patient.labTest');
         Route::get('patients/{patient}/records/{medicalRecord}', 'PatientController@showMedicalRecords');
         Route::post('patients/{patient}/diagnose', 'DiagnosisController@store')->name('doctor.patient.diagnosis');
-
+        Route::patch('patients/{patient}/diagnose/{diagnosis}','DiagnosisController@update')->name('doctor.patient.patch.diagnosis');
         Route::get('patients/accepted/patients', 'ProfileShareController@accepted')->name('doctor.patient.accepted');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
 
@@ -112,10 +113,36 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
+        Route::post('/profile/update/image', 'PatientController@updateAvatar');
         Route::get('/labtest', 'PatientController@showLabtest');
         Route::get('/prescription', 'PatientController@showPrescription');
         Route::patch('/{patient}/emergency', 'PatientController@edit');
+        // Patient Creates Immunization records
+        Route::post('/record/immunization','ImmunizationController@store')->name('patient.record.immunization');
+        Route::patch('update/{immunization}/immunization','ImmunizationController@update')->name('patient.update.immunization');
+        // Patient Updates Hospitaliation records
+        Route::post('/record/hospitalization','HospitalizationController@store')->name('patient.record.hospitalization');
+        Route::patch('/record/{hospitalize}/hospitalization','HospitalizationController@update')->name('patient.update.hospitalize');
+        //Patient Updates Family Records
 
+
+        //Patient Updates allergies
+        Route::post('/record/allergy','AllergyController@store')->name('patient.record.allergy');
+        Route::patch('update/{allergy}/allergy','AllergyController@update')->name("patient.update.allergy");
+        //Patient  updates health insurance provider
+        Route::post('/record/health-insurance','HealthInsuranceController@store')->name('patient.record.health-insurance');
+        Route::patch('/record/{healthInsurance}/health-insurance','HealthInsuranceController@update')->name('patient.health-insurance.update');
+        //Patient  updates medical history
+        Route::post('/record/medical-history', 'MedicalHistoryController@store')->name('patient.record.history');
+        Route::patch('/record/{medicalHistory}/medical-history', 'MedicalHistoryController@update')->name('patient.update.history');
+
+        //TODO: Preferred Replacement for the FamilyHistory routes
+        // Route::resource('/record/family-history', 'FamilyRecordController', ['except' => ['edit', 'create', 'show', 'update']]);
+        Route::get('/record/family-history', 'FamilyRecordController@index');
+        Route::post('/record/family-history', 'FamilyRecordController@store')->name('patient.record.family');
+        Route::patch('record/{familyRecord}/family-history', 'FamilyRecordController@update');
+        Route::delete('/record/family-history/{familyRecord}', 'FamilyRecordController@destroy');
+        
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');
         Route::get('laboratories', 'PatientController@showLaboratories');
@@ -132,9 +159,11 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('profile/shares', 'ProfileShareController@store')->name('patient.profile.share');
         Route::patch('profile/shares/{profileShare}/expire', 'ProfileShareController@expire');
         Route::patch('profile/shares/{profileShare}/extend', 'ProfileShareController@extend');
+        Route::get('profile/shares/pending', 'ProfileShareController@pending');
+        Route::patch('profile/shares/{profileShare}/accept', 'ProfileShareController@accept');
+        Route::patch('profile/shares/{profileShare}/decline', 'ProfileShareController@decline');
 
         Route::post('doctors', 'PatientController@showDoctor')->name('patient.doctors.show');
-
         Route::get('contacts', 'ContactController@index');
         Route::post('contacts', 'ContactController@store');
         Route::delete('contacts/{contact}', 'ContactController@delete');

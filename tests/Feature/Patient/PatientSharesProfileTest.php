@@ -180,4 +180,64 @@ class PatientSharesProfileTest extends TestCase
 
         $this->assertDatabaseHas('profile_shares',['expired_at' => $update]);
     }
+
+    /** @test */
+
+    public function a_patient_can_view_all_pending_referrals_list()
+    {
+        $patient = create(Patient::class);
+
+        $this->signIn($patient, 'patient-api');
+
+        $this->makeAuthRequest()
+            ->get('api/patient/profile/shares/pending')
+            ->assertStatus(200);
+
+    }
+
+    /** @test */
+    public function a_patient_decide_to_accept_referred_doctor()
+    {
+        $patient = create(Patient::class);
+        $doctor = create(Doctor::class);
+
+        $this->signIn($patient, 'patient-api');
+
+        $profileShare = create(ProfileShare::class, [
+            'provider_id' => $doctor->id,
+            'provider_type' => get_class($doctor),
+        ]);
+
+        $this->makeAuthRequest()
+            ->patch("api/patient/profile/shares/{$profileShare->id}/accept")
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $profileShare->id,
+            'referral_status' => true,
+        ]);
+    }
+
+    /** @test */
+    public function a_patient_can_decide_to_decline_referral_request()
+    {
+        $patient = create(Patient::class);
+        $doctor = create(Doctor::class);
+
+        $profileShare = create(ProfileShare::class, [
+            'provider_id' => $doctor->id,
+            'provider_type' => get_class($doctor),
+        ]);
+
+        $this->signIn($patient, 'patient-api');
+
+        $this->makeAuthRequest()
+            ->patch("api/patient/profile/shares/{$profileShare->id}/decline")
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('profile_shares', [
+            'id' => $profileShare->id,
+            'referral_status' => false
+        ]);
+    }
 }

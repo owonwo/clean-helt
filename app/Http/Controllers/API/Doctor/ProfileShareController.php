@@ -46,6 +46,7 @@ class ProfileShareController extends Controller
             'message' => 'Something went Wrong'
         ],403);
     }
+
     public function accept(ProfileShare $profileShare)
     
     {

@@ -2,12 +2,28 @@
 
 namespace App\Http\Controllers\API\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Laboratory;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
+use Validator;
 
 class LaboratoryController extends Controller
 {
+    const whiteList = [
+        "address",
+        "cac_reg",
+        "city",
+        "country",
+        "email",
+        "fmoh_reg",
+        "lab_owner",
+        "licence_no",
+        "name",
+        "offers",
+        "phone",
+        "state",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -52,23 +68,30 @@ class LaboratoryController extends Controller
             'phone' => 'required|unique:laboratories',
         ];
 
-        $this->validate($request, $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-        $data = $request->all();
+        if (!$validator->fails()) {
+            $data = $this->filterData($request->all());
 
-        $password = str_random(10);
-        $data['password'] = bcrypt($password);
-        $data['avatar'] = 'public/defaults/avatars/provider.png';
-
-        if ($labs = Laboratory::create($data)) {
-            return response()->json([
-                'message' => 'Laboratory created successfully ',
-            ], 200);
+            $password = str_random(10);
+            $data['password'] = bcrypt($password);
+            $data['avatar'] = 'public/defaults/avatars/provider.png';
+            
+            if ($labs = Laboratory::create($data)) {
+                return response()->json([
+                    'message' => 'Laboratory created successfully ',
+                ], 200);
+            }
         }
 
-        return response()->json([
-            'message' => 'All data were submitted',
-        ], 400);
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    private function filterData($data = [])
+    {
+        return Collection::make($data)->filter(function ($e, $key) {
+            return in_array($key, $this::whiteList);
+        })->toArray();
     }
 
     public function deactivate(Laboratory $laboratory)
@@ -95,7 +118,8 @@ class LaboratoryController extends Controller
         return response()->json(
             ['message' => 'Laboratory fetched successfully',
             'data' => $laboratory,
-            ], 200
+            ],
+            200
         );
     }
 
