@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\View;
+
+use App\Models\FamilyRecord;
+use App\Observers\FamilyRecordObserver;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
         View::composer(['all'], function () {
             $guard = '';
             foreach (['doctor', 'patient', 'hospital', 'pharmacy', 'laboratory'] as $sp) {
@@ -24,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
             }
             View::share(['guard' => $guard]);
         });
+
+        FamilyRecord::observe(FamilyRecordObserver::class);
     }
 
     /**
