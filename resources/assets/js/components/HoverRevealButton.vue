@@ -3,7 +3,7 @@
         @click="$emit('click', isOpen)" :style="{width: `${width}px`}">
         <span class="hrb__wrap">
             <span class="hrb__icon">
-                <slot name="icon"></slot>
+                <slot name="icon"><i class="ti ti-plus"></i></slot>
             </span>
             <span class="hrb__text">
                 <slot name="text"></slot>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios' 
 
 Vue.use(Vuex)
 
@@ -14,12 +15,14 @@ const lockProfile = (profile) => {
         	return [this.first_name, this.middle_name, this.last_name].join(' ')
 		},
 		get full_name() {
-        	return this.fullname;
+        	return this.fullname
 		}
 	}), profile.patient)
 
 	return Object.freeze(profile)
 }
+
+const VuexError = (message) => err => console.warn(err, `(source) vuex : ${message}`)
 
 export default new Vuex.Store({
 	state: {
@@ -33,6 +36,10 @@ export default new Vuex.Store({
 		pending: [],
 		sharedProfiles: [],
 		notifications: [],
+		/**
+          *@type <Array[{disease:"string", carriers: <Array["string"]> }]>
+          */
+		diseases: [],
 		settings: {
 			notification: true,
 		},
@@ -46,14 +53,39 @@ export default new Vuex.Store({
 		accountType: store => store.ACCOUNT_TYPE,
 		getPendingUsers: store => {
 			return store.pending
-		}
+		},
+		getDiseases: (store) => store.diseases  
 	}, 
 	actions: {
-		// fetchUser(context) {
-		// 	context.commit('getUser')
-		// },
+		UPDATE_DISEASES (context) {
+			context.state.diseases.forEach(disease => {
+				typeof disease.id === 'undefined' ?
+					context.dispatch('CREATE_DISEASE', disease)
+					: context.dispatch('UPDATE_DISEASE', disease)
+			})
+		},
+		CREATE_DISEASE (context, payload) {
+			return axios.post('/api/patient/record/family-history', payload)
+				.catch(VuexError('Failed Creating Disease'))
+		},
+		DELETE_DISEASE (context, payload) {
+			return axios.delete(`/api/patient/record/family-history/${payload.id}`)
+				.catch(VuexError('Failed to Delete Disease'))
+		},
+		UPDATE_DISEASE (context, payload) {
+			return axios.patch(`/api/patient/record/${payload.id}/family-history`, payload)
+				.catch(VuexError('Failed Updating Disease'))
+		},
+		FETCH_DISEASES (context) {
+			return axios.get('/api/patient/record/family-history').then((res) => {
+				context.commit('set_diseases', res.data.data)
+			}).catch(VuexError('Fetching Diseases Failed'))
+		},
 	},
 	mutations: {
+		set_diseases(store, payload) {
+			store.diseases = payload
+		},
 		set_account_type (store, payload) {
 			store.ACCOUNT_TYPE = payload
 		},

@@ -14571,11 +14571,11 @@ a[ghost] {
 }
 
 .osq-content {
+  z-index: 1;
   grid-area: content;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  z-index: 1;
 }
 
 .osq-content #content {
@@ -14585,6 +14585,11 @@ a[ghost] {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 calc(100% - 60px);
           flex: 0 0 calc(100% - 60px);
+}
+
+.osq-content #content .container {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .osq-content #content .content-top-bar,

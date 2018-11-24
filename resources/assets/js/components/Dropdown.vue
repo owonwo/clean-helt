@@ -7,14 +7,14 @@
       @click="active = !active">
       <slot name="button">
         <button 
-          class="button" 
+          class="button is-small" 
           aria-haspopup="true" 
           aria-controls="dropdown-menu">
           <slot name="content"/>
           <span class="icon is-small">
             <slot name="icon">
               <i 
-                class="ti ti-more" 
+                class="ti ti-more-alt" 
                 aria-hidden="true"/>
             </slot>
           </span>

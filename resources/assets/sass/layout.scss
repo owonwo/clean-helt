@@ -154,16 +154,21 @@ $profile-grid-width: 200px;
     }
   
     &-content {
+        z-index: 1;
         grid-area: content;
         display: flex;
-        z-index: 1;
 
         #content {
             z-index: 1;
             padding: 15px 30px 0; 
             position: relative;
 	        flex: 0 0 calc(100% - 60px);
-           
+
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+            }           
+            
             %fill-margin {
                 margin: {
                     right: -30px;
