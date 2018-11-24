@@ -136,8 +136,13 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('/record/medical-history', 'MedicalHistoryController@store')->name('patient.record.history');
         Route::patch('/record/{medicalHistory}/medical-history', 'MedicalHistoryController@update')->name('patient.update.history');
 
+        //TODO: Preferred Replacement for the FamilyHistory routes
+        // Route::resource('/record/family-history', 'FamilyRecordController', ['except' => ['edit', 'create', 'show', 'update']]);
+        Route::get('/record/family-history', 'FamilyRecordController@index');
         Route::post('/record/family-history', 'FamilyRecordController@store')->name('patient.record.family');
         Route::patch('record/{familyRecord}/family-history', 'FamilyRecordController@update');
+        Route::delete('/record/family-history/{familyRecord}', 'FamilyRecordController@destroy');
+        
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');
         Route::get('laboratories', 'PatientController@showLaboratories');
