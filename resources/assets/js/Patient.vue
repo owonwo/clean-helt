@@ -107,7 +107,6 @@
 					immunization: `/api/patient/record/immunization`,
 					hospitalization: '/api/patient/record/hospitalization',
 					allergy: `/api/patient/record/allergy`,
-					insurance: `/api/patient/record/health-insurance`,
 				}),
 			}
 		},

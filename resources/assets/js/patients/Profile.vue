@@ -248,36 +248,7 @@
             slot="p3" 
             class="">
             <div class="menu-label">Medical History</div>
-            <table class="table is-fullwidth">
-              <thead>
-                <tr>
-                  <th>Illness</th>
-                  <th>Date of Onset</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Acquired Immundefiiency Syndrome (AIDS or HIV Positive)</td>
-                  <td>00/00/0000</td>
-                </tr>
-                <tr>
-                  <td>Arthritis</td>
-                  <td>00/00/0000</td>
-                </tr>
-                <tr>
-                  <td>Asthma</td>
-                  <td>00/00/0000</td>
-                </tr>
-                <tr>
-                  <td>Bronchitis</td>
-                  <td>00/00/0000</td>
-                </tr>
-                <tr>
-                  <td>Cancer</td>
-                  <td>00/00/0000</td>
-                </tr>
-              </tbody>
-            </table>  
+            <MedicalHistory/>
           </section>
           <!-- HOSPITAL CONTACTS -->
           <div 
@@ -305,39 +276,8 @@
           </div>
           <!-- HEALTH INSURANCE PROVIDERS -->
           <div slot="p5">
-            <div class="menu-label">HEALTH INSUREANCE PROVIDER</div>
-            <table 
-              v-for="(insure, index) in records.insurance" 
-              :key="index" 
-              class="table is-fullwidth">
-              <tr>
-                <td colspan="2"><h4 class="title is-5">{{ insure.company_name }}</h4></td>
-              </tr>
-              <tr>
-                <td>Insurance Provider Type</td>
-                <td>{{ insure.insurance_type }}</td>
-              </tr>
-              <tr>
-                <td>Company Name</td>
-                <td>{{ insure.company_name }}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{{ insure.address }}</td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>{{ insure.city }}</td>
-              </tr>
-              <tr>
-                <td>Phone</td>
-                <td>{{ insure.phone }}</td>
-              </tr>
-              <tr>
-                <td>Emergency Phone</td>
-                <td>{{ insure.emergency_phone }}</td>
-              </tr>
-            </table>
+            <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
+            <HealthInsuranceProvider/>
           </div>
           <!-- Immunization -->
           <div slot="p6">
@@ -492,109 +432,117 @@
 <script>
 import EditProfile from '@/Mixins/EditProfile.js'
 import ProfileGrid from '@/components/ProfileGrid.vue'
+
 import CreateAllergy from '@/components/CreateAllergy.vue'
 import CreateImmunization from '@/components/CreateImmunization.vue'
 import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
+import MedicalHistory from '@/components/MedicalHistory.vue'
+import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
 
 const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
 
 export default {
-  name: 'Profile',
-  components: {ProfileGrid, CreateAllergy, FamilyMedicalRecords, CreateImmunization},
-  mixins: [EditProfile],
-  data() {return {
-    page: 0,
-    edit: {
-      allergy: {},
-      immunization: {},
-      basic: false,
-      emergency: false,
-      avatarUrl: '/api/patient/profile/update/image',
-      url: '/api/patient/profile/update',
-      whiteList: [
-        'first_name',
-        'middle_name',
-        'last_name',
-        'avatar',
-        'email',
-        'password',
-        'dob',
-        'gender',
-        'phone',
-        'address',
-        'city',
-        'state',
-        'country',
-        'religion',
-        'marital_status',
-        'nok_name',
-        'nok_phone',
-        'nok_email',
-        'nok_address',
-        'nok_city',
-        'nok_state',
-        'emergency_hospital_address',
-        'emergency_hospital_name',
-        'nok_country',
-        'nok_relationship'
-      ],
-    },
-    modal: {show: false, form: ''},
-    records: {labtest: [], insurance: [], hospitalization: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
-  }},
-  computed: {
-    user() { return this.$parent.user },
-  },
-  mounted() { 
-    document.title = 'Profile | CleanHelt'
-    this.fetchRecords()
-  },
-  methods: {
-    showModal(form) {
-      this.modal = { show: true, form }
-    },
-    editModal(form, data = {}) {
-      this.showModal(form)
-      if(this.form_exists(form))
-        this.edit[form] = _.extend({}, data)
-    },
-    form_exists(value) {
-      return Object.keys(this.edit).includes(value)
-    },
-    created(form) {
-      this.fetchRecords()
-          .then(delay(1000))
-        .then(this.notify(`${_.capitalize(form)} added to list`, 'success'))
-      this.closeModal(form)
-    },
-    error(form) {
-      Promise.resolve()
-        .then(this.notify('An error occured when creating Allergy .', 'error'))
-    },
-    fetchRecords() {
-      const records = Object.keys(this.records)
-      const XHRs = records.map(route => {
-        return this.$parent.getRecord(route)
-      })  
-      const getRecordKey = (index) => {
-        return records[index]
-      }
-      return Promise.all(XHRs).then((responses) => {
-        responses.map((res, index) =>
-          this.$set(this.records, getRecordKey(index), res.data.data || []))
-      }).catch(err => {
-        console.groupCollapsed('Patient Records Error')
-        console.trace(err)
-        console.groupEnd('Patient Records Error')
-      })
-    },
-    notify(text, type) {
-      return () => this.$notify({text, type})
-    },
-    closeModal(form = {}) {
-      this.modal = _.extend(this.modal, {show: false})
-      this.modal.form = ''
-    }
-  }
+	name: 'Profile',
+	components: {
+		ProfileGrid, HealthInsuranceProvider, 
+		CreateAllergy, MedicalHistory, 
+		FamilyMedicalRecords, CreateImmunization
+	},
+	mixins: [EditProfile],
+	data() {return {
+		page: 0,
+
+		edit: {
+			allergy: {},
+			immunization: {},
+			basic: false,
+			emergency: false,
+			avatarUrl: '/api/patient/profile/update/image',
+			url: '/api/patient/profile/update',
+			whiteList: [
+				'first_name',
+				'middle_name',
+				'last_name',
+				'avatar',
+				'email',
+				'password',
+				'dob',
+				'gender',
+				'phone',
+				'address',
+				'city',
+				'state',
+				'country',
+				'religion',
+				'marital_status',
+				'nok_name',
+				'nok_phone',
+				'nok_email',
+				'nok_address',
+				'nok_city',
+				'nok_state',
+				'emergency_hospital_address',
+				'emergency_hospital_name',
+				'nok_country',
+				'nok_relationship'
+			],
+		},
+		modal: {show: false, form: ''},
+		records: {labtest: [], hospitalization: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
+	}},
+	computed: {
+		user() { return this.$parent.user },
+	},
+	mounted() { 
+		document.title = 'Profile | CleanHelt'
+		this.fetchRecords()
+	},
+	methods: {
+		showModal(form) {
+			this.modal = { show: true, form }
+		},
+		editModal(form, data = {}) {
+			this.showModal(form)
+			if(this.form_exists(form))
+				this.edit[form] = _.extend({}, data)
+		},
+		form_exists(value) {
+			return Object.keys(this.edit).includes(value)
+		},
+		created(form) {
+			this.fetchRecords()
+				.then(delay(1000))
+				.then(this.notify(`${_.capitalize(form)} added to list`, 'success'))
+			this.closeModal(form)
+		},
+		error(form) {
+			Promise.resolve()
+				.then(this.notify('An error occured when creating Allergy .', 'error'))
+		},
+		fetchRecords() {
+			const records = Object.keys(this.records)
+			const XHRs = records.map(route => {
+				return this.$parent.getRecord(route)
+			})  
+			const getRecordKey = (index) => {
+				return records[index]
+			}
+			return Promise.all(XHRs).then((responses) => {
+				responses.map((res, index) =>
+					this.$set(this.records, getRecordKey(index), res.data.data || []))
+			}).catch(err => {
+				console.groupCollapsed('Patient Records Error')
+				console.trace(err)
+				console.groupEnd('Patient Records Error')
+			})
+		},
+		notify(text, type) {
+			return () => this.$notify({text, type})
+		},
+		closeModal(form = {}) {
+			this.modal = _.extend(this.modal, {show: false})
+			this.modal.form = ''
+		}
+	}
 }
 </script>

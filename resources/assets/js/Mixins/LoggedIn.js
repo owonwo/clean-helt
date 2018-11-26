@@ -1,5 +1,5 @@
 import { mapGetters, mapMutations } from 'vuex'
-import { createUserNotification, getNotificationRoute } from '@/store/Helpers.js'
+import { createUserNotification, getNotificationRoute } from '@/store/helpers/notifications.js'
 const ServiceProviders = ['hospital', 'doctor', 'pharmacy', 'laboratory']
 
 export default {

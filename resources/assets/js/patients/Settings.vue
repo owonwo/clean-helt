@@ -52,11 +52,11 @@
 <script>
 import Modal from '@/components/Modal.vue'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
-import FamilyMedicalRecords from '@/components/FamilyMedicalRecords'
+import HealthInsuranceProvider from '@/components/HealthInsuranceProvider'
 
 export default {
 	name: 'PatientSettings',
-	components: {Modal, ToggleSwitch, FamilyMedicalRecords},
+	components: {Modal, ToggleSwitch, HealthInsuranceProvider},
 	data() {return {
 		page: 0,
 		notification_state: true,

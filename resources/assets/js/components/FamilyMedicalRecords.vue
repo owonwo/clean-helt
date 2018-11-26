@@ -92,6 +92,7 @@
 		}
 	}
 </style>
+
 <script>
 import { mapGetters } from 'vuex'
 
@@ -122,7 +123,7 @@ export default {
 		},
 		async done (diseases) {
 			this.$store.commit('set_diseases', diseases)
-			// this.$store.dispatch('UPDATE_DISEASES')
+			this.$store.dispatch('UPDATE_DISEASES')
 		},
 		addDisease() {
 			const {form, index} = this,
