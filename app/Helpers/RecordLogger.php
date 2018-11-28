@@ -9,13 +9,14 @@
 namespace App\Helpers;
 
 use App\Models\MedicalRecord;
+use App\Models\Patient;
 
 class RecordLogger
 {
     // $patient param collects the patient
     // $issuer collects the model  for the person who issued the record
     // $type  checks if it is a diagnosis,prescription,test
-    public function logMedicalRecord($patient, $issuer, $type)
+    public function logMedicalRecord(Patient $patient, $issuer, $type)
     {
         $recordData = [
             'patient_id' => $patient->id,
@@ -39,6 +40,8 @@ class RecordLogger
                 return 'App\\Models\\LabTest';
             case 'immunization' :
                 return 'App\\Models\\Immunization';
+            case 'allergy':
+                return 'App\\Models\\Allergy';
             default:
                 return 'App\\Models\\Diagnosis';
         }

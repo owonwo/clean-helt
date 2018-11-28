@@ -224,7 +224,7 @@ class PatientController extends Controller
     {
     }
 
-    public function showRecords()
+    public function showMedicalRecords()
     {
         try {
             return response()->json([
