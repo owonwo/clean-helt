@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Allergy;
+use App\Models\FamilyRecord;
 use App\Models\HealthInsurance;
 use App\Models\MedicalHistory;
 use App\Models\Hospitalize;
@@ -32,7 +33,6 @@ class PatientManagesMedicalRecordsTest extends TestCase
     public function a_patient_can_add_immunization()
     {
         $record = create(MedicalRecord::class,['type' => 'App\Models\Immunization','issuer_type' => 'App\Models\Patient']);
-
         $data = [
             'immunization_title' => 'I am the Immunization lord',
             'age' => 20,
@@ -45,7 +45,6 @@ class PatientManagesMedicalRecordsTest extends TestCase
     public function a_patient_can_update_immunization_record(){
         $record = create(MedicalRecord::class,['type' => 'App\Models\Immunization','issuer_type' => 'App\Models\Patient']);
 
-
         $newData = [
             'immunization_title' => 'I am the Immunization Fish',
             'age' => 20,
@@ -56,12 +55,27 @@ class PatientManagesMedicalRecordsTest extends TestCase
         $this->assertDatabaseHas('immunizations',['immunization_title'=> $newData['immunization_title']]);
     }
     /** @test */
-    public function a_patient_can_add_allergy(){
-        $record = create(MedicalRecord::class,['type' => 'App\Models\Immunization','issuer_type' => 'App\Models\Patient']);
+    public function a_patient_can_get_his_allergy(){
+        $record = create(MedicalRecord::class,['type' => 'App\Models\Allergy','issuer_type' => 'App\Models\Patient']);
         $data = [
             'allergy' => "alcohol",
             'reaction' => 'tummy pain',
-            'last_occurance' => "2011-18-13"
+            'last_occurance' => Carbon::now()
+
+        ];
+        $this->post(route('patient.record.allergy'),$data)->assertStatus(200);
+        $this->assertDatabaseHas('allergies',["allergy" =>  "alcohol"]);
+
+        $this->get(route('patient.get.allergy'))->assertSee($data['allergy']);
+
+    }
+    /** @test */
+    public function a_patient_can_add_allergy(){
+        $record = create(MedicalRecord::class,['type' => 'App\Models\Allergy','issuer_type' => 'App\Models\Patient']);
+        $data = [
+            'allergy' => "alcohol",
+            'reaction' => 'tummy pain',
+            'last_occurance' => Carbon::now()
 
         ];
         $this->post(route('patient.record.allergy'),$data)->assertStatus(200);
@@ -164,4 +178,21 @@ class PatientManagesMedicalRecordsTest extends TestCase
         $this->post(route('patient.record.family'),$data);
         $this->assertDatabaseHas('family_records',['disease' => $data['disease']]);
      }
+     /** @test  */
+     public function a_patient_can_update_a_family_medical_history(){
+         $familyRecord = create(FamilyRecord::class);
+         $data = [
+             'disease' => 'Malaria',
+             'carriers' => ['Brother','Mother'],
+             'description' =>  'Lorem ipsum'
+         ];
+         $this->patch(route('patient.update.family',$familyRecord),$data);
+         $this->assertDatabaseHas('family_records',['disease' => $data['disease']]);
+     }
+    /** @test  */
+    public function a_patient_can_delete_a_family_medical_history(){
+        $familyRecord = create(FamilyRecord::class);
+        $this->delete(route('patient.destroy.family',$familyRecord));
+        $this->assertDatabaseMissing('family_records',['id' => $familyRecord->id]);
+    }
 }
