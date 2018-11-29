@@ -109,6 +109,7 @@ Route::group(['namespace' => 'API'], function () {
     Route::post('patient/register', 'Patient\PatientController@store')->name('patient.register');
     Route::get('patient/verify/{email}/{verifyToken}', 'Patient\PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function () {
+        
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
@@ -125,7 +126,7 @@ Route::group(['namespace' => 'API'], function () {
         //Patient Updates Family Records
 
         //Patient Updates allergies
-        Route::get('/record/allergy', 'AllergyController@index');
+        Route::get('/record/allergy', 'AllergyController@index')->name('patient.get.allergy');
         Route::post('/record/allergy', 'AllergyController@store')->name('patient.record.allergy');
         Route::patch('update/{allergy}/allergy', 'AllergyController@update')->name('patient.update.allergy');
         //Patient  updates health insurance provider
@@ -143,8 +144,8 @@ Route::group(['namespace' => 'API'], function () {
         // Route::resource('/record/family-history', 'FamilyRecordController', ['except' => ['edit', 'create', 'show', 'update']]);
         Route::get('/record/family-history', 'FamilyRecordController@index');
         Route::post('/record/family-history', 'FamilyRecordController@store')->name('patient.record.family');
-        Route::patch('record/{familyRecord}/family-history', 'FamilyRecordController@update');
-        Route::delete('/record/family-history/{familyRecord}', 'FamilyRecordController@destroy');
+        Route::patch('record/{familyRecord}/family-history', 'FamilyRecordController@update')->name('patient.update.family');
+        Route::delete('/record/family-history/{familyRecord}', 'FamilyRecordController@destroy')->name('patient.destroy.family');
 
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');

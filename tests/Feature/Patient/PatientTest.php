@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Allergy;
+use App\Models\FamilyRecord;
 use App\Models\LabTest;
+use App\Models\MedicalHistory;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Prescription;
@@ -116,11 +119,18 @@ class PatientTest extends TestCase
     {
         $patient = create(Patient::class);
 
+        $record = create(MedicalRecord::class,['type' => 'App\Models\Allergy','issuer_type' => 'App\Models\Patient','issuer_id' => $patient->id,'patient_id' => $patient->id]);
+        $record2 = create(MedicalRecord::class,['type' => 'App\Models\FamilyRecord','issuer_type' => 'App\Models\Patient','issuer_id' => $patient->id,'patient_id' => $patient->id]);
+
+        $allergy = create(Allergy::class,['record_id' =>$record->id]);
+        $medicalHistory = create(FamilyRecord::class,['record_id' => $record2->id]);
+
 
         $this->signIn($patient, 'patient');
 
+
         $this->makeAuthRequest()
             ->get("api/patient/medical-records")
-            ->assertStatus(200);
+            ->assertStatus(200)->assertSee($medicalHistory['description']);
     }
 }

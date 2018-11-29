@@ -21,12 +21,11 @@ class FamilyRecordController extends Controller
         try {
             DB::beginTransaction();
             $record = $logger->logMedicalRecord($patient, $patient, 'family-medical-history');
-   
             $familyRecord =  FamilyRecord::forceCreate([
                 'record_id' => $record->id,
                 'disease' => request('disease'),
                 'carriers' => json_encode(request('carriers')),
-                // 'description' => request('description')
+                 'description' => request('description')
             ]);
             DB::commit();
             return response()->json([
@@ -49,5 +48,18 @@ class FamilyRecordController extends Controller
         return response()->json([
             'message' => 'Update successful',
         ], 200);
+    }
+    public function destroy(FamilyRecord $familyRecord)
+    {
+        try{
+            $familyRecord->delete();
+            return response()->json([
+                'message' => 'Delete successful'
+            ],200);
+        } catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

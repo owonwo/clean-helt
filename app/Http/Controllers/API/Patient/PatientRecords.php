@@ -9,7 +9,7 @@ trait PatientRecords
         $patient = auth()->guard('patient-api')->user();
 
         return response()->json([
-            'data' => $this->model::orderByDesc('id')->get()->toArray(),
+              'data' =>$patient->medicalRecords($this->model)->get()->load('data')
         ]);
     }
 

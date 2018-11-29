@@ -39,6 +39,10 @@ class RecordLogger
                 return 'App\\Models\\LabTest';
             case 'immunization' :
                 return 'App\\Models\\Immunization';
+            case 'allergy' :
+                return 'App\\Models\\Allergy';
+            case 'family-record' :
+                return 'App\\Models\\FamilyRecord';
             default:
                 return 'App\\Models\\Diagnosis';
         }

@@ -236,7 +236,6 @@ class PatientController extends Controller
                         $record->data->extras = json_decode($record->data->extras);
                         $record->data->symptoms = explode(',', $record->data->symptoms);
                     }
-
                     return $record;
                 }),
             ], 200);
@@ -260,7 +259,16 @@ class PatientController extends Controller
             'data' => $data,
         ], 200);
     }
-
+    public function showAllMedicalRecords(){
+        $data = $this->patient->medicalRecords()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
+        return response()->json([
+            'message' => 'All Patient Records Loaded Successfully',
+            'data' => $data
+        ],200);
+    }
     public function showPrescription()
     {
         $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
