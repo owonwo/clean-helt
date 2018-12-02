@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API\Patient;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+
 
 class MedicalRecordController extends Controller
 {

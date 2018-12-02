@@ -27,6 +27,7 @@ $factory->define(FamilyRecord::class, function (Faker $faker) use ($diseases) {
         'record_id' => 5,
         'disease' => $faker->randomElement($diseases),
         'carriers' => json_encode(['mother', 'father', 'husband']),
+        'description' => $faker->sentence,
         'created_at' => $faker->date("now"),
     ];
 });
