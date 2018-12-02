@@ -159,20 +159,6 @@ class PatientController extends Controller
      */
     public function update(Request $request)
     {
-        /**
-         * @check if the patient is inserting an image of not
-         */
-        $rule = $this->getUpdateRule();
-
-        try {
-            $this->validate($request, $rule);
-        } catch (ValidationException $exception) {
-            return response()->json([
-                'errors' => $exception->errors(),
-                'message' => $exception->getMessage(),
-            ], 422);
-        }
-
         try {
             $data = request()->all();
             unset($data['avatar']);
@@ -224,7 +210,7 @@ class PatientController extends Controller
     {
     }
 
-    public function showRecords()
+    public function showMedicalRecords()
     {
         try {
             return response()->json([
@@ -236,7 +222,6 @@ class PatientController extends Controller
                         $record->data->extras = json_decode($record->data->extras);
                         $record->data->symptoms = explode(',', $record->data->symptoms);
                     }
-
                     return $record;
                 }),
             ], 200);
@@ -260,7 +245,16 @@ class PatientController extends Controller
             'data' => $data,
         ], 200);
     }
-
+    public function showAllMedicalRecords(){
+        $data = $this->patient->medicalRecords()->get()->each(function($record){
+            $record->data;
+            return $record;
+        });
+        return response()->json([
+            'message' => 'All Patient Records Loaded Successfully',
+            'data' => $data
+        ],200);
+    }
     public function showPrescription()
     {
         $data = $this->patient->medicalRecords('App\Models\Prescription')->latest()->get()->each(function ($record) {
@@ -283,18 +277,6 @@ class PatientController extends Controller
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6',
             'phone' => 'required|digit:11',
-        ];
-    }
-
-    private function getUpdateRule()
-    {
-        return [
-            'first_name' => 'required|string|max:60|min:2',
-            'last_name' => 'required|string|max:60|min:2',
-            'address' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
         ];
     }
 

@@ -68,9 +68,9 @@ class PatientController extends Controller
             $chcode = request('chcode');
             $refferedDoctor = Doctor::whereChcode($chcode)->get()->first();
             return $this->doctorReferral($doctor, $patient, $refferedDoctor);
-            return response()->json([
-                "message" => "Profile Referred successfully"
-            ], 200);
+//            return response()->json([
+//                "message" => "Profile Referred successfully"
+//            ], 200);
 
         }
     }
@@ -169,7 +169,6 @@ class PatientController extends Controller
         if (!$doctor->canViewProfile($patient)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        die('');
 
         return response()->json([
             'data' => $medicalRecord->get()->each(function ($record) {
