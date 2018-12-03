@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class ImmunizationController extends Controller
 {
-    //
+    use PatientRecords;
+
+    protected $model = Immunization::class;
+
     public function store(RecordLogger $logger)
     {
         $patient = auth()->guard('patient-api')->user();
