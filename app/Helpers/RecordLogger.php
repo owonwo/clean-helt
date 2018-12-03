@@ -5,7 +5,6 @@
  * Date: 11/08/2018
  * Time: 6:59 PM
  */
-
 namespace App\Helpers;
 
 use App\Models\MedicalRecord;
@@ -22,7 +21,7 @@ class RecordLogger
             'patient_id' => $patient->id,
             'type' => $this->getRecordType($type),
             'issuer_type' => get_class($issuer),
-            'issuer_id' => $issuer->id //
+            'issuer_id' => $issuer->id, //
         ];
 
         return MedicalRecord::create($recordData);
@@ -38,11 +37,15 @@ class RecordLogger
                 return 'App\\Models\\Prescription';
             case 'test':
                 return 'App\\Models\\LabTest';
-            case 'immunization' :
+            case 'immunization':
                 return 'App\\Models\\Immunization';
-            case 'allergy' :
+            case 'allergy':
                 return 'App\\Models\\Allergy';
-            case 'family-record' :
+            case 'medical-history':
+                return 'App\\Models\\MedicalHistory';
+            case 'health-insurance':
+                return 'App\\Models\\HealthInsurance';
+            case 'family-medical-history':
                 return 'App\\Models\\FamilyRecord';
             default:
                 return 'App\\Models\\Diagnosis';

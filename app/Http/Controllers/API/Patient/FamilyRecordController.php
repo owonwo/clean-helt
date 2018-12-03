@@ -12,29 +12,32 @@ class FamilyRecordController extends Controller
 {
     //
     use PatientRecords;
-    
+
     protected $model = FamilyRecord::class;
 
     public function store(RecordLogger $logger)
     {
         $patient = auth()->guard('patient-api')->user();
+
         try {
             DB::beginTransaction();
             $record = $logger->logMedicalRecord($patient, $patient, 'family-medical-history');
-            $familyRecord =  FamilyRecord::forceCreate([
+            $familyRecord = FamilyRecord::forceCreate([
                 'record_id' => $record->id,
                 'disease' => request('disease'),
                 'carriers' => json_encode(request('carriers')),
-                 'description' => request('description')
             ]);
             DB::commit();
+
             return response()->json([
                 'message' => 'Family Medical Record Created successfully',
-                'data' => $familyRecord
+                'data' => $familyRecord,
             ], 200);
         } catch (\Exception $e) {
+            DB::rollback();
+
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
@@ -43,22 +46,23 @@ class FamilyRecordController extends Controller
         $familyRecord->update([
             'disease' => request('disease'),
             'carriers' => json_encode(request('carriers')),
-            'description' => request('description')
         ]);
+
         return response()->json([
             'message' => 'Update successful',
         ], 200);
     }
     public function destroy(FamilyRecord $familyRecord)
     {
-        try{
+        try {
             $familyRecord->delete();
+
             return response()->json([
-                'message' => 'Delete successful'
-            ],200);
-        } catch (\Exception $e){
+                'message' => 'Delete successful',
+            ], 200);
+        } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
         }
     }
