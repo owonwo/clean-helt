@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { VuexError } from '@/store/helpers/utilities'
+import { VuexError, extractRecords } from '@/store/helpers/utilities'
 
 const state = {
 	/**
@@ -33,7 +33,7 @@ const actions = {
 	// },
 	FETCH_MEDICAL_HISTORY (context) {
 		return axios.get('/api/patient/record/medical-history').then((res) => {
-			context.commit('set_histories', res.data.data)
+			context.commit('set_histories', extractRecords(res.data.data))
 		}).catch(VuexError('Fetching Medical Histories Failed'))
 	},
 }

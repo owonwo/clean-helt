@@ -17,3 +17,11 @@ export const lockProfile = (profile) => {
 
 	return Object.freeze(profile)
 }
+
+/**
+  * Extracts the Medical Record Data from Ajax payload
+  *@return Array;
+  **/
+export const extractRecords = (record = []) => {
+	return record.map(e => e.data).filter(e => e !== null)
+}

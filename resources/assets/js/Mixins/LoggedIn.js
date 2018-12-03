@@ -73,11 +73,10 @@ export default {
 			let {patients} = this.settings
                 
 			this.$http.get(`/api/${this.componentName}/patients/pending`).then((res) => {
-				const PATIENTS = res.data.patients
-				let found = (!!PATIENTS)
-				found
+				const PATIENTS = res.data.pendingPatients
+				!!PATIENTS
 					? this.set_pending_patients(PATIENTS)
-					: console.assert(found, 'Pending Patients could not be fetched!')
+					: console.assert(!!PATIENTS, 'Pending Patients could not be fetched!')
 			})
 
 			if(patients.route)

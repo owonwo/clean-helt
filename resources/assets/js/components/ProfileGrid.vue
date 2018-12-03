@@ -2,13 +2,13 @@
     <div id="profile-grid">
         <aside>
             <img :src="avatar" class="avatar has-shadow">
-            <p class="subtitle is-4 my-10">{{ name }}</p>
             <div class="has-text-centered mt-5 is-fullwidth">
                 <label for="change-avatar" class="button is-primary is-rounded">
                     change photo <i class="ml-5 ti ti-pencil"></i>
                 </label>
                 <input type="file" @change="changeAvatar($event)" id="change-avatar" />
             </div>
+            <p class="subtitle is-4 my-10">{{ name }}</p>
         </aside>
         <nav class="osq-profile-nav osq-sidenav">
             <v-scrollbar class="menu">

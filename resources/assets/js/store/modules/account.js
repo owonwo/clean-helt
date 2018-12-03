@@ -4,6 +4,7 @@ const state = {
 	ACCOUNT_TYPE: '',
 	user: {
 		avatar: '',
+		profile: {},
 		get full_name() {
 			return [this.first_name, this.last_name].join(' ')
 		}

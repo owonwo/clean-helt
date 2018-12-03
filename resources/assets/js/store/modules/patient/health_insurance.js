@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { VuexError } from '@/store/helpers/utilities'
+import { VuexError, extractRecords } from '@/store/helpers/utilities'
 
 const state = {
 	insurances: [],
@@ -12,7 +12,7 @@ const mutations = {
 const actions = {
 	FETCH(context) {
 		return axios.get('/api/patient/record/health-insurance').then(({data}) => {
-			context.commit('set_insurances', data.data)
+			context.commit('set_insurances', extractRecords(data.data))
 		}).catch(VuexError('Error Fetching Insurances.'))
 	},
 	async CREATE (context, payload) {

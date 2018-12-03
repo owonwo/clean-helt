@@ -11,15 +11,16 @@
         slot="navigation" 
         class="osq-sidenav p-10">
         <li><a href="#">Basic Information</a></li>
-        <li class=""><a href="#">Annual Medical Check</a></li>
-        <li class=""><a href="#">Medical History</a></li>
-        <li class=""><a href="#">Hospital Contacts</a></li>
-        <li class=""><a href="#">Health Insurance Providers</a></li>
-        <li class=""><a href="#">Immunization</a></li>
-        <li class=""><a href="#">Allergies</a></li>
-        <li class=""><a href="#">Family Medical History</a></li>
-        <li class=""><a href="#">Hospitalization</a></li>
-        <li class=""><a href="#">Health Log</a></li>
+        <li><a href="#">Annual Medical Check</a></li>
+        <li><a href="#">Medical History</a></li>
+        <li><a href="#">Hospital Contacts</a></li>
+        <li><a href="#">Health Insurance Providers</a></li>
+        <li><a href="#">Immunization</a></li>
+        <li><a href="#">Emergency Contacts</a></li>
+        <li><a href="#">Allergies</a></li>
+        <li><a href="#">Family Medical History</a></li>
+        <li><a href="#">Hospitalization</a></li>
+        <li><a href="#">Health Log</a></li>
       </template>
       <template slot-scope="pager">
         <pager :current="pager.page">
@@ -326,8 +327,15 @@
               </tr>
             </table>
           </div>
-          <!-- ALLERGIES -->
           <div slot="p7">
+            <div class="level">
+              <div class="menu-label">
+                <span>EMERGENCY CONTACTS</span>
+              </div>
+            </div>
+          </div>
+          <!-- ALLERGIES -->
+          <div slot="p8">
             <div class="level">
               <div class="menu-label">
                 <span>ALLERGIES</span>
@@ -375,12 +383,12 @@
             </table>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
-          <div slot="p8">
+          <div slot="p9">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
             <FamilyMedicalRecords/>
           </div>
           <!-- HOSPITALIZATION -->
-          <div slot="p9">
+          <div slot="p10">
             <div class="menu-label">HOSPITALIZATION</div>
             <div 
               v-for="(entry) in records.hospitalization" 
@@ -394,7 +402,7 @@
             </div>
           </div>
           <!-- HEALTH LOGS -->
-          <div slot="p10">
+          <div slot="p11">
             <div class="menu-label">HEALTH LOG</div>
             <table class="table is-fullwidth">
               <tr>
@@ -433,6 +441,7 @@
 import EditProfile from '@/Mixins/EditProfile.js'
 import ProfileGrid from '@/components/ProfileGrid.vue'
 
+import { extractRecords } from '@/store/helpers/utilities'
 import CreateAllergy from '@/components/CreateAllergy.vue'
 import CreateImmunization from '@/components/CreateImmunization.vue'
 import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
@@ -488,7 +497,7 @@ export default {
 			],
 		},
 		modal: {show: false, form: ''},
-		records: {labtest: [], hospitalization: [], allergy: [], immunization: [], medicalRecord: [], prescription: []},
+		records: {labtest: [], hospitalization: [], allergy: [], immunization: [], prescription: []},
 	}},
 	computed: {
 		user() { return this.$parent.user },
@@ -528,8 +537,10 @@ export default {
 				return records[index]
 			}
 			return Promise.all(XHRs).then((responses) => {
-				responses.map((res, index) =>
-					this.$set(this.records, getRecordKey(index), res.data.data || []))
+				responses.map(({data: res}, index) => {
+					const collection = extractRecords(res.data)
+					this.$set(this.records, getRecordKey(index), collection || [])
+				})
 			}).catch(err => {
 				console.groupCollapsed('Patient Records Error')
 				console.trace(err)

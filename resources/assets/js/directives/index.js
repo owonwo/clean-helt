@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import $ from 'jquery'
+import _ from 'lodash'
 
 const preloadClass = ['slide', 'content-preloader']
 
@@ -29,12 +31,19 @@ Vue.directive('pager-controls', {
 	// bind(el, binding, vnode) {
 	// },
 	bind(el, binding, vnode) {
+		console.log(binding)
 		const {context} = vnode
-		const {value: {activeClass}, modifiers} = binding
+		const {modifiers} = binding
+		const {activeClass} = binding.value || {
+			'activeClass': 'is-active'
+		}
 
 		if('undefined' ===  typeof context.page) {
 			console.warn('Data Reference Error: Data "page" not Found')
 			return false
+		}
+		if(typeof activeClass === 'undefined') {
+			throw Error('Missing required prop `activeClass` for pager-controls')
 		}
 		$(el).delegate('li > a', 'click', function(evt) {
 			!modifiers.prevent || evt.preventDefault()
@@ -42,18 +51,19 @@ Vue.directive('pager-controls', {
 			$(this).parent().addClass(activeClass)
 			vnode.context.page = $(this).parent().index()        
 		})
+		$(el).find('li:first-child > a').click()
 	}
 })
 
 Vue.directive('slide', {
-	bind(el, binding, vnode) {
+	bind(el) {
 		el.style.overflow = 'hidden'
 	},
-	inserted(el, binding, vnode) {
+	inserted(el) {
 		$(el).data('v-height', $(el).height())
 		$(el).height(0)
 	},
-	update(el, binding, vnode) {
+	update(el, binding) {
 		const props = (binding.value) 
 			? {height : '0px'}
 			: {paddingBottom: '10px', height: $(el).data('v-height')}
@@ -85,8 +95,8 @@ Vue.directive('checkbox', {
 })
 
 Vue.directive('preload', {
-	bind: function (el, binding) {
-		let {sm} = binding.modifiers
+	bind: function (el) {
+		// let {sm} = binding.modifiers
 		preloadClass.map(p => $(el).addClass(p))
 	},
 	componentUpdated(el, binding) {

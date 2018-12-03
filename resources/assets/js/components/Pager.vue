@@ -47,6 +47,11 @@
 	#page-holder {
 		height: 100%;
 
+		&.is-absolute {
+			width: 100%;
+			position: absolute;
+		}
+
 		#page-slider {
 			margin:0;
 			display: block;

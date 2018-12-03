@@ -153,6 +153,20 @@ ul {
 
     &.is-fullheight {
         @extend %fullheight-box;
+        display: flex;
+        flex-direction: column;
+
+        .card-header {
+            flex: 0 0 50px;
+        }
+        .tabs {
+            flex: 0 0 50px;            
+        }
+        .card-body {
+            flex-grow: 3;
+            position: relative;
+            flex-shrink: 0;
+        }
     }
 }
 
