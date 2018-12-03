@@ -23,9 +23,9 @@ class MedicalHistoryController extends Controller
             $record = $logger->logMedicalRecord($patient, $patient, 'medical-history');
 
             $medicalHistory = MedicalHistory::forceCreate([
-                    'record_id' => $record->id,
-                    'illness' => request('illness'),
-                    'date_of_onset' => request('date_of_onset'),
+                'record_id' => $record->id,
+                'illness' => request('illness'),
+                'date_of_onset' => request('date_of_onset'),
             ]);
             DB::commit();
 
