@@ -101,6 +101,11 @@ Route::group(['namespace' => 'API'], function () {
         Route::patch('patients/{patient}/allergies/{allergy}', 'AllergyController@update')->name('doctor.patients.allergies.update');
         Route::delete('patients/{patient}/allergies/{allergy}', 'AllergyController@delete')->name('doctor.patients.allergies.delete');
 
+        Route::get('patients/{patient}/immunizations', 'ImmunizationController@index')->name('doctor.patients.immunizations');
+        Route::post('patients/{patient}/immunizations', 'ImmunizationController@store');
+        Route::patch('patients/{patient}/immunizations/{immunization}', 'ImmunizationController@update')->name('doctor.patients.immunizations.update');
+        Route::delete('patients/{patient}/immunizations/{immunization}', 'ImmunizationController@delete')->name('doctor.patients.immunizations.delete');
+
         Route::get('patients/accepted/patients', 'ProfileShareController@accepted')->name('doctor.patient.accepted');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
 
