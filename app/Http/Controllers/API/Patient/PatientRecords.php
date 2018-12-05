@@ -4,19 +4,26 @@ namespace App\Http\Controllers\API\Patient;
 
 trait PatientRecords
 {
+    /**
+     * Fetches all medicalrecord for auth:user
+     *
+     * @return JsonResponse
+     **/
     public function index()
     {
         $patient = auth()->guard('patient-api')->user();
+        $data = $patient->medicalRecords($this->model)->get()
+            ->each(function ($record) {
+                $record->data;
+            });
 
-        return response()->json([
-              'data' =>$patient->medicalRecords($this->model)->get()->load('data')
-        ]);
+        return response()->json(compact('data'));
     }
 
     /**
      * Deletes a model.
      *
-     * @param int $id 
+     * @param int $id
      *
      * @return Json
      **/
@@ -27,10 +34,10 @@ trait PatientRecords
             return response()->json([
                 'data' => 'Record Deleted',
             ]);
-        } else {
-            return response()->json([
-                'message' => 'Record not delete from '.$this->model,
-            ], 422);
         }
+
+        return response()->json([
+            'message' => 'Record not delete from ' . $this->model,
+        ], 422);
     }
 }

@@ -159,27 +159,13 @@ class PatientController extends Controller
      */
     public function update(Request $request)
     {
-        /**
-         * @check if the patient is inserting an image of not
-         */
-        $rule = $this->getUpdateRule();
-
-        try {
-            $this->validate($request, $rule);
-        } catch (ValidationException $exception) {
-            return response()->json([
-                'errors' => $exception->errors(),
-                'message' => $exception->getMessage(),
-            ], 422);
-        }
-
         try {
             $data = request()->all();
             unset($data['avatar']);
 
             if ($this->patient->update($data)) {
                 return response()->json([
-                    'message' => 'Your profile has been update successfully',
+                    'message' => 'Your profile has been updated successfully',
                     'data' => $this->patient,
                 ]);
             }
@@ -291,18 +277,6 @@ class PatientController extends Controller
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6',
             'phone' => 'required|digit:11',
-        ];
-    }
-
-    private function getUpdateRule()
-    {
-        return [
-            'first_name' => 'required|string|max:60|min:2',
-            'last_name' => 'required|string|max:60|min:2',
-            'address' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
         ];
     }
 
