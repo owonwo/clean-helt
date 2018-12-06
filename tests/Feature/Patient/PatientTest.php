@@ -118,7 +118,6 @@ class PatientTest extends TestCase
     public function a_patient_can_view_his_medical_records()
     {
         $patient = create(Patient::class);
-
         $record = create(MedicalRecord::class,['type' => 'App\Models\Allergy','issuer_type' => 'App\Models\Patient','issuer_id' => $patient->id,'patient_id' => $patient->id]);
         $record2 = create(MedicalRecord::class,['type' => 'App\Models\FamilyRecord','issuer_type' => 'App\Models\Patient','issuer_id' => $patient->id,'patient_id' => $patient->id]);
 

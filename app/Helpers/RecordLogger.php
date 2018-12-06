@@ -47,6 +47,8 @@ class RecordLogger
                 return 'App\\Models\\HealthInsurance';
             case 'family-medical-history':
                 return 'App\\Models\\FamilyRecord';
+            case 'hospital-contact' :
+                return 'App\\Models\\HospitalContacts';
             default:
                 return 'App\\Models\\Diagnosis';
         }

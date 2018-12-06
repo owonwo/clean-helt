@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Allergy;
 use App\Models\FamilyRecord;
 use App\Models\HealthInsurance;
+use App\Models\HospitalContacts;
 use App\Models\MedicalHistory;
 use App\Models\Hospitalize;
 use App\Models\Immunization;
@@ -91,6 +92,7 @@ class PatientManagesMedicalRecordsTest extends TestCase
             'reaction' => 'normal reaction',
             'last_occurance' => "2011-18-13",
         ];
+
         $allergy = create(Allergy::class);
         $this->patch(route('patient.update.allergy',$allergy),$newData);
         $this->assertDatabaseHas('allergies',['allergy'=> $newData['allergy']]);
@@ -189,10 +191,54 @@ class PatientManagesMedicalRecordsTest extends TestCase
          $this->patch(route('patient.update.family',$familyRecord),$data);
          $this->assertDatabaseHas('family_records',['disease' => $data['disease']]);
      }
+
+
     /** @test  */
     public function a_patient_can_delete_a_family_medical_history(){
         $familyRecord = create(FamilyRecord::class);
         $this->delete(route('patient.destroy.family',$familyRecord));
         $this->assertDatabaseMissing('family_records',['id' => $familyRecord->id]);
     }
+
+
+    /** @test */
+    public function  a_patient_can_add_hospital_contact(){
+        $data = [
+            'name' => 'Hospital of Life',
+            'email' => 'yarrowbradley@gmail.com',
+            'location' => 'Plot 257 Aba road juncton',
+            'phone' => '08118022308'
+        ];
+        $this->post(route('patient.hospital-contact'),$data);
+        $this->assertDatabaseHas('hospital_contacts',['name' => $data['name']]);
+    }
+    /** @test */
+    public function a_patient_can_update_his_hospital_contact(){
+        $hospitalContact = create(HospitalContacts::class);
+        $newData = [
+            'location' => 'Plot 257 Port Harcourt'
+        ];
+        $this->patch(route('patient.hospital-contact.update',$hospitalContact),$newData);
+        $this->assertDatabaseHas('hospital_contacts',['location' => $newData['location']]);
+    }
+    /** @test */
+    public function a_patient_can_delete_his_hospital_contact(){
+        $hospitalContact = create(HospitalContacts::class);
+        $this->delete(route('patient.hospital-contact.delete',$hospitalContact));
+        $this->assertDatabaseMissing('hospital_contacts',['location' => $hospitalContact['location']]);
+
+    }
+    /** @test */
+    public function a_patient_can_get_hospital_contact(){
+        $data = [
+            'name' => 'Hospital of Life',
+            'email' => 'yarrowbradley@gmail.com',
+            'location' => 'Plot 257 Aba road juncton',
+            'phone' => '08118022308'
+        ];
+        $this->post(route('patient.hospital-contact'),$data);
+        $this->assertDatabaseHas('hospital_contacts',['name' => $data['name']]);
+        $this->get(route('patient.hospital-contact.get'))->assertSee($data['location']);
+    }
+
 }
