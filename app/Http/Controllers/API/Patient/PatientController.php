@@ -164,7 +164,7 @@ class PatientController extends Controller
 
             if ($this->patient->update($data)) {
                 return response()->json([
-                    'message' => 'Your profile has been update successfully',
+                    'message' => 'Your profile has been updated successfully',
                     'data' => $this->patient,
                 ]);
             }
