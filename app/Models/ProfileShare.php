@@ -12,8 +12,9 @@ class ProfileShare extends Model
 
     protected $dates = ['expired_at'];
 
-    protected $with = ['provider'];
-
+    protected $with = ['patient'];
+    
+    
     /**
      * A profile share belongs to a patient
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
