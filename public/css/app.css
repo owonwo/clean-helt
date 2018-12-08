@@ -11692,8 +11692,8 @@ label.panel-block:hover {
   border: none;
   overflow: hidden;
   border-radius: 0px;
-  -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
 }
 
 .card > .card-header .osf,

@@ -37,7 +37,11 @@ Vue.mixin({
 			const {chcodeIs} = this
 			return chcodeIs('CHP', e.chcode) || chcodeIs('CHD', e.chcode) ? personalify(e) : e
 		},
-		error_message() {
+		success_message(text) {
+			this.$notify({text, type: 'success'})
+		},
+		error_message(text) {
+			this.$notify({text, type: 'error'})
 		}
 	},
 	filters: {

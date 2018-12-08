@@ -8,6 +8,7 @@ import medicalHistory from './modules/patient/medical_history'
 import famMedicalHistory from './modules/patient/family_medical_history'
 import health_insurance from './modules/patient/health_insurance'
 import service_providers from './modules/patient/service_providers'
+import hospital_contacts from './modules/patient/hospital_contacts'
 
 import doctor from './modules/doctor.js'
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
 		account,
 		medicalHistory,
 		health_insurance,
+		hospital_contacts,
 		famMedicalHistory,
 		doctor,
 		service_providers

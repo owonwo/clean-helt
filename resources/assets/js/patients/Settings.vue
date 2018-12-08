@@ -11,7 +11,7 @@
               v-pager-controls.prevent="{activeClass: 'active'}" 
               class="menu-list">
               <li 
-                v-for="(name, index) in ['Notification', 'Share Logs', 'Bookmarks']" 
+                v-for="(name, index) in ['Notification', 'Family', 'Bookmarks']" 
                 :key="index">
                 <a href="#">{{ name }}</a>
               </li>
@@ -31,11 +31,13 @@
               <p 
                 style="font-size: small" 
                 class="is-small">I want to receive notifications.</p>
+                <HospitalContacts />
             </div>
             <div 
               slot="p2"
               class="p-10">
-              <span class="menu-label">Shares</span>
+              <span class="menu-label">Mange Family Links</span>
+              <!-- <p>Add the CHCODE of a family member to link accounts.</p> -->
             </div>
             <div 
               slot="p3" 
@@ -53,10 +55,11 @@
 import Modal from '@/components/Modal.vue'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
 import HealthInsuranceProvider from '@/components/HealthInsuranceProvider'
+import HospitalContacts from '@/components/HospitalContacts.vue'
 
 export default {
 	name: 'PatientSettings',
-	components: {Modal, ToggleSwitch, HealthInsuranceProvider},
+	components: {Modal, ToggleSwitch, HospitalContacts, HealthInsuranceProvider},
 	data() {return {
 		page: 0,
 		notification_state: true,

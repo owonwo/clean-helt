@@ -18,10 +18,17 @@ export const lockProfile = (profile) => {
 	return Object.freeze(profile)
 }
 
-/**
-  * Extracts the Medical Record Data from Ajax payload
-  *@return Array;
-  **/
+// Extracts the Medical Record Data from Ajax payload
 export const extractRecords = (record = []) => {
-	return record.map(e => e.data).filter(e => e !== null)
+	return record.map(e => e.data).filter(e => e !== null).map(APPEND_CRUD_METHODS)
+}
+
+export const APPEND_CRUD_METHODS = (record) => {
+	const __methods = {
+		isEditing: false,
+		toggleEdit() {
+			return (this.isEditing = !this.isEditing)
+		}
+	}
+	return Object.assign({}, __methods, record)
 }

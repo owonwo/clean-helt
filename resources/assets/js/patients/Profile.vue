@@ -255,25 +255,7 @@
           <div 
             slot="p4">
             <div class="menu-label">HOSPITAL CONTACTS</div>
-            <div class="hospital-card is-small">
-              <h5 class="title is-size-5 mb-10">Hospital 1</h5>
-              <p class="is-size-6">St Immanuel Memorial Hospital</p>
-              <ul class="is-size-7">
-                <li>Location: Tecno junction, Rumuola, Port Harcourt</li>
-                <li>Phone: 08034353580, 0904738745</li>
-                <li>Emails: stimmanuel@yahoo.com, info@stimmanuelmemorialhospital.com</li>
-              </ul>
-            </div>
-
-            <div class="hospital-card is-small">
-              <h5 class="title is-size-5 mb-10">Hospital 1</h5>
-              <p class="is-size-6">St Immanuel Memorial Hospital</p>
-              <ul class="is-size-7">
-                <li>Location: Tecno junction, Rumuola, Port Harcourt</li>
-                <li>Phone: 08034353580, 0904738745</li>
-                <li>Emails: stimmanuel@yahoo.com, info@stimmanuelmemorialhospital.com</li>
-              </ul>
-            </div>
+            <HospitalContacts />
           </div>
           <!-- HEALTH INSURANCE PROVIDERS -->
           <div slot="p5">
@@ -446,6 +428,7 @@ import CreateAllergy from '@/components/CreateAllergy.vue'
 import CreateImmunization from '@/components/CreateImmunization.vue'
 import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
 import MedicalHistory from '@/components/MedicalHistory.vue'
+import HospitalContacts from '@/components/HospitalContacts.vue'
 import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
 
 const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
@@ -453,8 +436,8 @@ const delay = (time) => (result) => new Promise(resolve => setTimeout(() => reso
 export default {
 	name: 'Profile',
 	components: {
-		ProfileGrid, HealthInsuranceProvider, 
-		CreateAllergy, MedicalHistory, 
+		ProfileGrid, HealthInsuranceProvider,
+		HospitalContacts, CreateAllergy, MedicalHistory, 
 		FamilyMedicalRecords, CreateImmunization
 	},
 	mixins: [EditProfile],

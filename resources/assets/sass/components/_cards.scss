@@ -2,7 +2,7 @@
   border: none;
   overflow: hidden;
   border-radius: $card-border-radius;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); //heads a pointer cursor
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); //heads a pointer cursor
 
   > .card-header {
       // background: $accent-color;

@@ -4,7 +4,7 @@
     class="dropdown is-right">
     <div 
       class="dropdown-trigger" 
-      @click="active = !active">
+      @click="toggle">
       <slot name="button">
         <button 
           class="button is-small" 
@@ -40,5 +40,13 @@ export default {
 			active: false,
 		}
 	},
+  mounted() {
+    this.$root.$on('clicked-other', (uid) => console.log('another was clicked', uid))
+  },
+  methods: {
+    toggle() {
+      this.active = !this.active
+    }
+  }
 }
 </script>
