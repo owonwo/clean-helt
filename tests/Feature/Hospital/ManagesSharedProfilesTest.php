@@ -157,11 +157,13 @@ class ManagesSharedProfilesTest extends TestCase
             'provider_type' => get_class($hospital),
             'status' => 1
         ]);
+        
 
         $this->signIn($hospital, 'hospital');
 
         $this->makeAuthRequest()
             ->patch("api/hospital/patients/{$share->id}/assign/{$doctor->chcode}");
+        
 
         $this->assertDatabaseHas('profile_shares', [
             'doctor_id' => $doctor->id,
