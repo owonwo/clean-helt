@@ -27,13 +27,10 @@ class PatientController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
+        
+        
         try {
-            $patients = optional($doctor->allShares(), function ($doctor) use ($end, $start, $filter) {
-                return $doctor->filter($filter, $filter->dateRange($start, $end))
-                    ->activeShares()
-                    ->with('patient')
-                    ->get();
-            });
+            $patients = $doctor->allShares()->activeShares()->get();
 
             return response()->json([
                 'message' => 'Patients retrieved successfully',
