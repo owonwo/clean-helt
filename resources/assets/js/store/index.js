@@ -11,22 +11,25 @@ import service_providers from './modules/patient/service_providers'
 import hospital_contacts from './modules/patient/hospital_contacts'
 
 import doctor from './modules/doctor.js'
+import hospital from './modules/hospital.js'
+import manage_patient from './modules/manage_patient.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
 		account,
+		doctor,
+		hospital,
+		manage_patient,
 		medicalHistory,
 		health_insurance,
 		hospital_contacts,
 		famMedicalHistory,
-		doctor,
-		service_providers
+		service_providers,
 	},
 	state: {
 		pending: [],
-		sharedProfiles: [],
 	},
 	getters: {
 		getProfileByPatientId: store => id => {

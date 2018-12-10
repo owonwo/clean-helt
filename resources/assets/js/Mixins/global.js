@@ -1,30 +1,6 @@
 import Vue from 'vue'
 import GlobalComponents from '@/components'
-
-Vue.prototype.$http = axios
-/*
-   freezes the profile object after adding
-*/
-const lockProfile = (person) => {
-	person = personalify(person)
-	return Object.freeze(person)
-}
-
-const personalify = (person) => {
-	const person_proto = {
-		get name () {
-			return [this.first_name,this.last_name].join(' ').trimEnd()
-		},
-		get fullname () {
-			return [this.first_name, this.middle_name, this.last_name].join(' ').trimEnd()
-		},
-		get full_name() {
-			return this.fullname
-		}
-	}
-
-	return _.extend(Object.create(person_proto), person)
-}
+import { personalify } from '@/store/helpers/utilities'
 
 Vue.mixin({
 	components: {...GlobalComponents},

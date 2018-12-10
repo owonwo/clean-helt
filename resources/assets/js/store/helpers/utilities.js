@@ -1,21 +1,10 @@
-export const VuexError = (message) => err => console.warn(err, `(source) vuex : ${message}`)
+const __ = Object
 
-//freeze the profile object after adding
-//user mixin
-export const lockProfile = (profile) => {
-	profile.patient = Object.assign(Object.create({
-		get name () {
-			return [this.first_name,this.last_name].join(' ')
-		},
-		get fullname () {
-			return [this.first_name, this.middle_name, this.last_name].join(' ')
-		},
-		get full_name() {
-			return this.fullname
-		}
-	}), profile.patient)
+export const VuexError = (message) => err => console.error(err, `(source) vuex : ${message}`)
 
-	return Object.freeze(profile)
+// Object.freeze the patient profile
+export const lockProfile = (person) => {
+	return __.freeze(personalify(person))
 }
 
 // Extracts the Medical Record Data from Ajax payload
@@ -30,5 +19,26 @@ export const APPEND_CRUD_METHODS = (record) => {
 			return (this.isEditing = !this.isEditing)
 		}
 	}
-	return Object.assign({}, __methods, record)
+	return __.assign({}, __methods, record)
+}
+
+export const extractPatientFromShare = (share) => {
+	share.patient = personalify(share.patient) 
+	return share
+}
+
+export const personalify = (person) => {
+	const person_proto = {
+		get name () {
+			return [this.first_name,this.last_name].join(' ').trimEnd()
+		},
+		get fullname () {
+			return [this.first_name, this.middle_name, this.last_name].join(' ').trimEnd()
+		},
+		get full_name() {
+			return this.fullname
+		}
+	}
+
+	return __.assign(__.create(person_proto), person)
 }

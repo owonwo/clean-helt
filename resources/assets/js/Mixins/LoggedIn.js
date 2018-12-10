@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
 import { createUserNotification, getNotificationRoute } from '@/store/helpers/notifications.js'
 const ServiceProviders = ['hospital', 'doctor', 'pharmacy', 'laboratory']
@@ -22,21 +23,18 @@ export default {
 		}
 	},
 	mounted() {
-		//for profiles
-		const {profile, patients} = this.settings
-		if('undefined' !== typeof profile.route)
-			try {
-				this.$http.get(profile.route).then((res) => {
-					const USER_DATA = _.extend(this.user, res.data[profile.key])
-					this.set_user(USER_DATA)
-				})
-				//for services providers
-				this.$store.commit('set_account_type', this.componentName)
-			}catch(x) {
-				console.warn('Account Error: invalid profile route.')
-			}
-		this.fetchNotifications()
-		!ServiceProviders.includes(this.componentName) || this.fetchPatients()
+		this.$store.commit('set_account_type', this.componentName)
+		try {
+			const {profile} = this.settings
+			this.$http.get(profile.route)
+				.then((res) => _.extend(this.user, res.data[profile.key]))
+				.then((user_data) => this.set_user(user_data))
+			this.fetchNotifications()
+			!ServiceProviders.includes(this.componentName) || 
+			this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', this.componentName)
+		}catch(x) {
+			console.warn('Account Error: invalid profile route.')
+		}
 	},
 	computed: {
 		...mapGetters(['accountType']),
@@ -54,19 +52,10 @@ export default {
 			'remove_from_pending', 
 			'set_shared_profiles'
 		]),
+		// TODO: FIX the flaw in this function - flaw = 'ADMIN'
 		//gets the name of the component attached to
 		getComponentName() {
-			return 'undefined' !== typeof this.$vnode ? this.$vnode.componentOptions.tag : 'ADMIN'
-		},
-		//accept pending shares
-		async acceptShare(id) {
-			const url = `/api/${this.componentName}/patients/pending/${id}/accept`
-			return await this.$http.patch(url).then(() => {
-				this.remove_from_pending(id)
-				this.fetchPatients()
-			}).catch(() => {
-				console.log('Accept Failed!')
-			})
+			return 'undefined' !== typeof this.$vnode ? this.$vnode.componentOptions.tag : 'UNKNOWN'
 		},
 		// fetches both pending and active patients
 		fetchPatients() {
@@ -74,7 +63,7 @@ export default {
                 
 			this.$http.get(`/api/${this.componentName}/patients/pending`).then((res) => {
 				const PATIENTS = res.data.pendingPatients
-				!!PATIENTS
+				PATIENTS
 					? this.set_pending_patients(PATIENTS)
 					: console.assert(!!PATIENTS, 'Pending Patients could not be fetched!')
 			})
@@ -111,7 +100,7 @@ export default {
 				const notificationList = data.notification.data
 					.map(createUserNotification(accountType))
 				this.set_notifs(notificationList)
-			}).catch(err => console.warn('The Notification Module Failed with error:', err));
+			}).catch(err => console.warn('The Notification Module Failed with error:', err))
 		}
 	},
 }

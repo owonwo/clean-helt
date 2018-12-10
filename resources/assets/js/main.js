@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from 'axios'
 import Router from 'vue-router'
 import VueMoment from 'vue-moment'
 import Notification from 'vue-notification'
@@ -15,6 +16,7 @@ import Register from '@/Register.vue'
 Vue.use(Router)
 Vue.use(VueMoment)
 Vue.use(Notification)
+Vue.prototype.$http = axios
 
 import store from '@/store/'
 

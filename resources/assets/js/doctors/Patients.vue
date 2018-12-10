@@ -1,8 +1,15 @@
 <template>
   <section>
-    <h1 class="osq-group-subtitle-alt mb-10 pl-10">
-      All Clients - <b> {{ sharedProfiles.length }}</b>
-    </h1>
+    <div class="level">
+      <h1 class="level-left osq-group-subtitle-alt mb-10 pl-10">
+        All Clients - <b> {{ sharedProfiles.length }}</b>
+      </h1>
+      <div class="level-right">
+        Views
+        <i class="ti px-15 py-5 ti-layout-grid3"/>
+        <i class="ti px-15 py-5 ti-layout-list-thumb"/> 
+      </div>
+    </div>
     <alert
       v-if="sharedProfiles.length < 1"
       class="notification is-info" 
@@ -37,7 +44,7 @@ import {mapState} from 'vuex'
 export default {
 	name: 'Patients',
 	computed: {
-		...mapState('doctor', ['sharedProfiles'])
-	}
+		...mapState('manage_patient', {sharedProfiles: 'patients'})
+	},
 }
 </script>

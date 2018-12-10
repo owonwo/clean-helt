@@ -4,7 +4,6 @@ const state = {
 	pendingHospitals: [],
 	sentHospitals: [],
 	hospitals: [],
-	sharedProfiles: []
 }
 
 const getters = {

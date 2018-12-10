@@ -36,8 +36,16 @@ const mutations = {
 	}
 }
 
+const actions = {
+	ACCEPT_SHARE(context, share_id) {
+		const payload = { account: context.state.ACCOUNT_TYPE, share_id }
+		context.dispatch('manage_patient/ACCEPT_SHARE', payload)
+	}
+}
+
 export default {
 	state,
 	getters,
-	mutations
+	mutations,
+	actions
 }

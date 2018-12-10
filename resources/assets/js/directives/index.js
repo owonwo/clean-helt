@@ -28,10 +28,7 @@ Vue.directive('height', {
 })
 
 Vue.directive('pager-controls', {
-	// bind(el, binding, vnode) {
-	// },
 	bind(el, binding, vnode) {
-		console.log(binding)
 		const {context} = vnode
 		const {modifiers} = binding
 		const {activeClass} = binding.value || {

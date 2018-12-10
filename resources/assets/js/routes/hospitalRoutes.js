@@ -1,7 +1,6 @@
 import Router from 'vue-router'
 import Dashboard from '@/hospital/Dashboard.vue'
 import DoctorsDirectory from '@/hospital/DoctorsDirectory.vue'
-import PatientsDirectory from '@/hospital/PatientsDirectory.vue'
 import Settings from '@/hospital/Settings.vue'
 import Notifications from '@/components/Notifications.vue'
 import DoctorProfile from '@/doctors/Profile.vue'

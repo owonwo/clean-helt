@@ -1,26 +1,49 @@
 <template>
-  <main id="doctor" v-cloak class="osq-wrapper">
+  <main 
+    v-cloak 
+    id="doctor" 
+    class="osq-wrapper">
     <header class="osq-main-navbar">
       <div class="osq-navbar-brand">
-        <img style="height: 25px" src="@/../assets/logo-full@4.png" alt="">
+        <img 
+          style="height: 25px" 
+          src="@/../assets/logo-full@4.png" 
+          alt="">
       </div>
     </header>
 
-    <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
+    <aside 
+      :class="{collapse: $root.sidebars.nav}" 
+      class="osq-sidebar">
       <nav>
         <ul>
-          <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard"/>
-          <custom-link to="/patients" icon="osf osf-client-alt-white" name="Clients"/>
-          <custom-link to="/doctors" icon="osf osf-doctor-white" name="Departments"/>
-          <custom-link to="/profile" icon="osf osf-hospital-white" name="Profile"/>
-          <custom-link to="/settings" icon="osf osf-settings-white" name="Settings"/>
+          <custom-link 
+            to="/dashboard" 
+            icon="osf osf-dashboard-white" 
+            name="Dashboard"/>
+          <custom-link 
+            to="/patients" 
+            icon="osf osf-client-alt-white" 
+            name="Clients"/>
+          <custom-link 
+            to="/doctors" 
+            icon="osf osf-doctor-white" 
+            name="Departments"/>
+          <custom-link 
+            to="/profile" 
+            icon="osf osf-hospital-white" 
+            name="Profile"/>
+          <custom-link 
+            to="/settings" 
+            icon="osf osf-settings-white" 
+            name="Settings"/>
         </ul>
       </nav>
       
       <footer>
         <ul class="">
-          <li><a @click.prevent="logout"><i class="osf osf-back-alt-white"></i> Sign Out</a></li>
-          <li><a href="#"><i class="osf osf-forum-white"></i> Log into Forum</a></li>
+          <li><a @click.prevent="logout"><i class="osf osf-back-alt-white"/> Sign Out</a></li>
+          <li><a href="#"><i class="osf osf-forum-white"/> Log into Forum</a></li>
         </ul>
       </footer>
     </aside>
@@ -32,16 +55,20 @@
         </keep-alive>
       </section>
 
-      <aside id="osq-logs" :class="{collapse: $root.sidebars.notif}">
-        <router-view id="osq-logs-content" name="logBar"/>
+      <aside 
+        id="osq-logs" 
+        :class="{collapse: $root.sidebars.notif}">
+        <router-view 
+          id="osq-logs-content" 
+          name="logBar"/>
       </aside>
     </section>
   </main>
 </template>
 
 <script>
-import routes from './routes';
-import LoggedIn from '@/Mixins/LoggedIn';
+import routes from './routes'
+import LoggedIn from '@/Mixins/LoggedIn'
 
 export default {
   name: 'Hospital',
@@ -49,25 +76,9 @@ export default {
   mixins: [LoggedIn],
   data() {return {
     settings: {
-      profile: {route: "/api/hospital/profile", key: 'hospital'},
-      patients: {route: "/api/hospital/patients", key: 'patients'},
+      profile: {route: '/api/hospital/profile', key: 'hospital'},
+      patients: {route: '/api/hospital/patients', key: 'patients'},
     }
   }},
-  methods: {
-    timeout(duration) {
-      return new Promise((resolve) => setTimeout(resolve, duration));
-    },
-    // gets all the hospital doctors
-    async getDoctors() {
-      let [doctors] = await Promise.all([
-        this.$http.get('/api/hospital/doctors'),
-        this.timeout(1000),
-      ]);
-      return doctors; 
-    },
-    async getDoctorsPending() {
-        return await this.$http.get('/api/hospital/doctors/pending');
-    }
-  }
 }
 </script>
