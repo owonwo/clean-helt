@@ -13,30 +13,37 @@ class HospitalContactsController extends Controller
     //
     use PatientRecords;
     protected $model = HospitalContacts::class;
-    public function store(RecordLogger $logger){
+    public function store(RecordLogger $logger)
+    {
         $patient = auth()->guard('patient-api')->user();
-        try{
+
+        try {
             DB::beginTransaction();
             $record = $logger->logMedicalRecord($patient, $patient, 'hospital-contact');
-            $hospitalContact =  HospitalContacts::forceCreate(array_merge(request()->all(),['record_id' => $record->id]));
+            $hospitalContact = HospitalContacts::forceCreate(array_merge(request()->all(), ['record_id' => $record->id]));
             DB::commit();
+
             return response()->json([
                 'message' => 'Hospital Contact Successfully created',
-                'data' => $hospitalContact->load('record')
-            ],200);
-        }catch(\Exception $e){
+                'data' => $hospitalContact->load('record'),
+            ], 200);
+        } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
-                'message' => 'Something wen wrong'
-            ],400);
+                'message' => 'Something wen wrong',
+            ], 400);
         }
     }
 
-    public function update(HospitalContacts $hospitalContact){
-            $hospitalContact->update(request()->all());
-            return response()->json([
+    public function update(HospitalContacts $hospitalContact)
+    {
+        extract(request()->all());
+        $hospitalContact->update(compact('name', 'phone', 'email', 'location'));
+
+        return response()->json([
                 'message' => 'Update Successful',
-                'data' =>  $hospitalContact->fresh()
+                'data' => $hospitalContact->fresh(),
             ]);
     }
 }

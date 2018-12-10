@@ -27,13 +27,10 @@ class PatientController extends Controller
         $doctor = auth()->guard('doctor-api')->user();
         $start = request('startDate');
         $end = request('endDate');
+        
+        
         try {
-            $patients = optional($doctor->profileShares(), function ($doctor) use ($end, $start, $filter) {
-                return $doctor->filter($filter, $filter->dateRange($start, $end))
-                    ->activeShares()
-                    ->with('patient')
-                    ->get();
-            });
+            $patients = $doctor->allShares()->activeShares()->get();
 
             return response()->json([
                 'message' => 'Patients retrieved successfully',
@@ -154,7 +151,7 @@ class PatientController extends Controller
         if ($patient && $doctor->canViewProfile($patient)) {
             return response()->json([
                 'message' => 'Patient LabTest retrieved successfully',
-                'labTest' => $patient->medicalRecords('App\Models\LabTest')->get()->load('data'),
+                'labTest' => $patient->medicalRecords("App\Models\LabTest")->get()->load('data'),
             ], 200);
         }
 

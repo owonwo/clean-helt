@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-
 use App\Models\FamilyRecord;
+use App\Models\ProfileShare;
 use App\Observers\FamilyRecordObserver;
+use App\Observers\ProfileShareObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
             foreach (['doctor', 'patient', 'hospital', 'pharmacy', 'laboratory'] as $sp) {
                 if (auth($sp)->check()) {
                     $guard = $sp;
+
                     break;
                 }
             }
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         FamilyRecord::observe(FamilyRecordObserver::class);
+        ProfileShare::observe(ProfileShareObserver::class);
     }
 
     /**
