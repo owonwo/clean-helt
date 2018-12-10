@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Log;
 
 class DoctorController extends Controller
 {
@@ -77,6 +78,7 @@ class DoctorController extends Controller
         // $doctor->save();
         // request()->validate($this->rules);
         // return json_encode(dd(request()->all()));
+        Log::info(request()->all());
 
         try {
             $doctor->update([

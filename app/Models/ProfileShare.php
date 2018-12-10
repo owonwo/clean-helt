@@ -8,11 +8,14 @@ use Illuminate\Notifications\Notifiable;
 class ProfileShare extends Model
 {
     use Notifiable;
+
     protected $guarded = [];
+
+    protected $fillable = ['status', 'provider_id', 'doctor_id', 'referral_status'];
 
     protected $dates = ['expired_at'];
 
-    protected $with = ['provider'];
+    protected $with = ['patient'];
 
     /**
      * A profile share belongs to a patient
@@ -27,7 +30,6 @@ class ProfileShare extends Model
      * A profile share belongs to a service provider
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    
     public function provider()
     {
         return $this->morphTo();
@@ -49,18 +51,18 @@ class ProfileShare extends Model
         return $query->whereDate('expired_at', '>=', now());
     }
 
-    public function scopeFilter($query,$filter)
+    public function scopeFilter($query, $filter)
     {
         return $filter->apply($query);
     }
 
     public function scopeAcceptedShares($query)
     {
-        return $query->where('status', "1");
+        return $query->where('status', '1');
     }
 
     public function scopePendingShares($query)
     {
-        return $query->where('status', "0");
+        return $query->where('status', '0');
     }
 }

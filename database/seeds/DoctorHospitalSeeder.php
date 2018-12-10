@@ -12,11 +12,13 @@ class DoctorHospitalSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('doctor_hospital')->insert([
-            "doctor_id" => 1,
-            "hospital_id" => factory("App\Models\Hospital")->create()->id,
-            "status" => 1,
-            "actor" => "App\Models\Hospital",
-        ]);
+        foreach (range(1, 5) as $number) {
+            DB::table('doctor_hospital')->insert([
+                'doctor_id' => $number,
+                'hospital_id' => 1,
+                'status' => '0',
+                'actor' => "App\Models\Doctor",
+            ]);
+        }
     }
 }
