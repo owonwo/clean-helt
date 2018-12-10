@@ -132,4 +132,5 @@ class PatientTest extends TestCase
             ->get("api/patient/medical-records")
             ->assertStatus(200)->assertSee($medicalHistory['description']);
     }
+    /** @test */
 }

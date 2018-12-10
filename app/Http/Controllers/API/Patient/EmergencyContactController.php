@@ -17,11 +17,11 @@ class EmergencyContactController extends Controller
         $patient = auth()->guard('patient-api')->user();
         try{
             DB::beginTransaction();
-            $record = $logger->logMedicalRecord($patient, $patient, 'hospital-contact');
+            $record = $logger->logMedicalRecord($patient, $patient, 'emergency-contact');
             $emergencyContact =  EmergencyContact::forceCreate(array_merge(request()->all(),['record_id' => $record->id]));
             DB::commit();
             return response()->json([
-                'message' => 'Hospital Contact Successfully created',
+                'message' => 'Emergency Contact Successfully created',
                 'data' => $emergencyContact->load('record')
             ],200);
         }catch(\Exception $e){
@@ -35,7 +35,7 @@ class EmergencyContactController extends Controller
         $emergencyContact->update(request()->all());
 
         return response()->json([
-            'message' => 'Emergency contact created successful',
+            'message' => 'Emergency contact updated successful',
             'data' => $emergencyContact->fresh()
         ]);
     }
