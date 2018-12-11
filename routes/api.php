@@ -120,6 +120,8 @@ Route::group(['namespace' => 'API'], function () {
     Route::post('patient/register', 'Patient\PatientController@store')->name('patient.register');
     Route::get('patient/verify/{email}/{verifyToken}', 'Patient\PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function () {
+        Route::post('/register/child','LinkAccountController@store')->name('register.child');
+        Route::post('/switch-account','LinkAccountController@switchAccount')->name('switch-account');
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
@@ -141,7 +143,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::patch('update/{allergy}/allergy', 'AllergyController@update')->name('patient.update.allergy');
         //Patient  updates health insurance provider
         Route::get('/record/health-insurance', 'HealthInsuranceController@index');
-        Route::post                      ('/record/health-insurance', 'HealthInsuranceController@store')->name('patient.record.health-insurance');
+        Route::post('/record/health-insurance', 'HealthInsuranceController@store')->name('patient.record.health-insurance');
         Route::patch('/record/{healthInsurance}/health-insurance', 'HealthInsuranceController@update')->name('patient.health-insurance.update');
         Route::delete('/record/{healthInsurance}/health-insurance', 'HealthInsuranceController@destroy')->name('patient.health-insurance.destroy');
         //Patient  updates medical history
@@ -160,7 +162,10 @@ Route::group(['namespace' => 'API'], function () {
         Route::patch('/record/hospital-contact/{hospitalContact}','HospitalContactsController@update')->name('patient.hospital-contact.update');
         Route::delete('/record/hospital-contact/{hospitalContact}','HospitalContactsController@destroy')->name('patient.hospital-contact.delete');
         Route::get('/record/hospital-contact','HospitalContactsController@index')->name('patient.hospital-contact.get');
+        
         //End
+
+        //Emergency Route
         Route::get('hospitals', 'PatientController@showHospitals');
         Route::get('hospital/{hospital}', 'PatientController@showHospital');
         Route::get('laboratories', 'PatientController@showLaboratories');
@@ -185,6 +190,9 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('contacts', 'ContactController@index');
         Route::post('contacts', 'ContactController@store');
         Route::delete('contacts/{contact}', 'ContactController@delete');
+
+
+
     });
 
     Route::group(['prefix' => 'laboratories', 'namespace' => 'Laboratory', 'middleware' => ['api', 'auth:laboratory-api']], function () {
