@@ -58,6 +58,9 @@ class Patient extends Authenticatable
     public function immunizationRecord(){
         return $this->hasMany(Immunization::class,'record_id');
     }
+    public function children(){
+        return $this->hasMany(LinkedAccounts::class,'patient_id');
+    }
 
     public function laboratoryRecords()
     {

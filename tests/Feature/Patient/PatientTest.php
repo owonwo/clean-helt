@@ -43,10 +43,10 @@ class PatientTest extends TestCase
          * passing object convert to array
          *
          */
-
+//        dd($patient);
         $this->makeAuthRequest()
             ->withExceptionHandling()
-            ->post('api/patient/register')
+            ->post('api/patient/register',$patient)
             ->assertStatus(200);
         $this->assertDatabaseHas('patients', $patient);
     }
@@ -133,4 +133,156 @@ class PatientTest extends TestCase
             ->assertStatus(200)->assertSee($medicalHistory['description']);
     }
     /** @test */
+    public function a_patient_can_register_someone_under_him(){
+        $patient = create(Patient::class);
+
+        $this->signIn($patient, 'patient');
+        $data = [
+              "first_name" => "Lew",
+              "last_name" => "Rodriguez",
+              "middle_name" => "Wyman",
+              "avatar" => "http://localhost/storage/avatar/avatar.jpeg",
+              "email" => "frank.hayes@example.org",
+              "dob" => "2009-11-04",
+              "gender" => "male",
+              "phone" => "23481180220",
+               "password" => "secret",
+              "address" => "
+                93851 Wiegand Extension\n
+                Beattyside, IA 13675-7520
+                ",
+              "city" => "Runtemouth",
+              "state" => "New Eulah",
+              "country" => "Indonesia",
+              "religion" => "Muslim",
+              "marital_status" => "divorced",
+              "nok_name" => "Ms. Camila Stark II",
+              "nok_email" => "marley02@example.net",
+              "nok_phone" => "(890) 949-1618 x8439",
+              "nok_address" => ",
+                5581 Roob Burg Suite 859\n
+                Alberthaville, CA 38803
+                ",
+              "nok_city" => "Port Arvel",
+              "nok_state" => "East Fredbury"
+
+        ];
+        /**
+         * passing object convert to array
+         *
+         */
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->post(route('register.child'),$data)
+            ->assertStatus(200);
+        $this->assertDatabaseHas('patients', ['id' => $patient->id]);
+        $this->assertDatabaseHas('linked_accounts',['patient_id' => $patient->id]);
+    }
+    /** @test */
+    public function a_patient_has_children_accounts_linked_to_him(){
+        $patient = create(Patient::class);
+
+        $this->signIn($patient, 'patient');
+        $data = [
+            "first_name" => "Lew",
+            "last_name" => "Rodriguez",
+            "middle_name" => "Wyman",
+            "avatar" => "http://localhost/storage/avatar/avatar.jpeg",
+            "email" => "frank.hayes@example.org",
+            "dob" => "2009-11-04",
+            "gender" => "male",
+            "phone" => "23481180220",
+            "password" => "secret",
+            "address" => "
+                93851 Wiegand Extension\n
+                Beattyside, IA 13675-7520
+                ",
+            "city" => "Runtemouth",
+            "state" => "New Eulah",
+            "country" => "Indonesia",
+            "religion" => "Muslim",
+            "marital_status" => "divorced",
+            "nok_name" => "Ms. Camila Stark II",
+            "nok_email" => "marley02@example.net",
+            "nok_phone" => "(890) 949-1618 x8439",
+            "nok_address" => ",
+                5581 Roob Burg Suite 859\n
+                Alberthaville, CA 38803
+                ",
+            "nok_city" => "Port Arvel",
+            "nok_state" => "East Fredbury"
+
+        ];
+        /**
+         * passing object convert to array
+         *
+         */
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->post(route('register.child'),$data)
+            ->assertStatus(200);
+        $this->assertDatabaseHas('patients', ['id' => $patient->id]);
+        $this->assertDatabaseHas('linked_accounts',['patient_id' => $patient->id]);
+
+//        dd($patient->children->first()->account);
+//        $patient->children->each(function($child){
+//           dd($child->account->createToken(config('app.name'))->accessToken);
+//        });
+
+    }
+    /** @test */
+    public function a_patient_switch_account(){
+        $patient = create(Patient::class);
+
+        $this->signIn($patient, 'patient');
+        $data = [
+            "first_name" => "Lew",
+            "last_name" => "Rodriguez",
+            "middle_name" => "Wyman",
+            "avatar" => "http://localhost/storage/avatar/avatar.jpeg",
+            "email" => "frank.hayes@example.org",
+            "dob" => "2009-11-04",
+            "gender" => "male",
+            "phone" => "23481180220",
+            "password" => "secret",
+            "address" => "
+                93851 Wiegand Extension\n
+                Beattyside, IA 13675-7520
+                ",
+            "city" => "Runtemouth",
+            "state" => "New Eulah",
+            "country" => "Indonesia",
+            "religion" => "Muslim",
+            "marital_status" => "divorced",
+            "nok_name" => "Ms. Camila Stark II",
+            "nok_email" => "marley02@example.net",
+            "nok_phone" => "(890) 949-1618 x8439",
+            "nok_address" => ",
+                5581 Roob Burg Suite 859\n
+                Alberthaville, CA 38803
+                ",
+            "nok_city" => "Port Arvel",
+            "nok_state" => "East Fredbury"
+
+        ];
+        /**
+         * passing object convert to array
+         *
+         */
+
+        $this->makeAuthRequest()
+            ->withExceptionHandling()
+            ->post(route('register.child'),$data)
+            ->assertStatus(200);
+        $this->assertDatabaseHas('patients', ['id' => $patient->id]);
+        $this->assertDatabaseHas('linked_accounts',['patient_id' => $patient->id]);
+        $child = $patient->children->first();
+
+        $this->post(route('switch-account'),$child->account->toArray())->assertStatus(200);
+
+        //we'll send a post to switch account with the patient to be switched
+        //Collect the patient and create token for the patient then return the to
+    }
 }
