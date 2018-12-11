@@ -24,7 +24,7 @@ class EmergencyContactController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Hospital Contact Successfully created',
+                'message' => 'Emergency Contact Successfully created',
                 'data' => $emergencyContact->load('record'),
             ], 200);
         } catch (\Exception $e) {
@@ -41,7 +41,7 @@ class EmergencyContactController extends Controller
         $emergencyContact->update(compact('name', 'phone', 'phone_2', 'address', 'zip_code'));
 
         return response()->json([
-            'message' => 'Emergency contact Updated.',
+            'message' => 'Emergency contact updated successful',
             'data' => $emergencyContact->fresh(),
         ]);
     }

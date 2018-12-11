@@ -146,7 +146,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::patch('update/{allergy}/allergy', 'AllergyController@update')->name('patient.update.allergy');
         //Patient  updates health insurance provider
         Route::get('/record/health-insurance', 'HealthInsuranceController@index');
-        Route::post('/record/health-insurance', 'HealthInsuranceController@store')->name('patient.record.health-insurance');
+        Route::post                      ('/record/health-insurance', 'HealthInsuranceController@store')->name('patient.record.health-insurance');
         Route::patch('/record/{healthInsurance}/health-insurance', 'HealthInsuranceController@update')->name('patient.health-insurance.update');
         Route::delete('/record/{healthInsurance}/health-insurance', 'HealthInsuranceController@destroy')->name('patient.health-insurance.destroy');
         //Patient  updates medical history
