@@ -30,14 +30,17 @@ trait PatientRecords
     public function destroy($id)
     {
         $model = $this->model::findOrFail($id);
+        if ($model->record) {
+            $model->record->delete();
+        }
         if ($model->delete()) {
             return response()->json([
-                'data' => 'Record Deleted',
+                'data' => "Record Deleted for [{$this->model}]",
             ]);
         }
 
         return response()->json([
-            'message' => 'Record not delete from ' . $this->model,
+            'message' => "Record not delete from [{$this->model}]",
         ], 422);
     }
 }

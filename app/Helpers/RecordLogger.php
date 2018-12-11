@@ -9,6 +9,7 @@ namespace App\Helpers;
 
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Models\EmergencyContact;
 
 class RecordLogger
 {
@@ -47,8 +48,10 @@ class RecordLogger
                 return 'App\\Models\\HealthInsurance';
             case 'family-medical-history':
                 return 'App\\Models\\FamilyRecord';
-            case 'hospital-contact' :
+            case 'hospital-contact':
                 return 'App\\Models\\HospitalContacts';
+            case 'emergency-contact':
+                return EmergencyContact::class;
             default:
                 return 'App\\Models\\Diagnosis';
         }

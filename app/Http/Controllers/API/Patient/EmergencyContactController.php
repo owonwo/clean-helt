@@ -13,30 +13,36 @@ class EmergencyContactController extends Controller
     //
     use PatientRecords;
     protected $model = EmergencyContact::class;
-    public function store(RecordLogger $logger){
+    public function store(RecordLogger $logger)
+    {
         $patient = auth()->guard('patient-api')->user();
-        try{
+
+        try {
             DB::beginTransaction();
-            $record = $logger->logMedicalRecord($patient, $patient, 'hospital-contact');
-            $emergencyContact =  EmergencyContact::forceCreate(array_merge(request()->all(),['record_id' => $record->id]));
+            $record = $logger->logMedicalRecord($patient, $patient, 'emergency-contact');
+            $emergencyContact = EmergencyContact::forceCreate(array_merge(request()->all(), ['record_id' => $record->id]));
             DB::commit();
+
             return response()->json([
                 'message' => 'Hospital Contact Successfully created',
-                'data' => $emergencyContact->load('record')
-            ],200);
-        }catch(\Exception $e){
+                'data' => $emergencyContact->load('record'),
+            ], 200);
+        } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
-                'message' => 'Something went wrong'
-            ],400);
+                'message' => 'Something went wrong',
+            ], 400);
         }
     }
-    public function update(EmergencyContact $emergencyContact){
-        $emergencyContact->update(request()->all());
+    public function update(EmergencyContact $emergencyContact)
+    {
+        extract(request()->all());
+        $emergencyContact->update(compact('name', 'phone', 'phone_2', 'address', 'zip_code'));
 
         return response()->json([
-            'message' => 'Emergency contact created successful',
-            'data' => $emergencyContact->fresh()
+            'message' => 'Emergency contact Updated.',
+            'data' => $emergencyContact->fresh(),
         ]);
     }
 }
