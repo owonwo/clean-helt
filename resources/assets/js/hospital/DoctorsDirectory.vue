@@ -121,7 +121,7 @@ export default {
 
 			this.$store.dispatch('hospital/SHARE_TO_DOCTOR', {share_id, doctor_id})
 				.then(() => this.modal = false)
-				.then(() => this.fetchDoctors())
+				.then(() => this.$store.dispatch('hospital/FETCH_DOCTORS'))
 				.catch((err) => {
 					console.log(err)
 				})

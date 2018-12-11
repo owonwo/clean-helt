@@ -10,17 +10,17 @@
       <template 
         slot="navigation" 
         class="osq-sidenav p-10">
-        <li><a href="#">Basic Information</a></li>
-        <li><a href="#">Annual Medical Check</a></li>
-        <li><a href="#">Medical History</a></li>
-        <li><a href="#">Hospital Contacts</a></li>
-        <li><a href="#">Health Insurance Providers</a></li>
-        <li><a href="#">Immunization</a></li>
-        <li><a href="#">Emergency Contacts</a></li>
-        <li><a href="#">Allergies</a></li>
-        <li><a href="#">Family Medical History</a></li>
-        <li><a href="#">Hospitalization</a></li>
-        <li><a href="#">Health Log</a></li>
+        <li><a href="#basic">Basic Information</a></li>
+        <li><a href="#annual">Annual Medical Check</a></li>
+        <li><a href="#medical">Medical History</a></li>
+        <li><a href="#immunization">Immunization</a></li>
+        <li><a href="#allergies">Allergies</a></li>
+        <li><a href="#family">Family Medical History</a></li>
+        <li><a href="#hospitalize">Hospitalization</a></li>
+        <li><a href="#log">Health Log</a></li>
+        <li><a href="#contacts">Emergency Contacts</a></li>
+        <li><a href="#hospital-contacts">Hospital Contacts</a></li>
+        <li><a href="#insurance">Health Insurance Providers</a></li>
       </template>
       <template slot-scope="pager">
         <pager :current="pager.page">
@@ -245,25 +245,15 @@
               style="font-size: 0.8em">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet</p>
             <h5>Additional Information</h5>
           </div>
+          <!-- MEDICAL HISTORY -->
           <section 
             slot="p3" 
             class="">
             <div class="menu-label">Medical History</div>
             <MedicalHistory/>
           </section>
-          <!-- HOSPITAL CONTACTS -->
-          <div 
-            slot="p4">
-            <div class="menu-label">HOSPITAL CONTACTS</div>
-            <HospitalContacts />
-          </div>
-          <!-- HEALTH INSURANCE PROVIDERS -->
-          <div slot="p5">
-            <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
-            <HealthInsuranceProvider/>
-          </div>
           <!-- Immunization -->
-          <div slot="p6">
+          <div slot="p4">
             <div class="level">
               <div class="menu-label">
                 IMMUNIZATIONS
@@ -309,15 +299,8 @@
               </tr>
             </table>
           </div>
-          <div slot="p7">
-            <div class="level">
-              <div class="menu-label">
-                <span>EMERGENCY CONTACTS</span>
-              </div>
-            </div>
-          </div>
           <!-- ALLERGIES -->
-          <div slot="p8">
+          <div slot="p5">
             <div class="level">
               <div class="menu-label">
                 <span>ALLERGIES</span>
@@ -365,12 +348,12 @@
             </table>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
-          <div slot="p9">
+          <div slot="p6">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
             <FamilyMedicalRecords/>
           </div>
           <!-- HOSPITALIZATION -->
-          <div slot="p10">
+          <div slot="p7">
             <div class="menu-label">HOSPITALIZATION</div>
             <div 
               v-for="(entry) in records.hospitalization" 
@@ -384,7 +367,7 @@
             </div>
           </div>
           <!-- HEALTH LOGS -->
-          <div slot="p11">
+          <div slot="p8">
             <div class="menu-label">HEALTH LOG</div>
             <table class="table is-fullwidth">
               <tr>
@@ -397,6 +380,27 @@
               </tr>
             </table>
           </div>
+          <!-- EMERGENCY CONTACT -->
+          <div slot="p9">
+            <div class="level">
+              <div class="menu-label">
+                <span>EMERGENCY CONTACTS</span>
+              </div>
+            </div>
+            <EmergencyContacts/>
+          </div>
+          <!-- HOSPITAL CONTACTS -->
+          <div 
+            slot="p10">
+            <div class="menu-label">HOSPITAL CONTACTS</div>
+            <HospitalContacts />
+          </div>
+          <!-- HEALTH INSURANCE PROVIDERS -->
+          <div slot="p11">
+            <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
+            <HealthInsuranceProvider/>
+          </div>
+
         </pager>
       </template>
     </profile-grid>
@@ -430,6 +434,7 @@ import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
 import MedicalHistory from '@/components/MedicalHistory.vue'
 import HospitalContacts from '@/components/HospitalContacts.vue'
 import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
+import EmergencyContacts from '@/components/EmergencyContacts.vue'
 
 const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
 
@@ -438,7 +443,7 @@ export default {
 	components: {
 		ProfileGrid, HealthInsuranceProvider,
 		HospitalContacts, CreateAllergy, MedicalHistory, 
-		FamilyMedicalRecords, CreateImmunization
+		EmergencyContacts, FamilyMedicalRecords, CreateImmunization
 	},
 	mixins: [EditProfile],
 	data() {return {

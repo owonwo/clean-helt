@@ -191,6 +191,7 @@ ul {
     }
 }
 
+
 .osq-profile-card {
     z-index: 5;
     border: none;
@@ -269,6 +270,24 @@ ul {
 
     &.is-landscape {
         align-items: center;
+    }
+}
+
+.osq-patient-list {
+    background: white;
+    line-height: 50px;
+
+    td:nth-child(2) {
+        width: 100px;
+    }
+
+    .image {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+    }
+    .button {
+        margin: 0;
     }
 }
 
@@ -606,6 +625,17 @@ ul {
         img.logo, button.is-submit {
             width: 100%;
         }
+    }
+}
+
+.h--input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 15px 0px;
+    border-bottom: solid 2px #ddd;
+    &:focus {
+        border-color: $primary-color;
     }
 }
 /* end login & registration */

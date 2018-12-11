@@ -42,3 +42,18 @@ export const personalify = (person) => {
 
 	return __.assign(__.create(person_proto), person)
 }
+
+export const shareFactory = (share)  => {
+	const pickName = () => {
+		console.log(share)
+		let {first_name, last_name, name} = share.provider
+		return share.provider_type === 'App\\Models\\Doctor' 
+			? `Dr ${first_name} ${last_name}` : name 
+	}
+	const  overwrites = {
+		provider_type: share.provider_type.replace('App\\Models\\', ''),
+		status: Number(share.status),
+		provider: Object.assign(share.provider, { name: pickName() }),
+	}
+	return Object.assign({visible: true}, share, overwrites)
+}

@@ -69,7 +69,7 @@ const actions = {
         return data
       } catch (x) { throw Error(x) }
     },
-    async shareToDoctor(context, payload) {
+    async SHARE_TO_DOCTOR (context, payload) {
       try {
         let {share_id, doctor_id} = payload
         const { data } = await axios.patch(`/api/hospital/patients/${share_id}/assign/${doctor_id}`)

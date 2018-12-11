@@ -15197,6 +15197,25 @@ ul {
           align-items: center;
 }
 
+.osq-patient-list {
+  background: white;
+  line-height: 50px;
+}
+
+.osq-patient-list td:nth-child(2) {
+  width: 100px;
+}
+
+.osq-patient-list .image {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.osq-patient-list .button {
+  margin: 0;
+}
+
 .osq-search-field {
   width: 330px;
 }
@@ -15551,6 +15570,18 @@ ul {
   #osq-login button.is-submit {
     width: 100%;
   }
+}
+
+.h--input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 15px 0px;
+  border-bottom: solid 2px #ddd;
+}
+
+.h--input:focus {
+  border-color: #20B171;
 }
 
 /* end login & registration */

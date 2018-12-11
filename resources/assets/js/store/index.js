@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import account from './modules/account'
 import { lockProfile } from './helpers/utilities'
+import patient_share from './modules/patient'
 import medicalHistory from './modules/patient/medical_history'
 import famMedicalHistory from './modules/patient/family_medical_history'
 import health_insurance from './modules/patient/health_insurance'
@@ -18,8 +19,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
-		account,
 		doctor,
+		account,
+		patient_share,
 		hospital,
 		manage_patient,
 		medicalHistory,

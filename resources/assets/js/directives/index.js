@@ -42,13 +42,31 @@ Vue.directive('pager-controls', {
 		if(typeof activeClass === 'undefined') {
 			throw Error('Missing required prop `activeClass` for pager-controls')
 		}
-		$(el).delegate('li > a', 'click', function(evt) {
+		const anchors = Array.from(el.querySelectorAll('li > a'))
+		const addEvent = fn => el => {
+			el.addEventListener('click', fn) 
+			return el
+		}
+		const resetList = () => el.querySelectorAll('li')
+			.forEach(li => li.classList.remove(activeClass))
+		const changePage = (evt) => {
+			const { parentElement: li } = evt.target
 			!modifiers.prevent || evt.preventDefault()
-			$(el).find(`li.${activeClass}`).each((index, elem) => $(elem).removeClass(activeClass))
-			$(this).parent().addClass(activeClass)
-			vnode.context.page = $(this).parent().index()        
-		})
-		$(el).find('li:first-child > a').click()
+			resetList()
+			li.classList.add(activeClass)
+			vnode.context.page = elms.indexOf(li)
+		}
+		const matchesHash = a => a.getAttribute('href') === window.location.hash
+		const changeHash = ({target}) => window.location.hash = target.getAttribute('href')
+		const elms = Array.from(el.querySelectorAll('li'))
+		anchors.map(addEvent(changePage))
+			.map(addEvent(changeHash))
+		const hashHasMatch = anchors.find(matchesHash)
+		context.$nextTick(() => setTimeout(() => {
+			!hashHasMatch ?
+				anchors[0].click() : 
+				hashHasMatch.click()
+		}, 1000))
 	}
 })
 

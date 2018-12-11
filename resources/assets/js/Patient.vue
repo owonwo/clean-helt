@@ -82,20 +82,6 @@
 import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
 
-const shareFactory = (share)  => {
-	const pickName = () => {
-		let {first_name, last_name, name} = share.provider
-		return share.provider_type === 'App\\Models\\Doctor' 
-			? `Dr ${first_name} ${last_name}` : name 
-	}
-	const  overwrites = {
-		provider_type: share.provider_type.replace('App\\Models\\', ''),
-		status: Number(share.status),
-		provider: Object.assign(share.provider, { name: pickName() }),
-	}
-	return Object.assign({visible: true}, share, overwrites)
-}
-
 export default {
 	name: 'Patient',
 	mixins: [LoggedIn],
@@ -130,17 +116,6 @@ export default {
 			if(!Object.keys(recordUrlMap).includes(record_type))
 				return Promise.reject(new Error(`Invalid Patient Record Key: "${record_type}"`))
 			return await this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'))
-		},
-		fetchProfileShares() {
-			return new Promise((resolve, rej) => {
-				this.$http.get('/api/patient/profile/shares').then((res) => {
-					this.shares = res.data.shares.map(shareFactory)
-					resolve(this.shares)
-				}).catch((err) => {
-					console.log('An Error Occured. Trying to fetch Patient Shares!', err)
-					rej(err)
-				})
-			})
 		}
 	}
 }

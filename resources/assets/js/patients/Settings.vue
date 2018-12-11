@@ -31,7 +31,7 @@
               <p 
                 style="font-size: small" 
                 class="is-small">I want to receive notifications.</p>
-                <HospitalContacts />
+                <EmergencyContacts />
             </div>
             <div 
               slot="p2"
@@ -56,10 +56,11 @@ import Modal from '@/components/Modal.vue'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
 import HealthInsuranceProvider from '@/components/HealthInsuranceProvider'
 import HospitalContacts from '@/components/HospitalContacts.vue'
+import EmergencyContacts from '@/components/EmergencyContacts.vue'
 
 export default {
 	name: 'PatientSettings',
-	components: {Modal, ToggleSwitch, HospitalContacts, HealthInsuranceProvider},
+	components: {Modal, ToggleSwitch, EmergencyContacts},
 	data() {return {
 		page: 0,
 		notification_state: true,

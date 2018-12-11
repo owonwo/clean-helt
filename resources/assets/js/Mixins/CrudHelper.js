@@ -1,6 +1,11 @@
+import _ from 'lodash'
+
 export default {
 	data() {
 		return { form : {} }
+	},
+	mounted() { 
+		this.$store.dispatch( this.crud.read.action )
 	},
 	methods: {
 		validate() {
@@ -9,7 +14,7 @@ export default {
 		create() {
 			const { action, message } = this.crud.create
 
-			!this.validate() || 
+			!this.validate() ? console.warn(`Form validation failed!`) :
 			this.$store.dispatch(action, this.form)
 				.then(() => {
 					this.success_message(message.success)
