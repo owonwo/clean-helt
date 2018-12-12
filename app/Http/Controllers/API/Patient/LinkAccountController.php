@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API\Patient;
 
+use App\Http\Controllers\Controller;
 use App\Mail\PatientVerifyEmail;
 use App\Models\LinkedAccounts;
 use App\Models\Patient;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -15,18 +16,13 @@ class LinkAccountController extends Controller
 {
     //
 
-
     public function store(Request $request)
     {
-
         $parent = auth()->guard('patient-api')->user();
 
-        $rule = $this->getRegRule();
-
         try {
-            $this->validate($request, $rule);
+            $this->validate($request, $this->getRegRule());
         } catch (ValidationException $exception) {
-            dd($exception->errors());
             return response()->json([
                 'errors' => $exception->errors(),
                 'message' => $exception->getMessage(),
@@ -35,32 +31,30 @@ class LinkAccountController extends Controller
 
         try {
             $data = $request->all();
+            $other_data = [
+                'token' => str_random(40),
+                'verify_token' => Str::random(40),
+                'password' => bcrypt($data['password']),
+                'avatar' => 'public/defaults/avatars/client.png',
+            ];
 
-            $data['password'] = bcrypt($data['password']);
-
-            $token = ['token' => str_random(40)];
-
-            $data['verify_token'] = Str::random(40);
-            $data['avatar'] = 'public/defaults/avatars/client.png';
-
-            if ($patient = Patient::create(array_merge($data, $token))) {
-                $accessToken = $patient->createToken(config('app.name'))->accessToken;
+            if ($child = Patient::create(array_merge($data, $other_data))) {
+                $accessToken = $child->createToken(config('app.name'))->accessToken;
                 $linkedAccounts = LinkedAccounts::forceCreate([
                    'patient_id' => $parent->id,
-                    'child_id' => $patient->id
+                   'child_id' => $child->id,
                 ]);
-                $this->sendConfirmationMail($patient);
+                $this->sendConfirmationMail($child);
 
                 return response()->json([
-                    'message' => 'Congratulation! you have successfully created patient record',
-                    'data' => $patient,
+                    'data' => $child,
                     'accessToken' => $accessToken,
+                    'message' => 'Congratulation! you have successfully created patient record',
                 ], 200);
             }
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             return response()->json([
-                'errors' => 'Ooops! '.$exception->getMessage(),
+                'errors' => 'Ooops! ' . $exception->getMessage(),
             ], 403);
         }
 
@@ -72,6 +66,7 @@ class LinkAccountController extends Controller
     {
         Mail::to($patient['email'])->send(new PatientVerifyEmail($patient));
     }
+
     private function getRegRule()
     {
         return [
@@ -82,24 +77,33 @@ class LinkAccountController extends Controller
             'phone' => 'required|digits:11',
         ];
     }
-    public function showLinkedAccounts(){
+
+    public function showLinkedAccounts()
+    {
         $parent = auth()->guard('patient-api')->user();
+
         return response()->json([
             'message' => 'Linked accounts',
-            'data' => $parent->children->each(function($child){
+            'data' => $parent->children->each(function ($child) {
                 return $child->account;
-            })
-        ],200);
+            }),
+        ], 200);
     }
-    public function switchAccount(){
-        $patient = Patient::findOrFail(request('id'));
 
-        $token = $patient->createToken(config('app.name'))->accessToken;;
+    public function switchAccount()
+    {
+        $patient = auth()->guard('patient-api')->user();
+        if ($patient->hasChild(request('id'))) {
+            $child = Patient::find(request('id'));
+            $token = $child->createToken(config('app.name'))->accessToken;
 
-        return response()->json([
-           'message' =>  'Account switch successful',
-            'data' => $patient,
-            'accessToken' => $token
-        ],200);
+            return response()->json([
+                'data' => $child,
+                'accessToken' => $token,
+                'message' => 'Account switch successful',
+            ], 200);
+        }
+
+        throw new ModelNotFoundException('Patient is not a child.');
     }
 }

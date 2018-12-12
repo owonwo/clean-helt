@@ -120,8 +120,11 @@ Route::group(['namespace' => 'API'], function () {
     Route::post('patient/register', 'Patient\PatientController@store')->name('patient.register');
     Route::get('patient/verify/{email}/{verifyToken}', 'Patient\PatientController@verify')->name('patient.confirmation.mail');
     Route::group(['prefix' => 'patient', 'namespace' => 'Patient', 'middleware' => ['api', 'auth:patient-api']], function () {
-        Route::post('/register/child', 'LinkAccountController@store')->name('register.child');
-        Route::post('/switch-account', 'LinkAccountController@switchAccount')->name('switch-account');
+        // Patient Children Routes
+        Route::post('children', 'LinkAccountController@store')->name('register.child');
+        Route::get('children', 'LinkAccountController@showLinkedAccounts')->name('register.child');
+        Route::post('children/switch-account', 'LinkAccountController@switchAccount')->name('switch-account');
+
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
