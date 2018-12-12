@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Notifications\PatientResetPasswordNotification;
 use App\Traits\CodeGenerator;
 use App\Traits\Utilities;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
@@ -55,8 +54,13 @@ class Patient extends Authenticatable
         return $records;
     }
     //Patient Immunization Records
-    public function immunizationRecord(){
-        return $this->hasMany(Immunization::class,'record_id');
+    public function immunizationRecord()
+    {
+        return $this->hasMany(Immunization::class, 'record_id');
+    }
+    public function children()
+    {
+        return $this->hasMany(LinkedAccounts::class, 'patient_id');
     }
 
     public function laboratoryRecords()
@@ -92,4 +96,10 @@ class Patient extends Authenticatable
         return asset(Storage::url($avatar));
     }
 
+    public function hasChild($child)
+    {
+        $id = ($child instanceof Patient) ? $child->id : $child;
+
+        return LinkedAccounts::where(['patient_id' => $this->id, 'child_id' => $id])->count('*') > 0;
+    }
 }

@@ -9,7 +9,6 @@ namespace App\Helpers;
 
 use App\Models\MedicalRecord;
 use App\Models\Patient;
-use App\Models\EmergencyContact;
 
 class RecordLogger
 {
@@ -33,27 +32,27 @@ class RecordLogger
     {
         switch ($type) {
             case 'diagnosis':
-                return 'App\\Models\\Diagnosis';
+                return \App\Models\Diagnosis::class;
             case 'prescription':
-                return 'App\\Models\\Prescription';
+                return \App\Models\Prescription::class;
             case 'test':
-                return 'App\\Models\\LabTest';
+                return \App\Models\LabTest::class;
             case 'immunization':
-                return 'App\\Models\\Immunization';
+                return \App\Models\Immunization::class;
             case 'allergy':
-                return 'App\\Models\\Allergy';
+                return \App\Models\Allergy::class;
             case 'medical-history':
-                return 'App\\Models\\MedicalHistory';
+                return \App\Models\MedicalHistory::class;
             case 'health-insurance':
-                return 'App\\Models\\HealthInsurance';
+                return \App\Models\HealthInsurance::class;
             case 'family-medical-history':
-                return 'App\\Models\\FamilyRecord';
+                return \App\Models\FamilyRecord::class;
             case 'hospital-contact':
-                return 'App\\Models\\HospitalContacts';
+                return \App\Models\HospitalContacts::class;
             case 'emergency-contact':
-                return EmergencyContact::class;
+                return \App\Models\EmergencyContact::class;
             default:
-                return 'App\\Models\\Diagnosis';
+                return \App\Models\Diagnosis::class;
         }
     }
 }
