@@ -10,11 +10,8 @@
             <ul 
               v-pager-controls.prevent="{activeClass: 'active'}" 
               class="menu-list">
-              <li 
-                v-for="(name, index) in ['Notification', 'Family', 'Bookmarks']" 
-                :key="index">
-                <a href="#">{{ name }}</a>
-              </li>
+              <li><a href="#notifications">Notification</a></li>
+              <li v-if="$store.getters.isAdult"><a href="#children">Mange Children</a></li>
             </ul>
           </div>
         </aside>
@@ -31,18 +28,12 @@
               <p 
                 style="font-size: small" 
                 class="is-small">I want to receive notifications.</p>
-                <EmergencyContacts />
             </div>
             <div 
               slot="p2"
               class="p-10">
-              <span class="menu-label">Mange Family Links</span>
-              <!-- <p>Add the CHCODE of a family member to link accounts.</p> -->
-            </div>
-            <div 
-              slot="p3" 
-              class="p-10">
-              <span class="menu-label">Bookmarks</span>
+              <span class="menu-label">Manage Children</span>
+              <Children />
             </div>
           </pager>
         </section>
@@ -53,14 +44,12 @@
 
 <script>
 import Modal from '@/components/Modal.vue'
+import Children from '@/patients/Children.vue'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
-import HealthInsuranceProvider from '@/components/HealthInsuranceProvider'
-import HospitalContacts from '@/components/HospitalContacts.vue'
-import EmergencyContacts from '@/components/EmergencyContacts.vue'
 
 export default {
 	name: 'PatientSettings',
-	components: {Modal, ToggleSwitch, EmergencyContacts},
+	components: {Modal, ToggleSwitch, Children},
 	data() {return {
 		page: 0,
 		notification_state: true,

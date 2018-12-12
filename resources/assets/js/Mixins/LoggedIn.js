@@ -8,27 +8,27 @@ export default {
 	data() {return {
 	}},
 	created() {
-		//create the token for the application
-		const token = localStorage.getItem('api-token')//$('meta[name=api-token]').attr('content');
+		const { id: chcode } = this.$props
+		const token = localStorage.getItem('child-token') || localStorage.getItem('api-token')
+		const userHasToken = (!!token && 'string' === typeof token)
+		const userHasWrongChCode = !this.testChCode(chcode) || _.isEmpty(chcode)
 
-		//checks if the user is valid
-		if(!this.testChCode(this.$props.id) || typeof this.$props.id === 'undefined' || this.$props.id === '') 
+		if (userHasWrongChCode)  
 			console.warn('Logged In User ChCode is invalid!, So features are bound to fail')
-		if(!_.isUndefined(token) && 'string' === typeof token) {
+
+		if (userHasToken) {
 			window.axios.defaults.headers.common = {
 				'Authorization': `Bearer ${token}`,
+				'X-Requested-With': 'XMLHttpRequest'
 			}
-		}else{
-			console.warn('The Logged In User has got no token!')
+		} else {
+			this.logout()
 		}
 	},
 	mounted() {
 		this.$store.commit('set_account_type', this.componentName)
 		try {
-			const {profile} = this.settings
-			this.$http.get(profile.route)
-				.then((res) => _.extend(this.user, res.data[profile.key]))
-				.then((user_data) => this.set_user(user_data))
+			this.$store.dispatch('FETCH_USER_DATA', this.settings.profile)
 			this.fetchNotifications()
 			!ServiceProviders.includes(this.componentName) || 
 			this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', this.componentName)
@@ -37,7 +37,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['accountType']),
+		...mapGetters(['accountType', 'isAdult']),
 		...mapGetters({user: 'getUser', pendingUsers:'getPendingUsers'}),
 		/**
          * @return String
@@ -52,36 +52,24 @@ export default {
 			'remove_from_pending', 
 			'set_shared_profiles'
 		]),
-		// TODO: FIX the flaw in this function - flaw = 'ADMIN'
 		//gets the name of the component attached to
 		getComponentName() {
 			return 'undefined' !== typeof this.$vnode ? this.$vnode.componentOptions.tag : 'UNKNOWN'
 		},
-		// fetches both pending and active patients
-		fetchPatients() {
-			let {patients} = this.settings
-                
-			this.$http.get(`/api/${this.componentName}/patients/pending`).then((res) => {
-				const PATIENTS = res.data.pendingPatients
-				PATIENTS
-					? this.set_pending_patients(PATIENTS)
-					: console.assert(!!PATIENTS, 'Pending Patients could not be fetched!')
-			})
-
-			if(patients.route)
-				this.$http.get(patients.route).then((res) => {
-					const PATIENTS = res.data[patients.key]
-					this.set_shared_profiles(PATIENTS)
-				})
-		},
 		// creates a logout form and submit it.
 		logout() {
+			if (localStorage.hasOwnProperty('child-token')) {
+				localStorage.removeItem('child-token')
+				return window.location.reload()
+			} 
 			let input = document.createElement('input')
-			input.value = $('meta[name=csrf-token]').attr('content')
-			input.name = '_token'
 			let form = $('<form></form>')
 			let route = this.getComponentName() === 'ADMIN' ? '/admin/logout' : '/logout'
-			form.attr('action', route).attr('method', 'POST').append(input).submit()
+			
+			input.value = $('meta[name=csrf-token]').attr('content')
+			input.name = '_token'
+			form.attr('action', route)
+				.attr('method', 'POST').append(input)
 			$('body').append(form)
 			this.clearApiToken()
 			form.submit() 
