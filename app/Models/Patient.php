@@ -7,6 +7,7 @@ use App\Traits\CodeGenerator;
 use App\Traits\Utilities;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
 use Storage;
 
@@ -101,5 +102,20 @@ class Patient extends Authenticatable
         $id = ($child instanceof Patient) ? $child->id : $child;
 
         return LinkedAccounts::where(['patient_id' => $this->id, 'child_id' => $id])->count('*') > 0;
+    }
+    /**
+     * Unlinks a child from patient
+     *
+     * @param int|App\Models\Patient $child - The id of the child
+     *
+     * @return Boolean
+     * @author Joseph Owonvwon
+     **/
+    public function unlinkChild($child)
+    {
+        $patient_id = $this->id;
+        $child_id = ($child instanceof Patient) ? $child->id : $child;
+
+        return DB::table('linked_accounts')->where(compact('child_id', 'patient_id'))->delete();
     }
 }
