@@ -28,7 +28,8 @@ export default {
 	mounted() {
 		this.$store.commit('set_account_type', this.componentName)
 		try {
-			this.$store.dispatch('FETCH_USER_DATA', this.settings.profile)
+			this.set_config(this.settings)
+			this.$store.dispatch('FETCH_USER_DATA')
 			this.fetchNotifications()
 			!ServiceProviders.includes(this.componentName) || 
 			this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', this.componentName)
@@ -47,6 +48,7 @@ export default {
 	methods: {
 		...mapMutations([
 			'set_user', 
+			'set_config', 
 			'set_notifs',
 			'set_pending_patients', 
 			'remove_from_pending', 

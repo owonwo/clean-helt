@@ -42,25 +42,28 @@ Vue.directive('pager-controls', {
 		if(typeof activeClass === 'undefined') {
 			throw Error('Missing required prop `activeClass` for pager-controls')
 		}
-		const anchors = Array.from(el.querySelectorAll('li > a'))
-		const addEvent = fn => el => {
-			el.addEventListener('click', fn) 
-			return el
+		el.addEventListener('click', (evt) => {
+			if (evt.target.matches('li > a')) {
+				changePage(evt)
+				changeHash(evt)
+			}
+		})
+		const elms = () => Array.from(el.querySelectorAll('li'))
+		const anchors = elms().map(e => e.querySelector('a'))
+
+		const resetList = () => {
+			elms().forEach(li => li.classList.remove(activeClass))
 		}
-		const resetList = () => el.querySelectorAll('li')
-			.forEach(li => li.classList.remove(activeClass))
 		const changePage = (evt) => {
+			resetList()
 			const { parentElement: li } = evt.target
 			!modifiers.prevent || evt.preventDefault()
-			resetList()
 			li.classList.add(activeClass)
-			vnode.context.page = elms.indexOf(li)
+			vnode.context.page = elms().indexOf(li)
 		}
 		const matchesHash = a => a.getAttribute('href') === window.location.hash
 		const changeHash = ({target}) => window.location.hash = target.getAttribute('href')
-		const elms = Array.from(el.querySelectorAll('li'))
-		anchors.map(addEvent(changePage))
-			.map(addEvent(changeHash))
+		
 		const hashHasMatch = anchors.find(matchesHash)
 		context.$nextTick(() => setTimeout(() => {
 			!hashHasMatch ?

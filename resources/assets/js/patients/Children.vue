@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p>You can manage your children accounts from here</p>
+    <p class="notification is-info is-small">You can manage your children accounts from here</p>
     <!-- If you have not child you can create one here. -->
     <table class="table is-borderless">
       <thead>
@@ -21,7 +21,7 @@
           <button 
             class="button is-small has-no-motion  is-text" 
             @click="unlinkChild(child.id)">
-            <i class="ti ti-link"/> Unlink
+            <i class="ti ti-link"/> Unlink Child
           </button>
         </td>
       </tr>
@@ -35,6 +35,7 @@ table
 	 		.button
 	 			visibility: hidden
 	 			transition-duration: 0s
+	 			text-decoration: none
 
 		 	&:hover 
 		 		.button 

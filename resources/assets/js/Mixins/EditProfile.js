@@ -1,5 +1,3 @@
-import {mapGetters, mapMutations} from 'vuex'
-
 export default {
 	data() {return {
 		edit: {
@@ -20,6 +18,7 @@ export default {
 				}
 				this.$http.patch(edit.url, data).then(response => {
 					this.edit.basic = false
+					this.$store.dispatch('FETCH_USER_DATA')
 					this.$notify({text: 'Profile Updated!', type: 'success', duration: 2000})
 				}).catch(err => {
 					this.$notify({type:'error', text: err.response.data.message, duration: 2500})

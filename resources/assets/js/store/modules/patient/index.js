@@ -62,6 +62,12 @@ const actions = {
 			localStorage.setItem('child-token', data.accessToken)
 			window.location.reload()
 		}).catch(VuexError('Error retrieving a child token'))
+	},
+	unlinkChild (context, id) {
+		axios.post('/api/patient/children/switch-account', {id}).then(({data}) => {
+			localStorage.setItem('child-token', data.accessToken)
+			window.location.reload()
+		}).catch(VuexError('Error retrieving a child token'))
 	}
 }
 

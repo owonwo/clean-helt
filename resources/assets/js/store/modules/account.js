@@ -1,30 +1,28 @@
 import _ from 'lodash'
 import axios from 'axios'
-import moment from 'moment'
+import { personalify } from '@/store/helpers/utilities'
 
 const state = {
 	ACCOUNT_TYPE: '',
 	user: {
 		avatar: '',
-		get age() {
-			return Math.abs( moment(Date.now()).year() - moment(this.dob).year() )
-		},
-		get full_name() {
-			return [this.first_name, this.last_name].join(' ')
-		}
+		age: 0
 	},
 	notifications: [],
 	settings: {
 		notification: true,
-	}
+	},
+	get isAdult() {
+		return this.user.age >= 18
+	},
 }
 
 const getters = {
 	getUser: (store) => store.user,
-	isChild: (store) => !store.isAdult,
 	notifs: (store) => store.notifications,
-	isAdult: (store) => store.user.age >= 18,
-	accountType: (store) => store.ACCOUNT_TYPE
+	accountType: (store) => store.ACCOUNT_TYPE,
+	isAdult: (store) => store.isAdult,
+	isChild: (store) => !store.isAdult,
 }
 
 const mutations = {
@@ -34,9 +32,8 @@ const mutations = {
 	set_account_type (store, payload) {
 		store.ACCOUNT_TYPE = payload
 	},
-	set_user (store, payload) {
-		store.user = _.extend(store.user, payload)
-	},
+	set_user: (store, payload) => store.user = _.extend(store.user, payload),
+	set_config: (store , payload) => store.settings = _.extend(store.settings, payload),
 	set_avatar(store, payload) {
 		store.user.avatar = payload
 	}
@@ -47,9 +44,11 @@ const actions = {
 		const payload = { account: context.state.ACCOUNT_TYPE, share_id }
 		context.dispatch('manage_patient/ACCEPT_SHARE', payload)
 	},
-	FETCH_USER_DATA (context, {route, key}) {
+	FETCH_USER_DATA (context) {
+		const {route, key} = context.state.settings.profile
 		axios.get(route)
-			.then((res) => _.extend(context.state.user, res.data[key]))
+			.then((res) => _.extend(res.data[key]))
+			.then(personalify)
 			.then((user_data) => context.commit('set_user', user_data))
 	}
 }

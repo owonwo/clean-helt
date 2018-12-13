@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const __ = Object
 
 export const VuexError = (message) => err => console.error(err, `(source) vuex : ${message}`)
@@ -34,6 +36,9 @@ export const personalify = (person) => {
 		},
 		get fullname () {
 			return [this.first_name, this.middle_name, this.last_name].join(' ').trimEnd()
+		},
+		get age() {
+			return Math.abs( moment(Date.now()).year() - moment(this.dob).year() )
 		},
 		get full_name() {
 			return this.fullname
