@@ -106,4 +106,24 @@ class LinkAccountController extends Controller
 
         throw new ModelNotFoundException('Patient is not a child.');
     }
+
+    /**
+     * Unlinks an account from the auth_user
+     *
+     * @return JsonResponse
+     * @author Joseph Owonvwon
+     **/
+    public function unlinkAccount()
+    {
+        $child = request('id');
+        $patient = auth()->guard('patient-api')->user();
+
+        if ($patient->hasChild($child)) {
+            if ($patient->unlinkChild($child)) {
+                return response()->json(['message' => 'Child unlinking successful']);
+            }
+        }
+
+        return response()->json(['message' => 'Failed to unlink child'], 400);
+    }
 }
