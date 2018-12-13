@@ -120,7 +120,7 @@ class LinkAccountController extends Controller
 
         if ($patient->hasChild($child)) {
             if ($patient->unlinkChild($child)) {
-                return response()->json(['message' => 'Child unlinking successful']);
+                return response()->json(['message' => 'Child Unlinked']);
             }
         }
 

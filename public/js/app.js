@@ -78807,16 +78807,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {};
-	},
+		data: function data() {
+				return {};
+		},
 
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('patient_share', ['children'])),
-	mounted: function mounted() {
-		this.FETCH_CHILDREN();
-	},
+		computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('patient_share', ['children'])),
+		mounted: function mounted() {
+				this.FETCH_CHILDREN();
+		},
 
-	methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('patient_share', ['FETCH_CHILDREN', 'retrieveToken', 'unlinkChild']))
+		methods: _extends({
+				unlink: function unlink(id) {
+						var _this = this;
+
+						this.unlinkChild(id).then(function (message) {
+								_this.success_message(message);
+						}).catch(function (e) {
+								_this.error_message(e.message);
+								setTimeout(function () {
+										_this.error_message('Please Try again later!');
+								}, 300);
+						});
+				}
+		}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('patient_share', ['FETCH_CHILDREN', 'retrieveToken', 'unlinkChild']))
 });
 
 /***/ }),
@@ -78862,7 +78875,7 @@ var render = function() {
                   staticClass: "button is-small has-no-motion  is-text",
                   on: {
                     click: function($event) {
-                      _vm.unlinkChild(child.id)
+                      _vm.unlink(child.id)
                     }
                   }
                 },
@@ -91375,9 +91388,15 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 
 
 
@@ -91405,72 +91424,104 @@ var mutations = {
 var actions = {
 	//PROFILE SHARES
 	FETCH: function FETCH(context) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/profile/shares').then(function (_ref) {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/patient/profile/shares').then(function (_ref) {
 			var data = _ref.data;
 
-			console.log(data.shares.map(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["f" /* shareFactory */]));
+			console.log(data.shares.map(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["f" /* shareFactory */]));
 			// context.commit('set_shares', res.data.shares.map(shareFactory))
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('An Error Occured. Trying to fetch Patient Shares!'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('An Error Occured. Trying to fetch Patient Shares!'));
 	},
 	FETCH_PENDING: function FETCH_PENDING() {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/profile/shares/pending').then(function (_ref2) {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/patient/profile/shares/pending').then(function (_ref2) {
 			var data = _ref2.data;
 
 			console.log(data.shares);
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('An Error Occured. Trying to fetch Pending Shares'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('An Error Occured. Trying to fetch Pending Shares'));
 	},
 
 	//CONTACTS
 	FETCH_CONTACTS: function FETCH_CONTACTS(context) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/record/emergency-contacts').then(function (_ref3) {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/patient/record/emergency-contacts').then(function (_ref3) {
 			var data = _ref3.data;
 
-			context.commit('set_contacts', Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["c" /* extractRecords */])(data.data));
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error retrieving Emergency Contacts'));
+			context.commit('set_contacts', Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["c" /* extractRecords */])(data.data));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error retrieving Emergency Contacts'));
 	},
 	CREATE_CONTACT: function CREATE_CONTACT(context, payload) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/patient/record/emergency-contacts', payload).then(function () {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/patient/record/emergency-contacts', payload).then(function () {
 			context.dispatch('FETCH_CONTACTS');
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error creating Emergency Contact'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error creating Emergency Contact'));
 	},
 	UPDATE_CONTACT: function UPDATE_CONTACT(context, payload) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/api/patient/record/emergency-contacts/' + payload.id, payload).then(function () {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.put('/api/patient/record/emergency-contacts/' + payload.id, payload).then(function () {
 			context.dispatch('FETCH_CONTACTS');
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error Updating Emergency Contact'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error Updating Emergency Contact'));
 	},
 	DELETE_CONTACT: function DELETE_CONTACT(context, payload) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/api/patient/record/emergency-contacts/' + payload).then(function () {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('/api/patient/record/emergency-contacts/' + payload).then(function () {
 			context.dispatch('FETCH_CONTACTS');
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error deleting Emergency Contact'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error deleting Emergency Contact'));
 	},
 
 	//FAMILY RECORDS 
 	FETCH_CHILDREN: function FETCH_CHILDREN(context) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/children').then(function (_ref4) {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/patient/children').then(function (_ref4) {
 			var data = _ref4.data;
 
 			var children = data.data.map(function (a) {
-				return Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["e" /* personalify */])(a.account);
+				return Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["e" /* personalify */])(a.account);
 			});
 			context.commit('set_children', children);
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Can\'t Fetch Children for Patient'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Can\'t Fetch Children for Patient'));
 	},
 	retrieveToken: function retrieveToken(context, id) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/patient/children/switch-account', { id: id }).then(function (_ref5) {
+		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/patient/children/switch-account', { id: id }).then(function (_ref5) {
 			var data = _ref5.data;
 
 			localStorage.setItem('child-token', data.accessToken);
 			window.location.reload();
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error retrieving a child token'));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error retrieving a child token'));
 	},
-	unlinkChild: function unlinkChild(context, id) {
-		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/patient/children/switch-account', { id: id }).then(function (_ref6) {
-			var data = _ref6.data;
+	unlinkChild: function () {
+		var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(context, id) {
+			var _ref7, data;
 
-			localStorage.setItem('child-token', data.accessToken);
-			window.location.reload();
-		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error retrieving a child token'));
-	}
+			return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+				while (1) {
+					switch (_context.prev = _context.next) {
+						case 0:
+							_context.prev = 0;
+							_context.next = 3;
+							return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/patient/children/unlink', { id: id });
+
+						case 3:
+							_ref7 = _context.sent;
+							data = _ref7.data;
+
+							context.dispatch('FETCH_CHILDREN');
+							return _context.abrupt('return', data.message);
+
+						case 9:
+							_context.prev = 9;
+							_context.t0 = _context['catch'](0);
+
+							Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* VuexError */])('Error unlinking child')();
+							throw _context.t0.response.data;
+
+						case 13:
+						case 'end':
+							return _context.stop();
+					}
+				}
+			}, _callee, this, [[0, 9]]);
+		}));
+
+		function unlinkChild(_x, _x2) {
+			return _ref6.apply(this, arguments);
+		}
+
+		return unlinkChild;
+	}()
 };
 
 /* harmony default export */ __webpack_exports__["a"] = ({

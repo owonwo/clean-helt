@@ -20,7 +20,7 @@
           </button>
           <button 
             class="button is-small has-no-motion  is-text" 
-            @click="unlinkChild(child.id)">
+            @click="unlink(child.id)">
             <i class="ti ti-link"/> Unlink Child
           </button>
         </td>
@@ -55,6 +55,16 @@ export default {
 		this.FETCH_CHILDREN()
 	},
 	methods: {
+    unlink(id) {
+      this.unlinkChild(id).then(message => {
+        this.success_message(message)
+      }).catch((e) => {
+        this.error_message(e.message)
+        setTimeout(() => {
+          this.error_message('Please Try again later!')
+        }, 300)
+      })
+    },
 		...mapActions('patient_share', ['FETCH_CHILDREN', 'retrieveToken', 'unlinkChild'])
 	}
 }

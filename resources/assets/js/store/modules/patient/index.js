@@ -63,11 +63,15 @@ const actions = {
 			window.location.reload()
 		}).catch(VuexError('Error retrieving a child token'))
 	},
-	unlinkChild (context, id) {
-		axios.post('/api/patient/children/switch-account', {id}).then(({data}) => {
-			localStorage.setItem('child-token', data.accessToken)
-			window.location.reload()
-		}).catch(VuexError('Error retrieving a child token'))
+	async unlinkChild (context, id) {
+		try {
+			const {data} = await axios.post('/api/patient/children/unlink', {id})
+			context.dispatch('FETCH_CHILDREN')
+			return data.message
+		} catch (x) {
+			VuexError('Error unlinking child')()
+			throw x.response.data
+		}
 	}
 }
 
