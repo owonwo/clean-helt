@@ -228,9 +228,11 @@ Route::group(['namespace' => 'API'], function () {
         Route::patch('profile', 'ProfileController@update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/pending', 'ProfileShareController@pending');
+        Route::post('patients/{profileShare}/assign', 'PatientController@assignMultiple');
+        Route::delete('patients/{profileShare}/unassign/{doctor}', 'PatientController@unassign');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('hospital.profile.accept');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
-        Route::patch('patients/{profileShare}/assign/{doctor}', 'PatientController@assign');
+        // Route::patch('patients/{profileShare}/assign/{doctor}', 'PatientController@assign');
         Route::get('patients/{patient}/records', 'MedicalRecordController@index');
         Route::get('patients/{patient}/records/{medicalRecord}', 'MedicalRecordController@show');
 

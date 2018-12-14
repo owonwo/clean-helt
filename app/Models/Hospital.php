@@ -42,7 +42,7 @@ class Hospital extends Authenticatable
         return $this->profileShares()
             ->acceptedShares()
             ->activeShares()
-            ->with('patient');
+            ->with('patient', 'extensions', 'extensions.provider');
     }
 
     public function scopePendingShares($query)

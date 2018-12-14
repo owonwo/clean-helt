@@ -10,6 +10,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class ProfileShareTest extends TestCase
 {
     use RefreshDatabase;
@@ -66,5 +68,12 @@ class ProfileShareTest extends TestCase
     {
         $share = create(ProfileShare::class);
         $this->assertTrue(is_bool($share->is_active));
+    }
+    
+    /** @test **/
+    public function a_profile_share_can_have_many_extensions()
+    {
+        $share = create(ProfileShare::class);
+        $this->assertInstanceOf(Collection::class, $share->extensions);
     }
 }
