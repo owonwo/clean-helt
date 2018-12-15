@@ -18,9 +18,9 @@ class CreateEmergencyContactsTable extends Migration
             $table->integer('record_id');
             $table->string('name');
             $table->string('phone');
-            $table->string('phone_2');
+            $table->string('phone_2')->nullable();
             $table->string('address');
-            $table->string('zip_code');
+            $table->string('zip_code')->nullable();
             $table->timestamps();
         });
     }
