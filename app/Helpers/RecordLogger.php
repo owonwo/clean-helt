@@ -51,6 +51,8 @@ class RecordLogger
                 return \App\Models\HospitalContacts::class;
             case 'emergency-contact':
                 return \App\Models\EmergencyContact::class;
+            case 'hospitalization':
+                return \App\Models\Hospitalize::class;
             default:
                 return \App\Models\Diagnosis::class;
         }
