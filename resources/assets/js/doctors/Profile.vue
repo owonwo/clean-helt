@@ -2,7 +2,7 @@
   <section>
     <ProfileGrid 
       :avatar="user.avatar"
-      :name="`Dr. ${user.full_name}`"
+      :name="`Dr. ${user.first_name}`"
       avatar-url="">
       <nav slot="navigation">
         <li><a href="#">Basic Information</a></li>
@@ -113,8 +113,8 @@
             @click="modal = false">No</button>
         </div>
       </div>
-    </modal> 
-  </profilegrid></section>
+    </modal>
+  </section>
 </template>
 
 <script>

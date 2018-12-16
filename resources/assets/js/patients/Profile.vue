@@ -32,6 +32,7 @@
               <template slot="heading">Basic</template>
               <section slot="content">
                 <save-edit-button 
+                  v-if="isPatient"
                   :saved="edit.basic" 
                   @click="save_basic"/>
                 <table class="table is-narrow">
@@ -188,6 +189,7 @@
               <template slot="heading">Emergency Hospital</template>
               <section slot="content">
                 <save-edit-button 
+                   v-if="isPatient"
                   :saved="edit.emergency" 
                   @click="save_emerg" />
                 <div v-if="!edit.emergency">
@@ -246,106 +248,19 @@
             <h5>Additional Information</h5>
           </div>
           <!-- MEDICAL HISTORY -->
-          <section 
-            slot="p3" 
-            class="">
+          <section slot="p3">
             <div class="menu-label">Medical History</div>
             <MedicalHistory/>
           </section>
           <!-- Immunization -->
           <div slot="p4">
-            <div class="level">
-              <div class="menu-label">
-                IMMUNIZATIONS
-              </div>
-              <HoverRevealButton @click="editModal('immunization')">
-                <span 
-                  slot="icon" 
-                  class="ti ti-plus"/>
-                <span slot="text">Add</span>
-              </HoverRevealButton>
-            </div>
-            <alert 
-              v-if="!records.immunization.length" 
-              type="info">
-              You have a clean Immunization record.
-            </alert>
-            <table 
-              v-else 
-              class="table is-fullwidth">
-              <tr>
-                <th width="50">S/N</th>
-                <th>Title</th>
-                <th width="50">Age</th>
-                <th width="120">Date</th>
-                <th width="50"/>
-              </tr>
-              <tr 
-                v-for="(entry, index) in records.immunization" 
-                :key="index">
-                <td>{{ index + 1 }}</td>
-                <td>{{ entry.immunization_title }}</td>
-                <td>{{ entry.age }}</td>
-                <td>{{ entry.date_of_immunization }}</td>
-                <td>
-                  <dropdown>
-                    <template slot="content"/>
-                    <template slot="list">
-                      <li @click="editModal('immunization', entry)">Modify</li>
-                      <li>Trash</li>
-                    </template>
-                  </dropdown>
-                </td>
-              </tr>
-            </table>
+            <div class="menu-label">IMMUNIZATIONS</div>
+            <Immunizations />
           </div>
           <!-- ALLERGIES -->
           <div slot="p5">
-            <div class="level">
-              <div class="menu-label">
-                <span>ALLERGIES</span>
-              </div>
-              <HoverRevealButton @click="editModal('allergy', {})">
-                <span 
-                  slot="icon" 
-                  class="ti ti-plus"/>
-                <span slot="text">Add</span>
-              </HoverRevealButton>
-            </div>
-            <alert 
-              v-if="!records.allergy.length" 
-              type="info">
-              You have a clean Allergy record.
-            </alert>
-            <table 
-              v-else 
-              class="table is-small is-fullwidth" 
-              style="font-size:small">
-              <tr>
-                <th width="50">S/N</th>
-                <th>Allergy</th>
-                <th>Reaction</th>
-                <th width="170">Date of Occurence</th>
-                <th/>
-              </tr>
-              <tr 
-                v-for="(entry, index) in records.allergy" 
-                :key="index">
-                <td>{{ index + 1 }}</td>
-                <td>{{ entry.allergy }}</td>
-                <td>{{ entry.reaction }}</td>
-                <td>{{ entry.last_occurance }}</td>
-                <td>
-                  <dropdown>
-                    <template slot="content"/>
-                    <template slot="list">
-                      <li @click="editModal('allergy', entry)">Modify</li>
-                      <li>Trash</li>
-                    </template>
-                  </dropdown>
-                </td>
-              </tr>
-            </table>
+            <div class="menu-label">ALLERGIES</div>
+            <Allergies/>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
           <div slot="p6">
@@ -355,16 +270,7 @@
           <!-- HOSPITALIZATION -->
           <div slot="p7">
             <div class="menu-label">HOSPITALIZATION</div>
-            <div 
-              v-for="(entry) in records.hospitalization" 
-              :key="entry.id" 
-              class="mb-20">
-              <h1 class="title mb-5 is-5">{{ entry.hospitalization_type }}</h1>
-              <p>Doctor: {{ entry.doctor }}</p>
-              <p>Hospital: {{ entry.hospital }}</p>
-              <p>Reason: {{ entry.reason }}</p>
-              <p>Complications: {{ entry.complications }}</p>
-            </div>
+            <Hospitalizations />
           </div>
           <!-- HEALTH LOGS -->
           <div slot="p8">
@@ -382,16 +288,11 @@
           </div>
           <!-- EMERGENCY CONTACT -->
           <div slot="p9">
-            <div class="level">
-              <div class="menu-label">
-                <span>EMERGENCY CONTACTS</span>
-              </div>
-            </div>
+            <div class="menu-label">EMERGENCY CONTACTS</div>
             <EmergencyContacts/>
           </div>
           <!-- HOSPITAL CONTACTS -->
-          <div 
-            slot="p10">
+          <div slot="p10">
             <div class="menu-label">HOSPITAL CONTACTS</div>
             <HospitalContacts />
           </div>
@@ -400,55 +301,36 @@
             <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
             <HealthInsuranceProvider/>
           </div>
-
         </pager>
       </template>
     </profile-grid>
-
-    <modal 
-      :show="modal.show" 
-      @closed="closeModal">
-      <CreateAllergy 
-        v-if="modal.form === 'allergy'" 
-        :form-data="edit.allergy"
-        @success="created('allergy')" 
-        @error="error('allergy')"/>
-      <CreateImmunization
-        v-if="modal.form === 'immunization'" 
-        :form-data="edit.immunization"
-        @success="created('immunization')" 
-        @error="error('immunization')"/>
-      <template slot="modal-footer"/>
-    </modal> 
   </section>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import EditProfile from '@/Mixins/EditProfile.js'
 import ProfileGrid from '@/components/ProfileGrid.vue'
-
-import { extractRecords } from '@/store/helpers/utilities'
-import CreateAllergy from '@/components/CreateAllergy.vue'
-import CreateImmunization from '@/components/CreateImmunization.vue'
-import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
+import Allergies from '@/components/Allergies.vue'
+import Immunizations from '@/components/Immunizations.vue'
 import MedicalHistory from '@/components/MedicalHistory.vue'
 import HospitalContacts from '@/components/HospitalContacts.vue'
-import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
 import EmergencyContacts from '@/components/EmergencyContacts.vue'
-
-const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
+import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
+import FamilyMedicalRecords from '@/components/FamilyMedicalRecords.vue'
+import Hospitalizations from '@/components/Hospitalizations.vue'
 
 export default {
 	name: 'Profile',
 	components: {
 		ProfileGrid, HealthInsuranceProvider,
-		HospitalContacts, CreateAllergy, MedicalHistory, 
-		EmergencyContacts, FamilyMedicalRecords, CreateImmunization
+    Hospitalizations, HospitalContacts, Allergies, 
+    MedicalHistory, EmergencyContacts, FamilyMedicalRecords,
+    Immunizations
 	},
 	mixins: [EditProfile],
 	data() {return {
 		page: 0,
-
 		edit: {
 			allergy: {},
 			immunization: {},
@@ -484,64 +366,34 @@ export default {
 				'nok_relationship'
 			],
 		},
-		modal: {show: false, form: ''},
-		records: {labtest: [], hospitalization: [], allergy: [], immunization: [], prescription: []},
+		records: { hospitalization: [] },
 	}},
 	computed: {
-		user() { return this.$parent.user },
+    user() {
+      return this.accountType === 'doctor' 
+        ? this.patient
+        : this.$parent.user
+    },
+    isPatient() { 
+      return this.accountType === 'patient' 
+    },
+    ...mapGetters(['accountType']),
+    ...mapState('manage_patient', {
+      patient: 'currentPatient',
+      patients: 'patients'
+    }),
 	},
 	mounted() { 
 		document.title = 'Profile | CleanHelt'
-		this.fetchRecords()
+    this.accountType !== 'doctor' || this.setAsDoctor()
 	},
 	methods: {
-		showModal(form) {
-			this.modal = { show: true, form }
-		},
-		editModal(form, data = {}) {
-			this.showModal(form)
-			if(this.form_exists(form))
-				this.edit[form] = _.extend({}, data)
-		},
-		form_exists(value) {
-			return Object.keys(this.edit).includes(value)
-		},
-		created(form) {
-			this.fetchRecords()
-				.then(delay(1000))
-				.then(this.notify(`${_.capitalize(form)} added to list`, 'success'))
-			this.closeModal(form)
-		},
-		error(form) {
-			Promise.resolve()
-				.then(this.notify('An error occured when creating Allergy .', 'error'))
-		},
-		fetchRecords() {
-			const records = Object.keys(this.records)
-			const XHRs = records.map(route => {
-				return this.$parent.getRecord(route)
-			})  
-			const getRecordKey = (index) => {
-				return records[index]
-			}
-			return Promise.all(XHRs).then((responses) => {
-				responses.map(({data: res}, index) => {
-					const collection = extractRecords(res.data)
-					this.$set(this.records, getRecordKey(index), collection || [])
-				})
-			}).catch(err => {
-				console.groupCollapsed('Patient Records Error')
-				console.trace(err)
-				console.groupEnd('Patient Records Error')
-			})
-		},
-		notify(text, type) {
-			return () => this.$notify({text, type})
-		},
-		closeModal(form = {}) {
-			this.modal = _.extend(this.modal, {show: false})
-			this.modal.form = ''
-		}
-	}
+    setAsDoctor() {
+     const { patient_id } = this.$route.params
+      if (this.patients.length < 1) this.$router.back()
+      this.$store.commit('manage_patient/set_current_patient', patient_id)
+      this.$store.dispatch('manage_patient/FETCH_PATIENT_DATA')
+    }
+  }
 }
 </script>

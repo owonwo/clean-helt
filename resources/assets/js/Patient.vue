@@ -98,25 +98,8 @@ export default {
 					key: 'data'
 				}
 			},
-			shares: [],
-			recordUrlMap: Object.freeze({
-				labtest:'/api/patient/labtest',
-				prescription: '/api/patient/prescription',
-				medicalRecord: '/api/patient/medical-records',
-				medicalHistory: '/api/patient/medical-history',
-				immunization: '/api/patient/record/immunization',
-				hospitalization: '/api/patient/record/hospitalization',
-				allergy: '/api/patient/record/allergy',
-			}),
 		}
 	},
-	methods: {
-		async getRecord(record_type) {
-			const {recordUrlMap} = this
-			if(!Object.keys(recordUrlMap).includes(record_type))
-				return Promise.reject(new Error(`Invalid Patient Record Key: "${record_type}"`))
-			return await this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'))
-		}
-	}
+	methods: {}
 }
 </script>

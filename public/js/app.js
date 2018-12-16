@@ -6258,6 +6258,13 @@ module.exports = {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(216);
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6267,6 +6274,7 @@ module.exports = {
 /* unused harmony export APPEND_CRUD_METHODS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return extractPatientFromShare; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return personalify; });
+/* unused harmony export delay */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return shareFactory; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
@@ -6330,6 +6338,16 @@ var personalify = function personalify(person) {
 	return __.assign(__.create(person_proto), person);
 };
 
+var delay = function delay(time) {
+	return function (result) {
+		return new Promise(function (resolve) {
+			return setTimeout(function () {
+				return resolve(result);
+			}, time);
+		});
+	};
+};
+
 var shareFactory = function shareFactory(share) {
 	var pickName = function pickName() {
 		console.log(share);
@@ -6347,13 +6365,6 @@ var shareFactory = function shareFactory(share) {
 	};
 	return Object.assign({ visible: true }, share, overwrites);
 };
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(216);
-
 
 /***/ }),
 /* 9 */
@@ -60694,7 +60705,7 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -60711,9 +60722,11 @@ var MedicalRecordsMixin = {
 		formData: { type: Object, default: {}, required: true }
 	},
 	mounted: function mounted() {
-		console.group('MedicalRecords');
-		console.log(this.$props.formData);
-		console.groupEnd('MedicalRecords');
+		console.log(this.$store.getters.accountType);
+		console.log('help');
+		// console.group('MedicalRecords')
+		// console.log(this.$props.formData)
+		// console.groupEnd('MedicalRecords')
 		this.form = _.extend({}, this.$props.formData);
 	},
 
@@ -60734,7 +60747,7 @@ var MedicalRecordsMixin = {
 			}).then(function () {
 				return _this.form = {};
 			}).catch(getErrors).then(function (err) {
-				_this.$emit('error', err.response.data);
+				if (err.response) _this.$emit('error', err.response.data);
 			});
 		},
 		submit: function () {
@@ -68213,8 +68226,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctors_Patients_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__doctors_Patients_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__doctors_Dashboard_vue__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__doctors_Dashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__doctors_Dashboard_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__doctors_PatientProfile_vue__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__doctors_PatientProfile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__doctors_PatientProfile_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__patients_Profile_vue__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__patients_Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__patients_Profile_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__doctors_AddRecordForm_vue__ = __webpack_require__(212);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__doctors_AddRecordForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__doctors_AddRecordForm_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__doctors_PatientRecordsDirectory_vue__ = __webpack_require__(21);
@@ -68225,6 +68238,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
+// import PatientProfile from '@/doctors/PatientProfile.vue'
 
 
 
@@ -68253,7 +68267,7 @@ var routes = [{
 	path: '/patients/:patient_id',
 	name: 'patient-profile',
 	components: {
-		default: __WEBPACK_IMPORTED_MODULE_4__doctors_PatientProfile_vue___default.a,
+		default: __WEBPACK_IMPORTED_MODULE_4__patients_Profile_vue___default.a,
 		logBar: __WEBPACK_IMPORTED_MODULE_7__components_Notifications_vue___default.a
 	}
 }, {
@@ -68808,7 +68822,7 @@ var render = function() {
         {
           attrs: {
             avatar: _vm.user.avatar,
-            name: "Dr. " + _vm.user.full_name,
+            name: "Dr. " + _vm.user.first_name,
             "avatar-url": ""
           },
           scopedSlots: _vm._u([
@@ -69799,11 +69813,9 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DoctorNote_vue__ = __webpack_require__(208);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DoctorNote_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_DoctorNote_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ProfileGrid_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ProfileGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_ProfileGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -69908,186 +69920,124 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	components: { DoctorNote: __WEBPACK_IMPORTED_MODULE_1__components_DoctorNote_vue___default.a, Modal: __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default.a },
-	name: "PatientProfile",
-	methods: {
-		recordsRoute: function recordsRoute() {
-			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "all";
+  name: 'PatientProfile',
+  components: { ProfileGrid: __WEBPACK_IMPORTED_MODULE_0__components_ProfileGrid_vue___default.a },
+  data: function data() {
+    return {
+      page: 0,
+      settings: { maxScrollbarLength: 60 },
+      showProfile: false,
+      records: {
+        allergy: []
+      },
+      profile: {}
+    };
+  },
 
-			var params = Object.assign(this.$route.params, {
-				chcode: this.patient.chcode
-			});
-			var query = { type: type };
-			return {
-				name: 'patient-records',
-				params: params,
-				query: query
-			};
-		},
-		getProfile: function getProfile() {
-			var profile = this.$store.getters.getProfileByPatientId(this.getId());
-			if ("undefined" == typeof profile) return _.debounce(this.getProfile.bind(this), 2000)();
-			this.profile = profile;
-			this.patient = _.extend({}, this.profile.patient);
-		},
-		getId: function getId() {
-			var patient_id = parseInt(this.$route.params.patient_id);
-			_.isNumber(patient_id) || this.$router.replace({ name: 'patients' });
-			return patient_id;
-		}
-	},
-	activated: function activated() {
-		this.getProfile();
-	},
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])(['accountType']), Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["e" /* mapState */])('manage_patient', { patient: 'currentPatient' }), Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["e" /* mapState */])('manage_patient', ['patients'])),
+  mounted: function mounted() {
+    var patient_id = this.$route.params.patient_id;
 
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])(['accountType']), {
-		showDiagnosis: function showDiagnosis() {
-			var workspace = this.accountType;
+    if (this.patients.length < 1) this.$router.back();
+    this.$store.commit('manage_patient/set_current_patient', patient_id);
+    this.$store.dispatch('manage_patient/FETCH_PATIENT_DATA');
+  },
 
-			return ['doctor', 'hospital'].includes(workspace);
-		},
-		showLabTests: function showLabTests() {
-			var workspace = this.accountType;
+  methods: {
+    recordsRoute: function recordsRoute() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
 
-			return ['doctor', 'laboratory', 'hospital'].includes(workspace);
-		},
-		showPrescription: function showPrescription() {
-			var workspace = this.accountType;
-
-			return ['pharmacy', "doctor", "hospital"].includes(workspace);
-		}
-	}),
-	data: function data() {
-		return {
-			settings: {
-				maxScrollbarLength: 60
-			},
-			profile: {},
-			patient: {},
-			showProfile: false
-		};
-	}
+      var params = Object.assign(this.$route.params, {
+        chcode: this.patient.chcode
+      });
+      var query = { type: type };
+      return {
+        name: 'patient-records',
+        params: params,
+        query: query
+      };
+    },
+    getProfile: function getProfile() {
+      var profile = this.$store.getters.getProfileByPatientId(this.getId());
+      if ('undefined' == typeof profile) return _.debounce(this.getProfile.bind(this), 2000)();
+      this.profile = profile;
+      this.patient = _.extend({}, this.profile.patient);
+    },
+    getId: function getId() {
+      var patient_id = parseInt(this.$route.params.patient_id);
+      _.isNumber(patient_id) || this.$router.replace({ name: 'patients' });
+      return patient_id;
+    }
+  }
 });
 
 /***/ }),
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(209)
-/* template */
-var __vue_template__ = __webpack_require__(210)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/DoctorNote.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-465e1aa8", Component.options)
-  } else {
-    hotAPI.reload("data-v-465e1aa8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 209 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	name: "DoctorNote",
-	data: function data() {
-		return {
-			title: "Gum decay happening in mouth.",
-			doctor_name: "Dr. Aima Gook",
-			timestamp: { date: "2018-01-09", time: "08:00pm" },
-			content: "I observiced that lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, autem illum ullam obcaecati modi blanditiis et, eum ipsam, veritatis culpa a magni, voluptates neque. Modi officiis et expedita, voluptate id possimus repellat magnam eos placeat corporis fuga adipisci officia ipsum consequatur accusantium rerum recusandae perferendis inventore quod! Et dignissimos, deleniti veniam vitae laud......",
-			list: []
-		};
-	}
-});
-
-/***/ }),
-/* 210 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "card" }, [
-    _c("article", { staticClass: "card-content content" }, [
-      _c("hgroup", { staticClass: "mb-15" }, [
-        _c("h5", { staticClass: "osq-text-primary m-0" }, [
-          _vm._v(_vm._s(_vm.title))
-        ]),
-        _vm._v(" "),
-        _c("div", [_vm._v("By " + _vm._s(_vm.doctor_name))])
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.content))])
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-465e1aa8", module.exports)
-  }
-}
-
-/***/ }),
+/* 208 */,
+/* 209 */,
+/* 210 */,
 /* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -70098,313 +70048,364 @@ var render = function() {
   return _c(
     "section",
     [
-      _c("section", { staticClass: "columns" }, [
-        _c(
-          "div",
-          { staticClass: "column is-half" },
-          [
-            _c("h5", { staticClass: "osq-group-subtitle-alt mb-15" }, [
-              _vm._v("Patient Profile")
-            ]),
-            _vm._v(" "),
-            _c(
-              "ProfileBox",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.profile,
-                    expression: "profile"
-                  }
-                ],
-                staticClass: "is-fullwidth is-green"
-              },
-              [
-                _c("h3", { staticClass: "profile-title" }, [
-                  _vm._v(_vm._s(_vm.patient.name))
-                ]),
-                _vm._v(" "),
-                _c("p", [
-                  _vm._v(_vm._s(_vm._f("ucfirst")(_vm.patient.gender)))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "mt-30" },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "button is-outlined is-rounded is-dark",
-                        on: {
-                          click: function($event) {
-                            _vm.showProfile = true
-                          }
-                        }
-                      },
-                      [_vm._v("Bio-Data")]
-                    ),
-                    _vm._v(" "),
-                    _vm.accountType === "doctor"
-                      ? _c(
-                          "router-link",
-                          {
-                            staticClass:
-                              "button ml-10 is-outlined is-rounded is-dark",
-                            attrs: {
-                              to: {
-                                name: "add-record",
-                                params: {
-                                  chcode: _vm.patient.chcode,
-                                  patient_id: _vm.patient.id
-                                }
-                              }
-                            }
-                          },
-                          [_vm._v("\n\t\t\t\t\t\tAdd Record\n\t\t\t\t\t")]
-                        )
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "section",
-              { staticClass: "px-0" },
-              [
-                _c(
-                  "accordion",
-                  [
-                    _c("template", { slot: "heading" }, [
-                      _vm._v("Emergency Hospital")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "section",
-                      { attrs: { slot: "content" }, slot: "content" },
-                      [
-                        _c("h3", { staticClass: "m-0" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("ucfirst")(
-                                _vm.patient.emergency_hospital_name
-                              )
-                            )
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("b", { staticClass: "m-0" }, [_vm._v("Address:")]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("ucfirst")(
-                                _vm.patient.emergency_hospital_address
-                              )
-                            )
-                          )
-                        ])
-                      ]
-                    )
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "accordion",
-                  { staticClass: "menu" },
-                  [
-                    _c("template", { slot: "heading" }, [
-                      _vm._v("Next of Kin")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "section",
-                      {
-                        staticClass: "content",
-                        attrs: { slot: "content" },
-                        slot: "content"
-                      },
-                      [
-                        _c("h1", { staticClass: "title is-5 mb-0" }, [
-                          _vm._v(_vm._s(_vm.patient.nok_name))
-                        ]),
-                        _vm._v(" "),
-                        _c("div", [
-                          _c("small", [
-                            _vm._v(
-                              "Email Address: " + _vm._s(_vm.patient.nok_email)
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", [
-                          _c("small", [
-                            _vm._v(
-                              "Phone Number: " + _vm._s(_vm.patient.nok_phone)
-                            )
-                          ])
-                        ])
-                      ]
-                    )
-                  ],
-                  2
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("h1", { staticClass: "osq-group-subtitle-alt mb-10" }, [
-              _vm._v("Medical History")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "columns content is-multiline" }, [
-              _vm.showDiagnosis
-                ? _c(
-                    "div",
-                    { staticClass: "column is-half is-fullheight" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass:
-                            "card pointed osq-text-primary card-content",
-                          attrs: {
-                            to: _vm.recordsRoute("diagnosis"),
-                            tag: "div"
-                          }
-                        },
-                        [_vm._v("Doctor's Diagnosis")]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.showLabTests
-                ? _c(
-                    "div",
-                    { staticClass: "column is-half" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass:
-                            "card pointed osq-text-primary card-content",
-                          attrs: { to: _vm.recordsRoute("labtest"), tag: "div" }
-                        },
-                        [_vm._v("Laboratory Records")]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.showPrescription
-                ? _c(
-                    "div",
-                    { staticClass: "column is-half" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass:
-                            "card pointed osq-text-primary card-content",
-                          attrs: {
-                            to: _vm.recordsRoute("prescriptions"),
-                            tag: "div"
-                          }
-                        },
-                        [_vm._v("Medicine Dispensing Records")]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e()
-            ])
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "column is-half" },
-          [_vm._m(0), _vm._v(" "), _vm._m(1)],
-          1
-        )
-      ]),
-      _vm._v(" "),
       _c(
-        "modal",
+        "ProfileGrid",
         {
-          staticClass: "is-note",
-          attrs: { show: _vm.showProfile, "show-header": true },
-          on: {
-            closed: function($event) {
-              _vm.showProfile = false
+          attrs: {
+            name: _vm.patient.name,
+            avatar: _vm.patient.avatar,
+            "avatar-url": ""
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "default",
+              fn: function(pager) {
+                return _c("pager", { attrs: { current: pager.page } }, [
+                  _c(
+                    "section",
+                    { attrs: { slot: "p1" }, slot: "p1" },
+                    [
+                      _c("div", { staticClass: "menu-label" }, [
+                        _vm._v("User Information")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "accordion",
+                        { attrs: { show: true } },
+                        [
+                          _c("template", { slot: "heading" }, [
+                            _vm._v("Basic")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "section",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c("table", { staticClass: "table is-narrow" }, [
+                                _c("tr", {}, [
+                                  _c("th", { attrs: { width: "150" } }, [
+                                    _vm._v("First Name")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.first_name))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", {}, [
+                                  _c("th", [_vm._v("Last Name")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.last_name))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", {}, [
+                                  _c("th", [_vm._v("Other Name")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.middle_name))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", {}, [
+                                  _c("th", [_vm._v("Date of Birth")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("moment")(
+                                            [_vm.patient.dob, "YYYY-MM-DD"],
+                                            "Do MMMM, YYYY"
+                                          )
+                                        )
+                                      )
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("Email:")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.email))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("Gender")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("ucfirst")(_vm.patient.gender)
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("Address")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.address))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("City")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.city))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("State:")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.state))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("Marital Status:")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("ucfirst")(
+                                            _vm.patient.marital_status
+                                          )
+                                        )
+                                      )
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", [_vm._v("Phone Number:")]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("span", [
+                                      _vm._v(_vm._s(_vm.patient.phone))
+                                    ])
+                                  ])
+                                ])
+                              ])
+                            ]
+                          )
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "accordion",
+                        { staticClass: "menu" },
+                        [
+                          _c("template", { slot: "heading" }, [
+                            _vm._v("Next of Kin")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "section",
+                            {
+                              staticClass: "content",
+                              attrs: { slot: "content" },
+                              slot: "content"
+                            },
+                            [
+                              _c("h1", { staticClass: "title is-5 mb-10" }, [
+                                _vm._v(_vm._s(_vm.patient.nok_name))
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c("p", [
+                                  _vm._v("Email Address: "),
+                                  _c("b", [
+                                    _vm._v(_vm._s(_vm.patient.nok_email))
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c("p", [
+                                  _vm._v("Phone Number: "),
+                                  _c("b", [
+                                    _vm._v(_vm._s(_vm.patient.nok_phone))
+                                  ])
+                                ])
+                              ])
+                            ]
+                          )
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "accordion",
+                        { attrs: { show: false } },
+                        [
+                          _c("template", { slot: "heading" }, [
+                            _vm._v("Emergency Hospital")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "section",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c(
+                                "div",
+                                [
+                                  _c("span", [
+                                    _vm._v("No Emergency Address Yet")
+                                  ]),
+                                  _vm._v(" "),
+                                  [
+                                    _c("h3", { staticClass: "mb-5" }, [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.patient.emergency_hospital_name
+                                        )
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "p",
+                                      { staticStyle: { opacity: "0.8" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.patient
+                                              .emergency_hospital_address
+                                          )
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { attrs: { slot: "p2" }, slot: "p2" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "level" },
+                        [
+                          _c("div", { staticClass: "menu-label" }, [
+                            _c("span", [_vm._v("ALLERGIES")])
+                          ]),
+                          _vm._v(" "),
+                          _c("HoverRevealButton", [
+                            _c("span", {
+                              staticClass: "ti ti-plus",
+                              attrs: { slot: "icon" },
+                              slot: "icon"
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { attrs: { slot: "text" }, slot: "text" },
+                              [_vm._v("Add")]
+                            )
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      !_vm.records.allergy.length
+                        ? _c("alert", { attrs: { type: "info" } }, [
+                            _vm._v(
+                              "\n          You have a clean Allergy record.\n        "
+                            )
+                          ])
+                        : _c(
+                            "table",
+                            {
+                              staticClass: "table is-small is-fullwidth",
+                              staticStyle: { "font-size": "small" }
+                            },
+                            [
+                              _c("tr", [
+                                _c("th", { attrs: { width: "50" } }, [
+                                  _vm._v("S/N")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [_vm._v("Allergy")]),
+                                _vm._v(" "),
+                                _c("th", [_vm._v("Reaction")]),
+                                _vm._v(" "),
+                                _c("th", { attrs: { width: "170" } }, [
+                                  _vm._v("Date of Occurence")
+                                ]),
+                                _vm._v(" "),
+                                _c("th")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.records.allergy, function(
+                                entry,
+                                index
+                              ) {
+                                return _c("tr", { key: index }, [
+                                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(entry.allergy))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(entry.reaction))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(entry.last_occurance))
+                                  ])
+                                ])
+                              })
+                            ],
+                            2
+                          )
+                    ],
+                    1
+                  )
+                ])
+              }
             }
-          }
+          ])
         },
         [
-          _c("template", { slot: "modal-title" }, [
-            _c("b", [_vm._v("Bio-Data")]),
-            _vm._v(": " + _vm._s(_vm.patient.name))
-          ]),
-          _vm._v(" "),
-          _c("table", { staticClass: "table is-borderless is-fullwidth" }, [
-            _c("tr", [
-              _c("td", { attrs: { width: "150" } }, [_vm._v("Full Name")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.fullname))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Phone Number")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.phone))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Age")]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(_vm._s(_vm._f("moment")(_vm.patient.dob, "from")))
+          _c("template", { slot: "navigation" }, [
+            _c("li", [
+              _c("a", { attrs: { href: "#basic" } }, [
+                _vm._v("Basic Information")
               ])
             ]),
             _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Gender")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm._f("ucfirst")(_vm.patient.gender)))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Address")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.address))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("City")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.city))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("State")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.state))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Country")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.patient.country))])
+            _c("li", [
+              _c("a", { attrs: { href: "#allergy" } }, [_vm._v("Allergies")])
             ])
           ])
         ],
@@ -70414,29 +70415,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h1", { staticClass: "osq-group-subtitle-alt mb-10" }, [
-      _c("i", { staticClass: "osf osf-note osf-14px" }),
-      _vm._v(" NOTES")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "v-scrollbar",
-      { staticStyle: { height: "100vh" }, attrs: { settings: _vm.settings } },
-      _vm._l(4, function(a) {
-        return _c("DoctorNote", { key: a, staticClass: "mb-10" })
-      })
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -71476,7 +71455,7 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
 
@@ -78074,7 +78053,7 @@ var render = function() {
           ref: "grid",
           attrs: {
             "avatar-url": _vm.edit.avatarUrl,
-            name: _vm.user.name,
+            name: "",
             avatar: _vm.user.avatar
           },
           scopedSlots: _vm._u([
@@ -79296,140 +79275,28 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Mixins_EditProfile_js__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ProfileGrid_vue__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ProfileGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_ProfileGrid_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CreateAllergy_vue__ = __webpack_require__(279);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CreateAllergy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_CreateAllergy_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CreateImmunization_vue__ = __webpack_require__(282);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CreateImmunization_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_CreateImmunization_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_FamilyMedicalRecords_vue__ = __webpack_require__(285);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_FamilyMedicalRecords_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_FamilyMedicalRecords_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_MedicalHistory_vue__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_MedicalHistory_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_MedicalHistory_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HospitalContacts_vue__ = __webpack_require__(293);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HospitalContacts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_HospitalContacts_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mixins_EditProfile_js__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ProfileGrid_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ProfileGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ProfileGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Allergies_vue__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Allergies_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Allergies_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Immunizations_vue__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Immunizations_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_Immunizations_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_MedicalHistory_vue__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_MedicalHistory_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_MedicalHistory_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_HospitalContacts_vue__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_HospitalContacts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_HospitalContacts_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_EmergencyContacts_vue__ = __webpack_require__(301);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_EmergencyContacts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_EmergencyContacts_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_HealthInsuranceProvider_vue__ = __webpack_require__(296);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_HealthInsuranceProvider_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_HealthInsuranceProvider_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_EmergencyContacts_vue__ = __webpack_require__(301);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_EmergencyContacts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_EmergencyContacts_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_FamilyMedicalRecords_vue__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_FamilyMedicalRecords_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_FamilyMedicalRecords_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Hospitalizations_vue__ = __webpack_require__(484);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Hospitalizations_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_Hospitalizations_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -79751,29 +79618,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-var delay = function delay(time) {
-	return function (result) {
-		return new Promise(function (resolve) {
-			return setTimeout(function () {
-				return resolve(result);
-			}, time);
-		});
-	};
-};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'Profile',
 	components: {
-		ProfileGrid: __WEBPACK_IMPORTED_MODULE_1__components_ProfileGrid_vue___default.a, HealthInsuranceProvider: __WEBPACK_IMPORTED_MODULE_8__components_HealthInsuranceProvider_vue___default.a,
-		HospitalContacts: __WEBPACK_IMPORTED_MODULE_7__components_HospitalContacts_vue___default.a, CreateAllergy: __WEBPACK_IMPORTED_MODULE_3__components_CreateAllergy_vue___default.a, MedicalHistory: __WEBPACK_IMPORTED_MODULE_6__components_MedicalHistory_vue___default.a,
-		EmergencyContacts: __WEBPACK_IMPORTED_MODULE_9__components_EmergencyContacts_vue___default.a, FamilyMedicalRecords: __WEBPACK_IMPORTED_MODULE_5__components_FamilyMedicalRecords_vue___default.a, CreateImmunization: __WEBPACK_IMPORTED_MODULE_4__components_CreateImmunization_vue___default.a
+		ProfileGrid: __WEBPACK_IMPORTED_MODULE_2__components_ProfileGrid_vue___default.a, HealthInsuranceProvider: __WEBPACK_IMPORTED_MODULE_8__components_HealthInsuranceProvider_vue___default.a,
+		Hospitalizations: __WEBPACK_IMPORTED_MODULE_10__components_Hospitalizations_vue___default.a, HospitalContacts: __WEBPACK_IMPORTED_MODULE_6__components_HospitalContacts_vue___default.a, Allergies: __WEBPACK_IMPORTED_MODULE_3__components_Allergies_vue___default.a,
+		MedicalHistory: __WEBPACK_IMPORTED_MODULE_5__components_MedicalHistory_vue___default.a, EmergencyContacts: __WEBPACK_IMPORTED_MODULE_7__components_EmergencyContacts_vue___default.a, FamilyMedicalRecords: __WEBPACK_IMPORTED_MODULE_9__components_FamilyMedicalRecords_vue___default.a,
+		Immunizations: __WEBPACK_IMPORTED_MODULE_4__components_Immunizations_vue___default.a
 	},
-	mixins: [__WEBPACK_IMPORTED_MODULE_0__Mixins_EditProfile_js__["a" /* default */]],
+	mixins: [__WEBPACK_IMPORTED_MODULE_1__Mixins_EditProfile_js__["a" /* default */]],
 	data: function data() {
 		return {
 			page: 0,
-
 			edit: {
 				allergy: {},
 				immunization: {},
@@ -79783,76 +79640,33 @@ var delay = function delay(time) {
 				url: '/api/patient/profile/update',
 				whiteList: ['first_name', 'middle_name', 'last_name', 'avatar', 'email', 'password', 'dob', 'gender', 'phone', 'address', 'city', 'state', 'country', 'religion', 'marital_status', 'nok_name', 'nok_phone', 'nok_email', 'nok_address', 'nok_city', 'nok_state', 'emergency_hospital_address', 'emergency_hospital_name', 'nok_country', 'nok_relationship']
 			},
-			modal: { show: false, form: '' },
-			records: { labtest: [], hospitalization: [], allergy: [], immunization: [], prescription: [] }
+			records: { hospitalization: [] }
 		};
 	},
 
-	computed: {
+	computed: _extends({
 		user: function user() {
-			return this.$parent.user;
+			return this.accountType === 'doctor' ? this.patient : this.$parent.user;
+		},
+		isPatient: function isPatient() {
+			return this.accountType === 'patient';
 		}
-	},
+	}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['accountType']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('manage_patient', {
+		patient: 'currentPatient',
+		patients: 'patients'
+	})),
 	mounted: function mounted() {
 		document.title = 'Profile | CleanHelt';
-		this.fetchRecords();
+		this.accountType !== 'doctor' || this.setAsDoctor();
 	},
 
 	methods: {
-		showModal: function showModal(form) {
-			this.modal = { show: true, form: form };
-		},
-		editModal: function editModal(form) {
-			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+		setAsDoctor: function setAsDoctor() {
+			var patient_id = this.$route.params.patient_id;
 
-			this.showModal(form);
-			if (this.form_exists(form)) this.edit[form] = _.extend({}, data);
-		},
-		form_exists: function form_exists(value) {
-			return Object.keys(this.edit).includes(value);
-		},
-		created: function created(form) {
-			this.fetchRecords().then(delay(1000)).then(this.notify(_.capitalize(form) + ' added to list', 'success'));
-			this.closeModal(form);
-		},
-		error: function error(form) {
-			Promise.resolve().then(this.notify('An error occured when creating Allergy .', 'error'));
-		},
-		fetchRecords: function fetchRecords() {
-			var _this = this;
-
-			var records = Object.keys(this.records);
-			var XHRs = records.map(function (route) {
-				return _this.$parent.getRecord(route);
-			});
-			var getRecordKey = function getRecordKey(index) {
-				return records[index];
-			};
-			return Promise.all(XHRs).then(function (responses) {
-				responses.map(function (_ref, index) {
-					var res = _ref.data;
-
-					var collection = Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["c" /* extractRecords */])(res.data);
-					_this.$set(_this.records, getRecordKey(index), collection || []);
-				});
-			}).catch(function (err) {
-				console.groupCollapsed('Patient Records Error');
-				console.trace(err);
-				console.groupEnd('Patient Records Error');
-			});
-		},
-		notify: function notify(text, type) {
-			var _this2 = this;
-
-			return function () {
-				return _this2.$notify({ text: text, type: type });
-			};
-		},
-		closeModal: function closeModal() {
-			var form = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-			this.modal = _.extend(this.modal, { show: false });
-			this.modal.form = '';
+			if (this.patients.length < 1) this.$router.back();
+			this.$store.commit('manage_patient/set_current_patient', patient_id);
+			this.$store.dispatch('manage_patient/FETCH_PATIENT_DATA');
 		}
 	}
 });
@@ -80179,6 +79993,17 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Mixins_MedicalRecord__ = __webpack_require__(161);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -80651,7 +80476,7 @@ exports.push([module.i, "\n.field-body .field .input[data-v-26892f2c] {\n  borde
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
 
@@ -83184,10 +83009,12 @@ var render = function() {
                               "section",
                               { attrs: { slot: "content" }, slot: "content" },
                               [
-                                _c("save-edit-button", {
-                                  attrs: { saved: _vm.edit.basic },
-                                  on: { click: _vm.save_basic }
-                                }),
+                                _vm.isPatient
+                                  ? _c("save-edit-button", {
+                                      attrs: { saved: _vm.edit.basic },
+                                      on: { click: _vm.save_basic }
+                                    })
+                                  : _vm._e(),
                                 _vm._v(" "),
                                 _c(
                                   "table",
@@ -83744,10 +83571,12 @@ var render = function() {
                               "section",
                               { attrs: { slot: "content" }, slot: "content" },
                               [
-                                _c("save-edit-button", {
-                                  attrs: { saved: _vm.edit.emergency },
-                                  on: { click: _vm.save_emerg }
-                                }),
+                                _vm.isPatient
+                                  ? _c("save-edit-button", {
+                                      attrs: { saved: _vm.edit.emergency },
+                                      on: { click: _vm.save_emerg }
+                                    })
+                                  : _vm._e(),
                                 _vm._v(" "),
                                 !_vm.edit.emergency
                                   ? _c(
@@ -83954,125 +83783,11 @@ var render = function() {
                       "div",
                       { attrs: { slot: "p4" }, slot: "p4" },
                       [
-                        _c(
-                          "div",
-                          { staticClass: "level" },
-                          [
-                            _c("div", { staticClass: "menu-label" }, [
-                              _vm._v(
-                                "\n              IMMUNIZATIONS\n            "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "HoverRevealButton",
-                              {
-                                on: {
-                                  click: function($event) {
-                                    _vm.editModal("immunization")
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", {
-                                  staticClass: "ti ti-plus",
-                                  attrs: { slot: "icon" },
-                                  slot: "icon"
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { attrs: { slot: "text" }, slot: "text" },
-                                  [_vm._v("Add")]
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
+                        _c("div", { staticClass: "menu-label" }, [
+                          _vm._v("IMMUNIZATIONS")
+                        ]),
                         _vm._v(" "),
-                        !_vm.records.immunization.length
-                          ? _c("alert", { attrs: { type: "info" } }, [
-                              _vm._v(
-                                "\n            You have a clean Immunization record.\n          "
-                              )
-                            ])
-                          : _c(
-                              "table",
-                              { staticClass: "table is-fullwidth" },
-                              [
-                                _c("tr", [
-                                  _c("th", { attrs: { width: "50" } }, [
-                                    _vm._v("S/N")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Title")]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { width: "50" } }, [
-                                    _vm._v("Age")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { width: "120" } }, [
-                                    _vm._v("Date")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { width: "50" } })
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(_vm.records.immunization, function(
-                                  entry,
-                                  index
-                                ) {
-                                  return _c("tr", { key: index }, [
-                                    _c("td", [_vm._v(_vm._s(index + 1))]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(entry.immunization_title))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(entry.age))]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(entry.date_of_immunization))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      [
-                                        _c(
-                                          "dropdown",
-                                          [
-                                            _c("template", { slot: "content" }),
-                                            _vm._v(" "),
-                                            _c("template", { slot: "list" }, [
-                                              _c(
-                                                "li",
-                                                {
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.editModal(
-                                                        "immunization",
-                                                        entry
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [_vm._v("Modify")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("li", [_vm._v("Trash")])
-                                            ])
-                                          ],
-                                          2
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                })
-                              ],
-                              2
-                            )
+                        _c("Immunizations")
                       ],
                       1
                     ),
@@ -84081,122 +83796,11 @@ var render = function() {
                       "div",
                       { attrs: { slot: "p5" }, slot: "p5" },
                       [
-                        _c(
-                          "div",
-                          { staticClass: "level" },
-                          [
-                            _c("div", { staticClass: "menu-label" }, [
-                              _c("span", [_vm._v("ALLERGIES")])
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "HoverRevealButton",
-                              {
-                                on: {
-                                  click: function($event) {
-                                    _vm.editModal("allergy", {})
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", {
-                                  staticClass: "ti ti-plus",
-                                  attrs: { slot: "icon" },
-                                  slot: "icon"
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { attrs: { slot: "text" }, slot: "text" },
-                                  [_vm._v("Add")]
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
+                        _c("div", { staticClass: "menu-label" }, [
+                          _vm._v("ALLERGIES")
+                        ]),
                         _vm._v(" "),
-                        !_vm.records.allergy.length
-                          ? _c("alert", { attrs: { type: "info" } }, [
-                              _vm._v(
-                                "\n            You have a clean Allergy record.\n          "
-                              )
-                            ])
-                          : _c(
-                              "table",
-                              {
-                                staticClass: "table is-small is-fullwidth",
-                                staticStyle: { "font-size": "small" }
-                              },
-                              [
-                                _c("tr", [
-                                  _c("th", { attrs: { width: "50" } }, [
-                                    _vm._v("S/N")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Allergy")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Reaction")]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { width: "170" } }, [
-                                    _vm._v("Date of Occurence")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th")
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(_vm.records.allergy, function(
-                                  entry,
-                                  index
-                                ) {
-                                  return _c("tr", { key: index }, [
-                                    _c("td", [_vm._v(_vm._s(index + 1))]),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(entry.allergy))]),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(entry.reaction))]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(entry.last_occurance))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      [
-                                        _c(
-                                          "dropdown",
-                                          [
-                                            _c("template", { slot: "content" }),
-                                            _vm._v(" "),
-                                            _c("template", { slot: "list" }, [
-                                              _c(
-                                                "li",
-                                                {
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.editModal(
-                                                        "allergy",
-                                                        entry
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [_vm._v("Modify")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("li", [_vm._v("Trash")])
-                                            ])
-                                          ],
-                                          2
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                })
-                              ],
-                              2
-                            )
+                        _c("Allergies")
                       ],
                       1
                     ),
@@ -84222,38 +83826,9 @@ var render = function() {
                           _vm._v("HOSPITALIZATION")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.records.hospitalization, function(entry) {
-                          return _c(
-                            "div",
-                            { key: entry.id, staticClass: "mb-20" },
-                            [
-                              _c("h1", { staticClass: "title mb-5 is-5" }, [
-                                _vm._v(_vm._s(entry.hospitalization_type))
-                              ]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v("Doctor: " + _vm._s(entry.doctor))
-                              ]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v("Hospital: " + _vm._s(entry.hospital))
-                              ]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v("Reason: " + _vm._s(entry.reason))
-                              ]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v(
-                                  "Complications: " +
-                                    _vm._s(entry.complications)
-                                )
-                              ])
-                            ]
-                          )
-                        })
+                        _c("Hospitalizations")
                       ],
-                      2
+                      1
                     ),
                     _vm._v(" "),
                     _c("div", { attrs: { slot: "p8" }, slot: "p8" }, [
@@ -84286,10 +83861,8 @@ var render = function() {
                       "div",
                       { attrs: { slot: "p9" }, slot: "p9" },
                       [
-                        _c("div", { staticClass: "level" }, [
-                          _c("div", { staticClass: "menu-label" }, [
-                            _c("span", [_vm._v("EMERGENCY CONTACTS")])
-                          ])
+                        _c("div", { staticClass: "menu-label" }, [
+                          _vm._v("EMERGENCY CONTACTS")
                         ]),
                         _vm._v(" "),
                         _c("EmergencyContacts")
@@ -84398,43 +83971,6 @@ var render = function() {
               ])
             ]
           )
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c(
-        "modal",
-        { attrs: { show: _vm.modal.show }, on: { closed: _vm.closeModal } },
-        [
-          _vm.modal.form === "allergy"
-            ? _c("CreateAllergy", {
-                attrs: { "form-data": _vm.edit.allergy },
-                on: {
-                  success: function($event) {
-                    _vm.created("allergy")
-                  },
-                  error: function($event) {
-                    _vm.error("allergy")
-                  }
-                }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.modal.form === "immunization"
-            ? _c("CreateImmunization", {
-                attrs: { "form-data": _vm.edit.immunization },
-                on: {
-                  success: function($event) {
-                    _vm.created("immunization")
-                  },
-                  error: function($event) {
-                    _vm.error("immunization")
-                  }
-                }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _c("template", { slot: "modal-footer" })
         ],
         2
       )
@@ -86407,7 +85943,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getNotificationRoute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createUserNotification; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
@@ -87826,14 +87362,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Mixins_LoggedIn__ = __webpack_require__(12);
-
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mixins_LoggedIn__ = __webpack_require__(12);
 //
 //
 //
@@ -87920,8 +87450,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'Patient',
-	mixins: [__WEBPACK_IMPORTED_MODULE_2__Mixins_LoggedIn__["a" /* default */]],
-	router: __WEBPACK_IMPORTED_MODULE_1__routes__["a" /* default */].patient,
+	mixins: [__WEBPACK_IMPORTED_MODULE_1__Mixins_LoggedIn__["a" /* default */]],
+	router: __WEBPACK_IMPORTED_MODULE_0__routes__["a" /* default */].patient,
 	data: function data() {
 		return {
 			settings: {
@@ -87933,59 +87463,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 					route: '/api/patient',
 					key: 'data'
 				}
-			},
-			shares: [],
-			recordUrlMap: Object.freeze({
-				labtest: '/api/patient/labtest',
-				prescription: '/api/patient/prescription',
-				medicalRecord: '/api/patient/medical-records',
-				medicalHistory: '/api/patient/medical-history',
-				immunization: '/api/patient/record/immunization',
-				hospitalization: '/api/patient/record/hospitalization',
-				allergy: '/api/patient/record/allergy'
-			})
+			}
 		};
 	},
 
-	methods: {
-		getRecord: function () {
-			var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(record_type) {
-				var recordUrlMap;
-				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								recordUrlMap = this.recordUrlMap;
-
-								if (Object.keys(recordUrlMap).includes(record_type)) {
-									_context.next = 3;
-									break;
-								}
-
-								return _context.abrupt('return', Promise.reject(new Error('Invalid Patient Record Key: "' + record_type + '"')));
-
-							case 3:
-								_context.next = 5;
-								return this.$http.get(recordUrlMap[record_type].replace('{patient}', this.$props.id || 'invalid'));
-
-							case 5:
-								return _context.abrupt('return', _context.sent);
-
-							case 6:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
-
-			function getRecord(_x) {
-				return _ref.apply(this, arguments);
-			}
-
-			return getRecord;
-		}()
-	}
+	methods: {}
 });
 
 /***/ }),
@@ -88504,7 +87986,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Mixins_LoggedIn__ = __webpack_require__(12);
@@ -91217,7 +90699,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_account__ = __webpack_require__(352);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_utilities__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_patient__ = __webpack_require__(353);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_patient_medical_history__ = __webpack_require__(354);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_patient_family_medical_history__ = __webpack_require__(355);
@@ -91301,7 +90783,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(8);
 
 
 
@@ -91370,7 +90852,9 @@ var actions = {
 
 		__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(route).then(function (res) {
 			return __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.extend(res.data[key]);
-		}).then(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["e" /* personalify */]).then(function (user_data) {
+		}).then(function (data) {
+			return context.state.ACCOUNT_TYPE === 'hospital' ? data : Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["e" /* personalify */])(data);
+		}).then(function (user_data) {
 			return context.commit('set_user', user_data);
 		});
 	}
@@ -91388,11 +90872,11 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(8);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -91538,7 +91022,7 @@ var actions = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(8);
 
 
 
@@ -91546,7 +91030,10 @@ var state = {
 	/**
    *@type <Array[{disease:"string", carriers: <Array["string"]> }]>
    */
-	histories: []
+	histories: [],
+	allergies: [],
+	hospitalizations: [],
+	immunizations: []
 };
 
 var getters = {
@@ -91556,6 +91043,15 @@ var getters = {
 };
 
 var mutations = {
+	set_allergies: function set_allergies(store, payload) {
+		store.allergies = payload;
+	},
+	set_hospitalizations: function set_hospitalizations(store, payload) {
+		store.hospitalizations = payload;
+	},
+	set_immunization: function set_immunization(store, payload) {
+		store.immunizations = payload;
+	},
 	set_histories: function set_histories(store, payload) {
 		store.histories = payload;
 	}
@@ -91578,6 +91074,33 @@ var actions = {
 		return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/record/medical-history').then(function (res) {
 			context.commit('set_histories', Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["c" /* extractRecords */])(res.data.data));
 		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Fetching Medical Histories Failed'));
+	},
+	FETCH_ALLERGIES: function FETCH_ALLERGIES(context) {
+		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/record/allergy').then(function (_ref) {
+			var data = _ref.data;
+
+			context.commit('set_allergies', Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["c" /* extractRecords */])(data.data));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error Fetching Allergies'));
+	},
+
+	// HOSPITALIZATIONS
+	FETCH_HOSPITALIZATIONS: function FETCH_HOSPITALIZATIONS(context) {
+		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/record/hospitalization').then(function (_ref2) {
+			var data = _ref2.data;
+
+			context.commit('set_hospitalizations', Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["c" /* extractRecords */])(data.data));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error Fetching Hospitalizations'));
+	},
+
+
+	// IMMUNIZATIONS
+	FETCH_IMMUNIZATIONS: function FETCH_IMMUNIZATIONS(context) {
+		console.log(context.rootState.manage_patient.currentPatient);
+		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/patient/record/immunization').then(function (_ref3) {
+			var data = _ref3.data;
+
+			context.commit('set_immunization', Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["c" /* extractRecords */])(data.data));
+		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Error Fetching immunizations'));
 	}
 };
 
@@ -91596,7 +91119,7 @@ var actions = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(8);
 
 
 
@@ -91653,11 +91176,11 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(8);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -91749,7 +91272,7 @@ var actions = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(8);
 
 
 
@@ -91800,11 +91323,11 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(8);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -91975,7 +91498,7 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
@@ -92116,7 +91639,7 @@ var actions = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
@@ -92402,16 +91925,23 @@ var actions = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__ = __webpack_require__(8);
 
 
 
 var state = {
 	patients: [],
-	pendingPatients: []
+	pendingPatients: [],
+	currentPatient: {}
 };
 
 var mutations = {
+	set_current_patient: function set_current_patient(store, payload) {
+		var share = store.patients.find(function (e) {
+			return e.patient.id == payload;
+		});
+		!share || (store.currentPatient = share.patient);
+	},
 	set_patients: function set_patients(store, payload) {
 		return store.patients = payload;
 	},
@@ -92449,6 +91979,15 @@ var actions = {
 		__WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch(url).then(function () {
 			context.dispatch('FETCH_ALL_PATIENTS', account);
 		}).catch(Object(__WEBPACK_IMPORTED_MODULE_1__store_helpers_utilities__["a" /* VuexError */])('Accept Failed!'));
+	},
+	FETCH_PATIENT_DATA: function FETCH_PATIENT_DATA(context, medicalRecord) {
+		var patient = context.state.currentPatient;
+
+		if (patient.chcode) __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/doctor/patients/' + patient.chcode + '/records/' + medicalRecord).then(function (_ref3) {
+			var data = _ref3.data;
+
+			console.log(data);
+		});
 	}
 };
 
@@ -92629,7 +92168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__ = __webpack_require__(8);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -95382,6 +94921,799 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(479)
+/* template */
+var __vue_template__ = __webpack_require__(480)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Allergies.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5074d4f7", Component.options)
+  } else {
+    hotAPI.reload("data-v-5074d4f7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 479 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mixins_CrudHelper__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CreateAllergy_vue__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CreateAllergy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CreateAllergy_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'Allergies',
+    components: { CreateAllergy: __WEBPACK_IMPORTED_MODULE_2__CreateAllergy_vue___default.a },
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__Mixins_CrudHelper__["a" /* default */]],
+    data: function data() {
+        return {
+            form: {},
+            opened: false,
+            crud: {
+                read: {
+                    action: 'medicalHistory/FETCH_ALLERGIES'
+                },
+                create: {
+                    action: 'medicalHistory/CREATE_CONTACT',
+                    message: { success: 'Contact contact added!', error: 'Error adding Contact' }
+                },
+                update: {
+                    action: 'medicalHistory/UPDATE_CONTACT',
+                    message: { success: 'Contact Update Sucessful', error: '' }
+                },
+                delete: {
+                    action: 'medicalHistory/DELETE_CONTACT',
+                    message: { success: 'Contact truncated' }
+                }
+            }
+        };
+    },
+
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('medicalHistory', ['allergies'])),
+    methods: {
+        show: function show(entry) {
+            this.form = Object.assign({}, entry);
+            this.opened = true;
+        },
+        saveContact: function saveContact() {
+            // if (contact.isEditing) this.update(contact)
+            // contact.toggleEdit()
+        },
+        error: function error() {
+            this.error_message('Error updating');
+            this.opened = false;
+        },
+        success: function success() {
+            this.success_message('Allergy Updated');
+            this.opened = false;
+            this.form = {};
+            this.$store.dispatch(this.crud.read.action);
+        },
+        validate: function validate() {
+            return false;
+            // return Object.keys(this.form).length === 5
+        }
+    }
+});
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    [
+      _c(
+        "HoverRevealButton",
+        {
+          on: {
+            click: function($event) {
+              _vm.opened = true
+            }
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "ti ti-plus",
+            attrs: { slot: "icon" },
+            slot: "icon"
+          }),
+          _vm._v(" "),
+          _c("span", { attrs: { slot: "text" }, slot: "text" }, [_vm._v("Add")])
+        ]
+      ),
+      _vm._v(" "),
+      !_vm.allergies.length
+        ? _c("alert", { attrs: { type: "info" } }, [
+            _vm._v("\n    You have a clean Allergy record.\n  ")
+          ])
+        : _c(
+            "table",
+            {
+              staticClass: "table is-fullwidth",
+              staticStyle: { "font-size": "small" }
+            },
+            [
+              _c("tr", [
+                _c("th", { attrs: { width: "50" } }, [_vm._v("S/N")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Allergy")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Reaction")]),
+                _vm._v(" "),
+                _c("th", { attrs: { width: "170" } }, [
+                  _vm._v("Date of Occurence")
+                ]),
+                _vm._v(" "),
+                _c("th")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.allergies, function(entry, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.allergy))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.reaction))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.last_occurance))]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    [
+                      _c(
+                        "dropdown",
+                        [
+                          _c("template", { slot: "content" }),
+                          _vm._v(" "),
+                          _c("template", { slot: "list" }, [
+                            _c(
+                              "li",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    _vm.show(entry)
+                                  }
+                                }
+                              },
+                              [_vm._v("Modify")]
+                            ),
+                            _vm._v(" "),
+                            _c("li", [_vm._v("Trash")])
+                          ])
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                ])
+              })
+            ],
+            2
+          ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          attrs: { show: _vm.opened },
+          on: {
+            closed: function($event) {
+              _vm.opened = false
+            }
+          }
+        },
+        [
+          _vm.opened
+            ? _c("CreateAllergy", {
+                attrs: { "form-data": _vm.form },
+                on: { success: _vm.success, error: _vm.error }
+              })
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5074d4f7", module.exports)
+  }
+}
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(482)
+/* template */
+var __vue_template__ = __webpack_require__(483)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Immunizations.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-057454ec", Component.options)
+  } else {
+    hotAPI.reload("data-v-057454ec", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 482 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mixins_CrudHelper__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CreateImmunization_vue__ = __webpack_require__(282);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CreateImmunization_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CreateImmunization_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Immunizations',
+  components: { CreateImmunization: __WEBPACK_IMPORTED_MODULE_2__CreateImmunization_vue___default.a },
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__Mixins_CrudHelper__["a" /* default */]],
+  data: function data() {
+    return {
+      form: {},
+      opened: false,
+      crud: {
+        read: {
+          action: 'medicalHistory/FETCH_IMMUNIZATIONS'
+        },
+        create: {
+          action: 'medicalHistory/CREATE_CONTACT',
+          message: { success: 'Contact contact added!', error: 'Error adding Contact' }
+        },
+        update: {
+          action: 'medicalHistory/UPDATE_CONTACT',
+          message: { success: 'Contact Update Sucessful', error: '' }
+        },
+        delete: {
+          action: 'medicalHistory/DELETE_CONTACT',
+          message: { success: 'Contact truncated' }
+        }
+      }
+    };
+  },
+
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('medicalHistory', ['immunizations'])),
+  methods: {
+    show: function show(entry) {
+      this.form = Object.assign({}, entry);
+      this.opened = true;
+    },
+    error: function error() {
+      this.error_message('Error updating Immunization');
+      this.opened = false;
+    },
+    success: function success() {
+      this.success_message('Immunization Updated');
+      this.opened = false;
+      this.form = {};
+      this.$store.dispatch(this.crud.read.action);
+    },
+    validate: function validate() {
+      return false;
+    }
+  }
+});
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    [
+      _c(
+        "HoverRevealButton",
+        {
+          on: {
+            click: function($event) {
+              _vm.opened = true
+            }
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "ti ti-plus",
+            attrs: { slot: "icon" },
+            slot: "icon"
+          }),
+          _vm._v(" "),
+          _c("span", { attrs: { slot: "text" }, slot: "text" }, [_vm._v("Add")])
+        ]
+      ),
+      _vm._v(" "),
+      !_vm.immunizations.length
+        ? _c("alert", { attrs: { type: "info" } }, [
+            _vm._v("\n    You have a clean Immunzation record.\n  ")
+          ])
+        : _c(
+            "table",
+            { staticClass: "table is-fullwidth" },
+            [
+              _c("tr", [
+                _c("th", { attrs: { width: "50" } }, [_vm._v("S/N")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Title")]),
+                _vm._v(" "),
+                _c("th", { attrs: { width: "50" } }, [_vm._v("Age")]),
+                _vm._v(" "),
+                _c("th", { attrs: { width: "120" } }, [_vm._v("Date")]),
+                _vm._v(" "),
+                _c("th", { attrs: { width: "50" } })
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.immunizations, function(entry, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.immunization_title))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.age))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(entry.date_of_immunization))]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    [
+                      _c(
+                        "dropdown",
+                        [
+                          _c("template", { slot: "content" }),
+                          _vm._v(" "),
+                          _c("template", { slot: "list" }, [
+                            _c(
+                              "li",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    _vm.show(entry)
+                                  }
+                                }
+                              },
+                              [_vm._v("Modify")]
+                            ),
+                            _vm._v(" "),
+                            _c("li", [_vm._v("Trash")])
+                          ])
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                ])
+              })
+            ],
+            2
+          ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          attrs: { show: _vm.opened },
+          on: {
+            closed: function($event) {
+              _vm.opened = false
+            }
+          }
+        },
+        [
+          _vm.opened
+            ? _c("CreateImmunization", {
+                attrs: { "form-data": _vm.form },
+                on: { success: _vm.success, error: _vm.error }
+              })
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-057454ec", module.exports)
+  }
+}
+
+/***/ }),
+/* 484 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(485)
+/* template */
+var __vue_template__ = __webpack_require__(486)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Hospitalizations.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-00f9ca80", Component.options)
+  } else {
+    hotAPI.reload("data-v-00f9ca80", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 485 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'Hospitalizations',
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('medicalHistory', ['hospitalizations'])),
+	mounted: function mounted() {
+		this.$store.dispatch('medicalHistory/FETCH_HOSPITALIZATIONS');
+	}
+});
+
+/***/ }),
+/* 486 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    _vm._l(_vm.hospitalizations, function(entry) {
+      return _c("div", { key: entry.id, staticClass: "mb-20" }, [
+        _c("h1", { staticClass: "title mb-5 is-5" }, [
+          _vm._v(_vm._s(entry.hospitalization_type))
+        ]),
+        _vm._v(" "),
+        _c("p", [_vm._v("Doctor: " + _vm._s(entry.doctor))]),
+        _vm._v(" "),
+        _c("p", [_vm._v("Hospital: " + _vm._s(entry.hospital))]),
+        _vm._v(" "),
+        _c("p", [_vm._v("Reason: " + _vm._s(entry.reason))]),
+        _vm._v(" "),
+        _c("p", [_vm._v("Complications: " + _vm._s(entry.complications))])
+      ])
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-00f9ca80", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

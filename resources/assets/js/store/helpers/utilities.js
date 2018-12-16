@@ -48,6 +48,8 @@ export const personalify = (person) => {
 	return __.assign(__.create(person_proto), person)
 }
 
+export const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
+
 export const shareFactory = (share)  => {
 	const pickName = () => {
 		console.log(share)

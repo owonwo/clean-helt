@@ -6,7 +6,7 @@ const state = {
 	ACCOUNT_TYPE: '',
 	user: {
 		avatar: '',
-		age: 0
+		age: 0,
 	},
 	notifications: [],
 	settings: {
@@ -48,7 +48,7 @@ const actions = {
 		const {route, key} = context.state.settings.profile
 		axios.get(route)
 			.then((res) => _.extend(res.data[key]))
-			.then(personalify)
+			.then(data => context.state.ACCOUNT_TYPE === 'hospital' ? data : personalify(data))
 			.then((user_data) => context.commit('set_user', user_data))
 	}
 }

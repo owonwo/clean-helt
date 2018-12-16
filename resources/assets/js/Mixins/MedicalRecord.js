@@ -5,11 +5,13 @@ const MedicalRecordsMixin = {
 	props: {
 		formData: { type: Object, default: {}, required: true}
 	},
-	mounted() {
-		console.group('MedicalRecords')
-		console.log(this.$props.formData)
-		console.groupEnd('MedicalRecords')
-		this.form = _.extend({}, this.$props.formData);
+	mounted () {
+		console.log(this.$store.getters.accountType)
+		console.log('help')
+		// console.group('MedicalRecords')
+		// console.log(this.$props.formData)
+		// console.groupEnd('MedicalRecords')
+		this.form = _.extend({}, this.$props.formData)
 	},
 	computed: {
 		isUpdating() {
@@ -23,8 +25,9 @@ const MedicalRecordsMixin = {
 				.then(() => (this.form = {}))
 				.catch(getErrors)
 				.then(err => {
+					if (err.response)
 					this.$emit('error', err.response.data)
-				})            
+				})
 		},
 		async submit() {
 			const { isUpdating, form } = this

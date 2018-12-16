@@ -6,6 +6,9 @@ const state = {
 	  *@type <Array[{disease:"string", carriers: <Array["string"]> }]>
 	  */
 	histories: [],
+	allergies: [],
+	hospitalizations: [],
+	immunizations: [],
 }
 
 const getters = {
@@ -13,6 +16,15 @@ const getters = {
 }
 
 const mutations = {
+	set_allergies (store, payload) {
+		store.allergies = payload
+	},
+	set_hospitalizations(store, payload) {
+		store.hospitalizations = payload 
+	},
+	set_immunization (store, payload) {
+		store.immunizations = payload
+	},
 	set_histories (store, payload) {
 		store.histories = payload
 	},
@@ -36,6 +48,25 @@ const actions = {
 			context.commit('set_histories', extractRecords(res.data.data))
 		}).catch(VuexError('Fetching Medical Histories Failed'))
 	},
+	FETCH_ALLERGIES(context) {
+		axios.get('/api/patient/record/allergy').then(({data}) => {
+			context.commit('set_allergies', extractRecords(data.data))
+		}).catch(VuexError('Error Fetching Allergies'))
+	},
+	// HOSPITALIZATIONS
+	FETCH_HOSPITALIZATIONS(context) {
+		axios.get('/api/patient/record/hospitalization').then(({data}) => {
+			context.commit('set_hospitalizations', extractRecords(data.data))
+		}).catch(VuexError('Error Fetching Hospitalizations'))		
+	},
+
+	// IMMUNIZATIONS
+	FETCH_IMMUNIZATIONS(context) {
+		console.log(context.rootState.manage_patient.currentPatient)
+		axios.get('/api/patient/record/immunization').then(({data}) => {
+			context.commit('set_immunization', extractRecords(data.data))
+		}).catch(VuexError('Error Fetching immunizations'))		
+	}
 }
 
 export default {

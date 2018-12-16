@@ -1,163 +1,214 @@
 <template>
-	<section>
-		<section class="columns">
-			<div class="column is-half">
-				<h5 class="osq-group-subtitle-alt mb-15">Patient Profile</h5>
-				<ProfileBox v-show="profile" class="is-fullwidth is-green">
-					<h3 class="profile-title">{{ patient.name }}</h3>
-					<p>{{ patient.gender | ucfirst }}</p>
-					<div class="mt-30">
-						<button @click="showProfile = true" class="button is-outlined is-rounded is-dark">Bio-Data</button>
-						<router-link v-if="accountType === 'doctor'"
-							:to="{name:'add-record', params: {chcode: patient.chcode, patient_id: patient.id }}" 
-							class="button ml-10 is-outlined is-rounded is-dark">
-							Add Record
-						</router-link>
-					</div>
-				</ProfileBox>
-				<section class="px-0">
-					<accordion>
-						<template slot="heading">Emergency Hospital</template>
-						<section slot="content">
-							<h3 class="m-0">{{ patient.emergency_hospital_name | ucfirst }}</h3>
-							<b class="m-0">Address:</b>
-							<p>{{ patient.emergency_hospital_address | ucfirst }}</p>
-						</section>
-					</accordion>
-				    <accordion class="menu">
-						<template slot="heading">Next of Kin<!-- Emergency Contact --></template>
-						<section slot="content" class="content">
-							<h1 class="title is-5 mb-0">{{ patient.nok_name }}</h1>
-							<div>
-								<small>Email Address: {{ patient.nok_email }}</small>
-							</div>
-							<div>
-								<small>Phone Number: {{ patient.nok_phone }}</small>
-							</div>
-						</section>
-					</accordion>
-				</section>
-				<hr/>
-				<h1 class="osq-group-subtitle-alt mb-10">Medical History</h1>
-				<div class="columns content is-multiline">
-					<div v-if="showDiagnosis" class="column is-half is-fullheight">
-						<router-link :to="recordsRoute('diagnosis')" tag="div" class="card pointed osq-text-primary card-content">Doctor's Diagnosis</router-link>
-					</div>
-					<div v-if="showLabTests" class="column is-half">
-						<router-link :to="recordsRoute('labtest')" tag="div" class="card pointed osq-text-primary card-content">Laboratory Records</router-link>
-					</div>
-					<div v-if="showPrescription" class="column is-half">
-						<router-link :to="recordsRoute('prescriptions')" tag="div" class="card pointed osq-text-primary card-content">Medicine Dispensing Records</router-link>
-					</div>
-				</div>
-			</div>
-
-			<div class="column is-half">
-				<h1 class="osq-group-subtitle-alt mb-10"><i class="osf osf-note osf-14px"></i> NOTES</h1>
-				<v-scrollbar v-once :settings="settings" style="height:100vh">
-					<DoctorNote class="mb-10" v-for="a in 4" :key="a"/>
-				</v-scrollbar>
-			</div>
-		</section>
-
-		<modal class="is-note" :show="showProfile" :show-header="true" @closed="showProfile = false">
-			<template slot="modal-title"><b>Bio-Data</b>: {{ patient.name }}</template>
-			<table class="table is-borderless is-fullwidth">
-				<tr>
-					<td width="150">Full Name</td>
-					<td>{{ patient.fullname }}</td>
-				</tr>
-				<tr>
-					<td>Phone Number</td>
-					<td>{{ patient.phone }}</td>
-				</tr>
-				<tr>
-					<td>Age</td>
-					<td>{{ patient.dob | moment("from") }}</td>
-				</tr>
-				<tr>
-					<td>Gender</td>
-					<td>{{ patient.gender | ucfirst }}</td>
-				</tr>
-				<tr>
-					<td>Address</td>
-					<td>{{ patient.address }}</td>
-				</tr>
-				<tr>
-					<td>City</td>
-					<td>{{ patient.city }}</td>
-				</tr>
-				<tr>
-					<td>State</td>
-					<td>{{ patient.state }}</td>
-				</tr>
-				<tr>
-					<td>Country</td>
-					<td>{{ patient.country }}</td>
-				</tr>
-			</table>
-		</modal>
-	</section>
+  <section>
+    <ProfileGrid 
+      :name="patient.name"
+      :avatar="patient.avatar"
+      avatar-url="">
+      <template slot="navigation">
+        <li><a href="#basic">Basic Information</a></li>
+        <li><a href="#allergy">Allergies</a></li>
+      </template>
+      <pager 
+        slot-scope="pager" 
+        :current="pager.page">
+        <section slot="p1">
+          <div class="menu-label">User Information</div>
+          <accordion :show="true">
+            <template slot="heading">Basic</template>
+            <section slot="content">
+              <table class="table is-narrow">
+                <tr class="">
+                  <th width="150">First Name</th>
+                  <td>
+                    <span>{{ patient.first_name }}</span>
+                  </td>
+                </tr>
+                <tr class="">
+                  <th>Last Name</th>
+                  <td>
+                    <span>{{ patient.last_name }}</span>
+                  </td>
+                </tr>
+                <tr class="">
+                  <th>Other Name</th>
+                  <td>
+                    <span>{{ patient.middle_name }}</span>
+                  </td>
+                </tr>
+                <tr class="">
+                  <th>Date of Birth</th>
+                  <td>
+                    <span>{{ [ patient.dob, "YYYY-MM-DD" ] | moment("Do MMMM, YYYY") }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>
+                    <span>{{ patient.email }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Gender</th>
+                  <td>{{ patient.gender | ucfirst }}</td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td>
+                    <span>{{ patient.address }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>City</th>
+                  <td>
+                    <span>{{ patient.city }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>State:</th>
+                  <td>
+                    <span>{{ patient.state }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Marital Status:</th>
+                  <td>
+                    <span>{{ patient.marital_status | ucfirst }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Phone Number:</th>
+                  <td>
+                    <span>{{ patient.phone }}</span>
+                  </td>
+                </tr>
+              </table>
+            </section>
+          </accordion>
+          <!-- Next of Kin -->
+          <accordion class="menu">
+            <template slot="heading">Next of Kin</template>
+            <section 
+              slot="content" 
+              class="content">
+              <h1 class="title is-5 mb-10">{{ patient.nok_name }}</h1>
+              <div>
+                <p>Email Address: <b>{{ patient.nok_email }}</b></p>
+              </div>
+              <div>
+                <p>Phone Number: <b>{{ patient.nok_phone }}</b></p>
+              </div>
+            </section>
+          </accordion>
+          <!-- Emergency Contact -->
+          <accordion :show="false">
+            <template slot="heading">Emergency Hospital</template>
+            <section slot="content">
+              <div>
+                <span>No Emergency Address Yet</span>
+                <template>
+                  <h3 class="mb-5">{{ patient.emergency_hospital_name }}</h3>
+                  <p style="opacity: 0.8">{{ patient.emergency_hospital_address }}</p>
+                </template>
+              </div>
+                </div>
+            </section>
+          </accordion>
+        </section>
+        <div slot="p2">
+          <div class="level">
+            <div class="menu-label">
+              <span>ALLERGIES</span>
+            </div>
+            <!-- @click="editModal('allergy', {})" -->
+            <HoverRevealButton>
+              <span 
+                slot="icon" 
+                class="ti ti-plus"/>
+              <span slot="text">Add</span>
+            </HoverRevealButton>
+          </div>
+          <alert 
+            v-if="!records.allergy.length" 
+            type="info">
+            You have a clean Allergy record.
+          </alert>
+          <table 
+            v-else 
+            class="table is-small is-fullwidth" 
+            style="font-size:small">
+            <tr>
+              <th width="50">S/N</th>
+              <th>Allergy</th>
+              <th>Reaction</th>
+              <th width="170">Date of Occurence</th>
+              <th/>
+            </tr>
+            <tr 
+              v-for="(entry, index) in records.allergy" 
+              :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ entry.allergy }}</td>
+              <td>{{ entry.reaction }}</td>
+              <td>{{ entry.last_occurance }}</td>
+            </tr>
+          </table>
+        </div>
+      </pager>
+    </ProfileGrid>
+  </section>
 </template>
 
 <script>
-	import Modal from '@/components/Modal.vue'
-	import DoctorNote from '@/components/DoctorNote.vue'
-	import {mapGetters} from 'vuex'
+  import ProfileGrid from '@/components/ProfileGrid.vue'
+  import { mapGetters, mapState } from 'vuex'
 
-	export default {
-		components: {DoctorNote, Modal},
-		name: "PatientProfile",
-		methods: {
-			recordsRoute(type = "all") {
-				const params = Object.assign(this.$route.params, {
-					chcode: this.patient.chcode,
-				});
-				const query = {type};
-				return {
-					name: 'patient-records', 
-					params,
-					query
-				}
-			},
-			getProfile() {
-				let profile = this.$store.getters.getProfileByPatientId(this.getId());
-				if("undefined" == typeof profile) 
-					return  _.debounce(this.getProfile.bind(this), 2000)();
-				this.profile = profile;
-				this.patient = _.extend({}, this.profile.patient);
-			},
-			getId() {
-				const patient_id = parseInt(this.$route.params.patient_id)
-				_.isNumber(patient_id) || this.$router.replace({name: 'patients'})
-				return patient_id;
-			}
-		},
-		activated () {
-			this.getProfile();
-		},
-		computed: {
-			...mapGetters(['accountType']),
-			showDiagnosis() {
-				let {accountType: workspace} = this;
-				return ['doctor', 'hospital'].includes(workspace);
-			},
-			showLabTests() {
-				let {accountType: workspace} = this;
-				return ['doctor', 'laboratory','hospital'].includes(workspace);				
-			},
-			showPrescription() { 
-				let {accountType: workspace} = this;
-				return ['pharmacy', "doctor" , "hospital"].includes(workspace);
-			}
-		},
-		data() {return {
-			settings: {
-				 maxScrollbarLength: 60
-			},
-			profile: {},
-			patient: {},
-			showProfile: false,
-		}}
-	}
+  export default {
+    name: 'PatientProfile',
+    components: { ProfileGrid },
+    data() {return {
+      page: 0,
+      settings: { maxScrollbarLength: 60 },
+      showProfile: false,
+      records: {
+        allergy: [],
+      },
+      profile: {}
+    }},
+    computed: {
+      ...mapGetters(['accountType']),
+      ...mapState('manage_patient', {patient: 'currentPatient'}),
+      ...mapState('manage_patient', ['patients'])
+    },
+    mounted () {
+      const { patient_id } = this.$route.params
+      if (this.patients.length < 1) this.$router.back()
+      this.$store.commit('manage_patient/set_current_patient', patient_id)
+      this.$store.dispatch('manage_patient/FETCH_PATIENT_DATA')
+    },
+    methods: {
+      recordsRoute(type = 'all') {
+        const params = Object.assign(this.$route.params, {
+          chcode: this.patient.chcode,
+        })
+        const query = {type}
+        return {
+          name: 'patient-records', 
+          params,
+          query
+        }
+      },
+      getProfile() {
+        let profile = this.$store.getters.getProfileByPatientId(this.getId())
+        if('undefined' == typeof profile) 
+          return  _.debounce(this.getProfile.bind(this), 2000)()
+        this.profile = profile
+        this.patient = _.extend({}, this.profile.patient)
+      },
+      getId() {
+        const patient_id = parseInt(this.$route.params.patient_id)
+        _.isNumber(patient_id) || this.$router.replace({name: 'patients'})
+        return patient_id
+      }
+    }
+  }
 </script>

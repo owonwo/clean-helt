@@ -16,9 +16,9 @@ class CreateFamilyRecordsTable extends Migration
         Schema::create('family_records', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id');
-            $table->string("disease");
-            $table->text("carriers");
-            $table->string("description");
+            $table->string('disease');
+            $table->text('carriers');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

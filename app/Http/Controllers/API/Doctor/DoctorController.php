@@ -52,7 +52,7 @@ class DoctorController extends Controller
         if ($doctor = Doctor::forceCreate(array_merge($data, $token))) {
             DoctorProfile::forceCreate([
                 'doctors_id' => $doctor->id,
-                'avatar' => 'public/defaults/avatars/client.png'
+                'avatar' => 'public/defaults/avatars/client.png',
             ]);
             event(new Registered($doctor));
 
@@ -129,6 +129,7 @@ class DoctorController extends Controller
     public function show()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
         try {
             return response()->json([
                 'message' => 'Doctors Loaded successfully',
@@ -150,10 +151,11 @@ class DoctorController extends Controller
             $hospital = Hospital::whereChcode($chcode)->get()->first();
         } catch (Exception $e) {
             return response()->json([
-                'error' => 'Theres an Error'.$e->getMessage(),
+                'error' => 'Theres an Error' . $e->getMessage(),
             ], 403);
         }
         $exists = DB::table('doctor_hospital')->where('hospital_id', $hospital->id)->where('doctor_id', $doctor->id)->first();
+
         try {
             if (!$exists) {
                 DoctorHospital::forceCreate([
@@ -168,7 +170,7 @@ class DoctorController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'error' => 'Theres an Error'.$e->getMessage(),
+                'error' => 'Theres an Error' . $e->getMessage(),
             ], 403);
         }
 
@@ -210,6 +212,7 @@ class DoctorController extends Controller
     public function activeHospitals()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
         try {
             $activeHospitals = optional($doctor)->activeHospitals()->get();
 
@@ -263,6 +266,7 @@ class DoctorController extends Controller
     public function hospitals()
     {
         $doctor = auth()->guard('doctor-api')->user();
+
         try {
             return response()->json([
                 'message' => 'This hospitals loaded successfully',

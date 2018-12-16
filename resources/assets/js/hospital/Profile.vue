@@ -3,7 +3,7 @@
 		<section class="content-top-bar">
 			<h3>{{ user.name }} Profile</h3>
 		</section>
-	    <profile-grid ref="grid" :avatar-url="edit.avatarUrl" :name="user.name" :avatar="user.avatar">
+	    <profile-grid ref="grid" :avatar-url="edit.avatarUrl" name="" :avatar="user.avatar">
 			<template slot="navigation">
 				<li><a href="#">View Profile</a></li>
 				<li><a href="#">View Admin Profile</a></li>
