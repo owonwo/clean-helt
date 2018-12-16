@@ -20,6 +20,12 @@ class ManagesClientAllergiesTest extends TestCase
         $this->doctor = create('App\Models\Doctor');
         // create a patient
         $this->patient = create('App\Models\Patient');
+        $share = create('App\Models\ProfileShare', ['patient_id' => $this->patient->id]);
+        create('App\Models\ShareExtension', [
+            'share_id' => $share->id,
+            'provider_id' => $this->doctor->id,
+            'provider_type' => get_class($this->doctor)
+        ]);
     }
 
     /** @test */
@@ -27,8 +33,7 @@ class ManagesClientAllergiesTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id, 'type' => 'App\Models\Allergy']);
         $allergy = create('App\Models\Allergy', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+        
         $this->signIn($this->doctor, 'doctor');
 
         $this->get("api/doctor/patients/{$this->patient->chcode}/allergies")
@@ -43,12 +48,6 @@ class ManagesClientAllergiesTest extends TestCase
         $allergy = make('App\Models\Allergy')->toArray();
         unset($allergy['record_id']);
 
-        // Share patient's profile with doctor
-        create('App\Models\ProfileShare', [
-            'provider_id' => $this->doctor->id,
-            'patient_id' => $this->patient->id
-        ]);
-        
         $this->signIn($this->doctor, 'doctor');
 
         $this->post("api/doctor/patients/{$this->patient->chcode}/allergies", $allergy)->assertStatus(200);
@@ -69,8 +68,7 @@ class ManagesClientAllergiesTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id]);
         $allergy = create('App\Models\Allergy', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+       
         $this->signIn($this->doctor, 'doctor');
 
         $update = ['allergy' => 'Peanut Butter'];
@@ -86,8 +84,7 @@ class ManagesClientAllergiesTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id]);
         $allergy = create('App\Models\Allergy', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+        
         $this->signIn($this->doctor, 'doctor');
 
         $this->delete("api/doctor/patients/{$this->patient->chcode}/allergies/$allergy->id")

@@ -27,8 +27,13 @@ class ManagesClientImmunizationsTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id, 'type' => 'App\Models\Immunization']);
         $immunization = create('App\Models\Immunization', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+        $share = create('App\Models\ProfileShare', ['patient_id' => $this->patient->id]);
+        $ext = create('App\Models\ShareExtension', [
+            'share_id' => $share->id,
+            'provider_id' => $this->doctor->id,
+            'provider_type' => get_class($this->doctor)
+        ]);
+        
         $this->signIn($this->doctor, 'doctor');
 
         $this->get("api/doctor/patients/{$this->patient->chcode}/immunizations")
@@ -44,9 +49,11 @@ class ManagesClientImmunizationsTest extends TestCase
         unset($immunization['record_id']);
 
         // Share patient's profile with doctor
-        create('App\Models\ProfileShare', [
+        $share = create('App\Models\ProfileShare', ['patient_id' => $this->patient->id]);
+        $ext = create('App\Models\ShareExtension', [
+            'share_id' => $share->id,
             'provider_id' => $this->doctor->id,
-            'patient_id' => $this->patient->id
+            'provider_type' => get_class($this->doctor)
         ]);
         
         $this->signIn($this->doctor, 'doctor');
@@ -69,8 +76,13 @@ class ManagesClientImmunizationsTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id]);
         $immunization = create('App\Models\Immunization', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+        $share = create('App\Models\ProfileShare', ['patient_id' => $this->patient->id]);
+        $ext = create('App\Models\ShareExtension', [
+            'share_id' => $share->id,
+            'provider_id' => $this->doctor->id,
+            'provider_type' => get_class($this->doctor)
+        ]);
+        
         $this->signIn($this->doctor, 'doctor');
 
         $update = ['immunization_title' => 'Polio'];
@@ -86,8 +98,14 @@ class ManagesClientImmunizationsTest extends TestCase
     {
         $record = create('App\Models\MedicalRecord', ['patient_id' => $this->patient->id]);
         $immunization = create('App\Models\Immunization', ['record_id' => $record->id]);
-        create('App\Models\ProfileShare', ['provider_id' => $this->doctor->id, 'patient_id' => $this->patient->id]);
-
+        $share = create('App\Models\ProfileShare', [ 'patient_id' => $this->patient->id]);
+        $ext = create('App\Models\ShareExtension', [
+            'share_id' => $share->id,
+            'provider_id' => $this->doctor->id,
+            'provider_type' => get_class($this->doctor)
+        ]);
+        
+        
         $this->signIn($this->doctor, 'doctor');
 
         $this->delete("api/doctor/patients/{$this->patient->chcode}/immunizations/$immunization->id")

@@ -25,6 +25,15 @@ class ProfileShare extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+    
+    /**
+     * A profile share has many extensions
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function extensions()
+    {
+        return $this->hasMany(ShareExtension::class, 'share_id');
+    }
 
     /**
      * A profile share belongs to a service provider

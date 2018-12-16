@@ -86,30 +86,6 @@ class DoctorManagesSharedProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_doctor_can_view_his_patients(){
-        $doctor = create(Doctor::class);
-        $patient = create(Patient::class);
-
-        $this->signIn($doctor,'doctor-api');
-        $profileShare = create(ProfileShare::class,['patient_id' => $patient->id,'provider_id' => $doctor->id]);
-
-        $this->patch(route('doctor.accept.patient', ['profileShare' => $profileShare->id]), ['accept' => 1]);
-        $this->assertDatabaseHas('profile_shares', ['status' => 1]);
-
-        $this->get(route('doctor.patient',$patient))->assertSee($patient->first_name);
-    }
-    /** @test */
-    public function a_doctor_can_view_patient_profile_by_date()
-    {
-        $start = Carbon::now();
-        $doctor = create(Doctor::class,['created_at' => $start]);
-        $this->signIn($doctor,'doctor-api');
-
-        $end = $start->addDay()->format('Y-m-d');
-        $this->makeAuthRequest()->get("api/doctor/patients?startDate={$start->format('Y-m-d')}&endDate={$end}")->assertStatus(200);
-    }
-
-    /** @test */
     public function a_doctor_can_decline_a_shared_profile()
     {
         $doctor = create(Doctor::class);

@@ -5,6 +5,7 @@ namespace Tests\Feature\Hospital;
 use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\ProfileShare;
+use App\Models\ShareExtension;
 use Carbon\Carbon;
 use PhpParser\Comment\Doc;
 use Tests\TestCase;
@@ -38,6 +39,39 @@ class ManagesSharedProfilesTest extends TestCase
             ->get('api/hospital/patients')
             ->assertSee($share->patient->name)
             ->assertDontSee($pending->patient->first_name);
+    }
+    
+    /** @test */
+    public function an_authenticated_hospital_can_view_patients_with_assigned_doctors()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 1
+        ]);
+
+        $doctorOne = create(Doctor::class);
+        $doctorTwo = create(Doctor::class);
+
+        $hospital->doctors()->attach($doctorOne, ['status' => 1]);
+        $hospital->doctors()->attach($doctorTwo, ['status' => 1]);
+        
+        $extension = create(ShareExtension::class, [
+            'provider_id' => $doctorOne->id,
+            'provider_type' => get_class($doctorOne),
+            'share_id' => $share->id,
+            'sharer_id' => $hospital->id,
+            'sharer_type' => get_class($hospital)
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->get('api/hospital/patients')
+            ->assertSee($doctorOne->first_name)
+            ->assertDontSee($doctorTwo->first_name);
     }
 
     /** @test */
@@ -142,15 +176,17 @@ class ManagesSharedProfilesTest extends TestCase
             ->get('api/hospital/patients')
             ->assertDontSee($share->patient->first_name);
     }
-
+    
     /** @test */
-    public function an_authenticated_hospital_can_assign_a_shared_profile_to_their_doctor()
+    public function an_authenticated_hospital_can_assign_a_shared_profile_to_their_doctors()
     {
         $hospital = create(Hospital::class);
 
-        $doctor = create(Doctor::class);
+        $doctorOne = create(Doctor::class);
+        $doctorTwo = create(Doctor::class);
 
-        $hospital->doctors()->attach($doctor, ['status' => 1]);
+        $hospital->doctors()->attach($doctorOne, ['status' => 1]);
+        $hospital->doctors()->attach($doctorTwo, ['status' => 1]);
 
         $share = create(ProfileShare::class, [
             'provider_id' => $hospital->id,
@@ -162,12 +198,53 @@ class ManagesSharedProfilesTest extends TestCase
         $this->signIn($hospital, 'hospital');
 
         $this->makeAuthRequest()
-            ->patch("api/hospital/patients/{$share->id}/assign/{$doctor->chcode}");
+            ->post("api/hospital/patients/{$share->id}/assign", [
+                'doctor_codes' => [$doctorOne->chcode, $doctorTwo->chcode]
+            ]);
         
 
-        $this->assertDatabaseHas('profile_shares', [
-            'doctor_id' => $doctor->id,
-            'provider_id' => $hospital->id,
+        $this->assertDatabaseHas('share_extensions', [
+            'sharer_id' => $hospital->id,
+            'provider_id' => $doctorOne->id,
         ]);
+        
+        $this->assertDatabaseHas('share_extensions', [
+            'sharer_id' => $hospital->id,
+            'provider_id' => $doctorTwo->id,
+        ]);
+    }
+    
+    /** @test */
+    public function an_authenticated_hospital_can_unassign_a_doctor_from_a_shared_profile()
+    {
+        $hospital = create(Hospital::class);
+
+        $share = create(ProfileShare::class, [
+            'provider_id' => $hospital->id,
+            'provider_type' => get_class($hospital),
+            'status' => 1
+        ]);
+
+        $doctor = create(Doctor::class);
+        
+        $hospital->doctors()->attach($doctor, ['status' => 1]);
+        
+        $extension = create(ShareExtension::class, [
+            'provider_id' => $doctor->id,
+            'provider_type' => get_class($doctor),
+            'share_id' => $share->id,
+            'sharer_id' => $hospital->id,
+            'sharer_type' => get_class($hospital)
+        ]);
+
+        $this->signIn($hospital, 'hospital');
+
+        $this->makeAuthRequest()
+            ->delete("api/hospital/patients/$share->id/unassign/$doctor->chcode");
+            
+        $this->assertDatabaseMissing('share_extensions', [
+            'share_id' => $share->id,
+            'provider_id' => $doctor->id
+        ]); 
     }
 }

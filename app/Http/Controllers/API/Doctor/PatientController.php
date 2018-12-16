@@ -23,16 +23,20 @@ class PatientController extends Controller
     public function index(PatientFilter $filter)
     {
         $doctor = auth()->guard('doctor-api')->user();
-        $start = request('startDate');
-        $end = request('endDate');
-
+        
         try {
-            $patients = $doctor->allShares()->activeShares()->get();
+            $patients = $doctor->assignedShares()
+                                ->activeShares()
+                                ->with('profileShare', 'sharer')
+                                ->latest()
+                                ->get();
 
             return response()->json([
                 'message' => 'Patients retrieved successfully',
                 'patients' => $patients,
             ], 200);
+            
+            
         } catch (Exception $e) {
             return response()->json([
 
@@ -41,6 +45,24 @@ class PatientController extends Controller
             ], 403);
         }
     }
+
+
+    public function show(Patient $patient)
+    {
+        $doctor = auth()->guard('doctor-api')->user();
+        
+        if ($patient && $doctor->canViewProfile($patient)) {
+            return response()->json([
+                'message' => 'Patient retrieved successfully',
+                'patient' => $patient,
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Unauthorized access',
+        ], 400);
+    }
+    
 
     public function refer(Patient $patient)
     {
@@ -67,14 +89,17 @@ class PatientController extends Controller
         }
     }
 
-    public function doctorReferral($doctor, $patient, $refferedDoctor)
+
+    public function doctorReferral($doctor,$patient,$refferedDoctor)
     {
-        $provider_type = 'App\Models\Doctor';
-        //Doctor places in the chcode of another doctor
-        $chcode = request('chcode');
-        foreach ($patient->profileShares as $profileShare) {
-            if ($profileShare->provider_id == $doctor->id && $profileShare->patient_id == $patient->id) {
-                $expiration = $profileShare->expired_at;
+
+            $provider_type ='App\Models\Doctor';
+            //Doctor places in the chcode of another doctor
+            $chcode = request('chcode');
+            foreach ($patient->profileShares as $profileShare){
+                if($profileShare->provider_id == $doctor->id && $profileShare->patient_id == $patient->id){
+                   $expiration =  $profileShare->expired_at;
+                }
             }
         }
 
@@ -100,6 +125,7 @@ class PatientController extends Controller
                     'message' => 'This doctor cannot share this patient',
                 ], 400);
     }
+    
     public function diagnosis(Patient $patient)
     {
         $doctor = auth()->guard('doctor-api')->user();
@@ -117,21 +143,6 @@ class PatientController extends Controller
             return response()->json([
                 'message' => 'Patient Diagnosis retrieved successfully',
                 'records' => $records,
-            ], 200);
-        }
-
-        return response()->json([
-            'message' => 'Unauthorized access',
-        ], 400);
-    }
-
-    public function show(Patient $patient)
-    {
-        $doctor = auth()->guard('doctor-api')->user();
-        if ($patient && $doctor->canViewProfile($patient)) {
-            return response()->json([
-                'message' => 'Patient retrieved successfully',
-                'patient' => $patient,
             ], 200);
         }
 

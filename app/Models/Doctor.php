@@ -50,6 +50,11 @@ class Doctor extends Authenticatable
     {
         return $this->morphMany(ProfileShare::class, 'provider');
     }
+    
+    public function assignedShares()
+    {
+        return $this->morphMany(ShareExtension::class, 'provider');
+    }
 
     public function allShares()
     {
@@ -65,9 +70,11 @@ class Doctor extends Authenticatable
      */
     public function canViewProfile(Patient $patient)
     {
-        return null !== $this->allShares()
+        return null !== $this->assignedShares()
                 ->activeShares()
-                ->where('patient_id', (string) $patient->id)
+                ->whereHas('profileShare', function($query) use ($patient) {
+                    $query->where('patient_id', $patient->id);
+                })
                 ->first();
     }
 
