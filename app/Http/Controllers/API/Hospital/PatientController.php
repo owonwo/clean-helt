@@ -74,7 +74,8 @@ class PatientController extends Controller
                 'sharer_type' => get_class($this->hospital),
                 'provider_id' => $doctor->id,
                 'provider_type' => get_class($doctor),
-                'expired_at' => $profileShare->expired_at
+                'expired_at' => $profileShare->expired_at,
+                'status' => "1"
             ]);
             
             if ($share) $assigned[] = $code;
