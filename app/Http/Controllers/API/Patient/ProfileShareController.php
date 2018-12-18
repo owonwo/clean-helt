@@ -32,15 +32,20 @@ class ProfileShareController extends Controller
 
     public function index()
     {
+        $all = $this->patient->profileShares->each(function ($e) {
+            $e->load('provider');
+        });
+
         return response()->json([
             'message' => 'Shares retrieved successfully',
-            'shares' => $this->patient->profileShares,
+            'shares' => $all,
         ], 200);
     }
 
     public function store()
     {
         $rules = $this->getRules();
+
         try {
             $this->validate(request(), $rules);
         } catch (ValidationException $exception) {
@@ -111,10 +116,11 @@ class ProfileShareController extends Controller
         $expired_at = request('extension');
 
         if ($profileShare && $profileShare->update(['expired_at' => $expired_at])) {
-            event(new ProfileShareExtended($profileShare->provider, $this->patient));
+            // event(new ProfileShareExtended($profileShare->provider, $this->patient));
+            dd($profileShare->refresh()->expired_at);
 
             return response()->json([
-                'message' => 'Share extended successfully. Now expires '.$profileShare->fresh()->expired_at->diffForHumans(),
+                'message' => 'Share extended successfully. Now expires ' . $profileShare->fresh()->expired_at->diffForHumans(),
                 'share' => $profileShare,
             ], 200);
         }
@@ -131,12 +137,12 @@ class ProfileShareController extends Controller
         if ($referredDoctor) {
             return response()->json([
                 'message' => 'Retrieve pending referred doctor',
-                'data' => $referredDoctor
+                'data' => $referredDoctor,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Failed to fetch resource'
+            'message' => 'Failed to fetch resource',
         ], 403);
     }
 
@@ -148,13 +154,15 @@ class ProfileShareController extends Controller
             //not done
 
             $this->patient->notify(new  DoctorReferralNotification($this->patient, $profileShare));
+
             return response()->json([
                 'message' => 'Profile share has been accepted',
-                'data' => $profileShare
+                'data' => $profileShare,
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Profile share acceptance failed'
+            'message' => 'Profile share acceptance failed',
         ], 403);
     }
 
@@ -162,13 +170,15 @@ class ProfileShareController extends Controller
     {
         if ($profileShare->exists && $profileShare->isActive) {
             $profileShare->update(['referral_status' => false]);
+
             return response()->json([
                 'message' => 'Profile share has been accepted',
-                'data' => $profileShare
+                'data' => $profileShare,
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Profile share acceptance failed'
+            'message' => 'Profile share acceptance failed',
         ], 403);
     }
 

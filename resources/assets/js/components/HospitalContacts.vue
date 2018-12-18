@@ -1,9 +1,10 @@
 <template>
   <section class="cont">
     <!-- create contacts form -->
-   
     <div class="level">
-      <HoverRevealButton @click="opened = !opened">
+      <HoverRevealButton 
+        v-if="canEdit"
+        @click="opened = !opened">
         <i 
           slot="icon" 
           :class="{'ti-plus': !opened, 'ti-minus': opened}" 
@@ -57,8 +58,10 @@
     </form>
     <!-- contacts list -->
     <div class="menu-label p-5">Hospital Contact List</div>
+    <div v-if="contacts.length < 1"><i>No Hospital Contacts</i></div>
     <div
       v-for="(contact, index) in contacts"
+      v-else
       :key="index"
       class="card is-hospital m-5">
       <div class="card-content">
@@ -117,7 +120,7 @@
             <span> {{ contact.location }} </span>
           </p>
         </template>
-        <div class="level level-right">
+        <div v-if="canEdit" class="level level-right">
           <section>
             <button 
               class="button is-small is-pulled-right is-outlined" 
@@ -137,11 +140,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import CanLock from '@/Mixins/CanLock'
 import CrudHelper from '@/Mixins/CrudHelper'
 
 export default {
   name: 'HospitalContacts',
-  mixins: [ CrudHelper ],
+  mixins: [ CrudHelper, CanLock ],
   data() {
     return {
       form: {},

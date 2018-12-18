@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { VuexError } from '@/store/helpers/utilities'
 
 const state = {
 	pendingHospitals: [],
 	sentHospitals: [],
 	hospitals: [],
+	fellow_doctors: []
 }
 
 const getters = {
@@ -47,6 +49,11 @@ const actions = {
 		axios.get('/api/doctor/pending-hospitals').then((res) => {
 			context.commit('set_pending_hospitals', res.data.hospitals)
 		})
+	},
+	FETCH_FELLOW_DOCTORS (context, payload) {
+		axios.get('/doctors/').then(({data}) => {
+			console.log(data)
+		}).catch(VuexError('Error Fetching Fellow Doctors'))
 	}
 }
 

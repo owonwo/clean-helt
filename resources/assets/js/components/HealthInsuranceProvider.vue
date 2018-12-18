@@ -2,6 +2,7 @@
   <section>
     <section class="level">
       <HoverRevealButton 
+        v-if="canEdit"
         class="is-pulled-right" 
         @click="opened = !opened">
         <i 
@@ -12,7 +13,7 @@
       </HoverRevealButton>
     </section>
     <form 
-      v-if="opened"
+      v-if="opened && canEdit"
       method="POST"
       class="mb-15" 
       @submit.prevent="submit">
@@ -83,6 +84,7 @@
           <span class="title is-5">{{ entry.company_name }}
           </span>
           <HoverRevealButton 
+            v-if="canEdit"
             class="is-pulled-right"
             @click="$store.dispatch('health_insurance/DELETE', entry)">
             <i
@@ -129,9 +131,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import CanLock from '@/Mixins/CanLock'
 
 export default {
 	name: 'HealthInsurance',
+  mixins: [CanLock],
 	data() {return {
 		form: {},
 		opened: false

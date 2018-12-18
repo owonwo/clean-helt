@@ -9,7 +9,7 @@ export default {
 		},
 	},
 	methods: {
-		changed(value) {
+		changed() {
 			this.$emit('changed', this.selected)
 		},
 		baseUrl() {

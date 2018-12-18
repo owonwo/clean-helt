@@ -1,6 +1,8 @@
 <template>
   <section>
-    <div class="field is-horizontal">
+    <div 
+    	v-if="canEdit" 
+    	class="field is-horizontal">
       <div class="field-body">
         <div class="field">
           <div class="control">
@@ -49,7 +51,7 @@
             class="tag is-primary mr-10">
             <span>{{ title }}</span>
           </span>
-          <section class="button-group  is-pulled-right">
+          <section  v-if="canEdit" class="button-group  is-pulled-right">
             <button
               class="button has-no-motion is-small has-no-motion" 
               @click="addToForm(index)">
@@ -94,10 +96,13 @@
 </style>
 
 <script>
+import _ from 'lodash'
 import { mapGetters } from 'vuex'
+import CanLock from '@/Mixins/CanLock'
 
 export default {
 	name: 'FamilyMedicalRecords',
+	mixins: [CanLock],
 	data() {
 		return {
 			index: false,
@@ -110,10 +115,10 @@ export default {
 	},
 	computed: { 
 		editing() { return !_.isNumber(this.index) },
-		...mapGetters({diseases: 'getDiseases'}) 
+		...mapGetters('medicalRecord', {diseases: 'getDiseases'}) 
 	},
 	mounted() {
-		this.$store.dispatch('FETCH_DISEASES')
+		this.$store.dispatch('medicalRecord/FETCH_DISEASES')
 	},
 	methods: {
 		addToForm(index) {
@@ -122,8 +127,8 @@ export default {
 			this.form.carriers = this.form.carriers.join(', ')
 		},
 		async done (diseases) {
-			this.$store.commit('set_diseases', diseases)
-			this.$store.dispatch('UPDATE_DISEASES')
+			this.$store.commit('medicalRecord/set_diseases', diseases)
+			this.$store.dispatch('medicalRecord/UPDATE_DISEASES')
 		},
 		addDisease() {
 			const {form, index} = this,
@@ -144,7 +149,7 @@ export default {
 		removeDisease(index) {
 			const diseases = this.diseases.map((entry, i) => {
 				if(i === index) 
-					this.$store.dispatch('DELETE_DISEASE', entry)
+					this.$store.dispatch('medicalRecord/DELETE_DISEASE', entry)
 				return entry
 			}).filter((e,i) => i !== index)
 

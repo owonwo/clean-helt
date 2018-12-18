@@ -49,8 +49,14 @@ export default {
             this.$http.post(avatarUrl, form).then((res) => {
                 this.$store.commit('set_avatar', res.data.path);
             }).catch(err => {
-                this.$notify({type:'error', text: err.response.data.message, duration: 2500});
-            }) : console.warn('Unspecified Avatar Upload URI.');
+                const { avatar } = err.response.data.errors
+                if (avatar)
+                avatar.forEach(err_msg => this.$notify({
+                    type:'error', 
+                    text: err_msg, 
+                    duration: 5000
+                }))
+            }) : console.warn('Unspecified Avatar Upload URI.')
         },
     }
 }

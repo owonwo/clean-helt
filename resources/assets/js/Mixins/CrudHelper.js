@@ -11,19 +11,27 @@ export default {
 		validate() {
 			return false
 		},
+		submit(form) {
+			this.form = form
+			form.id ? this.update() : this.create()
+			this.opened = false
+		},
+		clearForm() {
+			this.form = {}
+		},
 		create() {
 			const { action, message } = this.crud.create
 
-			!this.validate() ? console.warn(`Form validation failed!`) :
+			!this.validate() ? console.warn('Form validation failed!') :
 			this.$store.dispatch(action, this.form)
 				.then(() => {
 					this.success_message(message.success)
 					this.form = {}
 				}).catch(() => this.error_message(message.error))
 		},
-		update(payload = {}) {
+		update() {
 			const { action, message } = this.crud.update
-			this.$store.dispatch(action, payload)
+			this.$store.dispatch(action, this.form)
 				.then(() => this.success_message(message.success))
 		},
 		trash(id) {

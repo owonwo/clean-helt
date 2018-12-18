@@ -3,7 +3,9 @@
     <section>
       <!-- create contacts form -->
       <div class="level">
-        <HoverRevealButton @click="opened = !opened">
+        <HoverRevealButton 
+          v-if="canEdit"
+          @click="opened = !opened">
           <i
             slot="icon"
             :class="{'ti-plus': !opened, 'ti-minus': opened}"
@@ -40,7 +42,7 @@
               type="text" 
               class="input" 
               tabindex="2" 
-              placeholder="Phone Number">  			
+              placeholder="Phone Number">       
           </div>
           <div class="field">
             <input 
@@ -48,7 +50,7 @@
               type="text"
               class="input" 
               tabindex="2" 
-              placeholder="Phone Number 2">  			
+              placeholder="Phone Number 2">       
           </div>
         </div>
         <div class="field-body field">
@@ -60,7 +62,7 @@
               class="textarea"/>
           </div>
         </div>
-        <div class="field">    	
+        <div class="field">     
           <button 
             class="button is-primary" 
             tabindex="5">Add to Contact</button>
@@ -68,8 +70,10 @@
       </form>
       <div class="menu-label p-5">Emergency Contact List</div>
       <!-- contacts list -->
+      <div v-if="contacts.length < 1"><i>No Emergency Contacts</i></div>
       <div
         v-for="(contact, index) in contacts"
+        v-else
         :key="index"
         class="card is-hospital m-5">
         <div class="card-content">
@@ -137,18 +141,20 @@
               <span> {{ contact.address }} - <i>{{ contact.zip_code }}</i> </span>
             </p>
           </template>
-          <div class="level level-right">
-          	<div>
-	            <button 
-	              class="button is-pulled-right is-small is-outlined" 
-	              @click="trash(contact.id)">
-	              <i class="ti ti-trash"/>
-	            </button>
-	            <save-edit-button
-	              :saved="contact.isEditing"
-	              class="mr-5"
-	              @click="saveContact(contact)"/>	
-          	</div>
+          <div 
+            v-if="canEdit" 
+            class="level level-right">
+            <div>
+              <button 
+                class="button is-pulled-right is-small is-outlined" 
+                @click="trash(contact.id)">
+                <i class="ti ti-trash"/>
+              </button>
+              <save-edit-button
+                :saved="contact.isEditing"
+                class="mr-5"
+                @click="saveContact(contact)"/> 
+            </div>
           </div>
         </div>
       </div>
@@ -157,52 +163,48 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import CanLock from '@/Mixins/CanLock'
 import CrudHelper from '@/Mixins/CrudHelper'
 
 export default {
-    name: 'EmergencyContacts',
-    mixins: [CrudHelper],
-    data() {
-        return {
-            form: {
-                // name: 'Fil Maker',
-                // phone: '+2349599393003',
-                // phone_2: '+2349599393003',
-                // address: 'Looking down the road',
-                // zip_code: '500238'
-            },
-            opened: false,
-            index: false,
-            crud: {
-                read: {
-                    action: 'patient_share/FETCH_CONTACTS'
-                },
-                create: {
-                    action: 'patient_share/CREATE_CONTACT',
-                    message: { success: 'Contact contact added!', error: 'Error adding Contact' }
-                },
-                update: {
-                    action: 'patient_share/UPDATE_CONTACT',
-                    message: { success: 'Contact Update Sucessful', error: '' }
-                },
-                delete: {
-                    action: 'patient_share/DELETE_CONTACT',
-                    message: { success: 'Contact truncated' }
-                }
-            }
+  name: 'EmergencyContacts',
+  mixins: [CrudHelper, CanLock],
+  data() {
+    return {
+      form: {
+      },
+      opened: false,
+      index: false,
+      crud: {
+        read: {
+          action: 'patient_share/FETCH_CONTACTS'
+        },
+        create: {
+          action: 'patient_share/CREATE_CONTACT',
+          message: { success: 'Contact contact added!', error: 'Error adding Contact' }
+        },
+        update: {
+          action: 'patient_share/UPDATE_CONTACT',
+          message: { success: 'Contact Update Sucessful', error: '' }
+        },
+        delete: {
+          action: 'patient_share/DELETE_CONTACT',
+          message: { success: 'Contact truncated' }
         }
-    },
-    computed: {
-        ...mapState('patient_share', ['contacts'])
-    },
-    methods: {
-        saveContact(contact) {
-            if (contact.isEditing) this.update(contact)
-            contact.toggleEdit()
-        },
-        validate() {
-            return Object.keys(this.form).length === 5
-        },
+      }
     }
+  },
+  computed: {
+    ...mapState('patient_share', ['contacts'])
+  },
+  methods: {
+    saveContact(contact) {
+      if (contact.isEditing) this.update(contact)
+        contact.toggleEdit()
+    },
+    validate() {
+      return Object.keys(this.form).length === 5
+    },
+  }
 }
 </script>

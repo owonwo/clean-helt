@@ -32,10 +32,6 @@ import MedicalRecord from '@/Mixins/MedicalRecord'
 export default {
     mixins: [MedicalRecord],
     data() {return {
-        endpoints: {
-            create: '/api/patient/record/allergy',
-            update: '/api/patient/update/{id}/allergy',
-        },
         form: { allergy: '', reaction: '', last_occurance: ''},
     }},
     methods: {}

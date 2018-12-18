@@ -4,7 +4,8 @@ import { VuexError, extractPatientFromShare } from '@/store/helpers/utilities'
 const state = {
 	patients: [],
 	pendingPatients: [],
-	currentPatient: {}
+	currentPatient: {},
+	fellow_doctors: []
 }
 
 const mutations = {
@@ -39,14 +40,14 @@ const actions = {
 		axios.patch(url).then(() => {
 			context.dispatch('FETCH_ALL_PATIENTS', account)
 		}).catch(VuexError('Accept Failed!'))
-	},
-	FETCH_PATIENT_DATA(context, medicalRecord) {
-		const { currentPatient: patient } = context.state
-		if (patient.chcode)
-		axios.get(`/api/doctor/patients/${patient.chcode}/records/${medicalRecord}`).then( ({data}) => {
-			console.log(data)
-		})
 	}
+	// FETCH_PATIENT_DATA(context, medicalRecord) {
+	// 	const { currentPatient: patient } = context.state
+	// 	if (patient.chcode)
+	// 	axios.get(`/api/doctor/patients/${patient.chcode}/records/${medicalRecord}`).then( ({data}) => {
+	// 		console.log(data)
+	// 	})
+	// }
 }
 
 export default {

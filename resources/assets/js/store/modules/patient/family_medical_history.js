@@ -1,5 +1,7 @@
 import axios from 'axios' 
-import { VuexError, extractRecords } from '@/store/helpers/utilities'
+import { VuexError, extractRecords, urlGenerator, guessDataKey } from '@/store/helpers/utilities'
+
+const familyHistory = urlGenerator('family_history')
 
 const state = {
 	/**
@@ -27,25 +29,27 @@ const actions = {
 		})
 	},
 	CREATE_DISEASE (context, payload) {
-		return axios.post('/api/patient/record/family-history', payload)
+		return axios.post(familyHistory(context).base(), payload)
 			.catch(VuexError('Failed Creating Disease'))
 	},
 	DELETE_DISEASE (context, payload) {
-		return axios.delete(`/api/patient/record/family-history/${payload.id}`)
+		return axios.delete(familyHistory(context).delete(payload.id))
 			.catch(VuexError('Failed to Delete Disease'))
 	},
 	UPDATE_DISEASE (context, payload) {
-		return axios.patch(`/api/patient/record/${payload.id}/family-history`, payload)
+		return axios.patch(familyHistory(context).update(payload.id), payload)
 			.catch(VuexError('Failed Updating Disease'))
 	},
 	FETCH_DISEASES (context) {
-		return axios.get('/api/patient/record/family-history').then((res) => {
-			context.commit('set_diseases', extractRecords(res.data.data) || [])
+		return axios.get(familyHistory(context).base()).then(guessDataKey)
+		.then(({data}) => {
+			context.commit('set_diseases', extractRecords(data))
 		}).catch(VuexError('Fetching Diseases Failed'))
 	},
 }
 
 export default {
+	namespaced: true,
 	state, 
 	getters, 
 	mutations,

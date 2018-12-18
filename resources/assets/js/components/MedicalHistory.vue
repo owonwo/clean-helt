@@ -28,12 +28,12 @@ export default {
 		}
 	},
 	computed: {
-		...mapState('medicalHistory', {
+		...mapState('medicalRecord', {
 			histories: (store) => store.histories 
 		})
 	},
 	mounted() {
-		this.$store.dispatch('medicalHistory/FETCH_MEDICAL_HISTORY')
+		this.$store.dispatch('medicalRecord/FETCH_MEDICAL_HISTORY')
 	},
 }
 </script>

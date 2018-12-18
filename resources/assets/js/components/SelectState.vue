@@ -1,19 +1,35 @@
 <template>
-	<select v-model="selected" name="selected" class="input">
-	    <option disabled="" value="0" selected="">Select State...</option>
-	    <option :key="index" v-for="(entry, index) in entries">{{ entry.name }}</option>
-	</select>
+  <div class="select">
+    <select 
+      v-model="selected" 
+      name="selected" 
+      @change="$emit('change', $event.target.value)">
+      <option 
+        disabled="" 
+        value="0" 
+        selected="">Select State...</option>
+      <option 
+        v-for="(entry, index) in entries" 
+        :key="index">{{ entry.name }}</option>
+    </select>
+  </div>
 </template>
 
 <script>
-	import LocationAPI from '@/Mixins/LocationAPI';
-	
-	export default {
-		props: ['value'],
-		name: "SelectCity",
-		mixins: [LocationAPI],
-		mounted () {
-			this.getStates();
+import LocationAPI from '@/Mixins/LocationAPI'
+
+export default {
+	name: 'SelectState',
+	mixins: [LocationAPI],
+	props: {
+		value: {
+			type: String,
+			required: true,
+      default: ""
 		}
+	},
+	mounted () {
+		this.getStates()
 	}
+}
 </script>

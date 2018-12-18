@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { VuexError, extractRecords } from '@/store/helpers/utilities'
+import { VuexError, urlGenerator, guessDataKey, extractRecords } from '@/store/helpers/utilities'
+
+const health = urlGenerator('health_insurance')
 
 const state = {
 	insurances: [],
@@ -11,13 +13,13 @@ const mutations = {
 
 const actions = {
 	FETCH(context) {
-		return axios.get('/api/patient/record/health-insurance').then(({data}) => {
-			context.commit('set_insurances', extractRecords(data.data))
+		return axios.get(health(context).base()).then(guessDataKey).then(({data}) => {
+			context.commit('set_insurances', extractRecords(data))
 		}).catch(VuexError('Error Fetching Insurances.'))
 	},
 	async CREATE (context, payload) {
 		try {
-			const data = await axios.post('/api/patient/record/health-insurance', payload);
+			const data = await axios.post(health(context).base(), payload)
 			const { insurances } = context.state
 			insurances.push(payload)
 			context.commit('set_insurances', insurances)
@@ -28,7 +30,7 @@ const actions = {
 		}
 	},
 	DELETE(context, {id}) {
-		return axios.delete(`/api/patient/record/${id}/health-insurance`)
+		return axios.delete(health(context).delete(id))
 			.then(() => {
 				const changes = context.state.insurances.filter(e => id !== e.id)
 				context.commit('set_insurances', changes)

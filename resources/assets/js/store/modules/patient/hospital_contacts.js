@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { VuexError, extractRecords } from '@/store/helpers/utilities'
+import { VuexError, extractRecords, urlGenerator, guessDataKey } from '@/store/helpers/utilities'
+
+const hospital_contact = urlGenerator('hospital_contact')
 
 const state = {
 	contacts: [],
@@ -16,14 +18,15 @@ const mutations = {
 
 const actions = {
 	FETCH(context) {
-		return axios.get('/api/patient/record/hospital-contact').then(({data}) => {
+		return axios.get(hospital_contact(context).base()).then(guessDataKey)
+		.then(({data}) => {
 			context.state.fetchRequestMade = true
-			context.commit('set_contacts', extractRecords(data.data))
+			context.commit('set_contacts', extractRecords(data))
 		}).catch(VuexError('Error Fetching Hospital Contacts.'))
 	},
 	async UPDATE(context, payload) {
 		try {
-			const data = await axios.patch(`/api/patient/record/hospital-contact/${payload.id}`, payload)
+			const data = await axios.patch(hospital_contact(context).update(payload.id), payload)
 			context.dispatch('FETCH')
 			return data
 		} catch (x) {
@@ -34,7 +37,7 @@ const actions = {
 	},
 	async DELETE(context, id) {
 		try {
-			const data = await axios.delete(`/api/patient/record/hospital-contact/${id}`,)
+			const data = await axios.delete(hospital_contact(context).delete(id))
 			const changes = context.state.contacts.filter(e => id !== e.id)
 			context.commit('set_contacts', changes)
 			return data
@@ -45,10 +48,9 @@ const actions = {
 	},
 	async CREATE(context, payload) {
 		try {
-			const {data: res} = await axios.post('/api/patient/record/hospital-contact', payload)
-			// const {contacts} = context.state
-			// contacts.push({...payload, ...res.data})
+			await axios.post(hospital_contact(context).base(), payload)
 			context.dispatch('FETCH')
+			return 
 		} catch (x) {
 			VuexError('Error Fetching Hospital Contacts.')()
 			throw Error(x)

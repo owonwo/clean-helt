@@ -5,7 +5,7 @@
       style="justify-content: space-between; align-items: center">
       <h3>Health Services</h3>
     </section>
-		
+    
     <section class="card is-fullheight">
       <div class="tabs mb-5">
         <ul v-pager-controls>
@@ -42,26 +42,27 @@
             :key="index"
             class="px-15">
             <table class="table is-hoverable is-fullwidth">
-            	<thead>
-	              <tr>
-	                <th width="50">Photo</th>
-	                <th>Name</th>
-	                <th width="100">CHCODE</th>
-	                <th>Contact</th>
-	                <th>Location</th>
-	              </tr>
-            	</thead>
-            	<tbody>
-	              <tr 
-	                v-for="(share, index) in filtered" 
-	                :key="index">
-	                <td><i class="ti ti-user"/> &nbsp;&nbsp;</td>
-	                <td>{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</td>
-	                <td class="has-text-grey-darker">{{ share.chcode }}</td>
-	                <td>{{ share.phone }}</td>
-	                <td>{{ [share.city, share.state].join(' - ') }}</td>
-	              </tr>
-            	</tbody>
+              <thead>
+                <tr>
+                  <th width="50">Photo</th>
+                  <th>Name</th>
+                  <th width="100">CHCODE</th>
+                  <th>Contact</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  v-for="(share, index) in filtered" 
+                  :key="index"
+                  @click="modal = true">
+                  <td><i class="ti ti-user"/> &nbsp;&nbsp;</td>
+                  <td>{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</td>
+                  <td class="has-text-grey-darker">{{ share.chcode }}</td>
+                  <td>{{ share.phone }}</td>
+                  <td>{{ [share.city, share.state].join(' - ') }}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </pager>
@@ -77,40 +78,58 @@
         </div>
       </section>
     </section>
+
+    <modal :show="modal">
+      <h1>Diagnostics Centre</h1>
+      <h3>Johnson Parker Mobby</h3>
+      <ul class="menu">
+        <li class="menu-label">Services</li>
+        <li 
+          v-for="(service, index) in current.services" 
+          :key="index"
+          class="menu-list">{{ service }}
+        </li>
+      </ul>
+    </modal>
   </section>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import Pager from '@/components/Pager.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
-	name: 'ServiceProviders',
-	components: {Pager},
-	data() {return {
-		page: 0,
-		searchString: '',
-		serviceProviderOrder: ['hospitals','pharmacies','laboratories']
-	}},
-	computed: {
-		currentPage() { return this.serviceProviderOrder[this.page] },
-		filtered () {
-			const {searchString: search, currentPage, entities} = this
-			return entities[currentPage].filter((e) => {
-				const name = e.name || [e.first_name, e.last_name].join(' ') || ''
-				return !search || name.toLowerCase().includes(search)
-			})
-		},
-		...mapGetters('service_providers', ['loading']),
-		...mapState('service_providers', ['entities'])
-	},
-	mounted() {
-		this.loadEntities()
-	},
-	methods: {
-		loadEntities() {
-			this.$store.dispatch('service_providers/FETCH')
-		},
-	}
+  name: 'ServiceProviders',
+  components: {Pager, Modal},
+  data() {return {
+    page: 0,
+    modal: false,
+    current: {
+      services: []
+    },
+    searchString: '',
+    serviceProviderOrder: ['hospitals','pharmacies','laboratories']
+  }},
+  computed: {
+    currentPage() { return this.serviceProviderOrder[this.page] },
+    filtered () {
+      const {searchString: search, currentPage, entities} = this
+      return entities[currentPage].filter((e) => {
+        const name = e.name || [e.first_name, e.last_name].join(' ') || ''
+        return !search || name.toLowerCase().includes(search)
+      })
+    },
+    ...mapGetters('service_providers', ['loading']),
+    ...mapState('service_providers', ['entities'])
+  },
+  mounted() {
+    this.loadEntities()
+  },
+  methods: {
+    loadEntities() {
+      this.$store.dispatch('service_providers/FETCH')
+    },
+  }
 }
 </script>

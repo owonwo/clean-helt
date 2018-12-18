@@ -1,7 +1,10 @@
 import axios from 'axios'
-import { VuexError, shareFactory, extractRecords, personalify } from '@/store/helpers/utilities'
+import { VuexError, urlGenerator, guessDataKey, shareFactory, extractRecords, personalify } from '@/store/helpers/utilities'
+
+const emergency = urlGenerator('emergency_contacts')
 
 const state = {
+	shares_loading: true,
 	shares: {
 		hospitals: [],
 		doctors: []
@@ -16,37 +19,59 @@ const mutations = {
 	set_children: (store, payload) => store.children = payload,
 }
 
+const categorizeShares = (shares = []) => {
+	const groups = {}
+	shares.map(e => {
+		const provider = e.provider_type
+		Object.keys(groups).includes(provider) && e.visible
+			? groups[provider].push(e) 
+			: (groups[provider] = []).push(e)
+	})
+	return groups
+}
+
 const actions = {
+	
+	async EXTEND_SHARE(context, payload) {
+		try {
+			const {data} = await axios.patch(`/api/patient/profile/shares/${payload.id}/extend`, payload.data)
+			context.dispatch('FETCH')
+			return data
+		} catch (x) {
+			VuexError('Profile Share Extension Updated')()
+			throw Error(x)
+		}
+	},
 	//PROFILE SHARES
 	FETCH (context) {
 		axios.get('/api/patient/profile/shares').then(( {data} ) => {
-			console.log(data.shares.map(shareFactory))
-			// context.commit('set_shares', res.data.shares.map(shareFactory))
+			context.state.shares_loading = false
+			context.commit('set_shares', categorizeShares(data.shares.map(shareFactory)))
 		}).catch(VuexError('An Error Occured. Trying to fetch Patient Shares!'))
 	},
 	FETCH_PENDING() {
 		axios.get('/api/patient/profile/shares/pending').then(({data}) => {
-			console.log(data.shares)
+			console.log('pending shares', data.shares)
 		}).catch(VuexError('An Error Occured. Trying to fetch Pending Shares'))
 	},
 	//CONTACTS
 	FETCH_CONTACTS (context) {
-		axios.get('/api/patient/record/emergency-contacts').then(({data}) => {
-			context.commit('set_contacts', extractRecords(data.data) )
+		axios.get(emergency(context).base()).then(guessDataKey).then(({data}) => {
+			context.commit('set_contacts', extractRecords(data) )
 		}).catch(VuexError('Error retrieving Emergency Contacts'))
 	},
 	CREATE_CONTACT (context, payload) {
-		axios.post('/api/patient/record/emergency-contacts', payload).then(() => {
+		axios.post(emergency(context).base(), payload).then(() => {
 			context.dispatch('FETCH_CONTACTS')
 		}).catch(VuexError('Error creating Emergency Contact'))
 	},
 	UPDATE_CONTACT (context, payload) {
-		axios.put(`/api/patient/record/emergency-contacts/${payload.id}`, payload).then(() => {
+		axios.put(emergency(context).update(payload.id), payload).then(() => {
 			context.dispatch('FETCH_CONTACTS')
 		}).catch(VuexError('Error Updating Emergency Contact'))
 	},
 	DELETE_CONTACT (context, payload) {
-		axios.delete(`/api/patient/record/emergency-contacts/${payload}`).then(() => {
+		axios.delete(emergency(context).delete(payload)).then(() => {
 			context.dispatch('FETCH_CONTACTS')
 		}).catch(VuexError('Error deleting Emergency Contact'))
 	},

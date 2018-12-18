@@ -4,7 +4,7 @@
       <h3>Profile</h3>
     </section>
     <profile-grid 
-      :name="user.full_name" 
+      :name="user.name" 
       :avatar="user.avatar" 
       :avatar-url="edit.avatarUrl">
       <template 
@@ -81,7 +81,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th>Email:</th>
+                    <th>Email</th>
                     <td>
                       <span v-if="!edit.basic">{{ user.email }}</span>
                       <input 
@@ -93,7 +93,21 @@
                   </tr>
                   <tr>
                     <th>Gender</th>
-                    <td>{{ user.gender | ucfirst }}</td>
+                    <td>
+                      <span v-if="!edit.basic">{{ user.gender | ucfirst }}</span>
+                      <span 
+                        v-else 
+                        class="select is-small">
+                        <select
+                          v-model="user.gender">
+                          <option 
+                            value="0" 
+                            disabled>Select Gender</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </select>
+                      </span>
+                    </td>
                   </tr>
                   <tr>
                     <th>Address</th>
@@ -118,7 +132,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th>State:</th>
+                    <th>State</th>
                     <td>
                       <span v-if="!edit.basic">{{ user.state }}</span>
                       <input 
@@ -129,7 +143,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th>Marital Status:</th>
+                    <th>Marital Status</th>
                     <td>
                       <span v-if="!edit.basic">{{ user.marital_status | ucfirst }}</span>
                       <template v-else>
@@ -147,7 +161,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th>Phone Number:</th>
+                    <th>Phone Number</th>
                     <td>
                       <span v-if="!edit.basic">{{ user.phone }}</span>
                       <input 
@@ -175,12 +189,54 @@
               <section 
                 slot="content" 
                 class="content">
-                <h1 class="title is-5 mb-10">{{ user.nok_name }}</h1>
-                <div>
-                  <p>Email Address: <b>{{ user.nok_email }}</b></p>
+                <save-edit-button 
+                  v-if="isPatient"
+                  :saved="edit.basic"
+                  @click="save_basic"/>
+                <div v-if="!edit.basic">
+                  <h1 class="title is-5 mb-10">{{ user.nok_name }}</h1>
+                  <p><b>Email Address:</b> {{ user.nok_email }}</p>
+                  <p><b>Phone Number:</b> {{ user.nok_phone }}</p>
+                  <p><b>Address:</b> {{ user.nok_address }}</p>
                 </div>
-                <div>
-                  <p>Phone Number: <b>{{ user.nok_phone }}</b></p>
+                <div v-else>
+                  <div class="field">
+                    <input 
+                      v-model="user.nok_name" 
+                      type="text" 
+                      placeholder="Full Name" 
+                      class="input">
+                  </div>
+                  <div class="field">
+                    <input 
+                      v-model="user.nok_email" 
+                      placeholder="Email Address" 
+                      type="email" 
+                      class="input">
+                  </div>
+                  <div class="field">
+                    <input 
+                      v-model="user.nok_phone"
+                      placeholder="Phone Number"
+                      type="text" 
+                      class="input">
+                  </div>
+                  <div class="field">
+                    <select-state
+                      :value="user.nok_state"
+                      @change="e => user.nok_state = e"/>
+                    <select-city 
+                      :state="user.nok_state" 
+                      :value="user.nok_city"
+                      @change="e => user.nok_city = e"/>
+                  </div>
+                  <div class="field">
+                    <textarea 
+                      v-model="user.nok_address" 
+                      class="textarea" 
+                      type="text" 
+                      placeholder="Address"/>
+                  </div>
                 </div>
               </section>
             </accordion>
@@ -255,17 +311,17 @@
           <!-- Immunization -->
           <div slot="p4">
             <div class="menu-label">IMMUNIZATIONS</div>
-            <Immunizations />
+            <Immunizations :editable="true"/>
           </div>
           <!-- ALLERGIES -->
           <div slot="p5">
             <div class="menu-label">ALLERGIES</div>
-            <Allergies/>
+            <Allergies :editable="true"/>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
           <div slot="p6">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
-            <FamilyMedicalRecords/>
+            <FamilyMedicalRecords :editable="true"/>
           </div>
           <!-- HOSPITALIZATION -->
           <div slot="p7">
@@ -289,17 +345,17 @@
           <!-- EMERGENCY CONTACT -->
           <div slot="p9">
             <div class="menu-label">EMERGENCY CONTACTS</div>
-            <EmergencyContacts/>
+            <EmergencyContacts :editable="isPatient"/>
           </div>
           <!-- HOSPITAL CONTACTS -->
           <div slot="p10">
             <div class="menu-label">HOSPITAL CONTACTS</div>
-            <HospitalContacts />
+            <HospitalContacts :editable="isPatient"/>
           </div>
           <!-- HEALTH INSURANCE PROVIDERS -->
           <div slot="p11">
             <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
-            <HealthInsuranceProvider/>
+            <HealthInsuranceProvider :editable="isPatient"/>
           </div>
         </pager>
       </template>
@@ -383,16 +439,21 @@ export default {
       patients: 'patients'
     }),
 	},
-	mounted() { 
+  watch: {
+    patients(a, b) {
+      console.log('Updated the Patients', a, b)
+      this.setAsDoctor()
+    }
+  },
+	created () {
 		document.title = 'Profile | CleanHelt'
     this.accountType !== 'doctor' || this.setAsDoctor()
 	},
 	methods: {
     setAsDoctor() {
-     const { patient_id } = this.$route.params
-      if (this.patients.length < 1) this.$router.back()
+      const { patient_id } = this.$route.params
+      if (this.patients.length === 0) return
       this.$store.commit('manage_patient/set_current_patient', patient_id)
-      this.$store.dispatch('manage_patient/FETCH_PATIENT_DATA')
     }
   }
 }

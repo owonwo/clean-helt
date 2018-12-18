@@ -15198,22 +15198,60 @@ ul {
 }
 
 .osq-patient-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   background: white;
-  line-height: 50px;
+  padding: 15px 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: solid 1px #ddd;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
-.osq-patient-list td:nth-child(2) {
-  width: 100px;
+.osq-patient-list > section {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 300px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.osq-patient-list .counter,
+.osq-patient-list .image {
+  margin-right: 15px;
+}
+
+.osq-patient-list .counter {
+  max-width: 50px;
+  padding: 0 10px;
+}
+
+.osq-patient-list .profile-title {
+  font-size: 1.2rem;
 }
 
 .osq-patient-list .image {
   width: 50px;
   height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 12px;
 }
 
 .osq-patient-list .button {
   margin: 0;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 .osq-search-field {
@@ -15522,19 +15560,18 @@ ul {
   height: 50px;
 }
 
+#osq-login .select select,
 #osq-login .input {
-  height: 50px;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+#osq-login .input {
+  height: 50px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border: solid 1px #CECECE;
   border-radius: 0 !important;
-}
-
-#osq-login select {
-  text-indent: 30px;
-  padding-left: 0;
 }
 
 #osq-login button.is-submit {

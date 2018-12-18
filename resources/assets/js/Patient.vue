@@ -16,7 +16,7 @@
           :src="user.avatar" 
           alt="" 
           class="avatar">
-        <span>{{ user.full_name }}</span>
+        <span>{{ user.first_name }}</span>
       </div>
     </header>
 

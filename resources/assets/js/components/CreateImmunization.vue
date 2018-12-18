@@ -40,10 +40,6 @@ export default {
 	mixins: [MedicalRecord],
 	data() {
 		return {
-			endpoints: { 
-				create: '/api/patient/record/immunization',
-				update: '/api/patient/update/{id}/immunization',
-			},
 			form: { immunization_title: '', age: '', date_of_immunization: '' },
 			errors: {}
 		}

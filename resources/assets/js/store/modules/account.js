@@ -32,7 +32,7 @@ const mutations = {
 	set_account_type (store, payload) {
 		store.ACCOUNT_TYPE = payload
 	},
-	set_user: (store, payload) => store.user = _.extend(store.user, payload),
+	set_user: (store, payload) => store.user = payload,
 	set_config: (store , payload) => store.settings = _.extend(store.settings, payload),
 	set_avatar(store, payload) {
 		store.user.avatar = payload
