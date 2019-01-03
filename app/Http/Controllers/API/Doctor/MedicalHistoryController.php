@@ -123,7 +123,8 @@ class MedicalHistoryController extends Controller
     {
         return [
             'illness' => 'required|string',
-            'date_of_onset' => 'required|date'
+            'date_of_onset' => 'required|date',
+            'description' => 'required|string'
         ];
     }
 }
