@@ -6,6 +6,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
 class ManagesClientMedicalCheckupsTest extends TestCase
 {
     use RefreshDatabase;
@@ -46,13 +49,16 @@ class ManagesClientMedicalCheckupsTest extends TestCase
     /** @test */
     public function a_doctor_can_create_medical_checkup_for_clients()
     {
+        Storage::fake('fakedisk');
+        
         // create a Family Record
         $checkup = make("App\Models\MedicalCheckup")->toArray();
+        $checkup['report'] = UploadedFile::fake()->create('report.docx');
         unset($checkup['record_id']);
         
         $this->signIn($this->doctor, 'doctor');
 
-        $this->post("api/doctor/patients/{$this->patient->chcode}/medical-checkups", $checkup)->assertStatus(200);
+        $response = $this->post("api/doctor/patients/{$this->patient->chcode}/medical-checkups", $checkup)->assertStatus(200);
 
         $medRecord = [
             'issuer_id' => auth()->id(),
@@ -61,9 +67,11 @@ class ManagesClientMedicalCheckupsTest extends TestCase
             'type' => 'App\Models\MedicalCheckup'
         ];
 
-        
-        $this->assertDatabaseHas('medical_checkups', $checkup);
+        $check = $response->json()['data'];
+        $check['report'] = "checkups/" . basename($check['report']);
+        $this->assertDatabaseHas('medical_checkups', $check);
         $this->assertDatabaseHas('medical_records', $medRecord);
+        //Storage::disk('fakedisk')->assertExists(basename($check['report']));
     }
 
     /** @test */

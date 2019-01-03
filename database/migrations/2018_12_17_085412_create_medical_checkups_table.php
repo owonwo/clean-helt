@@ -17,8 +17,9 @@ class CreateMedicalCheckupsTable extends Migration
             $table->increments('id');
             $table->integer('record_id');
             $table->string('title');
-            $table->text('report');
+            $table->text('summary');
             $table->datetime('checkup_date');
+            $table->string('report');
             $table->timestamps();
         });
     }

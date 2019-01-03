@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Helpers\RecordLogger;
 use App\Models\Patient;
 use App\Models\MedicalCheckup;
-use DB;
+use DB, Storage;
 
 class MedicalCheckupController extends Controller
 {
@@ -54,6 +54,7 @@ class MedicalCheckupController extends Controller
             
             $data = request()->only(array_keys($rules));
             $data['record_id'] = $record->id;
+            $data['report'] = request('report')->store('checkups');
             
             $history = MedicalCheckup::forceCreate($data);
             
@@ -89,6 +90,12 @@ class MedicalCheckupController extends Controller
           
         $data = request()->all();
         
+        if (request()->hasFile('report') && request()->file('report')->isValid) {
+            // delete old report
+            Storage::delete($medicalCheckup->getOriginal('report'));
+            $data['report'] = request('report')->store('checkups');
+        }
+        
         if ($medicalCheckup->update($data)) 
             return response()->json(['message' => 'Update successful'], 200);
             
@@ -106,6 +113,7 @@ class MedicalCheckupController extends Controller
         try {
             
             $medicalCheckup->record->delete();
+            Storage::delete($medicalCheckup->getOriginal('report'));
             $medicalCheckup->delete();
 
             return response()->json([
@@ -123,8 +131,9 @@ class MedicalCheckupController extends Controller
     {
         return [
             'title' => 'required|string|max:255',
-            'report' => 'required|string',
-            'checkup_date' => 'required|date'
+            'summary' => 'required|string',
+            'checkup_date' => 'required|date',
+            'report' => 'required|file|mimes:pdf,docx,doc'
         ];
     }
 }
