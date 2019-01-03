@@ -21,12 +21,16 @@ class FamilyRecordController extends Controller
 
         try {
             DB::beginTransaction();
+            
             $record = $logger->logMedicalRecord($patient, $patient, 'family-medical-history');
+            
             $familyRecord = FamilyRecord::forceCreate([
                 'record_id' => $record->id,
                 'disease' => request('disease'),
                 'carriers' => json_encode(request('carriers')),
+                'description' => request('description')
             ]);
+            
             DB::commit();
 
             return response()->json([
@@ -46,6 +50,7 @@ class FamilyRecordController extends Controller
         $familyRecord->update([
             'disease' => request('disease'),
             'carriers' => json_encode(request('carriers')),
+            'description' => request('description')
         ]);
 
         return response()->json([
