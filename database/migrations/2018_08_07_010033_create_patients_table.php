@@ -52,6 +52,13 @@ class CreatePatientsTable extends Migration
             $table->string('mother')->nullable()->comment('Mother\'s chcode');
             $table->string('father')->nullable()->comment('Father\'s chcode');
             
+            // Birth
+            $table->string('birth_hospital')->nullable();
+            $table->string('birth_weight')->nullable();
+            $table->string('birth_length')->nullable();
+            $table->text('birth_perinatal_problems')->nullable();
+            $table->text('birth_comments')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });
