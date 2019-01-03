@@ -18,6 +18,8 @@ class CreateMedicalHistoriesTable extends Migration
             $table->integer('record_id');
             $table->string("illness");
             $table->date("date_of_onset");
+            $table->text('description');
+            $table->string('doctor')->nullable();
             $table->timestamps();
         });
     }

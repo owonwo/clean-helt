@@ -9,6 +9,7 @@ $factory->define(MedicalHistory::class, function (Faker $faker) {
         		return factory(\App\Models\MedicalRecord::class)->create()->id;
          },
         'illness' => $faker->name,
-        'date_of_onset' => $faker->date
+        'date_of_onset' => $faker->date,
+        'description' => $faker->sentence
     ];
 });

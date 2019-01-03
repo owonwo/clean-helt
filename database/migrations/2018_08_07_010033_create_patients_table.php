@@ -24,6 +24,7 @@ class CreatePatientsTable extends Migration
             $table->enum('gender', ['male', 'female', 'other'])->default('other');
             $table->string('phone')->unique();
             $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
@@ -42,6 +43,15 @@ class CreatePatientsTable extends Migration
             $table->string('verify_token')->nullable();
             $table->boolean('status')->default(false);
             $table->string('nok_country')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('ethnicity')->nullable();
+            $table->string('blood_type')->nullable();
+            $table->string('eye_color')->nullable();
+            
+            $table->string('mother')->nullable()->comment('Mother\'s chcode');
+            $table->string('father')->nullable()->comment('Father\'s chcode');
+            
             $table->rememberToken();
             $table->timestamps();
         });
