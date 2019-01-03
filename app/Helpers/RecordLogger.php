@@ -57,6 +57,8 @@ class RecordLogger
                 return \App\Models\MedicalCheckup::class;
             case 'medications':
                 return \App\Models\Medication::class;
+            case 'gd-records':
+                return \App\Models\GDRecord::class;
             default:
                 return \App\Models\Diagnosis::class;
         }
