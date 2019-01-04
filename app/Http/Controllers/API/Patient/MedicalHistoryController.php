@@ -26,6 +26,7 @@ class MedicalHistoryController extends Controller
                 'record_id' => $record->id,
                 'illness' => request('illness'),
                 'date_of_onset' => request('date_of_onset'),
+                'description' => request('description')
             ]);
             DB::commit();
 
@@ -46,6 +47,7 @@ class MedicalHistoryController extends Controller
         $medicalHistory->update([
             'illness' => request('illness'),
             'date_of_onset' => request('date_of_onset'),
+            'description' => request('description')
         ]);
 
         return response()->json([

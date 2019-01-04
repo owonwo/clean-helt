@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMedicalCheckupsTable extends Migration
+class CreateMedicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateMedicalCheckupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('medical_checkups', function (Blueprint $table) {
+        Schema::create('medications', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('record_id');
-            $table->string('title');
-            $table->text('summary');
-            $table->datetime('checkup_date');
-            $table->string('report');
+            $table->string('name');
+            $table->string('dosage');
+            $table->string('frequency');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateMedicalCheckupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medical_checkups');
+        Schema::dropIfExists('medications');
     }
 }

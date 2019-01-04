@@ -143,6 +143,16 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('patients/{patient}/medical-checkups', 'MedicalCheckupController@store');
         Route::patch('patients/{patient}/medical-checkups/{medicalCheckup}', 'MedicalCheckupController@update')->name('doctor.patients.medical-checkup.update');
         Route::delete('patients/{patient}/medical-checkups/{medicalCheckup}', 'MedicalCheckupController@delete')->name('doctor.patients.medical-checkup.delete');
+        
+        Route::get('patients/{patient}/medications', 'MedicationController@index')->name('doctor.patients.medications');
+        Route::post('patients/{patient}/medications', 'MedicationController@store');
+        Route::patch('patients/{patient}/medications/{medication}', 'MedicationController@update')->name('doctor.patients.medications.update');
+        Route::delete('patients/{patient}/medications/{medication}', 'MedicationController@delete')->name('doctor.patients.medications.delete');
+        
+        Route::get('patients/{patient}/gd-records', 'GDRecordController@index')->name('doctor.patients.gd-records');
+        Route::post('patients/{patient}/gd-records', 'GDRecordController@store');
+        Route::patch('patients/{patient}/gd-records/{gDRecord}', 'GDRecordController@update')->name('doctor.patients.gd-records.update');
+        Route::delete('patients/{patient}/gd-records/{gDRecord}', 'GDRecordController@delete')->name('doctor.patients.gd-records.delete');
 
         Route::get('patients/accepted/patients', 'ProfileShareController@accepted')->name('doctor.patient.accepted');
         Route::get('patients/pending/patients', 'ProfileShareController@pending')->name('doctor.pending.patient');
@@ -203,6 +213,13 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('/record/medical-history', 'MedicalHistoryController@store')->name('patient.record.history');
         Route::patch('/record/{medicalHistory}/medical-history', 'MedicalHistoryController@update')->name('patient.update.history');
         Route::delete('/record/{medicalHistory}/medical-history', 'MedicalHistoryController@delete')->name('patient.delete.record');
+        
+        //Patient  updates medications
+        Route::get('/record/medications', 'MedicationController@index');
+        Route::post('/record/medications', 'MedicationController@store')->name('patient.record.medications');
+        Route::patch('/record/{medication}/medications', 'MedicationController@update')->name('patient.update.medications');
+        Route::delete('/record/{medication}/medications', 'MedicationController@delete')->name('patient.delete.record');
+        
         //TODO: Preferred Replacement for the FamilyHistory routes
         // Route::resource('/record/family-history', 'FamilyRecordController', ['except' => ['edit', 'create', 'show', 'update']]);
         Route::get('/record/family-history', 'FamilyRecordController@index');

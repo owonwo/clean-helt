@@ -8,10 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\RecordLogger;
 use App\Models\Patient;
-use App\Models\MedicalHistory;
+use App\Models\GDRecord;
 use DB;
 
-class MedicalHistoryController extends Controller
+
+class GDRecordController extends Controller
 {
     public function __construct()
     {
@@ -25,7 +26,7 @@ class MedicalHistoryController extends Controller
         if (!$doctor->canViewProfile($patient)) 
             return response()->json(['message' => 'Unauthorized'], 401);
 
-        $records = $patient->medicalRecords("App\Models\MedicalHistory")->get();
+        $records = $patient->medicalRecords("App\Models\GDRecord")->get();
         
         $records->each(function($record) {
             $record->history = $record->data;
@@ -46,22 +47,23 @@ class MedicalHistoryController extends Controller
         
         try {
             $rules = $this->getRules();
+            
             $this->validate(request(), $rules);
                 
             DB::beginTransaction();
             
-            $record = $logger->logMedicalRecord($patient, $doctor, 'medical-history');
+            $record = $logger->logMedicalRecord($patient, $doctor, 'gd-records');
             
             $data = request()->only(array_keys($rules));
             $data['record_id'] = $record->id;
             
-            $history = MedicalHistory::forceCreate($data);
+            $gd = GDRecord::forceCreate($data);
             
             DB::commit();
 
             return response()->json([
-                'message' => 'Medical history Created successfully',
-                'data' => $history,
+                'message' => 'Record added successfully',
+                'data' => $gd,
             ], 200);
             
         } catch(ValidationException $e) {
@@ -80,7 +82,7 @@ class MedicalHistoryController extends Controller
         }
     }
     
-    public function update(Patient $patient, MedicalHistory $medicalHistory)
+    public function update(Patient $patient, GDRecord $gDRecord)
     {
         $doctor = auth()->guard('doctor-api')->user();
         
@@ -89,14 +91,14 @@ class MedicalHistoryController extends Controller
           
         $data = request()->all();
         
-        if ($medicalHistory->update($data)) 
+        if ($gDRecord->update($data)) 
             return response()->json(['message' => 'Update successful'], 200);
             
             
         return response()->json(['message' => 'Update Unsuccessful'], 400);
     }
     
-    public function delete(Patient $patient, MedicalHistory $medicalHistory)
+    public function delete(Patient $patient, GDRecord $gDRecord)
     {
         $doctor = auth()->guard('doctor-api')->user();
         
@@ -105,8 +107,8 @@ class MedicalHistoryController extends Controller
             
         try {
             
-            $medicalHistory->record->delete();
-            $medicalHistory->delete();
+            $gDRecord->record->delete();
+            $gDRecord->delete();
 
             return response()->json([
                 'message' => 'Delete successful',
@@ -122,9 +124,9 @@ class MedicalHistoryController extends Controller
     private function getRules()
     {
         return [
-            'illness' => 'required|string',
-            'date_of_onset' => 'required|date',
-            'description' => 'required|string'
+            'age' => 'required',
+            'weight' => 'required',
+            'height' => 'required'
         ];
     }
 }

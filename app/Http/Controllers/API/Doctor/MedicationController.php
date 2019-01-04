@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\RecordLogger;
 use App\Models\Patient;
-use App\Models\MedicalHistory;
+use App\Models\Medication;
 use DB;
 
-class MedicalHistoryController extends Controller
+class MedicationController extends Controller
 {
     public function __construct()
     {
@@ -25,7 +25,7 @@ class MedicalHistoryController extends Controller
         if (!$doctor->canViewProfile($patient)) 
             return response()->json(['message' => 'Unauthorized'], 401);
 
-        $records = $patient->medicalRecords("App\Models\MedicalHistory")->get();
+        $records = $patient->medicalRecords("App\Models\Medication")->get();
         
         $records->each(function($record) {
             $record->history = $record->data;
@@ -50,18 +50,18 @@ class MedicalHistoryController extends Controller
                 
             DB::beginTransaction();
             
-            $record = $logger->logMedicalRecord($patient, $doctor, 'medical-history');
+            $record = $logger->logMedicalRecord($patient, $doctor, 'medications');
             
             $data = request()->only(array_keys($rules));
             $data['record_id'] = $record->id;
             
-            $history = MedicalHistory::forceCreate($data);
+            $medication = Medication::forceCreate($data);
             
             DB::commit();
 
             return response()->json([
-                'message' => 'Medical history Created successfully',
-                'data' => $history,
+                'message' => 'Medication added successfully',
+                'data' => $medication,
             ], 200);
             
         } catch(ValidationException $e) {
@@ -80,7 +80,7 @@ class MedicalHistoryController extends Controller
         }
     }
     
-    public function update(Patient $patient, MedicalHistory $medicalHistory)
+    public function update(Patient $patient, Medication $medication)
     {
         $doctor = auth()->guard('doctor-api')->user();
         
@@ -89,14 +89,14 @@ class MedicalHistoryController extends Controller
           
         $data = request()->all();
         
-        if ($medicalHistory->update($data)) 
+        if ($medication->update($data)) 
             return response()->json(['message' => 'Update successful'], 200);
             
             
         return response()->json(['message' => 'Update Unsuccessful'], 400);
     }
     
-    public function delete(Patient $patient, MedicalHistory $medicalHistory)
+    public function delete(Patient $patient, Medication $medication)
     {
         $doctor = auth()->guard('doctor-api')->user();
         
@@ -105,8 +105,8 @@ class MedicalHistoryController extends Controller
             
         try {
             
-            $medicalHistory->record->delete();
-            $medicalHistory->delete();
+            $medication->record->delete();
+            $medication->delete();
 
             return response()->json([
                 'message' => 'Delete successful',
@@ -122,9 +122,10 @@ class MedicalHistoryController extends Controller
     private function getRules()
     {
         return [
-            'illness' => 'required|string',
-            'date_of_onset' => 'required|date',
-            'description' => 'required|string'
+            'name' => 'required|string',
+            'date' => 'required|date',
+            'frequency' => 'required',
+            'dosage' => 'required'
         ];
     }
 }
