@@ -28,7 +28,7 @@ class RecordLogger
     }
 
     //Gets the Record type for the patient
-    private function getRecordType($type)
+    public function getRecordType($type)
     {
         switch ($type) {
             case 'diagnosis':
