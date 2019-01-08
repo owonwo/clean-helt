@@ -1,20 +1,25 @@
 <template>
   <section>
-    <HoverRevealButton 
-      v-if="canEdit"
-      @click="(opened = true) && clearForm()">
-      <span 
-        slot="icon" 
-        class="ti ti-plus"/>
-      <span slot="text">Add</span>
-    </HoverRevealButton>
-    <alert 
-      v-if="!allergies.length" 
-      type="info">
-      You have a clean Allergy record.
-    </alert>
-    <table 
-      v-else 
+    <div class="level">
+      <div>
+        <alert 
+          v-if="!allergies.length" 
+          class="mb-0" 
+          type="info">
+          You have a clean Allergy record.
+        </alert>
+      </div>
+      <HoverRevealButton 
+        v-if="canEdit"
+        @click="opened = true">
+        <span 
+          slot="icon" 
+          class="ti ti-plus"/>
+        <span slot="text">Add</span>
+      </HoverRevealButton>
+    </div>
+    <table
+      v-if="allergies.length"
       class="table is-fullwidth" 
       style="font-size:small">
       <tr>
@@ -36,7 +41,7 @@
             <template slot="content"/>
             <template slot="list">
               <li @click="show(entry)">Modify</li>
-              <li>Trash</li>
+              <li @click="trash(entry.id)">Trash</li>
             </template>
           </dropdown>
         </td>
@@ -44,10 +49,10 @@
     </table>
 
     <modal 
+      ref="modal"
       :show="opened"
       @closed="opened = false">
       <CreateAllergy
-        v-if="opened"
         :form-data="form"
         @submit="submit" />
     </modal>
@@ -91,11 +96,8 @@ export default {
   methods: {
     show(entry) {
       this.form = Object.assign({}, entry)
-      this.opened = true
-    },
-    validate() {
-      return Object.keys(this.form).length === 3
-    },
+      this.$refs.modal.toggle()
+    }
  }
 }
 </script>

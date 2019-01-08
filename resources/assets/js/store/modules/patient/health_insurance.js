@@ -20,9 +20,7 @@ const actions = {
 	async CREATE (context, payload) {
 		try {
 			const data = await axios.post(health(context).base(), payload)
-			const { insurances } = context.state
-			insurances.push(payload)
-			context.commit('set_insurances', insurances)
+			context.dispatch('FETCH')
 			return data
 		} catch (x) {
 			VuexError('Error Fetching Insurances.')()

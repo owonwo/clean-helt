@@ -11,6 +11,7 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
         Doctor::truncate();
         DoctorProfile::truncate();
 

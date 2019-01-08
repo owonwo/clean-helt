@@ -9,6 +9,7 @@ const state = {
 }
 
 const mutations = {
+  set_loaded: (state, payload) => state.isLoaded = payload,
   set_doctors: (state, payload) => state.doctors = payload,
   set_pending_doctors: (state, payload) => state.pendingDoctors = payload,
   set_sent_doctors: (state, payload) => state.sentDoctors = payload,
@@ -45,6 +46,7 @@ const actions = {
         const {data} = await axios.get('/api/hospital/doctors')
         console.assert(!!data.doctors, 'Failed loading Doctors')
         context.commit('set_doctors', data.doctors)
+        context.commit('set_loaded', true)
       } catch (x) {
         throw Error(x)
       }

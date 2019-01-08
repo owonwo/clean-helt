@@ -11,7 +11,7 @@ class ProfileShare extends Model
 
     protected $guarded = [];
 
-    protected $fillable = ['status', 'provider_id', 'doctor_id', 'referral_status'];
+    protected $fillable = ['status', 'expired_at', 'provider_id', 'doctor_id', 'referral_status'];
 
     protected $dates = ['expired_at'];
 
@@ -25,7 +25,7 @@ class ProfileShare extends Model
     {
         return $this->belongsTo(Patient::class);
     }
-    
+
     /**
      * A profile share has many extensions
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

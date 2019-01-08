@@ -1,5 +1,8 @@
+import _ from 'lodash'
 import axios from 'axios'
-import { VuexError, urlGenerator, guessDataKey, shareFactory, extractRecords, personalify } from '@/store/helpers/utilities'
+import { VuexError, urlGenerator, categorizeShares, 
+		guessDataKey, shareFactory, extractRecords, 
+		personalify } from '@/store/helpers/utilities'
 
 const emergency = urlGenerator('emergency_contacts')
 
@@ -9,29 +12,37 @@ const state = {
 		hospitals: [],
 		doctors: []
 	},
+	share_extensions: [],
 	contacts: [],
 	children: []
+}
+
+const getters = {
+	allShares: (store) => _.merge(store.shares, store.share_extensions)
 }
 
 const mutations = {
 	set_shares: (store, payload) => store.shares = payload,
 	set_contacts: (store, payload) => store.contacts = payload,
 	set_children: (store, payload) => store.children = payload,
-}
-
-const categorizeShares = (shares = []) => {
-	const groups = {}
-	shares.map(e => {
-		const provider = e.provider_type
-		Object.keys(groups).includes(provider) && e.visible
-			? groups[provider].push(e) 
-			: (groups[provider] = []).push(e)
-	})
-	return groups
+	set_share_extensions: (store, payload) => store.share_extensions = payload
 }
 
 const actions = {
-	
+	async approveShare (context, share_id) {
+		axios.patch(`/api/patient/profile/share-extensions/${share_id}/approve`)
+		.then(() => context.dispatch('FETCH_ALL_SHARES'))
+		.catch(VuexError('Error Accepting Share Extension'))
+	},
+	async expireShare (context, share_id) {
+		axios.patch(`/api/patient/profile/shares/${share_id}/expire`)
+		.then(() => context.dispatch('FETCH_ALL_SHARES'))
+	},
+	async declineShare (context, share_id) {
+		axios.patch(`/api/patient/profile/share-extensions/${share_id}/decline`)
+		.then(() => context.dispatch('FETCH_ALL_SHARES'))
+		.catch(VuexError('Error Accepting Share Extension'))
+	},
 	async EXTEND_SHARE(context, payload) {
 		try {
 			const {data} = await axios.patch(`/api/patient/profile/shares/${payload.id}/extend`, payload.data)
@@ -53,6 +64,15 @@ const actions = {
 		axios.get('/api/patient/profile/shares/pending').then(({data}) => {
 			console.log('pending shares', data.shares)
 		}).catch(VuexError('An Error Occured. Trying to fetch Pending Shares'))
+	},
+	FETCH_EXTENSION (context) {
+		axios.get('/api/patient/profile/share-extensions').then(({data}) => {
+			context.commit('set_share_extensions', categorizeShares(data.data.map(shareFactory)))
+		}).catch(VuexError('Error Fetching Share Extension'))
+	},
+	FETCH_ALL_SHARES (context) {
+		context.dispatch('FETCH')
+		context.dispatch('FETCH_EXTENSION')
 	},
 	//CONTACTS
 	FETCH_CONTACTS (context) {
@@ -88,6 +108,16 @@ const actions = {
 			window.location.reload()
 		}).catch(VuexError('Error retrieving a child token'))
 	},
+	async addChild (context, payload) {
+		try {
+			const {data} = await axios.post('/api/patient/children', payload)
+			context.dispatch('FETCH_CHILDREN')
+			return data.message
+		} catch (x) {
+			VuexError('Error adding child')()
+			throw x
+		}
+	},
 	async unlinkChild (context, id) {
 		try {
 			const {data} = await axios.post('/api/patient/children/unlink', {id})
@@ -103,6 +133,7 @@ const actions = {
 export default {
 	namespaced: true,
 	state,
+	getters,
 	mutations,
 	actions
 }

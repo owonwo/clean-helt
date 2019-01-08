@@ -1,9 +1,10 @@
 <template>
     <div class="modal slide-up" role="dialog">
-    <div class="modal-background" @click="hideSelf()"></div>
+    <div class="modal-background" @click.stop.prevent="hide()"></div>
       <v-scrollbar class="modal-content" :style="sizeStyle">
         <div v-if="$props.showHeader" class="modal-card-head">
-          <button type="button" class="modal-close" @click.prevent="hideSelf">
+          <button type="button" class="modal-close" 
+            @click.stop.prevent="hide()">
             <i class="ti ti-close"></i>
           </button>
           <h4 class="modal-card-title">
@@ -11,7 +12,7 @@
           </h4>
         </div>
         <div class="modal-card-body">
-          <button v-if="!$props.showHeader" type="button" class="modal-close" @click.prevent="hideSelf">
+          <button v-if="!$props.showHeader" type="button" class="modal-close" @click.prevent="hide">
             <i class="ti ti-close"></i>
           </button>
           <slot name="modal-image"></slot>
@@ -26,49 +27,42 @@
 </template>
 
 <script>
-  import vScrollbar from 'vue-perfect-scrollbar';
+  import vScrollbar from 'vue-perfect-scrollbar'
 
   export default {
     name: 'Modal',
     components: {vScrollbar},
     props: ['show', 'showHeader', 'size'],
-    data () {
-      return {
-      };
-    },
     computed: {
       sizeStyle() {
-        const {size} = this.$props;
+        const {size} = this.$props
         return {
-          width: (size == "sm" ? 300 + 'px' : ''),
+          width: (size == 'sm' ? 300 + 'px' : ''),
         }
       }
     },
     watch : {
        show() {
-          this.show ? this.showSelf() : this.hideSelf();
+          !this.$props.show || this.showSelf() 
        }
     },
     methods: {
       showSelf () {
-          // $('.modal').modal({backdrop: 'static'});
           $(this.$el).addClass('is-active').delay(3000)
-          setTimeout(() => $(this.$el).find('.modal-content').addClass('reveal'), 0);
-          $('body, html').addClass('is-clipped');
+          setTimeout(() => $(this.$el).find('.modal-content').addClass('reveal'), 0)
+          $('body, html').addClass('is-clipped')
       },
-      toggleSelf() {
-          $(this.$el).toggleClass('is-active');
-          $('body, html').toggleClass('is-clipped');
+      toggle() {
+        (this.show) ? this.hide() : this.showSelf()
       },
-      hideSelf() {
+      hide() {
         $(this.$el).find('.modal-content').removeClass('reveal')
         setTimeout(() => {
           $(this.$el).removeClass('is-active')
-          $('body, html').removeClass('is-clipped');
-          this.$emit('closed');
-        }, 300);
-        
+          $('body, html').removeClass('is-clipped')
+          this.$emit('closed')
+        }, 300)
       }
     }
-  };
+  }
 </script>

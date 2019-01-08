@@ -26,9 +26,10 @@
         <div 
           class="field" 
           style="flex-grow:0">
-          <HoverRevealButton @click="addDisease">
-            <template slot="text">{{ editing ? 'Insert' : 'Update' }}</template>
-          </HoverRevealButton>
+          <HoverIconButton
+            :active="editing"
+          	:icons="['ti-upload:Update', 'ti-plus:Insert']"
+          	@click="addDisease"/>
         </div>
       </div>
     </div>
@@ -134,7 +135,7 @@ export default {
 			const {form, index} = this,
 				diseases = this.diseases.concat([])
 			form.carriers = form.carriers.split(',').map(e => e.trim())
-			
+
 			if(_.isNumber(index)) {
 				diseases[index] = form
 				this.index = false

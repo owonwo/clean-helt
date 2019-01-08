@@ -9,16 +9,19 @@ import CustomLink from '@/components/CustomLink.vue'
 import Alert from '@/components/Alert.vue'
 import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
+import FormInput from './FormInput'
 import SelectCity from './SelectCity'
 import SelectState from './SelectState'
 import Dropdown from './Dropdown'
 import HoverRevealButton from './HoverRevealButton'
+import HoverIconButton from './HoverIconButton'
 
 export default {
 	Modal,
 	Pager,
 	Accordion,
 	Dropdown,
+	FormInput,
 	ProfileBox, 
 	ProfileLoader, 
 	vScrollbar, 
@@ -26,6 +29,7 @@ export default {
 	SelectState,
 	CustomLink,
 	HoverRevealButton,
+	HoverIconButton,
 	AddServiceProvider,
 	Alert,
 	SearchBox,

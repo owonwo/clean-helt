@@ -15,10 +15,19 @@
       <div class="card-content p-0">
         <div 
           v-preload 
-          v-if="!!!doctors.length && !isLoading.doctors"
+          v-if="isLoading.doctors"
           class="block is-rounded mx-15 my-5 mb-0"
           style="height:10px;border-radius: 0"/>
-        <table class="table is-hoverable is-fullwidth">
+        <div 
+          v-if="!doctors.length"
+          class="card-content">
+          <div>Hospital has no Doctor currently. 
+            <router-link :to="{name: 'Settings'}"  tag="a">Add a doctor</router-link>
+          </div>          
+        </div>
+        <table 
+          v-else 
+          class="table is-hoverable is-fullwidth">
           <tr>
             <th class="has-text-centered">S/N</th>
             <th>Full Name</th>
@@ -97,7 +106,7 @@ export default {
 	name: 'DoctorDirectory',
 	data() {return {
 		modal: false,
-		isLoading: { doctors: false, },
+		isLoading: { doctors: true, },
 		selected: {doctor_id: 0, share_id: 0},
 	}},
 	computed: {

@@ -2,7 +2,7 @@ $sidebar-width: 200px;
 $profile-grid-width: 200px;
 
 %fullheight-box {
-    min-height: calc(100vh - 140px);
+    min-height: 300px;
     max-height: calc(100vh - 140px);
 }
 
@@ -250,6 +250,7 @@ $profile-grid-width: 200px;
 
 			.icon {
 				margin-left: 0;
+                cursor: pointer;
 			}
 
 			&.collapse {
@@ -276,6 +277,14 @@ $profile-grid-width: 200px;
             width: 100px;         
             height: 100px;
             flex: 0 0 100px;
+        }
+        .subtitle {
+            flex: 0 0 30px;
+            max-width: 100%;
+            overflow: hidden;
+            font-size: 1.5rem;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         input[type=file] {
             left:0;

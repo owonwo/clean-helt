@@ -9,12 +9,16 @@ export default {
 	},
 	methods: {
 		validate() {
-			return false
+			return true
 		},
 		submit(form) {
-			this.form = form
+			this.set_form(form)
 			form.id ? this.update() : this.create()
-			this.opened = false
+			this.$refs.modal.hide()
+		},
+		set_form(form) {
+			this.form = form
+			return this
 		},
 		clearForm() {
 			this.form = {}
@@ -26,20 +30,24 @@ export default {
 			this.$store.dispatch(action, this.form)
 				.then(() => {
 					this.success_message(message.success)
-					this.form = {}
-				}).catch(() => this.error_message(message.error))
+					this.clearForm()
+				}).catch((errors) => this.logErrors(errors))
 		},
 		update() {
 			const { action, message } = this.crud.update
 			this.$store.dispatch(action, this.form)
-				.then(() => this.success_message(message.success))
+				.then(() => {
+					this.success_message(message.success)
+					this.clearForm()
+				})
+				.catch(errors => this.logErrors(errors))
 		},
 		trash(id) {
 			const { action, message } = this.crud.delete
 
 			this.$store.dispatch(action, id)
 				.then(() => this.success_message(message.success))
-				.then(() => this.opened = false)
+				.then(() => this.$refs.modal.hide())
 		}
 	}
 }

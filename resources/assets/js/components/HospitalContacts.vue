@@ -1,16 +1,13 @@
 <template>
   <section class="cont">
     <!-- create contacts form -->
-    <div class="level">
-      <HoverRevealButton 
-        v-if="canEdit"
-        @click="opened = !opened">
-        <i 
-          slot="icon" 
-          :class="{'ti-plus': !opened, 'ti-minus': opened}" 
-          class="ti"/>
-        <span slot="text">{{ !opened ? 'Add' : 'Close' }}</span>
-      </HoverRevealButton>
+    <div 
+      v-if="canEdit"
+      class="level level-right">
+      <HoverIconButton 
+        :active="opened"
+        :icons="['ti-plus:Add', 'ti-minus:Close']"
+        @click="opened = !opened"/>
     </div>
     <form 
       v-if="opened" 
@@ -57,15 +54,14 @@
       </div>
     </form>
     <!-- contacts list -->
-    <div class="menu-label p-5">Hospital Contact List</div>
     <div v-if="contacts.length < 1"><i>No Hospital Contacts</i></div>
+    <div v-else class="menu-label p-5">Hospital Contact List</div>
     <div
       v-for="(contact, index) in contacts"
-      v-else
       :key="index"
       class="card is-hospital m-5">
       <div class="card-content">
-        <div 
+        <form 
           v-if="contact.isEditing"
           class="field">
           <div class="control mt-5">
@@ -86,20 +82,20 @@
           <div class="control">
             <input 
               v-if="contact.isEditing" 
-              v-model="contact.location" 
-              class="h--input" 
-              placeholder="Location" 
-              type="text">
-          </div>
-          <div class="control">
-            <input 
-              v-if="contact.isEditing" 
               v-model="contact.phone" 
               class="h--input"
               placeholder="Telephone" 
               type="text">
           </div>
-        </div>
+          <div class="control">
+            <input 
+              v-if="contact.isEditing" 
+              v-model="contact.location" 
+              class="h--input" 
+              placeholder="Location" 
+              type="text">
+          </div>
+        </form>
         <template v-else> 
           <h3 class="title is-5 mt-0">
             <span 
@@ -175,7 +171,9 @@ export default {
   },
   methods: {
     saveContact(contact) {
-      if(contact.isEditing) this.update(contact) 
+      if (contact.isEditing) {
+        this.set_form(Object.assign({}, contact)).update() 
+      }
       contact.toggleEdit()
     },
     validate() {

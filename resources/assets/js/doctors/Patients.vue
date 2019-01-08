@@ -10,7 +10,9 @@
           <i class="ti px-15 py-5 ti-layout-grid3"/>
           <i class="ti px-15 py-5 ti-layout-list-thumb"/>
         </div>
-        <SearchBox/>
+        <SearchBox 
+          placeholder="Find Patient"
+          @value="e => search_string = e"/>
       </div>
     </div>
     <alert
@@ -19,7 +21,7 @@
       type="info">You have no client to attend to at the moment.</alert>
     
     <div
-      v-for="(profile, key) in sharedProfiles"
+      v-for="(profile, key) in filtered"
       :key="key" 
       class="osq-patient-list">
       <section>
@@ -43,7 +45,7 @@
           v-if="$store.getters.accountType === 'doctor'">
           <button 
             class="button is-outlined has-no-motion is-rounded" 
-            @click="makeRefer(profile.patient.id)">
+            @click="makeRefer(profile.share.id)">
             Refer
           </button>
           <router-link 
@@ -53,50 +55,42 @@
         </template>
       </div>
     </div>
-    </table>
     <modal
+      ref="modal"
       :show="modal"
       size="sm"
       @closed="modal = false">
-      <h1 class="title is-4">Refer another Doctor.</h1>
-      <p class="mb-10">Pick a doctor to refer this patient to.</p>
-      <div class="field">
-        <div class="select is-fullwidth">
-          <select v-model="refer.doctor">
-            <option value="#">Pick a Doctor...</option>
-            <option 
-              v-for="doctor in doctors" 
-              :key="doctor.id" 
-              value="doctor.id">{{ doctor }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <button class="button is-primary">Submit</button>
+      <ReferDoctor
+        :share-id="refer.share"/>
     </modal>
   </section>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import ReferDoctor from '@/doctors/ReferDoctor'
 
 export default {
   name: 'Patients',
+  components: { ReferDoctor },
   data(){ return {
     modal: false,
+    search_string: '',
     refer: {
-      client: 0,
-      doctor: 0,
+      share: 0,
     }
   }},
   computed: {
     ...mapState('manage_patient', {sharedProfiles: 'patients'}),
-    ...mapState('doctor', {doctors: 'fellow_doctors'})
+    ...mapState('doctor', {doctors: 'fellow_doctors'}),
+    filtered() {
+      return this.sharedProfiles.filter(e => e.patient.first_name.toLowerCase().includes(this.search_string.toLowerCase()))
+    }
   },
   methods: {
     makeRefer(id) {
-      this.refer.client = id
-      this.modal = true
+      this.refer.share = id
+      this.$refs.modal.hide()
     }
   }
 }

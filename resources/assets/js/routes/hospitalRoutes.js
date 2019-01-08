@@ -37,6 +37,7 @@ const routes = [
 	},
 	{
 		path: '/settings',
+		name: 'Settings',
 		components: {
 			default: Settings,
 			logBar: Notifications

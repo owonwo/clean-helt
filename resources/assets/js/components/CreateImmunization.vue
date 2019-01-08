@@ -40,8 +40,7 @@ export default {
 	mixins: [MedicalRecord],
 	data() {
 		return {
-			form: { immunization_title: '', age: '', date_of_immunization: '' },
-			errors: {}
+			form: { immunization_title: '', age: '', date_of_immunization: '' }
 		}
 	},
 }

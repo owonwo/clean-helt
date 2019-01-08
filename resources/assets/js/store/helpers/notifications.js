@@ -2,24 +2,29 @@ const routes = {
 	DOCTOR: {
 		all: '/api/doctor/notifications',
 		unread: '/api/doctor/notification/unread',
+		read: '/api/doctor/notification/read',
 	},
 	PATIENT: {
 		all: '/api/patient/notifications',
 		unread: '/api/patient/notification/unread',
+		read: '/api/patient/notification/read',
 	},
 	PHARMACY: {
 		all: '/api/pharmacy/notifications',
 		unread: '/api/pharmacy/notification/read',
+		read: '/api/pharmacy/notificatioread',
 	},
 	HOSPITAL: {
 		all: '/api/hospital/notifications',    
 		unread: '/api/hospital/notification/unread',
+		read: '/api/hospital/notification/read',
 	},
 	LABORATORY: {
 		all: '/api/laboratory/notifications',
 		unread: '/api/laboratory/notification/read',
+		read: '/api/laboratory/notificatioread',
 	}
-};
+}
 
 /**
   *@return Object
@@ -37,7 +42,7 @@ const notification_prototype = Object.create({
 	message: 'Empty',
 	/** sets a notification to read */
 	async isRead() {
-		return window.axios.get(getNotificationRoute(this.model) + '/' + this.id)
+		return window.axios.get(getNotificationRoute(this.model).read + '/' + this.id)
 	},
 })
 

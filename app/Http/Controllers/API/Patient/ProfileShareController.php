@@ -93,7 +93,7 @@ class ProfileShareController extends Controller
 
     public function expire(ProfileShare $profileShare)
     {
-        if ($profileShare && $profileShare->update(['expired_at' => now()->subSeconds(30)])) {
+        if ($profileShare && $profileShare->update(['status' => '2', 'expired_at' => now()->subSeconds(30)])) {
             event(new ProfileShareExpired($profileShare->provider, $this->patient));
 
             return response()->json([
@@ -116,8 +116,7 @@ class ProfileShareController extends Controller
         $expired_at = request('extension');
 
         if ($profileShare && $profileShare->update(['expired_at' => $expired_at])) {
-            // event(new ProfileShareExtended($profileShare->provider, $this->patient));
-            dd($profileShare->refresh()->expired_at);
+            event(new ProfileShareExtended($profileShare->provider, $this->patient));
 
             return response()->json([
                 'message' => 'Share extended successfully. Now expires ' . $profileShare->fresh()->expired_at->diffForHumans(),

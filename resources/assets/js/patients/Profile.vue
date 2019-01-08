@@ -276,32 +276,7 @@
           </div>
           <div slot="p2">
             <h3 class="menu-label">Annual Medical Check</h3>
-            <h5>Vital Signs</h5>
-            <table 
-              class="ml-30 mb-30" 
-              style="font-size: 13px">
-              <tr>
-                <td width="104px">Pulse:</td>
-                <td>95bmp</td>
-              </tr>
-              <tr>
-                <td>Temperature:</td>
-                <td>31&deg;C</td>
-              </tr>
-              <tr>
-                <td>Blood Pressure:</td>
-                <td>120/80 mmHg</td>
-              </tr>
-              <tr>
-                <td>Respiratory Rate:</td>
-                <td>16 breaths per minute</td>
-              </tr>
-            </table>
-            <h5>Examination of systems</h5>
-            <p 
-              class="ml-30 mb-30" 
-              style="font-size: 0.8em">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet</p>
-            <h5>Additional Information</h5>
+            <MedicalCheckup :editable="!isPatient"/>
           </div>
           <!-- MEDICAL HISTORY -->
           <section slot="p3">
@@ -370,6 +345,7 @@ import ProfileGrid from '@/components/ProfileGrid.vue'
 import Allergies from '@/components/Allergies.vue'
 import Immunizations from '@/components/Immunizations.vue'
 import MedicalHistory from '@/components/MedicalHistory.vue'
+import MedicalCheckup from '@/components/MedicalCheckup.vue'
 import HospitalContacts from '@/components/HospitalContacts.vue'
 import EmergencyContacts from '@/components/EmergencyContacts.vue'
 import HealthInsuranceProvider from '@/components/HealthInsuranceProvider.vue'
@@ -379,7 +355,7 @@ import Hospitalizations from '@/components/Hospitalizations.vue'
 export default {
 	name: 'Profile',
 	components: {
-		ProfileGrid, HealthInsuranceProvider,
+		ProfileGrid, HealthInsuranceProvider, MedicalCheckup,
     Hospitalizations, HospitalContacts, Allergies, 
     MedicalHistory, EmergencyContacts, FamilyMedicalRecords,
     Immunizations

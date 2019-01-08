@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { VuexError, extractRecords, urlGenerator, REMOVE_CRUD_METHODS, guessDataKey } from '@/store/helpers/utilities'
+import { VuexError, extractRecords, extractErrors, urlGenerator, REMOVE_CRUD_METHODS, guessDataKey } from '@/store/helpers/utilities'
 
 const allergies = urlGenerator('allergies')
 const immunization = urlGenerator('immunization')
@@ -52,8 +52,8 @@ const actions = {
 			context.dispatch('FETCH_ALLERGIES')
 			return 
 		} catch(x) {
-			VuexError('Error Updating Allergy')()
-			throw x
+			VuexError('Error Updating Allergy')(x)
+			throw extractErrors(x)
 		}
 	},
 	async UPDATE_ALLERGY (context, payload) {

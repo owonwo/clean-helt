@@ -2,16 +2,13 @@
   <section>
     <section>
       <!-- create contacts form -->
-      <div class="level">
-        <HoverRevealButton 
-          v-if="canEdit"
-          @click="opened = !opened">
-          <i
-            slot="icon"
-            :class="{'ti-plus': !opened, 'ti-minus': opened}"
-            class="ti"/>
-          <span slot="text">{{ !opened ? 'Add' : 'Close' }}</span>
-        </HoverRevealButton>
+      <div 
+        v-if="canEdit"
+        class="level level-right">
+        <HoverIconButton
+          :active="opened"
+          :icons="['ti-plus:Add', 'ti-minus:Close']"
+          @click="opened = !opened"/>
       </div>
       <!-- create form -->
       <form 
@@ -68,12 +65,11 @@
             tabindex="5">Add to Contact</button>
         </div>
       </form>
-      <div class="menu-label p-5">Emergency Contact List</div>
-      <!-- contacts list -->
       <div v-if="contacts.length < 1"><i>No Emergency Contacts</i></div>
+      <div v-else class="menu-label p-5">Emergency Contact List</div>
+      <!-- contacts list -->
       <div
         v-for="(contact, index) in contacts"
-        v-else
         :key="index"
         class="card is-hospital m-5">
         <div class="card-content">
@@ -199,7 +195,9 @@ export default {
   },
   methods: {
     saveContact(contact) {
-      if (contact.isEditing) this.update(contact)
+      if (contact.isEditing) {
+        this.set_form(Object.assign({}, contact)).update()
+      }
         contact.toggleEdit()
     },
     validate() {

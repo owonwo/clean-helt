@@ -38,9 +38,7 @@ const actions = {
 				}
 				const actions = compose(justrace, trace, mapping(buildLab))
 				console.log(laboratories.reduce(actions, []))
-			} catch (x) {
-
-			}
+			} catch (x) { }
 			return data.data
 		})
 		.then(entities => context.commit('set_entities', entities))

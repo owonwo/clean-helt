@@ -7,14 +7,14 @@
 
 		<div class="columns is-centered" v-slide="show">
 			<div class="column is-half">
-				<AddServiceProvider @success="" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
+				<AddServiceProvider @success="FETCH_ALL_SHARES" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
 			</div>
 		</div>
 		
 		<section class="card is-fullheight">
-			<div v-if="!shares.length" class="card-header">
+			<div v-if="!allShares.length" class="card-header">
 				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
-				<span class="card-header-title">No Service Provider.</span>
+				<span class="card-header-title">Service Provider.</span>
 				<HoverRevealButton text="Add" @click="(show = !show)" class="mr-15 mt-5">
 					<span class="ti" :class="{'ti-plus': show, 'ti-angle-down': !show}" slot="icon"></span>
 					<span slot="text">{{ show ? 'Add' : 'Close' }}</span>
@@ -22,14 +22,14 @@
 			</div>
 			<div class="tabs mb-5">
 				<ul>
-					<li v-for="(group, key, index) in shares" 
+					<li v-for="(group, key, index) in allShares" 
 						:key="index" :class="{'is-active': current == index}">
 						<a @click.prevent="current=index" href="#">{{ key }}</a>
 					</li>
 				</ul>
 			</div>
 			<div v-preload v-if="shares_loading" class="block is-rounded mx-15" style="height:10px;"/>	
-			<div v-if="shares.length < 1">
+			<div v-if="allShares.length < 1">
 				<blockquote class="notification is-info p-5 mx-15">
 					<i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
 				</blockquote>
@@ -37,33 +37,40 @@
 			<div class="card-body">
 			<pager align="top" class="is-absolute" :current="current">
 				<div :slot="'p'+(index+1)" :key="index" class="px-15"
-				   v-for="(non, shareKey, index) in shares">
+				   v-for="(non, shareKey, index) in allShares">
 					<table class="table is-hoverable is-fullwidth">
 						<tr>
 							<th>Photo</th>
 							<th>Provider Name</th>
 							<th width="100">CHCODE</th>
 							<th>Expiration Date</th>
-							<th width="50">Status</th>
-							<th>Actions</th>
+							<th>Status</th>
 						</tr>
-						<tr v-show="share.visible" :key="index" v-for="(share, index) in shares[shareKey]">
-							<td><i class="ti ti-user"></i> &nbsp;&nbsp;</td>
+						<tr v-show="!isExpired(share)" :key="index" v-for="(share, index) in shares[shareKey]">
+							<td><i class="ti ti-user"/> &nbsp;&nbsp;</td>
 							<td>{{share.provider.name}}</td>
 							<td class="has-text-grey-darker">{{share.provider.chcode}}</td>
 							<td>{{ share.expired_at }}</td>
 							<td>
 								<span v-if="share.status === 1" class="tag is-primary">Active</span>
 								<span v-else-if="share.status === 0" class="tag is-info">Pending</span>
-								<span v-else-if="share.status === 2" class="tag is-primary">Expired</span>
-							</td>
-							<td>
-								<button v-if="!isExpired(share)" @click="showExtendModal(share)" class="button has-no-motion is-normal is-small">	
-									<i class="ti ti-control-forward icon"></i> <span>Extend Date</span>
-								</button>
-								<button @click="expire(share)" class="button has-no-motion is-danger is-small">
-									<i class="ti ti-close icon"></i> <span>Cancel</span>
-								</button>
+								<span v-else-if="share.status === 2" class="tag is-danger">Expired</span>
+								<dropdown>
+									<template slot="list"> 
+										<li v-if="share.status === 1" @click="showExtendModal(share)" class="dropdown-item">	
+											<i class="ti ti-control-forward icon"/> <span>Extend Date</span>
+										</li>
+										<li v-if="share.status === 0 && !share.isSharedBy(user.id)" @click="approveShare(share.id)" class="dropdown-item">	
+											<i class="ti ti-check icon"/> <span>Accept Share</span>
+										</li>
+										<li v-if="share.isAssigned() || share.isReferred()" @click="declineShare(share.id)" class="dropdown-item">
+											<i class="ti ti-close icon"/> <span>Decline</span>
+										</li>
+										<li v-else @click="expireShare(share.id)" class="dropdown-item">
+											<i class="ti ti-close icon"/> <span>Cancel</span>
+										</li>
+									</template>
+								</dropdown>
 							</td>
 						</tr>
 					</table>
@@ -92,14 +99,14 @@
 
 <script> 
 	/* eslint-disable */
-	import { mapState } from 'vuex'
+	import { mapState, mapGetters, mapActions } from 'vuex'
 	import Pager from '@/components/Pager.vue';
 
 	export default {
 		components: {Pager},
 		name: 'ProfileShares',
 		mounted() {
-			this.$store.dispatch('patient_share/FETCH')
+			this.FETCH_ALL_SHARES()
 		},
 		data() {return {
 			current: 0,
@@ -109,9 +116,12 @@
 			modal: false
 		}},
 		computed: {
-			...mapState('patient_share', ['shares', 'shares_loading'])
+			...mapGetters({user: 'getUser'}),
+			...mapState('patient_share', ['shares', 'shares_loading']),
+			...mapGetters('patient_share', ['allShares'])
 		},
 		methods: {
+			...mapActions('patient_share', ['FETCH_ALL_SHARES', 'approveShare', 'declineShare', 'expireShare']),
 			showExtendModal(share) {
 				this.modal = true
 				this.lastClicked = share
@@ -140,10 +150,6 @@
 						this.success_message('Profile Share Extended successfully!')
 					})
 				this.extension = "";
-			},
-			expire(share) {
-				this.$http.patch(`/api/patient/profile/shares/${share.id}/expire`)
-					.then(this.success.bind(this, share));
 			}
 		}
 	}

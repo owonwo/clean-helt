@@ -3,20 +3,21 @@ import Vuex from 'vuex'
 import _ from 'lodash'
 
 import account from './modules/account'
-import { lockProfile } from './helpers/utilities'
 import patient_share from './modules/patient'
+import { lockProfile } from './helpers/utilities'
 import medicalRecords from './modules/patient/medical_record'
-import famMedicalHistory from './modules/patient/family_medical_history'
+import medicalCheckup from './modules/patient/medicalCheckup'
 import health_insurance from './modules/patient/health_insurance'
-import service_providers from './modules/patient/service_providers'
 import hospital_contacts from './modules/patient/hospital_contacts'
+import service_providers from './modules/patient/service_providers'
+import famMedicalHistory from './modules/patient/family_medical_history'
 
 import doctor from './modules/doctor.js'
 import hospital from './modules/hospital.js'
 import manage_patient from './modules/manage_patient.js'
 
 Vue.use(Vuex)
-const medicalRecord = _.merge({}, medicalRecords, famMedicalHistory, health_insurance)
+const medicalRecord = _.merge({}, medicalCheckup, medicalRecords, famMedicalHistory, health_insurance)
 
 export default new Vuex.Store({
 	modules: {

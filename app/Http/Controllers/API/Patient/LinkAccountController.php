@@ -49,7 +49,7 @@ class LinkAccountController extends Controller
                 return response()->json([
                     'data' => $child,
                     'accessToken' => $accessToken,
-                    'message' => 'Congratulation! you have successfully created patient record',
+                    'message' => 'Congratulation! you have successfully created Child Account',
                 ], 200);
             }
         } catch (\Exception $exception) {

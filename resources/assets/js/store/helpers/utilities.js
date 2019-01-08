@@ -10,8 +10,14 @@ export const lockProfile = (person) => {
 }
 
 // Extracts the Medical Record Data from Ajax payload
-export const extractRecords = (record = []) => {
-	return record.map(e => e.data).filter(e => e !== null).map(APPEND_CRUD_METHODS)
+export const extractRecords = (records = []) => {
+	return records.map(e => e.data).filter(e => e !== null).map(APPEND_CRUD_METHODS)
+}
+
+export const extractErrors = (x) => {
+	if (typeof x.response.data.errors === 'undefined') 
+		throw Error({toString: () => 'Error extract failed for XHR Response', response: x})
+	return x.response.data.errors
 }
 
 const __crud__methods = {
@@ -57,7 +63,6 @@ export const personalify = (person) => {
 export const delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time))
 
 export const shareFactory = (share)  => {
-	console.log(share)
 	const pickName = () => {
 		let {first_name, last_name, name} = share.provider
 		return share.provider_type === 'App\\Models\\Doctor' 
@@ -66,11 +71,32 @@ export const shareFactory = (share)  => {
 	const  overwrites = {
 		provider_type: share.provider_type.replace('App\\Models\\', ''),
 		status: Number(share.status),
+		isSharedBy(id = 0) { 
+			if(this.patient) {
+				return this.patient.id === id
+			} else {
+				return false 
+			} 
+		},
+		isAssigned() { return this.type === 'assigned' },
+		isReferred() { return this.type === 'referral' },
 		provider: __.assign(share.provider, { name: pickName() }),
 	}
-	return __.assign({visible: true}, share, overwrites)
+	return __.assign({}, share, overwrites)
 }
 
+export const categorizeShares = (shares = []) => {
+	const groups = {}
+	shares.map(e => {
+		const provider = e.provider_type
+		Object.keys(groups).includes(provider)
+			? groups[provider].push(e) 
+			: (groups[provider] = []).push(e)
+	})
+	return groups
+}
+
+//TODO: HERE FOR FUTURE UPDATES
 const lab_proto = {
 	offers: '',
 	services() {
@@ -78,9 +104,9 @@ const lab_proto = {
 	}
 }
 
+// HERE FOR FUTURE UPDATES
 export const buildLab = (lab) => {
-	// return __.assign(__.create(lab_proto), lab)
-	return lab
+	return __.assign(__.create(lab_proto), lab)
 }
 
 export const trace = (x) => console.log(x)
@@ -99,10 +125,31 @@ export const urlGenerator = (routeGroup) => {
 		hospital_contact,
 		emergency_contacts,
 		medical_history,
-		hospitalization 
+		hospitalization,
+		medical_checkup
 	}
-
+	if (!Object.keys(routes).includes(routeGroup)) {
+		throw Error('Invalid name provided for URL GENERATOR for ' + routeGroup)
+	}
 	return routes[routeGroup]
+}
+
+export const medical_checkup = ({rootGetters, rootState}) => {
+	const isDoctor = rootGetters.accountType === 'doctor'
+	const {currentPatient: patient} = rootState.manage_patient
+	
+	return {
+		update: (id) => 
+			`/api/doctor/patients/${patient.chcode}/medical-checkups/${id}`,
+		delete(id) {
+			return this.update(id)
+		},
+		base() {
+			return isDoctor 
+			? `/api/doctor/patients/${patient.chcode}/medical-checkups`
+			: ''
+		}
+	}	
 }
 
 const health_insurance = ({rootGetters, rootState}) => {

@@ -34,7 +34,7 @@
               <!-- preloader -->
               <div 
                 v-preload 
-                v-if="!!!doctors.length && !isLoaded" 
+                v-if="!isLoaded"
                 class="block is-rounded mx-15 my-5 mb-0" 
                 style="height:10px;border-radius: 0" />
               <!--  top navigation -->
@@ -47,7 +47,7 @@
                   <th>Full Name</th>
                   <th>Options</th>
                 </tr>
-                <tr v-for="(doctor, index) in orderDoctor">
+                <tr v-for="(doctor, index) in orderDoctor" :key="index">
                   <td>
                     Dr. {{ doctor.first_name }} {{ doctor.last_name }}
                     <span 

@@ -2,7 +2,9 @@
 	<section :class="'va-'+align" id="page-holder" style="overflow: hidden;width: 100%;">
 		<div id="page-slider" :class="[transitionClass]" :style="{width: slideWidth, left: slideLeft}">
 			<v-scrollbar class="page" :key="index" :style="{width:`${100 / pageCount}%`}" v-for="(p, index) in pages">
-				<slot :name="`p${index+1}`"></slot>
+				<div class="px-15">
+					<slot :name="`p${index+1}`"></slot>					
+				</div>
 			</v-scrollbar>
 		</div>
 	</section>

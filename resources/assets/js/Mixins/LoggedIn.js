@@ -13,6 +13,16 @@ export default {
 		const userHasToken = (!!token && 'string' === typeof token)
 		const userHasWrongChCode = !this.testChCode(chcode) || _.isEmpty(chcode)
 
+		window.axios.interceptors.response.use(
+			(response) => response, 
+			(error) => {
+				const { response: {status, data} } = error
+				if (status === 401 && data.message === 'Unauthorized') {
+					// this.logout()
+				}
+				return Promise.reject(error)
+			})
+
 		if (userHasWrongChCode)  
 			console.warn('Logged In User ChCode is invalid!, So features are bound to fail')
 
@@ -21,8 +31,6 @@ export default {
 				'Authorization': `Bearer ${token}`,
 				'X-Requested-With': 'XMLHttpRequest'
 			}
-		} else {
-			this.logout()
 		}
 	},
 	mounted() {

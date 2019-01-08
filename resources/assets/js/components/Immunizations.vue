@@ -1,20 +1,26 @@
 <template>
   <section>
-    <HoverRevealButton 
-      v-if="canEdit"
-      @click="(opened = true) && clearForm()">
-      <span 
-        slot="icon" 
-        class="ti ti-plus"/>
-      <span slot="text">Add</span>
-    </HoverRevealButton>
-    <alert 
-      v-if="!immunizations.length" 
-      type="info">
-      You have a clean Immunzation record.
-    </alert>
-    <table 
-      v-else 
+    <div class="level">
+      <div>
+        <alert 
+          v-if="!immunizations.length" 
+          class="mb-0"
+          type="info">
+          You have a clean Immunzation record.
+        </alert>
+      </div>
+      <HoverRevealButton 
+        v-if="canEdit"
+        @click="(opened = true) && clearForm()">
+        <span 
+          slot="icon" 
+          class="ti ti-plus"/>
+        <span slot="text">Add</span>
+      </HoverRevealButton>
+    </div>
+
+    <table
+      v-if="immunizations.length" 
       class="table is-fullwidth">
       <tr>
         <th width="50">S/N</th>
@@ -35,17 +41,17 @@
             <template slot="content"/>
             <template slot="list">
               <li @click="show(entry)">Modify</li>
-              <li>Trash</li>
+              <li @click="trash(entry.id)">Trash</li>
             </template>
           </dropdown>
         </td>
       </tr>
     </table>
-    <modal 
+    <modal
+      ref="modal"
       :show="opened && canEdit"
       @closed="opened = false">
-      <CreateImmunization 
-        v-if="opened" 
+      <CreateImmunization
         :form-data="form"
         @submit="submit"/>
     </modal>
@@ -89,10 +95,10 @@ export default {
   methods: {
     show(entry) {
       this.form = Object.assign({}, entry)
-      this.opened = true
+      this.$refs.modal.toggle()
     },
    validate() {
-     return Object.keys(this.form).length === 3
+     return true
    },
  }
 }
