@@ -179,6 +179,7 @@ Route::group(['namespace' => 'API'], function () {
             }
         );
 
+        Route::get('med-records', 'MedicalRecordController@index');
         Route::get('medical-records', 'PatientController@showRecords');
         Route::get('profile', 'PatientController@show');
         Route::patch('/profile/update', 'PatientController@update');
