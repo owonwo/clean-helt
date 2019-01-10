@@ -57,6 +57,7 @@
     </section>
 
     <modal 
+      ref="modal"
       :show="modal" 
       size="sm" 
       @closed="modal = false && isLoading.reset ">
@@ -129,8 +130,9 @@ export default {
 			let {share_id, doctor_id} = this.selected
 
 			this.$store.dispatch('hospital/SHARE_TO_DOCTOR', {share_id, doctor_id})
-				.then(() => this.modal = false)
+				.then(() => this.$refs.modal.hide())
 				.then(() => this.$store.dispatch('hospital/FETCH_DOCTORS'))
+        .then(() => this.success_message('Profile share successful'))
 				.catch((err) => {
 					console.log(err)
 				})

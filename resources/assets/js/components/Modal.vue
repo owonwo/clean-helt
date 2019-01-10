@@ -1,8 +1,9 @@
+<!-- eslint-disable -->
 <template>
     <div class="modal slide-up" role="dialog">
     <div class="modal-background" @click.stop.prevent="hide()"></div>
       <v-scrollbar class="modal-content" :style="sizeStyle">
-        <div v-if="$props.showHeader" class="modal-card-head">
+        <div v-if="modalHasTitle" class="modal-card-head">
           <button type="button" class="modal-close" 
             @click.stop.prevent="hide()">
             <i class="ti ti-close"></i>
@@ -12,7 +13,7 @@
           </h4>
         </div>
         <div class="modal-card-body">
-          <button v-if="!$props.showHeader" type="button" class="modal-close" @click.prevent="hide">
+          <button v-if="!modalHasTitle" type="button" class="modal-close" @click.prevent="hide">
             <i class="ti ti-close"></i>
           </button>
           <slot name="modal-image"></slot>
@@ -34,10 +35,13 @@
     components: {vScrollbar},
     props: ['show', 'showHeader', 'size'],
     computed: {
+      modalHasTitle() { 
+        return !!this.$slots['modal-title'] 
+      },
       sizeStyle() {
         const {size} = this.$props
         return {
-          width: (size == 'sm' ? 300 + 'px' : ''),
+          width: (size === 'sm' ? '300px' : ''),
         }
       }
     },

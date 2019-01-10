@@ -40,6 +40,36 @@ const actions = {
 			context.commit('set_histories', extractRecords(data))
 		}).catch(VuexError('Fetching Medical Histories Failed'))
 	},
+	async CREATE_MEDICAL_HISTORY(context, payload) {
+		try {
+			await axios.post(medical_history(context).base(), payload)
+			context.dispatch('FETCH_MEDICAL_HISTORY')
+			return 
+		} catch(x) {
+			VuexError('Error Creating Medical History')(x)
+			throw extractErrors(x)
+		}
+	},
+	async UPDATE_MEDICAL_HISTORY(context, payload) {
+		try {
+			await axios.patch(medical_history(context).update(payload.id), REMOVE_CRUD_METHODS(payload))
+			context.dispatch('FETCH_MEDICAL_HISTORY')
+			return 
+		} catch(x) {
+			VuexError('Error Updating Medical History')(x)
+			throw extractErrors(x)
+		}
+	},
+	async DELETE_MEDICAL_HISTORY(context, payload) {
+		try {
+			await axios.delete(medical_history(context).delete(payload))
+			context.dispatch('FETCH_MEDICAL_HISTORY')
+			return 
+		} catch(x) {
+			VuexError('Error Deleting Medical History')(x)
+			throw extractErrors(x)
+		}
+	},
 	FETCH_ALLERGIES(context) {
 		axios.get(allergies(context).base()).then(guessDataKey)
 		.then(({data}) => {

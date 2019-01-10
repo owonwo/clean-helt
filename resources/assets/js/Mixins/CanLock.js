@@ -1,6 +1,6 @@
 export default {
 	props: {
-		editable: {
+		canEdit: {
 			type: Boolean,
 			default: false,
 		}
@@ -8,9 +8,6 @@ export default {
 	computed: {
 		isLocked() {	
 			return !this.isEditable
-		},
-		canEdit() {
-			return this.$props.editable
 		}
 	}
 }

@@ -32,6 +32,12 @@
     </div>
   </section>
 </template>
+<style type="text/css">
+  .dropdown-content > li:hover {
+    color: #333;
+    background-color: #eee;
+  }
+</style>
 <script>
 export default {
 	name: 'Dropdown',

@@ -2,7 +2,9 @@
     <div id="profile-grid">
         <aside>
             <img :src="avatar" class="avatar has-shadow">
-            <div class="has-text-centered mt-5 is-fullwidth">
+            <div 
+                v-if="!!$props.avatarUrl"
+                class="has-text-centered mt-5 is-fullwidth">
                 <label for="change-avatar" class="button is-primary is-rounded">
                     change photo <i class="ml-5 ti ti-pencil"></i>
                 </label>
@@ -26,9 +28,9 @@
 
 export default {
     props: {
-    	avatarUrl: { type: String, required: true, default: ""},
+    	avatarUrl: { type: String, required: true, default: ''},
         avatar: { type: String, default: '', required: true, },
-        name: { type: String, default: '', required: true, },
+        name: { type: String, default: '', },
     },
     data() {
         return {

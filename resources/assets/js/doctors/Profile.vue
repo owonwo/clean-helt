@@ -3,7 +3,7 @@
     <ProfileGrid 
       :avatar="user.avatar"
       :name="`Dr. ${user.first_name}`"
-      avatar-url="">
+      avatar-url="/api/doctors/avatar">
       <nav slot="navigation">
         <li><a href="#">Basic Information</a></li>
         <li><a href="#">Hospitals</a></li>
@@ -14,8 +14,7 @@
           <section 
             slot="p1"
             class="column">
-            <div class="menu-label mb-0">Basic Information</div>
-            <br>
+            <div class="menu-label">Basic Information</div>
             <table class="table is-fullwidth">
               <tr>
                 <th width="20%">Full Name:</th>

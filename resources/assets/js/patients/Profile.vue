@@ -6,7 +6,7 @@
     <profile-grid 
       :name="user.name" 
       :avatar="user.avatar" 
-      :avatar-url="edit.avatarUrl">
+      :avatar-url="(isPatient ? edit.avatarUrl : '')">
       <template 
         slot="navigation" 
         class="osq-sidenav p-10">
@@ -276,27 +276,27 @@
           </div>
           <div slot="p2">
             <h3 class="menu-label">Annual Medical Check</h3>
-            <MedicalCheckup :editable="!isPatient"/>
+            <MedicalCheckup v-if="pager.page === 1" :can-edit="!isPatient"/>
           </div>
           <!-- MEDICAL HISTORY -->
           <section slot="p3">
             <div class="menu-label">Medical History</div>
-            <MedicalHistory/>
+            <MedicalHistory v-if="pager.page === 2" :can-edit="true"/>
           </section>
           <!-- Immunization -->
           <div slot="p4">
             <div class="menu-label">IMMUNIZATIONS</div>
-            <Immunizations :editable="true"/>
+            <Immunizations v-if="pager.page === 3" :can-edit="true"/>
           </div>
           <!-- ALLERGIES -->
           <div slot="p5">
             <div class="menu-label">ALLERGIES</div>
-            <Allergies :editable="true"/>
+            <Allergies v-if="pager.page === 4" :can-edit="true"/>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
           <div slot="p6">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
-            <FamilyMedicalRecords :editable="true"/>
+            <FamilyMedicalRecords :can-edit="true"/>
           </div>
           <!-- HOSPITALIZATION -->
           <div slot="p7">
@@ -320,17 +320,17 @@
           <!-- EMERGENCY CONTACT -->
           <div slot="p9">
             <div class="menu-label">EMERGENCY CONTACTS</div>
-            <EmergencyContacts :editable="isPatient"/>
+            <EmergencyContacts :can-edit="isPatient"/>
           </div>
           <!-- HOSPITAL CONTACTS -->
           <div slot="p10">
             <div class="menu-label">HOSPITAL CONTACTS</div>
-            <HospitalContacts :editable="isPatient"/>
+            <HospitalContacts :can-edit="isPatient"/>
           </div>
           <!-- HEALTH INSURANCE PROVIDERS -->
           <div slot="p11">
             <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
-            <HealthInsuranceProvider :editable="isPatient"/>
+            <HealthInsuranceProvider :can-edit="isPatient"/>
           </div>
         </pager>
       </template>

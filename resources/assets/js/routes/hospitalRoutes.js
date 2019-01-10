@@ -33,7 +33,10 @@ const routes = [
 	},
 	{
 		path: '/profile',
-		component: HospitalProfile,
+		components: {
+			default: HospitalProfile,
+			logBar: Notifications
+		}
 	},
 	{
 		path: '/settings',

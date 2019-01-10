@@ -31,12 +31,16 @@
             <a 
               :href="record.report" 
               :download="record.title">
-              <button ghost class="button is-small is-outlined is-rounded">
+              <button 
+                ghost 
+                class="button is-small is-outlined is-rounded">
                 <i class="ti icon ti-download"/>
                 <span>Download</span>
               </button>
             </a>
-            <button ghost class="button is-small is-outlined is-rounded">
+            <button 
+              ghost 
+              class="button is-small is-outlined is-rounded">
               <i class="ti icon ti-eye"/>
               <span>Preview</span>
             </button>
@@ -52,32 +56,29 @@
       ref="modal"
       :show="show"
       @closed="() => show = false">
-      <h1 class="title is-4">Add Medical Checkup Record</h1>
+      <span slot="modal-title">Create a Medical Checkup Record</span>
       <form @submit.prevent="submit">
-        <label for="">Report Title</label>
-        <form-input 
+        <wgInput 
           v-model="form.title"
           type="text"
-          placeholder="Check for Hepitatis #3"
-          @value="(v) => form.title = v"/>
-        <label for="">Checkup Date</label>
-        <form-input 
+          label="Report Title"
+          placeholder="Check for Hepitatis #3"/>
+        <wgInput 
           v-model="form.checkup_date"
-          type="date" 
-          @value="(v) => form.checkup_date = v"/>
-        <label for="">Record File</label>
-        <form-input 
+          label="Checkup Date"
+          type="date"/>
+        <wgInput 
           v-model="form.report"
-          type="file" 
-          @change="extractfile"/>
-        <div class="field">
-          <label for="">Summary</label>
-          <textarea 
-            v-model="form.summary"
-            rows="3" 
-            class="textarea"/>
-          <span class="is-small"/>
-        </div>
+          label="Report File"
+          type="file"
+          @change="extractfile">
+          <p slot="help">download Medical Checkup <a :href="template_file" download>Template</a>.</p>
+        </wgInput>
+        <wgInput
+          v-model="form.summary"
+          label="Summary"
+          type="textarea"
+          rows="3"/>
         <button class="button is-primary">Upload Checkup</button>
       </form>
     </modal>
@@ -93,6 +94,7 @@
     mixins: [ CanLock ],
     data() {return {
       show: false,
+      template_file: '',
       form: {
         title: '',
         report: '',

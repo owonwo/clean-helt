@@ -44,10 +44,10 @@ export const extractPatientFromShare = (share) => {
 export const personalify = (person) => {
 	const person_proto = {
 		get name () {
-			return [this.first_name,this.last_name].join(' ').trimEnd()
+			return [this.first_name || '', this.last_name || ''].join(' ')
 		},
 		get fullname () {
-			return [this.first_name, this.middle_name, this.last_name].join(' ').trimEnd()
+			return [this.first_name || '', this.middle_name || '', this.last_name || ''].join(' ')
 		},
 		get age() {
 			return Math.abs( moment(Date.now()).year() - moment(this.dob).year() )
@@ -202,11 +202,20 @@ const emergency_contacts = ({rootGetters, rootState}) => {
 		}
 	}	
 }
+
 const medical_history = ({rootGetters, rootState}) => {
 	const isDoctor = rootGetters.accountType === 'doctor'
 	const {currentPatient: patient} = rootState.manage_patient
 	
 	return {
+		update(id) {
+			return isDoctor 
+			? `/api/doctor/patients/${patient.chcode}/medical-history/${id}`
+			: `/api/patient/record/${id}/medical-history`
+		},
+		delete(id) {
+			return this.update(id)
+		},
 		base() {
 			return isDoctor 
 			? `/api/doctor/patients/${patient.chcode}/medical-history`

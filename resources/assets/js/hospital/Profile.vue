@@ -1,9 +1,13 @@
 <template>
 	<section>
 		<section class="content-top-bar">
-			<h3>{{ user.name }} Profile</h3>
+			<h3>Hospital Profile</h3>
 		</section>
-	    <profile-grid ref="grid" :avatar-url="edit.avatarUrl" name="" :avatar="user.avatar">
+	    <profile-grid
+	    	ref="grid"
+	    	:name="user.name"
+	    	:avatar-url="edit.avatarUrl"
+	    	:avatar="user.avatar">
 			<template slot="navigation">
 				<li><a href="#">View Profile</a></li>
 				<li><a href="#">View Admin Profile</a></li>
@@ -105,7 +109,7 @@ export default {
 		edit: {
 			basic: false,
 			url: '/api/hospital/profile',
-			avatarUrl: "",
+			avatarUrl: "/api/hospital/avatar",
 			whiteList: ["email", "phone", "address", "city", "state", "country", "website"],
 		},
 	}},

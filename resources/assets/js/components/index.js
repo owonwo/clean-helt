@@ -9,7 +9,7 @@ import CustomLink from '@/components/CustomLink.vue'
 import Alert from '@/components/Alert.vue'
 import AddServiceProvider from './AddServiceProvider'
 import SaveEditButton from './SaveEditButton'
-import FormInput from './FormInput'
+import WgInput from './WgInput'
 import SelectCity from './SelectCity'
 import SelectState from './SelectState'
 import Dropdown from './Dropdown'
@@ -21,7 +21,7 @@ export default {
 	Pager,
 	Accordion,
 	Dropdown,
-	FormInput,
+	WgInput,
 	ProfileBox, 
 	ProfileLoader, 
 	vScrollbar, 

@@ -58,35 +58,30 @@
         <h5 class="title is-5 mb-0">Register a Child</h5>
         <p>Fill the form to add a child.</p>
         <form @submit.prevent="submitChildForm(form)">
-          <form-input 
+          <wgInput 
             v-model="form.email" 
             type="email" 
             required=""
-            placeholder="Enter Email" 
-            @value="e => form.email = e" />
-          <form-input 
+            placeholder="Enter Email"/>
+          <wgInput 
             v-model="form.first_name" 
             type="text" 
             required
-            placeholder="First Name" 
-            @value="e => form.first_name = e" />
-          <form-input 
+            placeholder="First Name"/>
+          <wgInput 
             v-model="form.last_name" 
             type="text" 
             required
-            placeholder="Last Name" 
-            @value="e => form.last_name = e"/>
-          <form-input 
+            placeholder="Last Name"/>
+          <wgInput 
             v-model="form.password" 
             type="text"
             required
-            placeholder="Enter Password..." 
-            @value="e => form.password = e"/>
-          <form-input 
+            placeholder="Enter Password..."/>
+          <wgInput 
             v-model="form.phone" 
             type="text"
-            placeholder="Phone Number" 
-            @value="e => form.phone = e"/>
+            placeholder="Phone Number" />
           <button class="button is-primary">
             <i class="ti icon ti-plus"/>
             <span>Submit</span>

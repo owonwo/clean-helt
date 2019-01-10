@@ -19,42 +19,25 @@
       v-if="sharedProfiles.length < 1"
       class="notification is-info" 
       type="info">You have no client to attend to at the moment.</alert>
-    
-    <div
+    <template v-if="$store.getters.accountType === 'hospital'">
+      <h4 class="osq-group-subtitle-alt">Unassigned Clients</h4>
+      <PatientList
+        v-for="(profile) in unassigned"
+        :profile="profile"
+        :key="profile.id"/>
+      <br>
+      <h4 class="osq-group-subtitle-alt">Assigned Clients</h4>
+      <PatientList 
+        v-for="(profile) in assigned"
+        :profile="profile"
+        :key="profile.id"/>
+    </template>
+    <PatientList
       v-for="(profile, key) in filtered"
-      :key="key" 
-      class="osq-patient-list">
-      <section>
-        <div class="counter">{{ key + 1 }}</div>
-        <img 
-          :src="profile.patient.avatar" 
-          class="image">
-        <div>
-          <h4 class="profile-title">{{ profile.patient.name }}</h4>
-          <span class="is-small is-bold menu-label">Share expires {{ profile.expired_at | moment("from", "now") }}</span>
-        </div>
-      </section>
-      <div
-        class="has-text-right">
-        <button 
-          v-if="$store.getters.accountType === 'hospital'"
-          class="button is-outlined has-no-motion is-rounded">
-          Assign Doctor
-        </button>
-        <template 
-          v-if="$store.getters.accountType === 'doctor'">
-          <button 
-            class="button is-outlined has-no-motion is-rounded" 
-            @click="makeRefer(profile.share.id)">
-            Refer
-          </button>
-          <router-link 
-            :to="{name: 'patient-profile', params: {chcode: profile.patient.chcode, patient_id: profile.patient.id }}" 
-            tag="button" 
-            class="button has-no-motion is-primary is-rounded">View</router-link>
-        </template>
-      </div>
-    </div>
+      v-else
+      :profile="profile"
+      :key="key"/>
+
     <modal
       ref="modal"
       :show="modal"
@@ -69,10 +52,11 @@
 <script>
 import {mapState} from 'vuex'
 import ReferDoctor from '@/doctors/ReferDoctor'
+import PatientList from '@/doctors/PatientList'
 
 export default {
-  name: 'Patients',
-  components: { ReferDoctor },
+  name: 'Patients', 
+  components: { ReferDoctor, PatientList },
   data(){ return {
     modal: false,
     search_string: '',
@@ -84,13 +68,27 @@ export default {
     ...mapState('manage_patient', {sharedProfiles: 'patients'}),
     ...mapState('doctor', {doctors: 'fellow_doctors'}),
     filtered() {
-      return this.sharedProfiles.filter(e => e.patient.first_name.toLowerCase().includes(this.search_string.toLowerCase()))
+      const {searchMatch} = this
+      return this.sharedProfiles.filter(searchMatch)
+    },
+    unassigned() {
+      return this.filtered.filter(this.isShared).sort(this.isShared)
+    },
+    assigned() {
+      return this.filtered.filter(e => !this.isShared(e)).sort(this.isShared)
     }
   },
+  mounted() {
+    this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', 'doctor')
+  },
   methods: {
+    isShared: (profile) => !profile.extensions.length,
     makeRefer(id) {
       this.refer.share = id
-      this.$refs.modal.hide()
+      this.modal = true
+    },
+    searchMatch(e) {
+      return e.patient.first_name.toLowerCase().includes(this.search_string.toLowerCase())
     }
   }
 }

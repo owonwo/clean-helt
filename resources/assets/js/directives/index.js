@@ -51,25 +51,25 @@ Vue.directive('pager-controls', {
 		const elms = () => Array.from(el.querySelectorAll('li'))
 		const anchors = elms().map(e => e.querySelector('a'))
 
-		const resetList = () => {
+		const resetLinksState = () => {
 			elms().forEach(li => li.classList.remove(activeClass))
 		}
 		const changePage = (evt) => {
-			resetList()
+			resetLinksState()
 			const { parentElement: li } = evt.target
 			!modifiers.prevent || evt.preventDefault()
 			li.classList.add(activeClass)
 			vnode.context.page = elms().indexOf(li)
 		}
 		const matchesHash = a => a.getAttribute('href') === window.location.hash
-		const changeHash = ({target}) => window.location.hash = target.getAttribute('href')
-		
-		const hashHasMatch = anchors.find(matchesHash)
-		context.$nextTick(() => setTimeout(() => {
-			!hashHasMatch ?
-				anchors[0].click() : 
-				hashHasMatch.click()
-		}, 1000))
+		const changeHash = ({target}) => {
+			window.history.replaceState('', '', target.href)
+		}
+		const clickOnMatched = () => {
+			const matchedAnchor = anchors.find(matchesHash)	
+			!matchedAnchor ? anchors[0].click() : matchedAnchor.click()
+		}
+		context.$nextTick(() => setTimeout(clickOnMatched, 1000))
 	}
 })
 

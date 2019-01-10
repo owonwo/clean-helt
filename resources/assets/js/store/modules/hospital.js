@@ -74,7 +74,7 @@ const actions = {
     async SHARE_TO_DOCTOR (context, payload) {
       try {
         let {share_id, doctor_id} = payload
-        const { data } = await axios.patch(`/api/hospital/patients/${share_id}/assign/${doctor_id}`)
+        const { data } = await axios.post(`/api/hospital/patients/${share_id}/assign`, {doctor_codes: [doctor_id]})
         context.dispatch('FETCH_DOCTORS')
         return data
       } catch (x) {
