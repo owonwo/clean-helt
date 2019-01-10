@@ -51,97 +51,107 @@
         class="field">
         <input 
           v-model="expiration" 
-          type="date" 
+          type="date"
           class="input is-rounded has-shadow is-expanded">
       </div>
       <div 
-        v-if="chcode_is_valid" 
-        class="help is-success">You have entered a valid CHCODE</div> 
+        v-if="chcode_is_valid"
+        class="has-text-primary is-success">CHCODE is valid</div> 
     </template>
   </section>
 </template>
 
 <script>
 export default {
-    props: {
-        model: { type: String, default: '', required: true },
-        osqStyle: { type: String, default: '', required: false },
-    },
-    data() {
-        return {
-            isLoading: false,
-            endpoints: Object.freeze({
-                DOCTOR: '/api/doctor/add-hospital',
-                HOSPITAL: '/api/hospital/doctors/{doctor}/invite',
-                PATIENT: '/api/patient/profile/shares',
-            }),
-            models: ['DOCTOR', 'PATIENT', 'HOSPITAL'],
-            chcode: '',
-            expiration: '',
-        }
-    },
-    computed: {
-        chcode_is_valid() {
-            return this.chcode.length > 0 && !this.chcode_is_wrong
-        },
-        chcode_is_wrong() {
-            return this.chcode.length > 0 ?
-                !this.testChCode(this.chcode.trim()) : false
-        }
-    },
-    methods: {
-        notify (message = 'Testing Message', type = 'info') {
-            this.$notify({
-                type: type,
-                text: message,
-                duration: 2000,
-            })
-        },
-        reset() {
-            this.isLoading = false
-            this.chcode = ''
-        },
-        canSendRequest(chcode, model) {
-            return this.models.includes(model) && 
-                this.testChCode(chcode)
-        },
-        sendInvite() {
-            this.isLoading = true
-            let { chcode, expiration, $props: { model } } = this
-            const FORM_DATA = model === 'PATIENT' ? {chcode, expiration} : { chcode } 
-            let url = this.endpoints[model]
-                if(model === 'HOSPITAL') url = url.replace('{doctor}', chcode)
-
-                !this.canSendRequest(chcode, model) ? (this.isLoading = false) :
-                this.$http.post(url, FORM_DATA).then((res) => {
-                    this.reset()
-                    this.success_message('Your Invitation Request was Successful')
-                    this.$emit('success', { response: res, chcode })
-                }).catch(( {response: {status, data}} ) => {
-                    this.isLoading = false
-                    status === 409 ? this.notify(data.message) :
-                    status !== 403 || data.errors.expiration.map(e => this.error_message(e)) 
-                    this.$emit('error', data.errors)
-                })
-        },
+  props: {
+    model: { type: String, default: '', required: true },
+    osqStyle: { type: String, default: '', required: false },
+  },
+  data() {
+    return {
+      isLoading: false,
+      endpoints: Object.freeze({
+        DOCTOR: '/api/doctor/add-hospital',
+        HOSPITAL: '/api/hospital/doctors/{doctor}/invite',
+        PATIENT: '/api/patient/profile/shares',
+      }),
+      models: ['DOCTOR', 'PATIENT', 'HOSPITAL'],
+      chcode: '',
+      expiration: '',
     }
+  },
+  computed: {
+    chcode_is_valid() {
+      return this.chcode.length > 0 && !this.chcode_is_wrong
+    },
+    chcode_is_wrong() {
+      return this.chcode.length > 0 ?
+      !this.testChCode(this.chcode.trim()) : false
+    }
+  },
+  methods: {
+    notify (message = 'Testing Message', type = 'info') {
+      this.$notify({
+        type: type,
+        text: message,
+        duration: 2000,
+      })
+    },
+    reset() {
+      this.isLoading = false
+      this.chcode = ''
+    },
+    canSendRequest(chcode, model) {
+      return this.models.includes(model) && 
+      this.testChCode(chcode)
+    },
+    getUrl(model) {
+      if(model === 'HOSPITAL') {
+        return this.endpoints[model].replace('{doctor}', this.chcode)
+      } else {
+        return this.endpoints[model]        
+      }
+    },
+    isPatient() {
+      return this.$props.model === 'PATIENT'
+    },
+    sendInvite() {
+      this.isLoading = true
+      const { getUrl, chcode, expiration, $props: { model } } = this
+      const FORM_DATA = this.isPatient() ? {chcode, expiration} : { chcode } 
+
+      !this.canSendRequest(chcode, model) ? (this.isLoading = false) :
+      this.$http.post(getUrl(model), FORM_DATA)
+        .then((res) => {
+          this.reset()
+          this.success_message('Your Invitation Request was Successful')
+          this.$emit('success', { response: res, chcode }) 
+        })
+        .catch(( {response: {status, data}} ) => {
+          this.isLoading = false
+          status === 409 ? this.notify(data.message) :
+          status !== 403 || data.errors.expiration.map(e => this.error_message(e)) 
+          this.$emit('error', status === 400 ? data.message : data.errors)
+        })
+    },
+  }
 }
 </script>
 <style scoped>
 .control span.icon .button {
-    border-radius: 30px !important;
-    min-width: 55px;
-    text-align: center;
-    height: 80%;
-    transform: translateX(0px);
-    transition: all .3s ease-out;
+  border-radius: 30px !important;
+  min-width: 55px;
+  text-align: center;
+  height: 80%;
+  transform: translateX(0px);
+  transition: all .3s ease-out;
 }
 .control span.icon {
-    pointer-events: all !important;
+  pointer-events: all !important;
 }
 .control span.icon .button:hover,
 .control span.icon .button:focus
- {
-    transform: translateX(-15px);
+{
+  transform: translateX(-15px);
 }
 </style>

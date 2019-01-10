@@ -11278,7 +11278,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .notification-wrapper .vue-notification {
-  font-size: 0.9em !important;
+  font-size: 1rem;
+  border-radius: 13px/12px;
+  font-family: "Lato", "Raleway", "Helvetica Neue", "Noto Sans", "Ubuntu", "Tahoma", "Arial", "FontAwesome", "Glyphicons", sans-serif;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
+  border: none !important;
 }
 .notification-wrapper .vue-notification.error {
   background: #fda09a;

@@ -81,17 +81,18 @@ Vue.directive('slide', {
 		$(el).data('v-height', $(el).height())
 		$(el).height(0)
 	},
-	update(el, binding) {
+	componentUpdated: _.debounce((el, binding) => {
 		const props = (binding.value) 
 			? {height : '0px'}
 			: {paddingBottom: '10px', height: $(el).data('v-height')}
+		
 		$(el).animate({
 			paddingTop: '0px',
 			paddingBottom: '0px'
 		}, 100, 'linear').animate(props, 300, 'swing', function() {
 			binding.value || $(el).height('auto')
 		})
-	}
+	}, 300)
 })
 
 Vue.directive('checkbox', {
@@ -115,6 +116,8 @@ Vue.directive('checkbox', {
 Vue.directive('preload', {
 	bind: function (el) {
 		// let {sm} = binding.modifiers
+		el.style.width = '100%'
+		el.style.height = '5px'
 		preloadClass.map(p => $(el).addClass(p))
 	},
 	componentUpdated(el, binding) {

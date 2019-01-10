@@ -29,6 +29,26 @@
           </section>
         </template>
       </accordion>
+      <accordion
+        :show="false">
+        <template slot="heading">
+          <i class="tag is-primary p-5 mr-15">{{ pendingHospitals.length }}</i> Pending Hospitals                     
+        </template>
+        <template slot="content">
+          <section class="menu content pl-10 pr-10">
+            <div 
+              v-for="(hospital, index) in pendingHospitals" 
+              :key="index" 
+              class="py-5">
+              <button 
+                class="button is-outlined is-pulled-right is-rounded is-primary" 
+                @click="manageHospital({hospital, action: 'accept'})">Accept</button>
+              <h4 class="title is-5 mb-0">{{ hospital.name }}</h4>
+              <span class="has-text-primary">{{ hospital.chcode }}</span>
+            </div>
+          </section>
+        </template>
+      </accordion>
     </div>
     <div class="column is-half">
       <aside id="statistics">

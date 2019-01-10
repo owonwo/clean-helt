@@ -45,9 +45,16 @@ h1, h2, h3, h4, h5, h6 {
     font-family: $default-font;
 }
 
+// vue errors
 .notification-wrapper {
     .vue-notification {
-        font-size: 0.9em !important;
+        font-size: 1rem;
+        border-radius: 13px / 12px;
+        font-family: $default-font;
+        padding: {top: .5rem; bottom: .5rem};
+        box-shadow: 0 2px 1px rgba(black, .2);
+        border: none !important;
+
         &.error {
             background: #fda09a;
             border-left-color: #bf7b76;
@@ -161,6 +168,7 @@ ul {
 
     &.is-fullheight {
         @extend %fullheight-box;
+        
         display: flex;
         flex-direction: column;
 

@@ -1,25 +1,22 @@
 <!-- eslint-disable -->
 <template>
 	<section>
-		<section class="content-top-bar is-flex" style="justify-content: space-between; align-items: center">
+		<section class="content-top-bar level">
 			<h3>Profile Shares</h3>
+			<HoverIconButton 
+				:active="show"
+				:icons="['ti-angle-down:Hide','ti-plus:Add']" 
+				@click="(show = !show)" 
+				class="mr-15 mt-5" />
 		</section>
 
 		<div class="columns is-centered" v-slide="show">
 			<div class="column is-half">
-				<AddServiceProvider @success="FETCH_ALL_SHARES" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
+				<AddServiceProvider ref="provider_form" @success="FETCH_ALL_SHARES && (show = true)" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
 			</div>
 		</div>
 		
 		<section class="card is-fullheight">
-			<div v-if="!allShares.length" class="card-header">
-				<span class="card-header-icon"><i class="icon osf osf-department"></i></span>
-				<span class="card-header-title">Service Provider.</span>
-				<HoverRevealButton text="Add" @click="(show = !show)" class="mr-15 mt-5">
-					<span class="ti" :class="{'ti-plus': show, 'ti-angle-down': !show}" slot="icon"></span>
-					<span slot="text">{{ show ? 'Add' : 'Close' }}</span>
-				</HoverRevealButton>
-			</div>
 			<div class="tabs mb-5">
 				<ul>
 					<li v-for="(group, key, index) in allShares" 
@@ -107,6 +104,9 @@
 		name: 'ProfileShares',
 		mounted() {
 			this.FETCH_ALL_SHARES()
+			if(!!this.$route.params.chcode) {
+				this.addServiceProvider()
+			}
 		},
 		data() {return {
 			current: 0,
@@ -150,6 +150,15 @@
 						this.success_message('Profile Share Extended successfully!')
 					})
 				this.extension = "";
+			},
+			// programmatically adds the chcode and 
+			// activates the AddServiceProvider component
+			addServiceProvider() {
+				const { provider_form } = this.$refs
+				const { chcode } = this.$route.params 
+
+				this.show = false
+				provider_form.chcode = chcode
 			}
 		}
 	}

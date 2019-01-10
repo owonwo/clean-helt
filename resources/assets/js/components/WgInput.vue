@@ -10,7 +10,7 @@ export default {
 		value(a) {
 			const {input} = this.$refs
 			if (input.type !== 'file') {
-				input.value = a
+				input.value = (a || '')
 			} 
 		}
 	},

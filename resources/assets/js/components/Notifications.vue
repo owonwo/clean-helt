@@ -23,7 +23,7 @@
     </v-scrollbar>
   </aside>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 	.notification {
 		margin-bottom: .5rem !important;
 		transform: translateX(0);

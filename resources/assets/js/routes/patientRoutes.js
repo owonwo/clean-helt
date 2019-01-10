@@ -18,23 +18,36 @@ const patientRoutes = [
 	},
 	{
 		path: '/settings',
-		component: Settings
+		components: {
+			default: Settings,
+			logBar: Notifications
+		}
 	},
 	{
 		path: '/services',
 		component: ServiceProviders,
 	},
 	{
+		name: 'profile-share',
 		path: '/profile-shares',
-		component: ProfileShares,
+		components: {
+			default: ProfileShares,
+			logBar: Notifications
+		}
 	},
 	{
 		path: '/notifications',
-		component: NotificationPage
+		components: {
+			default: NotificationPage,
+			logBar: Notifications
+		}
 	},
 	{
 		path: '/profile',
-		component: Profile
+		components: {
+			default: Profile,
+			logBar: Notifications
+		}
 	},
 ]
 

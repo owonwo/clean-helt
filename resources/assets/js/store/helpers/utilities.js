@@ -147,7 +147,7 @@ export const medical_checkup = ({rootGetters, rootState}) => {
 		base() {
 			return isDoctor 
 			? `/api/doctor/patients/${patient.chcode}/medical-checkups`
-			: ''
+			: '/api/patient/med-records?type=checkup'
 		}
 	}	
 }
@@ -265,7 +265,9 @@ const immunization = ({rootGetters, rootState}) => {
 			: `/api/patient/update/${id}/immunization`
 		},
 		delete(id) {
-			return this.update(id)
+			return isDoctor
+			? `/api/doctor/patients/${patient.chcode}/immunizations/${id}`
+			: `/api/patient/record/${id}/immunization`
 		},
 		base: () => isDoctor
 			? `/api/doctor/patients/${patient.chcode}/immunizations`

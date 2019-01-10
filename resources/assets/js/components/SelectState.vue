@@ -5,12 +5,12 @@
       name="selected" 
       @change="$emit('change', $event.target.value)">
       <option 
-        disabled="" 
-        value="0" 
+        value="0"
+        disabled=""
         selected="">Select State...</option>
       <option 
-        v-for="(entry, index) in entries" 
-        :key="index">{{ entry.name }}</option>
+        v-for="(state, index) in entries" 
+        :key="index">{{ state.name }}</option>
     </select>
   </div>
 </template>
@@ -21,13 +21,10 @@ import LocationAPI from '@/Mixins/LocationAPI'
 export default {
 	name: 'SelectState',
 	mixins: [LocationAPI],
-	props: {
-		value: {
-			type: String,
-			required: true,
-      default: ""
-		}
-	},
+  model: {
+    value: 'value',
+    event: 'change'
+  },
 	mounted () {
 		this.getStates()
 	}

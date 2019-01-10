@@ -20,11 +20,13 @@ import LocationAPI from '@/Mixins/LocationAPI'
 export default {
 	name: 'SelectCity',
 	mixins: [LocationAPI],
+	model: {
+		value: 'value',
+		event: 'change'
+	},
 	props: {
-		value: {
-			required: true
-		},
 		state: {
+			type: String,
 			required: true
 		}
 	},

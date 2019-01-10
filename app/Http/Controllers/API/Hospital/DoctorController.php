@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\API\Hospital;
 
 use App\Models\Doctor;
-use function foo\func;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +14,7 @@ class DoctorController extends Controller
     {
         $this->middleware('auth:hospital-api');
 
-        $this->middleware(function($request, $next) {
-
+        $this->middleware(function ($request, $next) {
             $this->hospital = auth()->user();
 
             return $next($request);
@@ -28,7 +25,7 @@ class DoctorController extends Controller
     {
         return response()->json([
             'message' => 'Doctors retrieved successfully',
-            'doctors' => $this->hospital->activeDoctors()->get()
+            'doctors' => $this->hospital->activeDoctors()->get(),
         ], 200);
     }
 
@@ -36,7 +33,7 @@ class DoctorController extends Controller
     {
         return response()->json([
             'message' => 'Doctors retrieved successfully',
-            'doctors' => $this->hospital->pendingDoctors()->get()
+            'doctors' => $this->hospital->pendingDoctors()->get(),
         ], 200);
     }
 
@@ -44,63 +41,67 @@ class DoctorController extends Controller
     {
         return response()->json([
             'message' => 'Doctors retrieved successfully',
-            'doctors' => $this->hospital->sentDoctors()->get()
+            'doctors' => $this->hospital->sentDoctors()->get(),
         ], 200);
     }
 
     public function invite(Doctor $doctor)
     {
         //TODO check if an invite exists already
-        $exists = DB::table('doctor_hospital')->where('hospital_id',$this->hospital->id)->where('doctor_id',$doctor->id)->first();
+        $exists = DB::table('doctor_hospital')
+            ->where('hospital_id', $this->hospital->id)
+            ->where('doctor_id', $doctor->id)->first();
+
         if ($doctor->exists && !$exists) {
             $this->hospital->doctors()
                 ->attach($doctor, ['actor' => 'App\Models\Hospital']);
+
             return response()->json([
-                'message' => 'Doctor invite sent successfully'
+                'message' => 'Doctor invite sent successfully',
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Doctor invite could not be sent'
+            'message' => 'Doctor invite could not be sent',
         ], 400);
     }
 
     public function accept(Doctor $doctor)
     {
-        if ($doctor->exists && $this->hospital->acceptDoctor($doctor))
-        {
+        if ($doctor->exists && $this->hospital->acceptDoctor($doctor)) {
             return response()->json([
-                'message' => 'Doctor approved successfully'
+                'message' => 'Doctor approved successfully',
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Doctor invite could not be approved'
+            'message' => 'Doctor invite could not be approved',
         ], 400);
     }
 
     public function decline(Doctor $doctor)
     {
-        if ($doctor->exists && $this->hospital->declineDoctor($doctor))
-        {
+        if ($doctor->exists && $this->hospital->declineDoctor($doctor)) {
             return response()->json([
-                'message' => 'Doctor declined successfully'
+                'message' => 'Doctor declined successfully',
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Doctor invite could not be declined'
+            'message' => 'Doctor invite could not be declined',
         ], 400);
     }
 
     public function remove(Doctor $doctor)
     {
-        if ($doctor->exists && $this->hospital->doctors()->detach($doctor->id))
-        {
+        if ($doctor->exists && $this->hospital->doctors()->detach($doctor->id)) {
             return response()->json([
-                'message' => 'Doctor removed successfully'
+                'message' => 'Doctor removed successfully',
             ], 200);
         }
+
         return response()->json([
-            'message' => 'Doctor could not be removed'
+            'message' => 'Doctor could not be removed',
         ], 400);
     }
 }

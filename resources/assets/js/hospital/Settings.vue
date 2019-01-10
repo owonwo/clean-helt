@@ -133,7 +133,7 @@
           </h5>
           <AddServiceProvider 
             model="HOSPITAL" 
-            @success="fetchDoctors"/>
+            @success="fetchDoctors" @error="handleError"/>
         </div>
       </modal>
     </div>
@@ -180,6 +180,9 @@ export default {
         },
         revokeAccess() {
             this.modal.remove = false
+        },
+        handleError(error) {
+          this.error_message(error)
         }
     }
 }

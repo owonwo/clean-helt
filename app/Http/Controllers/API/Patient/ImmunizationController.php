@@ -21,7 +21,7 @@ class ImmunizationController extends Controller
         $rule = $this->getRegRule();
 
         try {
-            $this->request()->validate($rule);
+            request()->validate($rule);
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),
@@ -61,7 +61,7 @@ class ImmunizationController extends Controller
         $rule = $this->getRegRule();
 
         try {
-            $this->request()->validate($rule);
+            request()->validate($rule);
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),

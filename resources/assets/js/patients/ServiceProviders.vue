@@ -21,11 +21,10 @@
           </li>
         </ul>
       </div>
-      <div
+      <span
         v-preload
         v-if="loading"
-        class="block is-rounded mx-15" 
-        style="height:10px;"/>
+        class="block is-rounded mx-15"/>
       <div v-if="entities.length < 1">
         <blockquote class="notification is-info p-5 mx-15">
           <i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
@@ -36,31 +35,36 @@
           :current="page"
           class="is-absolute" 
           align="top">
-          <div 
+          <div
             v-for="(shareKey, index) in serviceProviderOrder" 
             :slot="'p'+(index+1)"
-            :key="index"
-            class="px-15">
+            :key="index">
             <table class="table is-hoverable is-fullwidth">
               <thead>
                 <tr>
-                  <th width="50">Photo</th>
                   <th>Name</th>
                   <th width="100">CHCODE</th>
-                  <th>Contact</th>
-                  <th>Location</th>
+                  <th width="">Contact</th>
+                  <th width="">Location</th>
+                  <th width="50"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr 
                   v-for="(share, index) in filtered" 
-                  :key="index"
-                  @click="modal = true">
-                  <td><i class="ti ti-user"/> &nbsp;&nbsp;</td>
-                  <td>{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</td>
+                  :key="index">
+                  <td><a @click.prevent="modal = true">{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</a></td>
                   <td class="has-text-grey-darker">{{ share.chcode }}</td>
                   <td>{{ share.phone }}</td>
                   <td>{{ [share.city, share.state].join(' - ') }}</td>
+                  <td>
+                    <router-link
+                      :to="{name: 'profile-share', params: {chcode: share.chcode}}"
+                      tag="button"
+                      class="button is-small is-primary is-block">
+                      <i class="icon ti ti-share"/> <span>Share</span>
+                    </router-link>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -79,7 +83,7 @@
       </section>
     </section>
 
-    <modal :show="modal">
+    <modal :show="false">
       <h1>Diagnostics Centre</h1>
       <h3>Johnson Parker Mobby</h3>
       <ul class="menu">

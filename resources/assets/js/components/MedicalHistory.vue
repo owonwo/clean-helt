@@ -66,8 +66,12 @@
           type="textarea" 
           placeholder="Write something about the Illness" />
         <div class="field">
-          <button v-if="!!form.id" class="button is-primary">Update</button>
-          <button v-else class="button is-primary">Create</button>
+          <button 
+            v-if="!!form.id" 
+            class="button is-primary">Update</button>
+          <button 
+            v-else 
+            class="button is-primary">Create</button>
         </div>
       </form>
     </modal>
@@ -79,44 +83,44 @@ import CanLock from '@/Mixins/CanLock'
 import CrudHelper from '@/Mixins/CrudHelper'
 
 export default {
-    name: 'MedicalHistory',
+  name: 'MedicalHistory',
     // components: { CreateImmunization },
     mixins: [CrudHelper, CanLock],
     data() {
-        return {
-            index: false,
-            opened: false,
-            form: {
-                illness: '',
-                description: '',
-                date_of_onset: '',
-            },
-            crud: {
-                read: {
-                    action: 'medicalRecord/FETCH_MEDICAL_HISTORY'
-                },
-                create: {
-                    action: 'medicalRecord/CREATE_MEDICAL_HISTORY',
-                    message: { success: 'Medical History added!', error: 'Error adding Medical History' }
-                },
-                update: {
-                    action: 'medicalRecord/UPDATE_MEDICAL_HISTORY',
-                    message: { success: 'Medical History Updated Sucessfully', error: '' }
-                },
-                delete: {
-                    action: 'medicalRecord/DELETE_MEDICAL_HISTORY',
-                    message: { success: 'Medical History truncated' }
-                }
-            }
+      return {
+        index: false,
+        opened: false,
+        form: {
+          illness: '',
+          description: '',
+          date_of_onset: '',
+        },
+        crud: {
+          read: {
+            action: 'medicalRecord/FETCH_MEDICAL_HISTORY'
+          },
+          create: {
+            action: 'medicalRecord/CREATE_MEDICAL_HISTORY',
+            message: { success: 'Medical History added!', error: 'Error adding Medical History' }
+          },
+          update: {
+            action: 'medicalRecord/UPDATE_MEDICAL_HISTORY',
+            message: { success: 'Medical History Updated Sucessfully', error: '' }
+          },
+          delete: {
+            action: 'medicalRecord/DELETE_MEDICAL_HISTORY',
+            message: { success: 'Medical History truncated' }
+          }
         }
+      }
     },
     computed: {
-        ...mapState('medicalRecord', {
-            histories: (store) => store.histories
-        })
+      ...mapState('medicalRecord', {
+        histories: (store) => store.histories
+      })
     },
     mounted() {
-        this.$store.dispatch('medicalRecord/FETCH_MEDICAL_HISTORY')
+      this.$store.dispatch('medicalRecord/FETCH_MEDICAL_HISTORY')
     },
     methods: {
       show(entry) {
@@ -124,5 +128,5 @@ export default {
         this.$refs.modal.toggle()
       }
     },
-}
-</script>
+  }
+  </script>

@@ -47,8 +47,7 @@ const actions = {
 		})
 	},
 	FETCH_ALL_HOSPITAL(context) {
-		context.dispatch('fetchSentHospital')
-		context.dispatch('fetchActiveHospital')
+		context.dispatch('fetchHospitals')
 		context.dispatch('fetchPendingHospitals')
 	},
 	async fetchPendingHospitals (context) {
