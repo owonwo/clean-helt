@@ -191,12 +191,12 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('/record/immunization', 'ImmunizationController@index');
         Route::post('/record/immunization', 'ImmunizationController@store')->name('patient.record.immunization');
         Route::patch('update/{immunization}/immunization', 'ImmunizationController@update')->name('patient.update.immunization');
-        Route::delete('/record/{immunization}/immunization','ImmunizationController@delete')->name('patient.delete.immunization');
+        Route::delete('/record/{immunization}/immunization','ImmunizationController@destroy')->name('patient.delete.immunization');
         // Patient Updates Hospitaliation records
         Route::get('/record/hospitalization', 'HospitalizationController@index');
         Route::post('/record/hospitalization', 'HospitalizationController@store')->name('patient.record.hospitalization');
         Route::patch('/record/{hospitalize}/hospitalization', 'HospitalizationController@update')->name('patient.update.hospitalize');
-        Route::delete('/record/{hospitalize}/hospitalize','HospitalizationController@delete')->name('patient.delete.hospitalize');
+        Route::delete('/record/{hospitalize}/hospitalize','HospitalizationController@destroy')->name('patient.delete.hospitalize');
 
         Route::resource('/record/emergency-contacts', 'EmergencyContactController', [
             'only' => ['store', 'index', 'destroy','update'],
@@ -206,7 +206,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('/record/allergy', 'AllergyController@index')->name('patient.get.allergy');
         Route::post('/record/allergy', 'AllergyController@store')->name('patient.record.allergy');
         Route::patch('update/{allergy}/allergy', 'AllergyController@update')->name('patient.update.allergy');
-        Route::delete('record/{allergy}/allergy','AllergyController@delete')->name('patient.delete.allergy');
+        Route::delete('record/{allergy}/allergy','AllergyController@destroy')->name('patient.delete.allergy');
         //Patient  updates health insurance provider
         Route::get('/record/health-insurance', 'HealthInsuranceController@index');
         Route::post('/record/health-insurance', 'HealthInsuranceController@store')->name('patient.record.health-insurance');
