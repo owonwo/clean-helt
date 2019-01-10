@@ -68,6 +68,7 @@ class PatientController extends Controller
 
     public function refer(Patient $patient)
     {
+        // dd(request()->all());
         $doctor = auth()->guard('doctor-api')->user();
         if ($doctor->hospitals() && request()->has('hospital')) {
             foreach ($doctor->hospitals()->get() as $hospital) {
@@ -88,7 +89,6 @@ class PatientController extends Controller
 //            return response()->json([
 //                "message" => "Profile Referred successfully"
 //            ], 200);
-
         }
     }
 
@@ -109,13 +109,15 @@ class PatientController extends Controller
             ->where('patient_id', $patient->id)
             ->where('provider_type', $provider_type)
             ->where('provider_id', $refferedDoctor->id)->first();
-
+            
             if($doctor->canViewProfile($patient) && !$exists){
+                
                 $patient->profileShares()->create([
                     'provider_type' => $provider_type,
                     'provider_id' => $refferedDoctor->id,
                     'expired_at' => $expiration,
                 ]);
+                
                 $doctor->notify(new PatientToDoctorReferral($refferedDoctor, $patient));
                 return response()->json([
                     'message' => "You have successfully referred ".$refferedDoctor->first_name. "to " . $patient->first_name
