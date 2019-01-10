@@ -63,6 +63,7 @@ class PatientController extends Controller
 
     public function refer(Patient $patient)
     {
+        // dd(request()->all());
         $doctor = auth()->guard('doctor-api')->user();
         if ($doctor->hospitals() && request()->has('hospital')) {
             foreach ($doctor->hospitals()->get() as $hospital) {
@@ -108,6 +109,7 @@ class PatientController extends Controller
                     'provider_id' => $refferedDoctor->id,
                     'expired_at' => $expiration,
                 ]);
+
             $doctor->notify(new PatientToDoctorReferral($refferedDoctor, $patient));
 
             return response()->json([

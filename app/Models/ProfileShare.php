@@ -11,7 +11,7 @@ class ProfileShare extends Model
 
     protected $guarded = [];
 
-    protected $fillable = ['status', 'expired_at', 'provider_id', 'doctor_id', 'referral_status'];
+    protected $fillable = ['status', 'provider_id', 'doctor_id', 'referral_status','provider_type','expired_at'];
 
     protected $dates = ['expired_at'];
 

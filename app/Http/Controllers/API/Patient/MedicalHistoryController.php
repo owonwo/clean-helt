@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MedicalHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class MedicalHistoryController extends Controller
 {
@@ -13,6 +14,10 @@ class MedicalHistoryController extends Controller
     use PatientRecords;
 
     protected $model = MedicalHistory::class;
+    protected $rules = [
+        'illness' => 'required',
+        'date_of_onset' => 'required'
+    ];
 
     public function store(RecordLogger $logger)
     {
@@ -34,7 +39,14 @@ class MedicalHistoryController extends Controller
                 'message' => 'Medical History created successfully',
                 'data' => $medicalHistory->load('record'),
             ], 200);
-        } catch (\Exception $e) {
+        } 
+        catch(ValidationException $e){
+            return response()->json([
+                'errors' => $e->errors(),
+                'message' => $e->getMessage()
+            ]);
+        }
+        catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
