@@ -19,19 +19,23 @@
       v-if="sharedProfiles.length < 1"
       class="notification is-info" 
       type="info">You have no client to attend to at the moment.</alert>
-    <template v-if="$store.getters.accountType === 'hospital'">
+
+    <template v-if="isHospital()">
       <h4 class="osq-group-subtitle-alt">Unassigned Clients</h4>
       <PatientList
         v-for="(profile) in unassigned"
         :profile="profile"
-        :key="profile.id"/>
+        :key="profile.id"
+        @click="handleClick"/>
       <br>
       <h4 class="osq-group-subtitle-alt">Assigned Clients</h4>
       <PatientList 
         v-for="(profile) in assigned"
         :profile="profile"
-        :key="profile.id"/>
+        :key="profile.id"
+        @click="handleClick"/>
     </template>
+
     <PatientList
       v-for="(profile, key) in filtered"
       v-else
@@ -41,9 +45,13 @@
     <modal
       ref="modal"
       :show="modal"
-      size="sm"
       @closed="modal = false">
+      <AssignPatient
+        v-if="isHospital()"
+        :patient-share-id="share_id"
+        @success="$refs.modal.hide()"/>
       <ReferDoctor
+        v-if="isDoctor()"
         :share-id="refer.share"/>
     </modal>
   </section>
@@ -53,13 +61,15 @@
 import {mapState} from 'vuex'
 import ReferDoctor from '@/doctors/ReferDoctor'
 import PatientList from '@/doctors/PatientList'
+import AssignPatient from '@/hospital/AssignPatient'
 
 export default {
   name: 'Patients', 
-  components: { ReferDoctor, PatientList },
+  components: { AssignPatient, ReferDoctor, PatientList },
   data(){ return {
     modal: false,
     search_string: '',
+    share_id: 0,
     refer: {
       share: 0,
     }
@@ -85,6 +95,17 @@ export default {
     isShared: (profile) => !profile.extensions.length,
     makeRefer(id) {
       this.refer.share = id
+      this.modal = true
+    },
+    handleClick(payload) {
+      switch(payload.action) {
+        case 'assign':
+          this.showAssignModal(payload.profile_share_id)
+          break
+      }
+    },
+    showAssignModal(share_id) {
+      this.share_id = share_id
       this.modal = true
     },
     searchMatch(e) {

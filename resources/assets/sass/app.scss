@@ -3,11 +3,11 @@
 @import './base/colors';
 @import './base/typography';
 
-// Bootstrap
 @import 'bulma/bulma';
+@import 'vue-multiselect/dist/vue-multiselect.min';
 @import './autoload';
 @import './icons.scss'; 
-@import './layout';
+@import './layout'; 
 
 %avatar {
     overflow: hidden;

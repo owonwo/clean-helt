@@ -1,8 +1,7 @@
 <template>
   <section>
     <section 
-      class="content-top-bar is-flex" 
-      style="justify-content: space-between; align-items: center">
+      class="content-top-bar level">
       <h3>Health Services</h3>
     </section>
     

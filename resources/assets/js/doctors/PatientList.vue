@@ -17,12 +17,13 @@
     <div
       class="level options level-right">
       <button 
-        v-if="$store.getters.accountType === 'hospital'"
-        class="button is-outlined has-no-motion is-rounded">
+        v-if="isHospital()"
+        class="button is-outlined has-no-motion is-rounded"
+        @click="emit('assign', profile)">
         Assign Doctor
       </button>
       <template 
-        v-if="$store.getters.accountType === 'doctor'">
+        v-if="isDoctor()">
         <router-link 
           :to="{name: 'patient-profile', params: {chcode: profile.patient.chcode, patient_id: profile.patient.id }}" 
           tag="button" 
@@ -48,6 +49,11 @@ export default {
     // profile() { return this.$props.profile }
   },
   methods: {
+    emit(action, profile) {
+      this.$emit('click', {
+        action, profile_share_id: profile.id 
+      })
+    },
     isShared: (profile) => !profile.extensions || profile.extensions.length > 0
   }
 }

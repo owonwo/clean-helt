@@ -55,88 +55,41 @@
         </table>
       </div>
     </section>
-
     <modal 
       ref="modal"
-      :show="modal" 
-      size="sm" 
-      @closed="modal = false && isLoading.reset ">
-      <div class="content is-center">
-        <h5 class="title is-6">
-          <i class="ti ti-share icon"/> Assign Patient
-        </h5>
-        <div 
-          v-if="sharedProfiles.length <= 0" 
-          class="notification is-info">No Available Client.</div>
-        <div 
-          v-else 
-          class="field">
-          <select 
-            v-model="selected.share_id" 
-            class="input">
-            <option 
-              value="0" 
-              disabled="" 
-              selected="">Select Patient...</option>
-            <option 
-              v-for="(profile) in sharedProfiles" 
-              :value="profile.id" 
-              :key="profile.id">
-              {{ profile.patient.chcode }} - {{ profile.patient.name }}
-            </option>
-          </select>
-        </div>
-        <div class="field">
-          <button  
-            v-if="!isLoading.loaded && selected.share_id !== 0"
-            :class="{'is-loading': isLoading.message == 'loading'}" 
-            class="button is-fullwidth is-primary is-block is-outlined"
-            @click="shareToDoctor()">
-            Assign
-          </button>
-        </div>
-      </div>
+      :show="modal"
+      @closed="modal = false">
+      <AssignPatient 
+        :doctor="selected.doctor_id"
+        @success="$refs.modal.hide()"/>
     </modal>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import AssignPatient from './AssignPatient'
 
 export default {
 	name: 'DoctorDirectory',
+  components: { AssignPatient },
 	data() {return {
-		modal: false,
+    modal: false,
 		isLoading: { doctors: true, },
-		selected: {doctor_id: 0, share_id: 0},
+    selected: {doctor_id: 0}
 	}},
 	computed: {
-		...mapState('hospital', ['doctors']) ,
-		...mapState('manage_patient', {
-			sharedProfiles: 'patients'
-		})
+		...mapState('hospital', ['doctors']),
 	},
 	created() {
 		this.$store.dispatch('hospital/FETCH_DOCTORS')
 			.then(() => this.isLoading.doctors = false)
 	},
 	methods: {
-		showAssignModal(doctor) {
-			(this.modal = true)
-			// this.isLoading.reset
-			this.selected.doctor_id = doctor.chcode
-		},
-		shareToDoctor() {
-			let {share_id, doctor_id} = this.selected
-
-			this.$store.dispatch('hospital/SHARE_TO_DOCTOR', {share_id, doctor_id})
-				.then(() => this.$refs.modal.hide())
-				.then(() => this.$store.dispatch('hospital/FETCH_DOCTORS'))
-        .then(() => this.success_message('Profile share successful'))
-				.catch((err) => {
-					console.log(err)
-				})
-		}
+    showAssignModal(doctor) {
+      this.modal = true
+      this.selected.doctor_id = doctor.chcode
+    },
 	}
 }	
 </script>

@@ -73,8 +73,9 @@ const actions = {
     },
     async SHARE_TO_DOCTOR (context, payload) {
       try {
-        let {share_id, doctor_id} = payload
-        const { data } = await axios.post(`/api/hospital/patients/${share_id}/assign`, {doctor_codes: [doctor_id]})
+        let {share_id, doctor_ids: doctor_codes } = payload
+        const { data } = await axios.post(`/api/hospital/patients/${share_id}/assign`, {doctor_codes})
+        if (data.failed.length) throw Error('Assignment was not successfully')
         context.dispatch('FETCH_DOCTORS')
         return data
       } catch (x) {

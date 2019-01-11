@@ -20,6 +20,9 @@ Vue.mixin({
 	methods: {
 		pipe,
 		compose,
+		isDoctor() { return this.$store.getters.accountType === 'doctor' },
+		isPatient() { return this.$store.getters.accountType === 'patient' },
+		isHospital() { return this.$store.getters.accountType === 'hospital' },
 		testChCode(chcode = '') {
 			return RegExp('^CH(P|H|D|L|F)([0-9]{9})$').test(chcode)
 		},
