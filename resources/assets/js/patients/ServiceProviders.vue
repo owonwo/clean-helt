@@ -45,7 +45,7 @@
                   <th width="100">CHCODE</th>
                   <th width="">Contact</th>
                   <th width="">Location</th>
-                  <th width="50"></th>
+                  <th v-if="shareKey == 'hospitals'" width="50"></th>
                 </tr>
               </thead>
               <tbody>
@@ -56,7 +56,7 @@
                   <td class="has-text-grey-darker">{{ share.chcode }}</td>
                   <td>{{ share.phone }}</td>
                   <td>{{ [share.city, share.state].join(' - ') }}</td>
-                  <td>
+                  <td v-if="shareKey == 'hospitals'">
                     <router-link
                       :to="{name: 'profile-share', params: {chcode: share.chcode}}"
                       tag="button"

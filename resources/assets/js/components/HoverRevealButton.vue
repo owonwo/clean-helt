@@ -1,5 +1,9 @@
 <template>
-    <button class="wg-hrb" @mouseover="mouseover" @mouseout="mouseleave" 
+    <button class="wg-hrb" 
+        @focus="mouseover" 
+        @blur="mouseleave" 
+        @mouseover="mouseover" 
+        @mouseout="mouseleave" 
         @click="$emit('click', isOpen)" :style="{width: `${width}px`}">
         <span class="hrb__wrap">
             <span class="hrb__icon">
@@ -23,6 +27,7 @@
         background: #e9e9e9;
         border-radius: 30px;
         border: none;
+        cursor: pointer;
     }
     
     .hrb__wrap {
@@ -34,7 +39,8 @@
         transition: all .3s cubic-bezier(0.01, 0.78, 0.49, 0.96);
     }
     
-    .wg-hrb:hover .hrb__text {
+    .wg-hrb:hover .hrb__text,
+    .wg-hrb:focus .hrb__text {
         opacity: 1;
         transform: translateX(0);
     }

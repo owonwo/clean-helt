@@ -3,8 +3,8 @@
 @import './base/colors';
 @import './base/typography';
 
-@import 'bulma/bulma';
-@import 'vue-multiselect/dist/vue-multiselect.min';
+@import '~bulma/bulma';
+@import '~vue-multiselect/dist/vue-multiselect.min';
 @import './autoload';
 @import './icons.scss'; 
 @import './layout'; 
@@ -241,6 +241,10 @@ ul {
     position: relative;
     padding: 15px;
     box-shadow: 0 12px 10px -6px rgba(black, .27);
+    
+    .osq-text-center {
+        width: 100%;
+    }
 
     ul {
         padding: 0;
@@ -264,7 +268,12 @@ ul {
     }
 
     .profile-title {
+        width: 100%;
+        display: block;
         font-size: 1.5rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     .avatar-wrapper {
@@ -293,7 +302,7 @@ ul {
         align-items: center;
         justify-content: space-around;
         flex-flow: column nowrap;
-        padding: 0;
+        padding: 5px;
 
         .avatar {
             margin-top: 15px;
@@ -303,6 +312,34 @@ ul {
         .card-content {
             width: 100%;
         }
+    }
+
+    &.is-small {
+        width: 200px;
+        padding-bottom: 15px;
+
+        .avatar-wrapper {
+            flex-basis: 100px;
+            margin: 0;
+            img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        .card-content {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    &.is-rounded {
+        border-radius: 12px
+    }
+
+    &.is-flat {
+        background: #eee;
+        box-shadow: none;
     }
 
     &.is-fullwidth {

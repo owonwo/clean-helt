@@ -13,7 +13,7 @@ import Laboratory from '@/Laboratory.vue'
 import Login from '@/Login.vue'
 import Register from '@/Register.vue'
 
-Vue.use(Router)
+Vue.use(Router) 
 Vue.use(VueMoment)
 Vue.use(Notification)
 Vue.prototype.$http = axios

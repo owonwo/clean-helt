@@ -12,7 +12,12 @@
 
 		<div class="columns is-centered" v-slide="show">
 			<div class="column is-half">
-				<AddServiceProvider ref="provider_form" @success="FETCH_ALL_SHARES && (show = true)" class="has-text-centered" model="PATIENT" osq-style="fullwidth"/>
+				<AddServiceProvider 
+					ref="provider_form" 
+					class="has-text-centered" 
+					model="PATIENT" 
+					osq-style="fullwidth"
+					@success="FETCH_ALL_SHARES() && (show = true)"/>
 			</div>
 		</div>
 		
@@ -47,7 +52,7 @@
 							<td><i class="ti ti-user"/> &nbsp;&nbsp;</td>
 							<td>{{share.provider.name}}</td>
 							<td class="has-text-grey-darker">{{share.provider.chcode}}</td>
-							<td>{{ share.expired_at }}</td>
+							<td>{{ share.expiration.forHumans() }}</td>
 							<td>
 								<span v-if="share.status === 1" class="tag is-primary">Active</span>
 								<span v-else-if="share.status === 0" class="tag is-info">Pending</span>

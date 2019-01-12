@@ -1,45 +1,45 @@
 <template>
   <section>
-    <br>
-    <p class="is-small">
-      <button 
-        class="button is-small mr-5 is-primary"
-        @click="modal.add_child = true">ADD CHILD</button>
-      <span>to CleanHelt account.</span>
-    </p>
-    <div v-if="children.length" class="menu-label">CHILDREN LIST</div>
-    <!-- If you have not child you can create one here. -->
-    <table 
-      v-if="children.length"
-      class="table is-fullwidth is-striped is-borderless">
-      <thead>
-        <tr>
-          <th>Names</th>
-          <th>Account actions</th>
-        </tr>
-      </thead>
-      <tr 
-        v-for="(child, index) in children"
-        :key="index">
-        <td>{{ child.fullname }}</td>
-        <td>
-          <button 
-            class="button is-small has-no-motion is-primary" 
-            @click="retrieveToken(child.id)">Access
-          </button>
-          <button 
-            class="button is-small has-no-motion  is-text" 
-            @click="modal.unlink = true">
-            <i class="ti ti-link"/> Unlink Child
-          </button>
-        </td>
-      </tr>
-    </table>
+    <section class="level level-right">
+      <HoverRevealButton
+        @click="modal.add_child = true">
+        <i class="ti ti-plus" slot="icon"/>
+        <span slot="text">ADD CHILD</span>
+      </HoverRevealButton>
+    </section>
+    <div 
+      v-if="children.length" 
+      class="menu-label">CHILDREN</div>
+    <!-- If you have no child you can create one here. -->
+    <section class="columns is-wrapped">
+      <section 
+        v-for="(child, index) in children"  
+        class="column is-one-third">
+        <ProfileBox 
+          :key="index"
+          :avatar-src="child.avatar" 
+          class="is-portrait is-small is-flat is-rounded">
+          <span class="profile-title">
+            {{ child.first_name }}
+          </span>
+          <div class="mt-30">
+            <button
+              class="button is-primary is-rounded is-small" 
+              @click="retrieveToken(child.id)">Access
+            </button>
+            <button @click="showUnlinkModal(child.id)" class="button ml-10 is-small is-text">
+              <i class="ti ti-link"/> Unlink
+            </button>
+          </div>
+        </ProfileBox>
+      </section>
+    </section>
 
     <modal 
+      ref="modal"
       :show="modal.unlink || modal.add_child"
       size="sm"
-      @closed="modal.add_child = modal.unlink = false">
+      @closed="modal.unlink = modal.add_child = false">
       <section 
         v-if="modal.unlink" 
         class="content is-center">
@@ -48,7 +48,7 @@
         <div class="buttons is-right">
           <button
             class="button"
-            @click="unlinkChild">Yes</button>
+            @click="unlink()">Yes</button>
           <button 
             class="button is-success" 
             @click="modal.unlink = false">No</button>
@@ -82,7 +82,9 @@
             v-model="form.phone" 
             type="text"
             placeholder="Phone Number" />
-          <button class="button is-primary">
+          <button 
+            :class="{'is-loading': submitting}" 
+            class="button is-primary">
             <i class="ti icon ti-plus"/>
             <span>Submit</span>
           </button>
@@ -112,6 +114,7 @@ import Modal from '@/components/Modal.vue'
 export default {
   components: { Modal },
   data() {return {
+    submitting: false,
     modal: {
       unlink: false,
       add_child: false
@@ -126,10 +129,15 @@ export default {
     this.FETCH_CHILDREN()
   },
   methods: {
+    showUnlinkModal(child_id) {
+      this.selected.id = child_id
+      this.modal.unlink = true
+    },
     unlink() {
       if (this.selected.id)
       this.unlinkChild(this.selected.id).then(message => {
         this.success_message(message)
+        this.$refs.modal.hide()
       }).catch((e) => {
         this.error_message(e.message)
         setTimeout(() => {
@@ -139,14 +147,18 @@ export default {
     },
     submitChildForm() {
       delete this.form.errors
+      this.submitting = true
+
       this.addChild(this.form)
         .then(message => {
           this.form = {}
-          this.modal.add_child = false
+          this.submitting = false
+          this.$refs.modal.hide()
           this.success_message(message)
         })
         .catch(({response: { data }}) => {
-          this.form.errors = data.errors
+          this.submitting = false
+          this.logErrors(data.errors)
           this.error_message(data.message)
         })
     },

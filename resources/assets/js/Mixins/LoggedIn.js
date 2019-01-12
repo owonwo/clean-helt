@@ -70,7 +70,7 @@ export default {
 		logout() {
 			if (localStorage.hasOwnProperty('child-token')) {
 				localStorage.removeItem('child-token')
-				return window.location.reload()
+				return window.location.assign('/clients/dashboard')
 			} 
 			let input = document.createElement('input')
 			let form = $('<form></form>')

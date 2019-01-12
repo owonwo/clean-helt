@@ -78,6 +78,14 @@ export const shareFactory = (share)  => {
 				return false 
 			} 
 		},
+		expiration: {
+			forHumans() {
+				const date = moment(share.expired_at)
+				return date.isValid() 
+					? date.format('Do MMMM YYYY')
+					: share.expired_at.replace('00:00:00','')
+			}
+		},
 		isAssigned() { return this.type === 'assigned' },
 		isReferred() { return this.type === 'referral' },
 		provider: __.assign(share.provider, { name: pickName() }),

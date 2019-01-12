@@ -20,7 +20,7 @@ button.no-style, button[ghost]{
 	&-#{$type} {
 		&:hover, &:focus {
 			border-color: $color;
-			color: $color;
+			// color: $color;
 		}
 	}
 }

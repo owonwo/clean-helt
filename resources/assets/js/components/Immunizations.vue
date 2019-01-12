@@ -24,7 +24,7 @@
       class="table is-fullwidth">
       <tr>
         <th width="50">S/N</th>
-        <th>Title</th>
+        <th>Immunization</th>
         <th width="50">Age</th>
         <th width="120">Date</th>
         <th  v-if="canEdit" width="50"/>
@@ -41,7 +41,7 @@
             <template slot="content"/>
             <template slot="list">
               <li @click="show(entry)">Modify</li>
-              <li @click="trash(entry.id)">Trash</li>
+              <li v-if="isPatient()" @click="trash(entry.id)">Trash</li>
             </template>
           </dropdown>
         </td>

@@ -25,6 +25,12 @@
       </button>
     </template>
     <template v-else> 
+      <div 
+        v-if="chcode_is_wrong" 
+        class="help is-danger">Invalid CHCODE entered.</div>
+      <div 
+        v-if="chcode_is_valid"
+        class="has-text-primary is-success">CHCODE is valid</div> 
       <div class="field has-addons">
         <p class="control is-expanded has-icons-left has-icons-right has-shadow">
           <span class="is-left icon"><i class="osf osf-search"/></span>
@@ -43,24 +49,36 @@
           </span>
         </p>
       </div>
-      <div 
-        v-if="chcode_is_wrong" 
-        class="help is-danger">Invalid CHCODE entered.</div>
-      <div 
-        v-if="chcode_is_valid" 
-        class="field">
-        <input 
-          v-model="expiration" 
-          type="date"
-          class="input is-rounded has-shadow is-expanded">
-      </div>
-      <div 
+      <wgInput
         v-if="chcode_is_valid"
-        class="has-text-primary is-success">CHCODE is valid</div> 
+        v-model="expiration"
+        label="Expiration Date" 
+        type="date"
+        class="custom">
+        <i slot="help">expiration date should be future.</i>
+      </wgInput>
     </template>
   </section>
 </template>
+<style lang="scss">
+  .custom {
+    position: relative;
+    
+    input {
+      text-align: right;
+      border-radius: 12px;
+      border: none;
+      box-shadow: none;
+    }
 
+    label {
+      position: absolute;
+      z-index: 3;
+      padding: 5px 15px;
+      opacity: 0.5;
+    }
+  }
+</style>
 <script>
 export default {
   props: {

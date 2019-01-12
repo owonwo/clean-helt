@@ -6,17 +6,17 @@
     <profile-grid 
       :name="user.name" 
       :avatar="user.avatar" 
-      :avatar-url="(isPatient ? avatarUrl : '')">
+      :avatar-url="(isPatient() ? avatarUrl : '')">
       <template 
         slot="navigation" 
         class="osq-sidenav p-10">
         <li><a href="#basic">Basic Information</a></li>
         <li><a href="#annual">Annual Medical Check</a></li>
         <li><a href="#medical">Medical History</a></li>
+        <li><a href="#hospitalize">Hospitalization</a></li>
         <li><a href="#immunization">Immunization</a></li>
         <li><a href="#allergies">Allergies</a></li>
         <li><a href="#family">Family Medical History</a></li>
-        <li><a href="#hospitalize">Hospitalization</a></li>
         <!-- <li><a href="#log">Health Log</a></li> -->
         <li><a href="#contacts">Emergency Contacts</a></li>
         <li><a href="#hospital-contacts">Hospital Contacts</a></li>
@@ -27,13 +27,13 @@
           <div 
             slot="p1" 
             class="">
-            <PatientBio :can-edit="isPatient"/>
+            <PatientBio :can-edit="isPatient()"/>  
           </div>
           <div slot="p2">
             <h3 class="menu-label">Annual Medical Check</h3>
             <MedicalCheckup 
               v-if="pager.page === 1" 
-              :can-edit="!isPatient"/>
+              :can-edit="!isPatient()"/>
           </div>
           <!-- MEDICAL HISTORY -->
           <section slot="p3">
@@ -42,29 +42,29 @@
               v-if="pager.page === 2" 
               :can-edit="true"/>
           </section>
-          <!-- Immunization -->
+          <!-- HOSPITALIZATION -->
           <div slot="p4">
+            <div class="menu-label">HOSPITALIZATION</div>
+            <Hospitalizations />
+          </div>
+          <!-- Immunization -->
+          <div slot="p5">
             <div class="menu-label">IMMUNIZATIONS</div>
             <Immunizations 
               v-if="pager.page === 3" 
               :can-edit="true"/>
           </div>
           <!-- ALLERGIES -->
-          <div slot="p5">
+          <div slot="p6">
             <div class="menu-label">ALLERGIES</div>
             <Allergies 
               v-if="pager.page === 4" 
               :can-edit="true"/>
           </div>
           <!-- FAMILY MEDICAL HISTORY -->
-          <div slot="p6">
+          <div slot="p7">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
             <FamilyMedicalRecords :can-edit="true"/>
-          </div>
-          <!-- HOSPITALIZATION -->
-          <div slot="p7">
-            <div class="menu-label">HOSPITALIZATION</div>
-            <Hospitalizations />
           </div>
           <!-- HEALTH LOGS -->
           <!-- <div slot="p8">
@@ -83,17 +83,17 @@
           <!-- EMERGENCY CONTACT -->
           <div slot="p8">
             <div class="menu-label">EMERGENCY CONTACTS</div>
-            <EmergencyContacts :can-edit="isPatient"/>
+            <EmergencyContacts :can-edit="isPatient()"/>
           </div>
           <!-- HOSPITAL CONTACTS -->
           <div slot="p9">
             <div class="menu-label">HOSPITAL CONTACTS</div>
-            <HospitalContacts :can-edit="isPatient"/>
+            <HospitalContacts :can-edit="isPatient()"/>
           </div>
           <!-- HEALTH INSURANCE PROVIDERS -->
           <div slot="p10">
             <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
-            <HealthInsuranceProvider :can-edit="isPatient"/>
+            <HealthInsuranceProvider :can-edit="isPatient()"/>
           </div>
         </pager>
       </template>
@@ -129,14 +129,11 @@ export default {
   }},
   computed: {
     user() {
-      return this.accountType === 'doctor' 
+      return this.isDoctor() 
         ? this.patient
         : this.getUser
     },
-    isPatient() { 
-      return this.accountType === 'patient' 
-    },
-    ...mapGetters(['accountType', 'getUser']),
+    ...mapGetters(['getUser']),
     ...mapState('manage_patient', {
       patient: 'currentPatient',
       patients: 'patients'
@@ -150,10 +147,10 @@ export default {
   },
   created () {
     document.title = 'Profile | CleanHelt'
-    this.accountType !== 'doctor' || this.setAsDoctor()
+    this.isDoctor() || this.setAsDoctor()
   },
   methods: {
-    setAsDoctor() {
+    setAsDoctor() { 
       const { patient_id } = this.$route.params
       if (this.patients.length === 0) return
       this.$store.commit('manage_patient/set_current_patient', patient_id)

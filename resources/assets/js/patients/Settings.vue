@@ -10,8 +10,8 @@
             <ul 
               v-pager-controls.prevent="{activeClass: 'active'}" 
               class="menu-list">
-              <li><a href="#notifications">Notification</a></li>
               <li v-if="$store.getters.isAdult"><a href="#children">Mange Children</a></li>
+              <li><a href="#notifications">Notification</a></li>
             </ul>
           </div>
         </aside>
@@ -19,7 +19,13 @@
         <section class="content">
           <pager :current="page">
             <div 
-              slot="p1" 
+              slot="p1"
+              class="p-10">
+              <span class="menu-label">Manage Children</span>
+              <Children />
+            </div>
+            <div 
+              slot="p2" 
               class="p-10">
               <toggle-switch 
                 :value="false" 
@@ -28,12 +34,6 @@
               <p 
                 style="font-size: small" 
                 class="is-small">I want to receive notifications.</p>
-            </div>
-            <div 
-              slot="p2"
-              class="p-10">
-              <span class="menu-label">Manage Children</span>
-              <Children />
             </div>
           </pager>
         </section>

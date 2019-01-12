@@ -1,13 +1,14 @@
 <template>
   <section>
     <div 
-    	v-if="canEdit" 
-    	class="field is-horizontal">
+      v-if="canEdit" 
+      class="field is-horizontal">
       <div class="field-body">
         <div class="field">
           <div class="control">
             <input
               v-model="form.disease"
+              list="list-diseases"
               type="text"
               class="input" 
               placeholder="Disease">			
@@ -28,11 +29,19 @@
           style="flex-grow:0">
           <HoverIconButton
             :active="editing"
-          	:icons="['ti-upload:Update', 'ti-plus:Insert']"
-          	@click="addDisease"/>
+            :icons="['ti-upload:Update', 'ti-plus:Insert']"
+            @click="addDisease"/>
         </div>
       </div>
     </div>
+    
+    <datalist id="list-diseases">
+      <option 
+        v-for="(a,index) in defaults.diseases"
+        :key="index"
+        :value="a">{{ a }}
+      </option>
+    </datalist>
 
     <table class="table is-fullwidth">
       <tr>
@@ -52,7 +61,9 @@
             class="tag is-primary mr-10">
             <span>{{ title }}</span>
           </span>
-          <section  v-if="canEdit" class="button-group  is-pulled-right">
+          <section 
+            v-if="canEdit" 
+            class="button-group  is-pulled-right">
             <button
               class="button has-no-motion is-small has-no-motion" 
               @click="addToForm(index)">
@@ -108,6 +119,9 @@ export default {
 		return {
 			index: false,
 			form: { carriers: '', disease: ''},
+			defaults: {
+				diseases: ['High Blood Pressure', 'Hepitatis'],
+			},
 			endpoints: {
 				create: '/api/patient/record/immunization',
 				update: '/api/patient/update/{id}/immunization',

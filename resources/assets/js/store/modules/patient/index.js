@@ -105,7 +105,7 @@ const actions = {
 	retrieveToken (context, id) {
 		axios.post('/api/patient/children/switch-account', {id}).then(({data}) => {
 			localStorage.setItem('child-token', data.accessToken)
-			window.location.reload()
+			window.location.assign('/clients/dashboard')
 		}).catch(VuexError('Error retrieving a child token'))
 	},
 	async addChild (context, payload) {
@@ -114,7 +114,7 @@ const actions = {
 			context.dispatch('FETCH_CHILDREN')
 			return data.message
 		} catch (x) {
-			VuexError('Error adding child')()
+			VuexError('Error adding child')(x)
 			throw x
 		}
 	},
@@ -123,9 +123,9 @@ const actions = {
 			const {data} = await axios.post('/api/patient/children/unlink', {id})
 			context.dispatch('FETCH_CHILDREN')
 			return data.message
-		} catch (x) {
-			VuexError('Error unlinking child')()
-			throw x.response.data
+		} catch (error) {
+			VuexError('Error unlinking child')(error)
+			throw error.response.data
 		}
 	}
 }

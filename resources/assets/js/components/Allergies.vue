@@ -41,7 +41,7 @@
             <template slot="content"/>
             <template slot="list">
               <li @click="show(entry)">Modify</li>
-              <li @click="trash(entry.id)">Trash</li>
+              <li v-if="isPatient()" @click="trash(entry.id)">Trash</li>
             </template>
           </dropdown>
         </td>
