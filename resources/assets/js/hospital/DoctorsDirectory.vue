@@ -1,16 +1,13 @@
 <template>
   <section>
     <section class="card">
-      <section class="card-header">
-        <div 
-          class="card-header-title" 
-          style="justify-content: space-between;">
-          Doctor Directory
-          <search-box 
-            style="width: 300px"
-            shape="is-rounded" 
-            placeholder="Search" />
+      <section class="card-header level">
+        <div class="card-header-title">
+          Doctors Directory
         </div>
+        <search-box 
+          style="width: 300px"
+          placeholder="Search" />
       </section>
       <div class="card-content p-0">
         <div 
@@ -40,8 +37,7 @@
             :key="key">
             <td class="has-text-centered">{{ key + 1 }}</td>
             <td><router-link 
-              :to="{name: 'doctor-profile', params: {'_id': 1}}" 
-              tag="span">
+              :to="{name: 'doctor-profile', params: {'_id': doctor.chcode }}">
               Dr. {{ doctor.first_name }} {{ doctor.last_name }}
             </router-link></td>
             <td>{{ doctor.specialization | ucfirst }}</td>

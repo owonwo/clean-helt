@@ -1,5 +1,5 @@
 <template>
-  <section id="hospital">
+  <section class="is-fullwidth">
     <section class="content-top-bar">
       <h3>DASHBOARD</h3>
     </section>

@@ -16,11 +16,12 @@
         </div>
         <div class="field">
           <div class="control">
-            <input
+            <multiselect
               v-model="form.carriers"
+              :multiple="true"
+              :options="defaults.carriers"
               type="text"
-              class="input" 
-              placeholder="Related Carrier(s)">
+              placeholder="Related Carrier(s)"/>
             <span class="help">If more than one, seperate by comma e.g Father, Mother, Grand Mother</span>
           </div>
         </div>
@@ -85,6 +86,7 @@
 	.field-body {
 		.field .input {
 			border: none;
+      height: 40px;
 			background-color: #e9e9e9;
 			box-shadow: none;
 		}
@@ -111,16 +113,22 @@
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
 import CanLock from '@/Mixins/CanLock'
+import Multiselect from 'vue-multiselect'
 
 export default {
+  mixins: [CanLock],
+  components: {Multiselect},
 	name: 'FamilyMedicalRecords',
-	mixins: [CanLock],
 	data() {
 		return {
 			index: false,
 			form: { carriers: '', disease: ''},
 			defaults: {
-				diseases: ['High Blood Pressure', 'Hepitatis'],
+        carriers: ['Mother', 'Father', 'Siblings', 'Grand Parents', 'Child'],
+				diseases: ['Arthritis', 'Asthma', 'Bronchitis', 
+          'Cancer', 'Diabetes', 'Heart Condition', 
+          'Hepatitis', 'High Cholesterol', 'Kidney Disease',
+          'Smoking', 'Stroke', 'High Blood Pressure'],
 			},
 			endpoints: {
 				create: '/api/patient/record/immunization',
@@ -148,7 +156,10 @@ export default {
 		addDisease() {
 			const {form, index} = this,
 				diseases = this.diseases.concat([])
-			form.carriers = form.carriers.split(',').map(e => e.trim())
+
+			form.carriers = typeof(carriers) === 'string' 
+        ? form.carriers.split(',').map(e => e.trim())
+        : form.carriers
 
 			if(_.isNumber(index)) {
 				diseases[index] = form

@@ -65,13 +65,12 @@
           </div>
           <div class="field">
             <input 
-              v-model="field.phone" 
-              minlength="11" 
+              v-model.number="field.phone" 
+              type="number"
               min="0" 
-              placeholder="Phone Number" 
-              class="input" 
-              type="text" 
-              name="phone">
+              class="input"
+              minlength="11" 
+              placeholder="Phone Number">
             <span 
               v-if="!!errors.phone" 
               class="help has-text-danger">{{ errors.phone[0] }}</span>
@@ -106,18 +105,16 @@
               v-model="field.address" 
               class="textarea" 
               placeholder="Address" 
-              row="6"/>
+              row="6" />
           </div>
           <div class="field">
-            <select-state 
-              value="0"
-              @changed="e => field.state = e"/> 
+            <select-state
+              v-model="field.state" /> 
           </div>
           <div class="field">
-            <select-city 
-              value=""
-              :state="field.state"
-              @changed="e => field.city = e"/>
+            <select-city
+              v-model="field.city"
+              :state="field.state" />
           </div>
                 
           <div class="field">
@@ -139,10 +136,15 @@
                 <option>Christainity</option>
                 <option>Muslim</option>
                 <option>Islam</option>
-                <option>Others...</option>
+                <option value="others">Others...</option>
               </select>
             </div>
           </div>
+          <wgInput 
+            v-show="field.religion == 'others'"
+            v-model="field.custom_religion"
+            placeholder="Specify Religion"
+            type="text"/>
           <div class="field">
             <div class="select">
               <select v-model="field.marital_status">
@@ -196,46 +198,26 @@
           </div>                    
           <div class="field">
             <input 
-              v-model="field.nok_phone" 
+              v-model.number="field.nok_phone" 
               min="0" 
               minlength="11" 
               placeholder="Phone Number" 
               class="input" 
               type="text">
           </div>                    
+          <wgInput 
+            v-model="field.nok_address" 
+            type="textarea" 
+            placeholder="Address" 
+            row="2"/>
           <div class="field">
-            <textarea 
-              v-model="field.nok_address" 
-              class="textarea" 
-              placeholder="Address" 
-              row="2"/>
-          </div>
-                
-          <div class="field">
-            <div class="select">
-              <select v-model="field.nok_city" >
-                <option 
-                  disabled="" 
-                  value="0" 
-                  selected="">Select City</option>
-                <option>Port Harcourt</option>
-                <option>Town</option>
-                <option>Borikir</option>
-              </select>
-            </div>
+            <select-state 
+              v-model="field.nok_state"/>
           </div>
           <div class="field">
-            <div class="select">
-              <select v-model="field.nok_state">
-                <option 
-                  disabled="" 
-                  value="0" 
-                  selected> State...</option>
-                <option>Rivers</option>
-                <option>Bayelsa</option>
-                <option>Delta</option>
-              </select>
-            </div>
+            <select-city 
+              v-model="field.nok_city"
+              :state="field.nok_state"/>
           </div>
           <div class="field">
             <div class="select">
@@ -255,8 +237,7 @@
               @click.prevent="page = 1">Back</button>
             <button 
               type="submit" 
-              class="button is-submit" 
-              @click="submit()">FINISH</button>
+              class="button is-submit">FINISH</button>
           </div>
         </section>
 
@@ -416,8 +397,8 @@ export default {
         return {
             page: 0,
             field: {
-                city: "",
-                state: "Nowhere"
+                city: 0,
+                state: '0'
             },
             errors: {},
             relationships: ['Brother', 'Mother', 'Father', 'Sister', 'Uncle', 'Aunty', 'Son', 'Daughter'],
@@ -436,13 +417,11 @@ export default {
         }
     },
     mounted() {
-        setTimeout(() => {
-            console.log('calling the notification')
-        }, 100)
         const form_data = this.$props.model == 'PATIENT' 
-            ? { city: 0, country: 0, gender: 0, state: 0, nok_city: 0, nok_country: 0, nok_state: 0, religion: 0, marital_status: 0, nok_relationship: 0 } 
-            : { first_name: '', middle_name: '', last_name: '', email: '', password: '', gender: 0, phone: '', specialization:'', folio: ''}
-        this.field =  Object.create(form_data)
+            ? { city: '0', country: '0', gender: '0', state: '0', nok_city: '0', nok_country: '0', nok_state: '0', religion: '0', marital_status: '0', nok_relationship: '0' } 
+            : { first_name: '', middle_name: '', last_name: '', email: '', password: '', gender: '0', phone: '', specialization:'', folio: ''}
+        this.field =  Object.assign({}, this.field, form_data)
+        this.test()
     },
     methods: {
         visit_login() {
@@ -452,8 +431,18 @@ export default {
             console.assert(Object.keys(this.providerMap).includes(model), 'The Model provided is invalid!')
             return this.$props.model === model
         },
+        test() {
+          // this.field.religion = 'others'
+          this.field.custom_religion = 'Asder'
+          this.submit()
+        },
         submit() {
-            this.errors = {}
+          const field = Object.assign({}, this.field)
+          this.errors = {}
+          
+          if (field.religion == 'others') 
+            field.religion = field.custom_religion
+
             this.$http.post(this.url, this.field).then((res) => {
                 this.page += 1
                 this.fields = {}

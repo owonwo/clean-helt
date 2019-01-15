@@ -28,7 +28,8 @@ const actions = {
 		context.dispatch('FETCH_PATIENTS', account)
 		context.dispatch('FETCH_PENDING_PATIENTS', account)
 	},
-	FETCH_PATIENTS(context, account) {
+	FETCH_PATIENTS(context, account = '') {
+		console.log(context, account)
 		axios.get(`/api/${account}/patients`)
 			.then(({data}) => data.patients.map(extractPatientFromShare))
 			.then((patients) => context.commit('set_patients', patients))

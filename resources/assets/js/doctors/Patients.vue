@@ -1,8 +1,8 @@
 <template>
   <section>
-    <div class="level">
-      <h1 class="level-left osq-group-subtitle-alt mb-10 pl-10">
-        All Clients - <b> {{ sharedProfiles.length }}</b>
+    <div class="level mb-10">
+      <h1 class="level-left osq-group-subtitle-alt">
+        {{ sharedProfiles.length }} Client(s)
       </h1>
       <div class="level-right">
         <div v-if="false">
@@ -21,14 +21,14 @@
       type="info">You have no client to attend to at the moment.</alert>
 
     <template v-if="isHospital()">
-      <h4 class="osq-group-subtitle-alt">Unassigned Clients</h4>
+      <h4 class="menu-label">Unassigned Clients</h4>
       <PatientList
         v-for="(profile) in unassigned"
         :profile="profile"
         :key="profile.id"
         @click="handleClick"/>
       <br>
-      <h4 class="osq-group-subtitle-alt">Assigned Clients</h4>
+      <h4 class="menu-label">Assigned Clients</h4>
       <PatientList 
         v-for="(profile) in assigned"
         :profile="profile"
@@ -89,7 +89,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', 'doctor')
+    if (this.isDoctor()) 
+      this.$store.dispatch('manage_patient/FETCH_ALL_PATIENTS', 'doctor')
   },
   methods: {
     isShared: (profile) => !profile.extensions.length,

@@ -74,11 +74,10 @@ export default {
   name: 'Hospital',
   router: routes.hospital,
   mixins: [LoggedIn],
-  data() {return {
+  data: () => ({
     settings: {
       profile: {route: '/api/hospital/profile', key: 'hospital'},
-      patients: {route: '/api/hospital/patients', key: 'patients'},
     }
-  }},
+  }),
 }
 </script>

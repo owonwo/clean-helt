@@ -3,8 +3,8 @@
 @import './base/colors';
 @import './base/typography';
 
-@import '~bulma/bulma';
-@import '~vue-multiselect/dist/vue-multiselect.min';
+@import 'bulma/bulma';
+@import 'vue-multiselect/dist/vue-multiselect.min';
 @import './autoload';
 @import './icons.scss'; 
 @import './layout'; 
@@ -595,13 +595,23 @@ ul {
 .hospital-card {
     margin-bottom: 15px;
 }
+
 /*** login & registration ***/
 #osq-login {
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     color: #111;
+    display: flex; 
+    min-height: 100vh;
+    background: white;
+    align-items: center;
+    justify-content: center;
+
+    .navbar {
+        top: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background-color: transparent;
+    }
 
     img.logo  {
         width: 200px;
@@ -631,7 +641,7 @@ ul {
         border: none;
         display: block;
         box-shadow: none;
-        border-radius: 3px;
+        border-radius: 13px;
      }
 
      select , .input, .textarea {
@@ -653,22 +663,22 @@ ul {
         height: 50px;
         box-sizing: border-box;
         border: solid 1px #CECECE;
-        border-radius: 0 !important;
     }
     
     button.is-submit {
-        background: $primary-color;
         color: white;
+        background: $primary-color;
         box-shadow: 0px 9px 6px -6px rgba(black, .5);
     }
 
     .button {
         height: auto;
         width: 100px;
-        padding: 5px 30px;
-        text-align: center;
-        border-radius: 0 !important;
         border: none;
+        padding: 10px 15px;
+        text-align: center;
+        border-radius: 12px;
+        text-transform: uppercase;
     }
 
     a:link {

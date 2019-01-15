@@ -12,20 +12,20 @@ let mix = require('laravel-mix');
  */
 
 mix
-.js('resources/assets/js/app.js', 'public/js')
-// .js('resources/assets/js/admin.js', 'public/js')
-.sass('resources/assets/sass/app.scss', 'public/css')
-// .sass('resources/assets/sass/admin.scss', 'public/css')
-.webpackConfig({
+  .js('resources/assets/js/app.js', 'public/js')
+  // .js('resources/assets/js/admin.js', 'public/js')
+  // .sass('resources/assets/sass/app.scss', 'public/css')
+  // .sass('resources/assets/sass/admin.scss', 'public/css')
+  .webpackConfig({
     resolve: {
-		extensions: ['.vue', '.js', '.sass','.scss'],
-    	alias: {
-    		'@' : path.resolve(__dirname, 'resources/assets/js')
-    	}
+      extensions: ['.vue', '.js', '.sass', '.scss'],
+      alias: {
+        '@': path.resolve(__dirname, 'resources/assets/js')
+      }
     }
-})
+  })
 // mix.disableNotifications();
 mix.browserSync({
-	proxy: 'http://clean-helt-api.test',
-	ghostMode: false
+  proxy: 'http://clean-helt-api.test',
+  ghostMode: false
 });

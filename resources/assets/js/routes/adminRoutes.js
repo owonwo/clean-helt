@@ -1,9 +1,10 @@
 import Router from 'vue-router'
+import Users from '@/admin/Users.vue'
 import Dashboard from '@/admin/Dashboard.vue'
+import ManageAdmins from '@/admin/ManageAdmins.vue'
+import Notifications from '@/components/Notifications.vue'
 import NotificationPage from '@/admin/NotificationPage.vue'
 import CreateServiceProvider from '@/admin/CreateServiceProvider.vue'
-import Notifications from '@/components/Notifications.vue'
-import Users from '@/admin/Users.vue'
 
 const adminRoutes = [
 	{
@@ -38,6 +39,14 @@ const adminRoutes = [
 			title: 'Notifications | CleanHelt Admin',
 		},
 		component: NotificationPage,
+	},
+	{
+		path: '/manage-admins', 
+		name: 'manage-admins',
+		meta: {
+			title: 'Manage Admins | CleanHelt Admin',
+		},
+		component: ManageAdmins
 	}
 ]
 

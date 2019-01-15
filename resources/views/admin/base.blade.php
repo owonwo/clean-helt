@@ -55,7 +55,7 @@
             </section>
             <div class="avatar-holder">
                 <img src="/images/assets/avatar.jpg" alt="" class="avatar">
-                <span>Joseph Julius</span>
+                <span>{{ auth()->user()->name }}</span>
             </div>
         </header>
         <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
@@ -69,6 +69,10 @@
                     </custom-link>
                     <custom-link to="/create-provider" icon="osf osf-add-white" name="Create Provider">
                     </custom-link>
+                    @if (auth()->user()->roles == "Super Admin")
+                        <custom-link to="/manage-admins" icon="osf osf-user-white" name="Administrators">
+                        </custom-link>
+                    @endif
                 </ul>
             </nav>
             <footer>
@@ -86,7 +90,7 @@
                 <router-view id="osq-logs-content" name="logBar" />
             </aside>
         </section>
-        <notifications group="main" :position="['bottom', 'right']"/>
+        <notifications :position="['bottom', 'right']"></notifications>
     </main>
 </body>
 </html>

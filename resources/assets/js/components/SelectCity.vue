@@ -1,8 +1,11 @@
 <template>
-  <div class="select">
+  <div 
+    :class="{'is-loading': isLoading}" 
+    class="select">
     <select 
-      v-model="selected" 
-      name="selected">
+      v-model="selected"
+      name="selected"
+      @change="$emit('change', selected)">
       <option 
         disabled="" 
         value="0" 
@@ -26,7 +29,6 @@ export default {
 	},
 	props: {
 		state: {
-			type: String,
 			required: true
 		}
 	},

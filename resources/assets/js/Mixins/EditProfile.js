@@ -64,9 +64,8 @@ export default {
 				this.fallbackCopyTextToClipboard(text)
 				return
 			}
-			navigator.clipboard.writeText(text).then(function() {                
+			navigator.clipboard.writeText(text).then(() => {                
 				this.showCopiedNotification()
-				// console.log('Async: Copying to clipboard was successful!');
 			}, function(err) {
 				console.error('Async: Could not copy text: ', err)
 			})

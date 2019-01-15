@@ -6,7 +6,8 @@
       avatar-url="/api/doctors/avatar">
       <nav slot="navigation">
         <li><a href="#">Basic Information</a></li>
-        <li><a href="#">Hospitals</a></li>
+        <li v-if="isDoctor()"><a href="#">Hospitals</a></li>
+        <li v-if="isHospital()"><a href="#assigned-patients">Assigned Patients</a></li>
       </nav>
 
       <template slot-scope="pager">
@@ -18,7 +19,7 @@
             <table class="table is-fullwidth">
               <tr>
                 <th width="20%">Full Name:</th>
-                <td>{{ user.full_name }}</td>
+                <td>{{ [user.first_name, user.middle_name, user.last_name].join(' ') }}</td>
               </tr>
               <tr>
                 <th>Specialization:</th>
@@ -48,13 +49,14 @@
                 <th>ID</th>
                 <td>
                   {{ user.chcode }}
-                  <button class="button is-small is-text">COPY</button>
+                  <button @click="copyTextToClipboard(user.chcode)" class="button is-small is-text">COPY</button>
                 </td>
               </tr>
             </table>
           </section>
 
           <section 
+            v-if="isDoctor()"
             slot="p2">
             <Alert 
               v-if="!!!hospitals.length" 
@@ -92,6 +94,19 @@
               </div>
             </div>
           </section>
+
+          <!-- For Listing all assigned Patient -->
+          <section 
+            v-if="isHospital()"
+            slot="p2">
+<!--             <Alert 
+              v-if="!doctorsPatient.length" 
+              type="info">
+              <span class="ml-i-15 mr-10"><i class="ti ti-info"/></span>
+              No Patients Assigned
+            </Alert>-->
+            <div class="menu-label">Patients assigned to Dr. {{user.first_name}}</div>
+          </section>
         </pager>
       </template>
     </ProfileGrid>
@@ -120,19 +135,40 @@
 import Modal from '@/components/Modal.vue'
 import { mapGetters, mapState } from 'vuex'
 import ProfileGrid from '@/components/ProfileGrid'
+import EditProfile from '@/Mixins/EditProfile.js'
 
 export default {
-	name: 'Profile',
-	components: {Modal, ProfileGrid},
-	data() {return {
-		modal: false,
-		currentHospital: '',
-	}},
-	computed: { 
-		...mapGetters({user: 'getUser'}),
-		...mapState('doctor', ['hospitals'])
-	},
-	methods: {
+  name: 'DoctorProfile',
+  components: {Modal, ProfileGrid},
+  mixins: [EditProfile],
+  data() {return {
+    modal: false,
+    defaults:  {
+      avatar: '', 
+      first_name: 'Unknown',
+      profile: { address: '' },
+    },
+    currentHospital: '',
+  }},
+  computed: { 
+    user() {
+      return this.isDoctor() ? this.getUser : this.findDoctor() || this.defaults
+    },
+    ...mapGetters(['getUser']),
+    ...mapState('doctor', ['hospitals']),
+    ...mapState('hospital', ['doctors'])
+  },
+  activated() {
+    if (this.isHospital() && !this.doctors.length) {
+      this.$router.push('/doctors')
+    }
+  },
+  methods: {
+    // method applies only in hospital interface
+    findDoctor() {
+      const {_id} = this.$route.params
+      return this.doctors.find(e => e.chcode === _id)
+    },
 		showAlert(a) {
 			this.currentHospital = a
 			this.modal = true
