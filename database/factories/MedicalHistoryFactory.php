@@ -6,7 +6,9 @@ $factory->define(MedicalHistory::class, function (Faker $faker) {
     return [
         //
         'record_id' => function () {
-        		return factory(\App\Models\MedicalRecord::class)->create()->id;
+        		return factory(\App\Models\MedicalRecord::class)
+        		        ->create(['type' => "App\\Models\\MedicalHistory"])
+        		        ->id;
          },
         'illness' => $faker->name,
         'date_of_onset' => $faker->date,

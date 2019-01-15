@@ -22,6 +22,7 @@ class ImmunizationController extends Controller
 
         try {
             request()->validate($rule);
+            $this->request()->validate($rule);
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),

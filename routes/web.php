@@ -53,14 +53,24 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
-Route::group(['prefix' => 'admin'], function () {
-    //login routes
-    Route::get('login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('login', 'Auth\AdminLoginController@login');
-    Route::post('logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
-    //main routes
-    Route::get('/{any?}', 'AdminController@index')->name('admin.dashboard');
-});
+Route::group(
+    ['prefix' => 'admin'],
+    function () {
+        //main routes
+        Route::get('login', 'Auth\AdminLoginController@showLoginForm')
+            ->name('admin.login');
+        Route::post('login', 'Auth\AdminLoginController@login');
+
+        //login routes
+        Route::group(
+            ['middleware' => 'auth-session:admin'],
+            function () {
+                Route::get('/{any?}', 'AdminController@index')->name('admin.dashboard');
+                Route::post('logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+            }
+        );
+    }
+);
 
 Route::get('clients/{any?}', function () {
     return view('all', ['user' => 'Patient']);
@@ -107,7 +117,7 @@ Route::get('/make-fake-session/{type}', function (Request $request, $type) {
     if (auth()->guard($type)->attempt(['email' => $emails[$type], 'password' => 'secret'], false)) {
         session()->regenerate();
 
-        return redirect()->intended(route($type.'.dashboard', 'dashboard'));
+        return redirect()->intended(route($type . '.dashboard', 'dashboard'));
     }
 });
 
@@ -115,7 +125,17 @@ Route::post('/login/{type}', function (Request $request, $type) {
     if (auth()->guard($type)->attempt(['email' => request('email'), 'password' => request('password')], false)) {
         session()->regenerate();
 
-        return redirect()->intended(route($type.'.dashboard', 'dashboard'));
+        return redirect()->intended(route($type . '.dashboard', 'dashboard'));
+    }
+
+    return redirect()->back()->withErrors(['login' => 'Invalid username or password.']);
+});
+
+Route::post('/login/{type}', function (Request $request, $type) {
+    if (auth()->guard($type)->attempt(['email' => request('email'), 'password' => request('password')], false)) {
+        session()->regenerate();
+
+        return redirect()->intended(route($type . '.dashboard', 'dashboard'));
     }
 
     return redirect()->back()->withErrors(['login' => 'Invalid username or password.']);

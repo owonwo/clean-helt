@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Hospital;
 use App\Models\ProfileShare;
 use App\Http\Controllers\Controller;
 
+use App\Notifications\Hospital\ProfileShareAcceptedNotification;
+
 class ProfileShareController extends Controller
 {
     private $hospital;
@@ -12,9 +14,9 @@ class ProfileShareController extends Controller
     public function __construct()
     {
         $this->middleware('auth:hospital-api');
-        $this->middleware(function($request, $next) {
-
+        $this->middleware(function ($request, $next) {
             $this->hospital = auth()->guard()->user();
+
             return $next($request);
         });
     }
@@ -23,40 +25,50 @@ class ProfileShareController extends Controller
     {
         return response()->json([
             'message' => 'Patients retrieved successfully',
-            'patients' => $this->hospital->pendingShares()->get()
+            'patients' => $this->hospital->pendingShares()->get(),
         ], 200);
     }
 
     public function accept(ProfileShare $profileShare)
     {
-
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => (string) 1]);
+            $profileShare->update(['status' => '1']);
+
+            // send notifications
+            $this->hospital->notify(
+                (new ProfileShareAcceptedNotification($profileShare, $this->hospital))->delay(10)
+            );
+
+            $patient = $profileShare->patient;
+
+            $patient->notify(
+                (new ProfileShareAcceptedNotification($profileShare, $patient))->delay(10)
+            );
 
             return response()->json([
                 'message' => 'Profile share accepted successfully',
-                'share' => $profileShare
+                'share' => $profileShare,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Profile share could not be accepted at this time'
+            'message' => 'Profile share could not be accepted at this time',
         ], 400);
     }
 
     public function decline(ProfileShare $profileShare)
     {
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => (string) 2]);
+            $profileShare->update(['status' => '2']);
 
             return response()->json([
                 'message' => 'Profile share declined successfully',
-                'share' => $profileShare
+                'share' => $profileShare,
             ], 200);
         }
 
         return response()->json([
-            'message' => 'Profile share could not be declined at this time'
+            'message' => 'Profile share could not be declined at this time',
         ], 400);
     }
 }
