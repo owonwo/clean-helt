@@ -19,14 +19,15 @@ class ImmunizationController extends Controller
     {
         $patient = auth()->guard('patient-api')->user();
         $rule = $this->getRegRule();
-          try{
+
+        try {
             $this->request()->validate($rule);
-          }catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),
-                'message' => $e->getMessage()
-            ])
-          }
+                'message' => $e->getMessage(),
+            ]);
+        }
         //Log a medical record
         try {
             DB::beginTransaction();
@@ -57,15 +58,16 @@ class ImmunizationController extends Controller
 
     public function update(Immunization $immunization)
     {
-          $rule = $this->getRegRule();
-          try{
+        $rule = $this->getRegRule();
+
+        try {
             $this->request()->validate($rule);
-          }catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),
-                'message' => $e->getMessage()
-            ])
-          }
+                'message' => $e->getMessage(),
+            ]);
+        }
         $data = $immunization->update([
             'immunization_title' => request('immunization_title'),
             'age' => request('age'),
@@ -77,7 +79,7 @@ class ImmunizationController extends Controller
             'immunization' => $immunization->load('record'),
         ], 200);
     }
-     private function getRegRule()
+    private function getRegRule()
     {
         return [
             'immunization_title' => 'required',

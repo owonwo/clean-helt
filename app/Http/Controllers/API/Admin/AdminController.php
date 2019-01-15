@@ -13,7 +13,12 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    //
+    public static $rules = [
+        'name' => 'required|string|min:3',
+        'email' => 'required|email|string',
+        'password' => 'required|string|confirmed',
+    ];
+
     // Shows the list of all admins with their roles
     public function index()
     {
@@ -24,12 +29,20 @@ class AdminController extends Controller
 
     public function store()
     {
-        $admin = Admin::forceCreate(request()->all());
+        request()->validate(static::$rules);
+        extract(request()->all());
 
-        return response()->json([
+        $name = ucfirst($name);
+        $password = bcrypt($password);
+
+        $admin = Admin::forceCreate(compact('name', 'email', 'password'));
+
+        return response()->json(
+            [
                 'admin' => $admin,
                 'message' => 'Admin created Successfully',
-            ]);
+            ]
+        );
     }
 
     public function show(Admin $admin)
@@ -47,6 +60,40 @@ class AdminController extends Controller
             'message' => 'Admin updated successfully',
             'admin' => $admin,
         ]);
+    }
+
+    /**
+     * Disables an admin
+     *
+     * @param admin App\Models\Admin  The Admin Model
+     *
+     * @author Joseph Julius
+     **/
+    public function disable(Admin $admin)
+    {
+        $admin->active = 0;
+        $message = $admin->name . ' disabled';
+
+        return $admin->save()
+            ? response()->json(compact('message'))
+            : response()->json(['message' => 'Can\'t Disable' . $admin->name], 400);
+    }
+
+    /**
+     * Enables an admin
+     *
+     * @param admin App\Models\Admin  The Admin Model
+     *
+     * @author Joseph Julius
+     **/
+    public function enable(Admin $admin)
+    {
+        $admin->active = 1;
+        $message = $admin->name . ' Enabled';
+
+        return $admin->save()
+            ? response()->json(compact('message'))
+            : response()->json(['message' => 'Can\'t Enable ' . $admin->name], 400);
     }
 
     public function getUsersCount()
