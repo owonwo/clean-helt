@@ -7,7 +7,9 @@ $factory->define(Allergy::class, function (Faker $faker) {
     return [
         //
         'record_id' => function () {
-            return factory(\App\Models\MedicalRecord::class)->create()->id;
+            return factory(\App\Models\MedicalRecord::class)->create([
+                'type' => "App\\Models\\Allergy"    
+            ])->id;
         },
         'allergy' => $faker->sentence(6),
         'reaction' =>  $faker->sentence(6),

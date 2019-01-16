@@ -12,6 +12,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Hospital\ProfileShareAcceptedNotification;
+
 class ManagesSharedProfilesTest extends TestCase
 {
     use RefreshDatabase;
@@ -102,6 +105,8 @@ class ManagesSharedProfilesTest extends TestCase
     /** @test */
     public function an_authenticated_hospital_can_accept_a_profile_share()
     {
+        Notification::fake();
+        
         $hospital = create(Hospital::class);
         $profileShare = create(ProfileShare::class, [
             'provider_id' => $hospital->id,
@@ -118,6 +123,15 @@ class ManagesSharedProfilesTest extends TestCase
             'id' => $profileShare->id,
             'status' => 1
         ]);
+        
+        Notification::assertSentTo(
+            $hospital,
+            ProfileShareAcceptedNotification::class
+        );
+        Notification::assertSentTo(
+            $profileShare->patient,
+            ProfileShareAcceptedNotification::class
+        );
 
         $this->makeAuthRequest()
             ->get('api/hospital/patients')

@@ -7,7 +7,7 @@ $factory->define(HospitalContacts::class, function (Faker $faker) {
     return [
         //
         'record_id' =>  function () {
-            return factory(\App\Models\MedicalRecord::class)->create()->id;
+            return factory(\App\Models\MedicalRecord::class)->create(['type' => "App\\Models\\HospitalContacts"])->id;
         },
         'name' => $faker->name,
         'email' => $faker->email,

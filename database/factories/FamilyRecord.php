@@ -24,7 +24,11 @@ $diseases = [
 
 $factory->define(FamilyRecord::class, function (Faker $faker) use ($diseases) {
     return [
-        'record_id' => 5,
+        'record_id' => function () {
+            return factory(\App\Models\MedicalRecord::class)->create([
+                'type' => "App\\Models\\FamilyRecord"    
+            ])->id;
+        },
         'disease' => $faker->randomElement($diseases),
         'carriers' => json_encode(['mother', 'father', 'husband']),
         'description' => $faker->sentence,

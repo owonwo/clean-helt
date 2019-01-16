@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Hospital;
 use App\Models\ProfileShare;
 use App\Http\Controllers\Controller;
 
+use App\Notifications\Hospital\ProfileShareAcceptedNotification;
+
 class ProfileShareController extends Controller
 {
     private $hospital;
@@ -31,7 +33,18 @@ class ProfileShareController extends Controller
     {
 
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => 1]);
+            $profileShare->update(['status' => "1"]);
+            
+            // send notifications
+            $this->hospital->notify(
+                (new ProfileShareAcceptedNotification($profileShare, $this->hospital))->delay(10)
+            );
+            
+            $patient = $profileShare->patient;
+            
+            $patient->notify(
+                (new ProfileShareAcceptedNotification($profileShare, $patient))->delay(10)
+            );
 
             return response()->json([
                 'message' => 'Profile share accepted successfully',
@@ -47,7 +60,7 @@ class ProfileShareController extends Controller
     public function decline(ProfileShare $profileShare)
     {
         if ($profileShare->exists && $profileShare->isActive) {
-            $profileShare->update(['status' => 2]);
+            $profileShare->update(['status' => "2"]);
 
             return response()->json([
                 'message' => 'Profile share declined successfully',
