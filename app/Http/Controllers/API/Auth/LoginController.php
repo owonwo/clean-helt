@@ -65,11 +65,24 @@ class LoginController extends AccessTokenController
     public function login(Request $request, $guard)
     {
         $credentials = $request->only(['email', 'password']);
-
+        if($guard == "admin"){
+            if (!$token = Auth::guard("{$guard}-api")->attempt($credentials)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            $user = Auth::guard("{$guard}-api")->user();
+            if($user->active = 0){
+                return response()->json([
+                    'Message' => 'your account has been disabled'
+                ]);
+            }
+            return response()->json([
+                'token' => $this->getArrayToken($token),
+                'user' => $user,
+            ], 200);
+        }
         if (!$token = Auth::guard("{$guard}-api")->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return response()->json([
             'token' => $this->getArrayToken($token),
             'user' => Auth::guard("{$guard}-api")->user(),
