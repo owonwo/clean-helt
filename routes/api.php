@@ -314,9 +314,9 @@ Route::group(['namespace' => 'API'], function () {
 
     Route::group(['prefix' => 'pharmacy', 'namespace' => 'Pharmacy', 'middleware' => []], function () {
         Route::get('profile', 'ProfileController@index');
-        Route::patch('profile', 'ProfileController@update');
         Route::get('patients', 'PatientController@index');
         Route::get('patients/pending', 'ProfileShareController@pending');
+        Route::patch('profile', 'ProfileController@update');
         Route::patch('patients/pending/{profileShare}/accept', 'ProfileShareController@accept')->name('pharmacy.profile.accept');
         Route::patch('patients/pending/{profileShare}/decline', 'ProfileShareController@decline');
         Route::get('patients/{patient}/records', 'MedicalRecordController@index');

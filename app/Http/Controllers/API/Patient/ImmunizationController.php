@@ -25,7 +25,7 @@ class ImmunizationController extends Controller
             return response()->json([
                 'error' => $e->errors(),
                 'message' => $e->getMessage()
-            ])
+            ]);
           }
         //Log a medical record
         try {
@@ -64,7 +64,7 @@ class ImmunizationController extends Controller
             return response()->json([
                 'error' => $e->errors(),
                 'message' => $e->getMessage()
-            ])
+            ]);
           }
         $data = $immunization->update([
             'immunization_title' => request('immunization_title'),
