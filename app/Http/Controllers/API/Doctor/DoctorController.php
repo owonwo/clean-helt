@@ -45,7 +45,7 @@ class DoctorController extends Controller
                 'message' => $e->getMessage(),
             ], 422);
         }
-        $data = request()->all();
+        $data = request()->only(array_keys($this->rules));
         $data['password'] = bcrypt($data['password']);
 
         $token = ['token' => str_random(40)];

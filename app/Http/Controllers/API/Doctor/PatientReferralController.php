@@ -20,6 +20,9 @@ class PatientReferralController extends Controller
         $authDoctor = auth()->user();
         // Get a patient's share extension
         
+        if ($shareExtension->provider->chcode !== $authDoctor->chcode)
+            return response()->json(['message' => 'Unauthorized'], 401);
+        
         // Get extensions original share
         $profileShare = $shareExtension->profileShare;
         // Get the hospital from the original share

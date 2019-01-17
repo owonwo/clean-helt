@@ -24,6 +24,7 @@ class MedicalHistoryController extends Controller
         $patient = auth()->guard('patient-api')->user();
 
         try {
+            $this->validate(request(), $this->rule);
             DB::beginTransaction();
             $record = $logger->logMedicalRecord($patient, $patient, 'medical-history');
 

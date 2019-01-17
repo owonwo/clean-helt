@@ -10,10 +10,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/app.css', true) }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.min.css">
     
-    <script src="{{ asset('/js/admin.js') }}"></script>
+    <script src="{{ asset('/js/admin.js', true) }}"></script>
     <style>
     	[v-cloak] { display: none;}
     </style>

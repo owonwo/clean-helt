@@ -26,9 +26,9 @@ class ImmunizationController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),
-                'message' => $e->getMessage(),
+                'message' => $e->getMessage()
             ]);
-        }
+          }
         //Log a medical record
         try {
             DB::beginTransaction();
@@ -66,9 +66,10 @@ class ImmunizationController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => $e->errors(),
-                'message' => $e->getMessage(),
+                'message' => $e->getMessage()
             ]);
-        }
+          }
+
         $data = $immunization->update([
             'immunization_title' => request('immunization_title'),
             'age' => request('age'),
