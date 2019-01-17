@@ -40,7 +40,7 @@ class PatientController extends Controller
         }
 
         try {
-            $data = $request->all();
+            $data = $request->only(array_keys($rule));
 
             $data['password'] = bcrypt($data['password']);
 
@@ -274,8 +274,8 @@ class PatientController extends Controller
             'email' => 'required|email|max:190|unique:patients',
             'first_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
-            'password' => 'required|max:32|min:6',
-            'phone' => 'required|digit:11',
+            'password' => 'required|max:32|min:6|confirmed',
+            'phone' => 'required|digits:11|unique',
         ];
     }
 
