@@ -109,7 +109,7 @@ class ProfileShareController extends Controller
 
     public function extend(ProfileShare $profileShare)
     {
-        $rules = ['extension' => 'required'];
+        $rules = ['extension' => 'required|date|after:now'];
 
         $this->validate(request(), $rules);
 
