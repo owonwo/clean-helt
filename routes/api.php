@@ -90,7 +90,6 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
         Route::get('patients/pending', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
-        Route::post('patients/{patient}/referral', 'PatientController@refer')->name('doctor.patient.refer');
         Route::get('patients/{patient}/diagnosis', 'PatientController@diagnosis');
         Route::get('patients/{patient}/prescriptions', 'PatientController@showPrescriptions')->name('doctor.patient.prescription');
         Route::get('patients/{patient}/labtest', 'PatientController@showLabTest')->name('doctor.patient.labTest');

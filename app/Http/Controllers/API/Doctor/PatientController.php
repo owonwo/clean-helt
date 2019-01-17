@@ -61,67 +61,6 @@ class PatientController extends Controller
         ], 400);
     }
 
-    public function refer(Patient $patient)
-    {
-        // dd(request()->all());
-        $doctor = auth()->guard('doctor-api')->user();
-        if ($doctor->hospitals() && request()->has('hospital')) {
-            foreach ($doctor->hospitals()->get() as $hospital) {
-                if (request('hospital') == $hospital->chcode) {
-                    $hospitalDoctors = $hospital->doctors()->get();
-                    foreach ($hospitalDoctors as $hospitalDoctor) {
-                        if (request('chcode') == $hospitalDoctor->chcode) {
-                            return $this->doctorReferral($doctor, $patient, $hospitalDoctor);
-                        }
-                    }
-                }
-            }
-        } else {
-            $chcode = request('chcode');
-            $refferedDoctor = Doctor::whereChcode($chcode)->get()->first();
-
-            return $this->doctorReferral($doctor, $patient, $refferedDoctor);
-//            return response()->json([
-//                "message" => "Profile Referred successfully"
-//            ], 200);
-        }
-    }
-
-    public function doctorReferral($doctor, $patient, $refferedDoctor)
-    {
-        $provider_type = 'App\Models\Doctor';
-        //Doctor places in the chcode of another doctor
-        $chcode = request('chcode');
-        foreach ($patient->profileShares as $profileShare) {
-            if ($profileShare->provider_id == $doctor->id && $profileShare->patient_id == $patient->id) {
-                $expiration = $profileShare->expired_at;
-            }
-        }
-
-        $exists = DB::table('profile_shares')
-            ->where('patient_id', $patient->id)
-            ->where('provider_type', $provider_type)
-            ->where('provider_id', $refferedDoctor->id)->first();
-
-        if ($doctor->canViewProfile($patient) && !$exists) {
-            $patient->profileShares()->create([
-                    'provider_type' => $provider_type,
-                    'provider_id' => $refferedDoctor->id,
-                    'expired_at' => $expiration,
-                ]);
-
-            $doctor->notify(new PatientToDoctorReferral($refferedDoctor, $patient));
-
-            return response()->json([
-                    'message' => 'You have successfully referred ' . $refferedDoctor->first_name . 'to ' . $patient->first_name,
-                ], 200);
-        }
-
-        return response()->json([
-                    'message' => 'This doctor cannot share this patient',
-                ], 400);
-    }
-
     public function diagnosis(Patient $patient)
     {
         $doctor = auth()->guard('doctor-api')->user();
