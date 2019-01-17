@@ -49,6 +49,15 @@ class PatientController extends Controller
         ], 400);
     }
     
+    /**
+     * Assigns doctors to a hospital's client
+     * @param Request $request
+     * @param ProfileShare $profileShare
+     * @return Illuminate\Http\Response
+     * 
+     * @author Chinedum Chiemela
+     * 
+     */
     public function assignMultiple(Request $request, ProfileShare $profileShare)
     {
         if(!$profileShare->exists && !$this->hospital->canViewProfile($profileShare->patient))
@@ -78,7 +87,10 @@ class PatientController extends Controller
                 'status' => "1"
             ]);
             
-            if ($share) $assigned[] = $code;
+            if ($share) {
+                $assigned[] = $code;
+
+            }
             else $failed[$code] = "An error occurred";
             
         }
