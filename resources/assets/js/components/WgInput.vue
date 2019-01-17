@@ -15,11 +15,15 @@ export default {
 		}
 	},
 	render(h) {
-		const {type: form_type} = this.$props
-		const { $slots: {help} } = this
+		const {type: input_type} = this.$props
+		const { 
+			$slots: {help, default: default_slot}, 
+			$props, $attrs
+		} = this
+
 		const props = {
-			class: form_type === 'textarea' ? ['textarea'] : ['input'],
-			attrs: this.$props,
+			class: input_type === 'textarea' ? ['textarea'] : ['input'],
+			attrs: {...$props,...$attrs},	
 			on: {
 				keyup: (event) => this.$emit('input', event.target.value),
 				change: (event) => {
@@ -31,8 +35,8 @@ export default {
 		}
 		return h('div', {class: 'field'}, [
 			h('label', {domProps: {innerHTML: this.$props.label }}),
-			h(form_type === 'textarea' ? 'textarea' : 'input', props),
-			help
+			h(input_type === 'textarea' ? 'textarea' : 'input', props),
+			help, default_slot
 		])
 	},
 }

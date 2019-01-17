@@ -31,11 +31,14 @@ Vue.mixin({
       const { chcodeIs } = this
       return chcodeIs('CHP', e.chcode) || chcodeIs('CHD', e.chcode) ? personalify(e) : e
     },
-    success_message(text) {
-      this.$notify({ text, type: 'success' })
+    success_message(text, options = {}) {
+      this.$notify({ ...({ text, type: 'success' }), ...options })
     },
-    error_message(text) {
-      this.$notify({ text, type: 'error' })
+    info_message(text, options = {}) {
+      this.$notify({ ...({ text, type: 'info' }), ...options })
+    },
+    error_message(text, options = {}) {
+      this.$notify({ ...({ text, type: 'error' }), ...options })
     },
     make_form_data(data = {}) {
       const form = new FormData()
@@ -43,9 +46,9 @@ Vue.mixin({
         form.append(key, value)
       return form
     },
-    logErrors(err) {
+    logErrors(err, options = {}) {
       for (const message of Object.values(err)) {
-        message.map(msg => this.error_message(msg))
+        message.map(msg => this.error_message(msg, options))
       }
     }
   },

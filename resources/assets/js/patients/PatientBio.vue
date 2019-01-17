@@ -48,7 +48,7 @@
           <tr class="">
             <th>Date of Birth</th>
             <td>
-              <span v-if="!edit.basic">{{ [ user.dob, "YYYY-MM-DD" ] | moment("Do MMMM, YYYY") }}</span>
+              <span v-cloak v-if="!edit.basic && user.dob !== null">{{ [ user.dob, "YYYY-MM-DD" ] | moment("Do MMMM, YYYY") }}</span>
               <input
                 v-else 
                 v-model="user.dob" 
