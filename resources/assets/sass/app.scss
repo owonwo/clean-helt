@@ -3,8 +3,8 @@
 @import './base/colors';
 @import './base/typography';
 
-@import 'bulma/bulma';
-@import 'vue-multiselect/dist/vue-multiselect.min';
+@import '~bulma/bulma';
+@import '~vue-multiselect/dist/vue-multiselect.min';
 @import './autoload';
 @import './icons.scss'; 
 @import './layout'; 
