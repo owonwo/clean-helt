@@ -273,9 +273,12 @@ class PatientController extends Controller
         return [
             'email' => 'required|email|max:190|unique:patients',
             'first_name' => 'required|string|max:60|min:2',
+            'middle_name' => 'required|string|max:60|min:2',
             'last_name' => 'required|string|max:60|min:2',
             'password' => 'required|max:32|min:6|confirmed',
             'phone' => 'required|digits:11|unique',
+            'gender' => 'required|in:male,female,other',
+            'dob' => 'required|date'
         ];
     }
 
