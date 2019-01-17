@@ -96,7 +96,14 @@ class Hospital extends Authenticatable
 
     public function scopeActiveDoctors($query)
     {
-        return $this->doctors()->wherePivot('status', "1");
+        $hospital = $this;
+        return $this->doctors()->wherePivot('status', "1")
+                    ->with([
+                        'assignedShares' => function($query) use ($hospital) {
+                            $query->whereIn('share_id', $hospital->profileShares()->pluck('id')->toArray());
+                        }, 
+                        'assignedShares.profileShare.patient'
+                    ]);
     }
 
     public function isActiveDoctor(Doctor $doctor)
