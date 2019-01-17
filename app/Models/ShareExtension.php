@@ -35,4 +35,9 @@ class ShareExtension extends Model
     {
         return $query->whereDate('expired_at', '>=', now())->where('status', "1");
     }
+    
+    public function scopePendingShares($query)
+    {
+        return $query->whereDate('expired_at', '>=', now())->where('status', "0");
+    }
 }

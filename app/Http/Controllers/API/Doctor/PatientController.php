@@ -44,6 +44,32 @@ class PatientController extends Controller
             ], 403);
         }
     }
+    
+    
+    public function pending(PatientFilter $filter)
+    {
+        $doctor = auth()->guard('doctor-api')->user();
+
+        try {
+            $patients = $doctor->assignedShares()
+                                ->pendingShares()
+                                ->with('profileShare', 'sharer')
+                                ->latest()
+                                ->get();
+
+            return response()->json([
+                'message' => 'Patients retrieved successfully',
+                'patients' => ShareExtensionResource::collection($patients),
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+
+                'error' => $e->getMessage(),
+
+            ], 403);
+        }
+    }
+    
 
     public function show(Patient $patient)
     {

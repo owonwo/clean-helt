@@ -88,6 +88,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('/pending-hospitals', 'DoctorController@pendingHospitals')->name('doctor.hospital.pending');
         Route::get('/sent-hospitals', 'DoctorController@sentHospitals')->name('doctor.hospital.sent');
         Route::get('patients', 'PatientController@index')->name('doctor.patients');
+        Route::get('patients/pending-referrals', 'PatientController@pending')->name('doctor.patients.pending-referrals');
         Route::get('patients/pending', 'ProfileShareController@pending')->name('doctor.pending.patient');
         Route::get('patients/{patient}', 'PatientController@show')->name('doctor.patient');
         Route::get('patients/{patient}/diagnosis', 'PatientController@diagnosis');
