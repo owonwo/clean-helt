@@ -54,6 +54,7 @@
         <wgInput 
           v-model="form.illness" 
           type="text" 
+          list="options"
           label="Illness" 
           placeholder="Illness" />
         <wgInput 
@@ -73,6 +74,13 @@
             v-else 
             class="button is-primary">Create</button>
         </div>
+        <datalist id="options">
+          <option 
+            v-for="(a, k) in options.medical_history" 
+            :key="k">
+            {{ a }}
+          </option>
+        </datalist>
       </form>
     </modal>
   </section>
@@ -117,7 +125,8 @@ export default {
     computed: {
       ...mapState('medicalRecord', {
         histories: (store) => store.histories
-      })
+      }),
+      ...mapState('medicalRecord', ['options'])
     },
     mounted() {
       this.$store.dispatch('medicalRecord/FETCH_MEDICAL_HISTORY')

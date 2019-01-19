@@ -6,8 +6,13 @@ export default {
   components: { vHelper },
   data: () => ({
     page: 0,
+    isLoading: false,
     fields: {}
   }),
+  notifOptions: {
+    group: 'register',
+    duration: 2000
+  },
   methods: {
     visit_login() {
       window.location = '/login'
@@ -18,19 +23,23 @@ export default {
     },
     showEmailMessage() {
       this.page += 1
-      this.fields = {}
     },
     handleError(err) {
+      const { notifOptions } = this.$options
       if (err.response.status === 422) {
         /*form errors*/
-        this.errors = err.response.data.errors
-        this.error_message('Some fields need attention.', { group: 'register', duration: 2000 })
+        this.logErrors(err.response.data.errors, notifOptions)
+        this.error_message('Some fields need attention.', notifOptions)
       } else if (err.response.status === 403) {
         /*server rejection request*/
+        notifOptions.duration = 5000
         this.info_message(`Am sorry, We can't create an 
-          account at the moment, please try again later.`, { group: 'register', duration: 5000 })
+          account at the moment, please try again later.`, notifOptions)
       }
     },
+    /** passes only the validation has no error
+     * @returns boolean
+     **/
     canSend() {
       return true
     },
@@ -39,14 +48,20 @@ export default {
 
       return fields
     },
+    toggleLoader() {
+      this.isLoading = !this.isLoading
+    },
     submit() {
-      this.errors = {}
       const { canSend, showEmailMessage, handleError } = this
 
       if (canSend()) {
+        this.toggleLoader()
         this.$http.post(this.url, this.getFormData())
           .then(showEmailMessage)
+          .then(this.toggleLoader)
+          .then(() => this.$emit('success'))
           .catch(handleError)
+          .then(this.toggleLoader)
       } else {
         this.info_message('Some fields are missing!', { group: 'register' })
       }

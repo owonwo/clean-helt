@@ -1,34 +1,28 @@
 <template>
   <form 
-      class="has-text-centered" 
-      @submit.prevent="submit">
+    class="has-text-centered" 
+    @submit.prevent="submit">
     <pager
       :current="page">
       <section slot="p1">
-        <div class="field">
-          <input 
-            v-model="fields.first_name" 
-            placeholder="First Name" 
-            class="input" 
-            type="text" 
-            required>
-        </div>
-        <div class="field">
-          <input 
-            v-model="fields.middle_name" 
-            placeholder="Middle Name" 
-            class="input" 
-            type="text" 
-            required>
-        </div>
-        <div class="field">
-          <input 
-            v-model="fields.last_name" 
-            placeholder="Last Name" 
-            class="input" 
-            type="text" 
-            required>
-        </div>
+        <wgInput
+          v-model="fields.first_name" 
+          placeholder="First Name" 
+          type="text">
+          <v-helper :err="$v.fields.first_name"/>
+        </wgInput>
+        <wgInput
+          v-model="fields.middle_name" 
+          placeholder="Middle Name" 
+          type="text">
+          <v-helper :err="$v.fields.middle_name"/>
+        </wgInput>
+        <wgInput 
+          v-model="fields.last_name" 
+          placeholder="Last Name" 
+          type="text">
+          <v-helper :err="$v.fields.last_name"/>
+        </wgInput> 
         <div class="field">
           <div class="select">
             <select v-model="fields.gender">
@@ -40,20 +34,17 @@
               <option value="female">Female</option>
             </select>
           </div>
+          <v-helper :err="$v.fields.gender"/>
         </div>
-        <div class="field">
-          <input 
-            v-model="fields.phone" 
-            minlength="11" 
-            min="0" 
-            placeholder="Phone Number" 
-            class="input" 
-            type="text" 
-            name="phone">
-          <span 
-            v-if="!!errors.phone" 
-            class="help has-text-danger">{{ errors.phone[0] }}</span>
-        </div>                  
+        <wgInput 
+          v-model="fields.phone" 
+          minlength="11" 
+          min="0" 
+          type="text" 
+          placeholder="Phone Number" 
+          name="phone">
+          <v-helper :err="$v.fields.phone"/>
+        </wgInput>              
         <button 
           type="button" 
           class="button is-submit" 
@@ -61,55 +52,57 @@
       </section>
       <!-- Contact Information -->
       <section slot="p2">
-        <div class="field">
-          <input 
-            v-model="fields.email" 
-            placeholder="Enter Email" 
-            type="email" 
-            required 
-            class="input" >
-          <span 
-            v-if="!!errors.email" 
-            class="help has-text-danger">This email `{{ fields.email }}` has already been taken.</span>
-        </div>
+        <wgInput 
+          v-model="fields.email" 
+          placeholder="Enter Email" 
+          type="email">
+          <v-helper :err="$v.fields.email"/>
+        </wgInput> 
 
-        <div class="field">
-          <input 
-            v-model="fields.password" 
-            placeholder="Password" 
-            class="input" 
-            type="password" 
-            required>
-        </div>
+        <wgInput 
+          v-model="fields.password" 
+          placeholder="Password" 
+          type="password">
+          <v-helper :err="$v.fields.password"/>
+        </wgInput>
 
+        <transition name="fade">
+          <wgInput 
+            v-show="!!fields.password.length"
+            v-model="fields.password_confirmation" 
+            placeholder="Repeat Password" 
+            type="password">
+            <span 
+              v-if="!$v.fields.password_confirmation.sameAs"
+              class="help has-text-danger">
+              Password must be identical.
+            </span>
+          </wgInput> 
+        </transition>
         <hr>
+        <wgInput 
+          v-model="fields.specialization" 
+          placeholder="Specialization" 
+          type="text">
+          <v-helper :err="$v.fields.specialization"/>
+        </wgInput>
 
-        <div class="field">
-          <input 
-            v-model="fields.specialization" 
-            placeholder="Specialization" 
-            class="input" 
-            type="text" 
-            required>
-        </div>
-        <div class="field">
-          <input 
-            v-model="fields.folio" 
-            placeholder="Folio" 
-            class="input" 
-            type="text">
-        </div>
+        <wgInput 
+          v-model="fields.folio" 
+          placeholder="Folio" 
+          type="text">
+          <v-helper :err="$v.fields.folio"/>
+        </wgInput>
 
-        <div 
-          class="field is-flex" 
-          style="justify-content: space-between;">
+        <div class="level">
           <button 
             type="button" 
             class="button is-normal" 
             @click.prevent="page = 0">Back</button>
           <button 
             type="submit" 
-            class="button is-submit">FINISH</button>                
+            class="button is-submit"
+            :class="{'is-loading': isLoading}">FINISH</button>                
         </div>
       </section>
 
@@ -129,13 +122,12 @@
 
 <script>
   import registerMixin from '@/Mixins/registerMixin'
-  import { required, minLength, between } from 'vuelidate'
+  import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
   export default {
     name: 'RegisterDoctor',
     mixins: [registerMixin],
     data: () => ({
-      errors: {},
       url: '/api/doctor/create',
       fields: {
         first_name: '', middle_name: '', 
@@ -147,17 +139,23 @@
       },
     }),
     validations: {
-      // fields: {
-      //   first_name: {
-      //     required,
-      //     minLength: minLength(4)
-      //   },
-      //   last_name: {
-      //     required,
-      //     minLength: minLength(4)
-      //     // between: between(20, 30)
-      //   }
-      // }
+      fields: {
+        folio: { required },
+        gender: { required },
+        email: { required, email },
+        middle_name: { minLength: minLength(3) },
+        phone: { required, minLength: minLength(11) },
+        password: { required, minLength: minLength(6) },
+        last_name: { required, minLength: minLength(2) },
+        first_name: { required, minLength: minLength(2) },
+        specialization: { required, minLength: minLength(5) },
+        password_confirmation: { sameAs: sameAs('password') },
+      }
+    },
+    methods: {
+      canSend() {
+        return !this.$v.fields.$invalid
+      }
     }
   }
 </script>

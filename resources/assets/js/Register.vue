@@ -18,11 +18,13 @@
       </hgroup>
       <br>
       <RegisterDoctor 
-        v-if="modelIs('DOCTOR')" 
-        ref="doctorForm"/>
+        v-if="modelIs('DOCTOR')"
+        ref="doctorForm"
+        @success="() => isLastPage = false"/>
       <RegisterPatient 
         v-if="modelIs('PATIENT')" 
-        ref="patientForm"/>
+        ref="patientForm"
+        @success="() => isLastPage = false"/>
     </section> 
   </div>
 </template>
@@ -36,24 +38,18 @@
 }
 </style>
 <script>
-import registerMixin from '@/Mixins/registerMixin'
 import RegisterDoctor from '@/components/RegisterDoctor'
 import RegisterPatient from '@/components/RegisterPatient'
 
 export default {
   name: 'Register',
   components: { RegisterPatient, RegisterDoctor },
-  mixins: [registerMixin],
   props: {
     model: { type: String, default: '', required: true },
   },
-  computed: {
-    isLastPage() {
-      console.log(this.$refs)
-      return true //|| (this.$refs.doctorForm.page !== 3 ||  
-        //this.$refs.patientForm.page !== 3)  
-    }
-  },
+  data: () => ({
+    isLastPage: true,
+  }),
   methods: {
     modelIs(model) {
       return this.$props.model  === model

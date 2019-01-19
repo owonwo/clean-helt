@@ -38,7 +38,7 @@
     
     <datalist id="list-diseases">
       <option 
-        v-for="(a,index) in defaults.diseases"
+        v-for="(a,index) in options.medical_history"
         :key="index"
         :value="a">{{ a }}
       </option>
@@ -111,24 +111,20 @@
 
 <script>
 import _ from 'lodash'
-import { mapGetters } from 'vuex'
 import CanLock from '@/Mixins/CanLock'
 import Multiselect from 'vue-multiselect'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
-  mixins: [CanLock],
-  components: {Multiselect},
 	name: 'FamilyMedicalRecords',
+  components: {Multiselect},
+  mixins: [CanLock],
 	data() {
 		return {
 			index: false,
 			form: { carriers: '', disease: ''},
 			defaults: {
-        carriers: ['Mother', 'Father', 'Siblings', 'Grand Parents', 'Child'],
-				diseases: ['Arthritis', 'Asthma', 'Bronchitis', 
-          'Cancer', 'Diabetes', 'Heart Condition', 
-          'Hepatitis', 'High Cholesterol', 'Kidney Disease',
-          'Smoking', 'Stroke', 'High Blood Pressure'],
+        carriers: ['Mother', 'Father', 'Siblings', 'Grand Parents', 'Child']
 			},
 			endpoints: {
 				create: '/api/patient/record/immunization',
@@ -138,7 +134,8 @@ export default {
 	},
 	computed: { 
 		editing() { return !_.isNumber(this.index) },
-		...mapGetters('medicalRecord', {diseases: 'getDiseases'}) 
+		...mapGetters('medicalRecord', {diseases: 'getDiseases'}),
+    ...mapState('medicalRecord', ['options'])
 	},
 	mounted() {
 		this.$store.dispatch('medicalRecord/FETCH_DISEASES')

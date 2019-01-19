@@ -1,7 +1,7 @@
 <template>
   <section class="is-fullwidth">
     <section class="content-top-bar">
-      <h3>DASHBOARD</h3>
+      <h3>Dashboard</h3>
     </section>
     <div id="osq-hospital-dashboard">
       <section>
@@ -29,7 +29,7 @@
       </section>
       <aside id="statistics">
         <h3 class="menu-label">Statistics</h3>
-        <div class="card">
+        <div class="card is-rounded">
           <div class="card-content">
             <h6 class="subtitle is-6 has-text-grey-light">This Week</h6>
             <h4 class="title is-5">Clients <small class="is-pulled-right">{{ patients.length }}</small></h4>

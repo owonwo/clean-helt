@@ -1,7 +1,7 @@
 <template>
   <span>
 	    <span 
-	      v-if="!err.required" 
+	      v-if="isProp('required')" 
 	      class="help has-text-danger">Field is required</span>
 	    <span 
 	      v-else-if="isProp('minLength')" 

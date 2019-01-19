@@ -9,6 +9,8 @@ export default {
     return {}
   },
   created() {
+    this.$store.commit('set_account_type', this.componentName)
+
     const { id: chcode } = this.$props
     const token = localStorage.getItem('child-token') || localStorage.getItem('api-token')
     const userHasToken = (!!token && 'string' === typeof token)
@@ -40,7 +42,6 @@ export default {
   },
   mounted() {
     try {
-      this.$store.commit('set_account_type', this.componentName)
       this.set_config(this.settings)
       this.$store.dispatch('FETCH_USER_DATA')
       this.fetchNotifications()

@@ -43,58 +43,43 @@
               :can-edit="true"/>
           </section>
           <!-- HOSPITALIZATION -->
-          <div slot="p4">
+          <section slot="p4">
             <div class="menu-label">HOSPITALIZATION</div>
-            <Hospitalizations />
-          </div>
+            <Hospitalizations :can-edit="true"/>
+          </section>
           <!-- Immunization -->
-          <div slot="p5">
+          <section slot="p5">
             <div class="menu-label">IMMUNIZATIONS</div>
             <Immunizations 
-              v-if="pager.page === 3" 
-              :can-edit="true"/>
-          </div>
-          <!-- ALLERGIES -->
-          <div slot="p6">
-            <div class="menu-label">ALLERGIES</div>
-            <Allergies 
               v-if="pager.page === 4" 
               :can-edit="true"/>
-          </div>
+          </section>
+          <!-- ALLERGIES -->
+          <section slot="p6">
+            <div class="menu-label">ALLERGIES</div>
+            <Allergies 
+              v-if="pager.page === 5" 
+              :can-edit="true"/>
+          </section>
           <!-- FAMILY MEDICAL HISTORY -->
-          <div slot="p7">
+          <section slot="p7">
             <div class="menu-label">FAMILY MEDICAL HISTORY</div>
             <FamilyMedicalRecords :can-edit="true"/>
-          </div>
-          <!-- HEALTH LOGS -->
-          <!-- <div slot="p8">
-            <div class="menu-label">HEALTH LOG</div>
-            <table class="table is-fullwidth">
-              <tr>
-                <th width="150">Date</th>
-                <th>Nature of Health Problem</th>
-              </tr>
-              <tr>
-                <td>2018-30-05</td>
-                <td>Dr Patrick Odunze has accepted to view your Medical Profile</td>
-              </tr>
-            </table>
-          </div> -->
-          <!-- EMERGENCY CONTACT -->
-          <div slot="p8">
+          </section>
+          <section slot="p8">
             <div class="menu-label">EMERGENCY CONTACTS</div>
             <EmergencyContacts :can-edit="isPatient()"/>
-          </div>
+          </section>
           <!-- HOSPITAL CONTACTS -->
-          <div slot="p9">
+          <section slot="p9">
             <div class="menu-label">HOSPITAL CONTACTS</div>
             <HospitalContacts :can-edit="isPatient()"/>
-          </div>
+          </section>
           <!-- HEALTH INSURANCE PROVIDERS -->
-          <div slot="p10">
+          <section slot="p10">
             <div class="menu-label">HEALTH INSURANCE PROVIDER</div>
             <HealthInsuranceProvider :can-edit="isPatient()"/>
-          </div>
+          </section>
         </pager>
       </template>
     </profile-grid>
@@ -147,7 +132,8 @@ export default {
   },
   created () {
     document.title = 'Profile | CleanHelt'
-    this.isDoctor() || this.setAsDoctor()
+    if (this.isDoctor())
+      this.setAsDoctor()
   },
   methods: {
     setAsDoctor() { 

@@ -1,14 +1,21 @@
 <template>
   <section>
-    <section class="card">
-      <section class="card-header level">
-        <div class="card-header-title">
-          Doctors Directory
-        </div>
+    <section class="content-top-bar level">
+        <h3>Doctors Directory</h3>
+    </section>
+
+    <section class="card is-rounded">
+      <div class="card-header level px-10 py-5">
         <search-box 
+          v-model="searchString"
           style="width: 300px"
-          placeholder="Search" />
-      </section>
+          placeholder="Joseph Roland" />
+
+        <HoverRevealButton class="ml-10" @click="refresh()">
+          <i class="ti ti-reload" slot="icon"/> 
+          <span slot="text">Refresh</span>
+        </HoverRevealButton>
+      </div>
       <div class="card-content p-0">
         <div 
           v-preload 
@@ -33,7 +40,7 @@
             <th>Options</th>
           </tr>
           <tr 
-            v-for="(doctor, key) in doctors" 
+            v-for="(doctor, key) in filter(doctors)" 
             :key="key">
             <td class="has-text-centered">{{ key + 1 }}</td>
             <td><router-link 
@@ -71,21 +78,31 @@ export default {
   components: { AssignPatient },
 	data() {return {
     modal: false,
-		isLoading: { doctors: true, },
-    selected: {doctor_id: 0}
+    searchString: '',
+    selected: {doctor_id: 0},
+    isLoading: { doctors: true, },
 	}},
 	computed: {
 		...mapState('hospital', ['doctors']),
 	},
 	created() {
-		this.$store.dispatch('hospital/FETCH_DOCTORS')
-			.then(() => this.isLoading.doctors = false)
+    this.refresh()
 	},
 	methods: {
+    filter(e)  { 
+      return e.filter(doctor => {
+        return [doctor.first_name, doctor.last_name]
+          .join(' ').toLowerCase().includes(this.searchString.toLowerCase())
+      })
+    }, 
     showAssignModal(doctor) {
       this.modal = true
       this.selected.doctor_id = doctor.chcode
     },
+    refresh() {
+      this.$store.dispatch('hospital/FETCH_DOCTORS')
+        .then(() => this.isLoading.doctors = false)
+    }
 	}
 }	
 </script>

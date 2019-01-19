@@ -81,7 +81,8 @@
                     <span v-if="!edit.basic">{{ user.state }}</span>
                     <select-state
                       v-else 
-                      v-model="user.state"/>
+                      v-model="user.state"
+                      class="is-fullwidth"/>
                   </td>
                 </tr>
                 <tr>
@@ -91,6 +92,7 @@
                     <select-city
                       v-else 
                       v-model="user.city" 
+                      class="is-fullwidth"
                       :state="user.state"/>
                   </td>
                 </tr>

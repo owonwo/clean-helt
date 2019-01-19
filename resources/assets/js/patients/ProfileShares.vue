@@ -80,7 +80,7 @@
 			</pager>
 			</div>
 		</section>
-		<modal size="sm" :show="modal" :show-footer="false" @closed="modal=false">
+		<modal ref="modal" size="sm" :show="modal" :show-footer="false" @closed="modal=false">
 			<hgroup class="has-text-centered mb-30">
 				<h4 class="title is-5 mb-0">Extend Share</h4>
 				<small>Extends the expiration time.</small>
@@ -128,7 +128,7 @@
 		methods: {
 			...mapActions('patient_share', ['FETCH_ALL_SHARES', 'approveShare', 'declineShare', 'expireShare']),
 			showExtendModal(share) {
-				this.modal = true
+				this.$refs.modal.toggle()
 				this.lastClicked = share
 				this.extension = this.$moment(share.expired_at).format("YYYY-MM-DD")
 			},
@@ -151,7 +151,7 @@
 				? this.error_message('Extended Date is invalid!')
 				: this.$store.dispatch('patient_share/EXTEND_SHARE', {id: share.id, data})
 					.then(() => {
-						this.modal = false
+						this.$refs.modal.hide()
 						this.success_message('Profile Share Extended successfully!')
 					})
 				this.extension = "";

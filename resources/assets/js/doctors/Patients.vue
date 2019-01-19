@@ -1,20 +1,26 @@
 <template>
   <section>
-    <div class="level mb-10">
-      <h1 class="level-left osq-group-subtitle-alt">
-        {{ sharedProfiles.length }} Client(s)
-      </h1>
+    <div class="content-top-bar level">
+      <h3>
+        Manage Clients 
+      </h3>
+
+      <SearchBox 
+        v-model="search_string"
+        placeholder="Find Patient"/>
+
       <div class="level-right">
+        <span class="osq-group-subtitle-alt">
+          {{ sharedProfiles.length }} Client(s) Available
+        </span>
         <div v-if="false">
           Views
           <i class="ti px-15 py-5 ti-layout-grid3"/>
           <i class="ti px-15 py-5 ti-layout-list-thumb"/>
         </div>
-        <SearchBox 
-          placeholder="Find Patient"
-          @value="e => search_string = e"/>
       </div>
     </div>
+
     <alert
       v-if="sharedProfiles.length < 1"
       class="notification is-info" 

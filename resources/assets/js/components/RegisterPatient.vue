@@ -23,66 +23,82 @@
             v-show="fields.password.length"
             v-model="fields.password_confirmation" 
             placeholder="Verify Password" 
-            type="password">
+            type="password"
+            @input="changeView">
             <span 
               v-if="!$v.fields.password_confirmation.sameAs" 
               class="help has-text-danger">Password must be identical</span>
           </wgInput>
         </transition>
-        <hr>
-        <wgInput 
-          v-model="fields.first_name" 
-          placeholder="First Name" 
-          type="text">
-          <v-helper :err="$v.fields.first_name"/>          
-        </wgInput>
-
-        <wgInput 
-          v-model="fields.middle_name" 
-          placeholder="Middle Name" 
-          type="text"/>
-
-        <wgInput 
-          v-model="fields.last_name" 
-          placeholder="Last Name" 
-          type="text">
-          <v-helper :err="$v.fields.last_name"/>
-        </wgInput>
-
-        <wgInput 
-          v-model="fields.dob"
-          title="Enter Date of Birth" 
-          label="Date of birth"
-          type="date">
-          <v-helper :err="$v.fields.dob"/>
-        </wgInput>
-
-        <div class="field">
-          <div class="select">
-            <select v-model="fields.gender">
-              <option 
-                disabled 
-                value="0" 
-                selected="">Select Gender...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-        </div>
-        <wgInput 
-          v-model="fields.phone" 
-          min="0" 
-          type="text"
-          minlength="11" 
-          title="Enter Phone Number"
-          placeholder="Phone Number">
-          <v-helper :err="$v.fields.phone"/>
-        </wgInput>
-        <button 
-          type="submit"
-          class="button is-submit">FINISH</button>
       </section>
+
       <section slot="p2">
+        <div>
+          <wgInput 
+            v-model="fields.first_name" 
+            placeholder="First Name" 
+            type="text">
+            <v-helper :err="$v.fields.first_name"/>          
+          </wgInput>
+
+          <wgInput 
+            v-model="fields.middle_name" 
+            placeholder="Middle Name" 
+            type="text"/>
+
+          <wgInput 
+            v-model="fields.last_name" 
+            placeholder="Last Name" 
+            type="text">
+            <v-helper :err="$v.fields.last_name"/>
+          </wgInput>
+
+          <wgInput 
+            v-model="fields.dob"
+            title="Enter Date of Birth" 
+            label="Date of birth"
+            type="date">
+            <v-helper :err="$v.fields.dob"/>
+          </wgInput>
+
+          <div class="field">
+            <div class="select">
+              <select v-model="fields.gender">
+                <option 
+                  disabled 
+                  value="0" 
+                  selected="">Select Gender...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="male">Others</option>
+              </select>
+            </div>
+          </div>
+            
+          <wgInput 
+            v-model="fields.phone" 
+            min="0" 
+            type="text"
+            minlength="11" 
+            title="Enter Phone Number"
+            placeholder="Phone Number">
+            <v-helper :err="$v.fields.phone"/>
+          </wgInput>
+        </div>
+
+        <div class="level mt-15">
+          <button 
+            type="button"
+            class="button"
+            @click="page = 0">Back</button>
+          <button 
+            :class="{'is-loading': isLoading}"
+            type="submit"
+            class="button is-submit">FINISH</button>
+        </div>
+      </section>
+
+      <section slot="p3">
         <div>
           <h3 class="title mt-30 is-4">Registration Succesful</h3>
           <p class="mb-50">You have successfully registered an account. An account verification email has been sent to your 
@@ -107,13 +123,13 @@ export default {
       errors: {},
       url: '/api/patient/register', 
       fields: {
-        first_name: 'Joseph', 
-        last_name: 'Owonvwon',
-        middle_name: 'Julius',
-        password: 'Tomclancy12',
-        email: 'joseph.owonwo@gmail.com',
-        phone: '08035957512',
-        gender: 'male'
+        first_name: '', 
+        last_name: '',
+        middle_name: '',
+        password: '',
+        email: '',
+        phone: '',
+        gender: ''
       },
     }),
     validations: {
@@ -144,24 +160,20 @@ export default {
         },
       }
     },
+    computed: {
+      canShowOthers() {
+        const { $v } = this
+        return $v.fields.password.required 
+          && $v.fields.email.required
+          && $v.fields.password_confirmation.sameAs
+      }
+    },
     methods: {
-      /** passes only the validation has no error
-        * @returns boolean
-      **/
+      changeView() {
+        !this.canShowOthers || (this.page = 1)
+      },
       canSend() {
         return !this.$v.fields.$invalid
-      },
-      handleError(err) {
-        if (err.response.status === 422) {
-          /*form errors*/
-          const {errors} = err.response.data
-          const options = { group: 'register', duration: 2000 }
-          this.logErrors(errors, options)
-        } else if (err.response.status === 403) {
-          /*server rejection request*/
-          this.info_message(`Am sorry, We can't create an 
-            account at the moment, please try again later.`, { group: 'register', duration: 5000 })
-        }
       }
     }
   }

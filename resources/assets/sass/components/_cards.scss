@@ -4,17 +4,20 @@
   border-radius: $card-border-radius;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); //heads a pointer cursor
 
-  > .card-header {
-      // background: $accent-color;
-      // color: rgba(black, .57);
-      
-      .osf, .is-dark {
-        opacity: .57;
-      }
-      
-      .card-header-title {
-        color: inherit;
-      }
+  &.is-rounded {
+    border-radius: 8px;
+  }
+
+  >.card-header {
+
+    .osf,
+    .is-dark {
+      opacity: .57;
+    }
+
+    .card-header-title {
+      color: inherit;
+    }
   }
 
   &.pointed,
@@ -26,52 +29,3 @@
     padding: 30px 15px;
   }
 }
-
-// .card {
-//   background: white;
-//   border-radius: 3px;
-//   overflow: hidden;
-//   padding: 1em;
-//   box-sizing: border-box;
-//   display: block;
-//   .card-image {
-//     margin: {
-//       top: -30px;
-//       left: -15px;
-//       right: -15px;
-//     }
-//     overflow: auto;
-//     padding: 0;
-//     img {
-//       width: 100%;
-//     }
-//     .img-thumbnail {
-//       padding: 0;
-//       object-fit: cover;
-//     }
-//   }
-//   .card-heading {
-//     .card-title {
-//       font-size: 1.2em;
-//       color: $black;
-//     }
-//     .card-label {
-//       box-shadow: $z-depth-bottom-1;
-//       // background: radial-gradient(ellipse farthest-corner at 15px 15px, lighten($primary-color, 10%) 0%, $primary-color 50%, darken($primary-color, 10%) 95%);
-//       background: lighten($primary-color, .72);
-//       padding: .8em;
-//       color: $accent-color;
-//       line-height: 20px;
-//       position: relative;
-//       border-radius: 3px;
-//       margin-top: -35px;
-//       margin-bottom: 15px;
-//     }
-//   }
-//   .card-content {
-//     &.sm {
-//       font-size: .8em;
-//     }
-//     text-align: justify;
-//   }
-// }

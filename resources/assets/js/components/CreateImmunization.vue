@@ -6,10 +6,12 @@
       v-model="form.immunization_title" 
       label="Immunization Title"
       placeholder="Title" 
+      list="list-immunze"
       type="text"/>
     <wgInput 
       v-model="form.age" 
       label="Age"
+      min="1"
       type="number"/>
     <wgInput
       v-model="form.date_of_immunization"
@@ -18,10 +20,18 @@
     <button class="button is-primary">
       <span v-text="!form.id ? `Add`: `Update`"/>
     </button>
+    <datalist id="list-immunze">
+      <option 
+        v-for="(opt, index) in options.immunizations" 
+        :key="index" 
+        :value="opt">{{ opt }}
+      </option>
+    </datalist>
   </form>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import MedicalRecord from '@/Mixins/MedicalRecord'
 
 export default {
@@ -32,5 +42,8 @@ export default {
       form: { immunization_title: '', age: '', date_of_immunization: '' }
     }
   },
+  computed: {
+    ...mapState('medicalRecord', ['options'])
+  }
 }
 </script> 

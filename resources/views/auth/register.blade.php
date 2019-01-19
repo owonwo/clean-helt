@@ -2,7 +2,9 @@
 
 @section('content')
 	@php 
-		$nm = @request()->query('type') !== 'doctor' ? 'PATIENT' : 'DOCTOR';
+		$nm = "PATIENT";
+		if (request()->query('type'))
+			$nm = @request()->query('type') !== 'doctor' ? 'PATIENT' : 'DOCTOR';
 	@endphp
   <Register model="{{ $nm }}"/>
 @stop

@@ -16,13 +16,14 @@ export default {
 	},
 	render(h) {
 		const {type: input_type} = this.$props
+		const isTextarea = () => input_type === 'textarea'
 		const { 
 			$slots: {help, default: default_slot}, 
 			$props, $attrs
 		} = this
 
 		const props = {
-			class: input_type === 'textarea' ? ['textarea'] : ['input'],
+			class: isTextarea() ? ['textarea'] : ['input'],
 			attrs: {...$props,...$attrs},	
 			on: {
 				keyup: (event) => this.$emit('input', event.target.value),
@@ -33,11 +34,22 @@ export default {
 			},
 			ref: 'input',
 		}
-		return h('div', {class: 'field'}, [
-			h('label', {domProps: {innerHTML: this.$props.label }}),
-			h(input_type === 'textarea' ? 'textarea' : 'input', props),
-			help, default_slot
-		])
+
+		const textarea_props = {
+			domProps: {
+				innerText: this.$props.value || ' '
+			}
+		}
+		const label = h('label', {domProps: {innerHTML: this.$props.label }})
+		const inputElement = isTextarea() 
+			? h('textarea', {...props, ...textarea_props})
+			: h('input', props)
+
+		return h(
+						'div', 
+						{class: 'field'}, 
+						[label, inputElement, help, default_slot ]
+					)
 	},
 }
 </script>

@@ -16,7 +16,7 @@ class MedicalHistoryController extends Controller
     protected $model = MedicalHistory::class;
     protected $rules = [
         'illness' => 'required',
-        'date_of_onset' => 'required'
+        'date_of_onset' => 'required',
     ];
 
     public function store(RecordLogger $logger)
@@ -24,7 +24,7 @@ class MedicalHistoryController extends Controller
         $patient = auth()->guard('patient-api')->user();
 
         try {
-            $this->validate(request(), $this->rule);
+            $this->validate(request(), $this->rules);
             DB::beginTransaction();
             $record = $logger->logMedicalRecord($patient, $patient, 'medical-history');
 
@@ -32,7 +32,7 @@ class MedicalHistoryController extends Controller
                 'record_id' => $record->id,
                 'illness' => request('illness'),
                 'date_of_onset' => request('date_of_onset'),
-                'description' => request('description')
+                'description' => request('description'),
             ]);
             DB::commit();
 
@@ -40,14 +40,12 @@ class MedicalHistoryController extends Controller
                 'message' => 'Medical History created successfully',
                 'data' => $medicalHistory->load('record'),
             ], 200);
-        } 
-        catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json([
                 'errors' => $e->errors(),
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -60,7 +58,7 @@ class MedicalHistoryController extends Controller
         $medicalHistory->update([
             'illness' => request('illness'),
             'date_of_onset' => request('date_of_onset'),
-            'description' => request('description')
+            'description' => request('description'),
         ]);
 
         return response()->json([

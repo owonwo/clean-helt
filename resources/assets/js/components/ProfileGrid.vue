@@ -4,13 +4,13 @@
             <img :src="avatar" class="avatar has-shadow">
             <div 
                 v-if="!!$props.avatarUrl"
-                class="has-text-centered mt-5 is-fullwidth">
-                <label for="change-avatar" class="button is-primary is-rounded">
-                    change photo <i class="ml-5 ti ti-pencil"></i>
+                class="avatar-upload-holder has-text-centered mt-5 is-fullwidth">
+                <label for="change-avatar" class="avatar-upload-btn">
+                    Change Avatar
                 </label>
                 <input type="file" @change="changeAvatar($event)" id="change-avatar" />
             </div>
-            <p class="subtitle is-4 my-10">{{ name }}</p>
+            <p class="name-holder">{{ name }}</p>
         </aside>
         <nav class="osq-profile-nav osq-sidenav">
             <v-scrollbar class="menu">

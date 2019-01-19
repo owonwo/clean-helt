@@ -27,7 +27,7 @@
               class="button is-primary is-rounded is-small" 
               @click="retrieveToken(child.id)">Access
             </button>
-            <button @click="showUnlinkModal(child.id)" class="button ml-10 is-small is-text">
+            <button @click="showUnlinkModal(child.id)" class="button is-rounded is-small has-background-white-bis">
               <i class="ti ti-link"/> Unlink
             </button>
           </div>

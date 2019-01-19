@@ -17,8 +17,8 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="manifest" href="{{asset('/cleanhelt.webmanifest')}}">
     <!-- Styles -->
-    <link href="{{ asset('css/app.css', true) }}" rel="stylesheet">
-    <script async src="{{ asset('js/app.js', true) }}"></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script async src="{{ asset('js/app.js') }}"></script>
 <!--     <link defer href="//fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet"> -->
 </head>
 <body>

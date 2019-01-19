@@ -1,6 +1,6 @@
 <template>
   <section class="p-15">
-    <div class="card card-content is-paddingless">
+    <div class="card is-rounded card-content is-paddingless">
       <div class="osq-two-columns">
         <aside class="osq-sidenav p-10">
           <div class="menu">
@@ -37,10 +37,6 @@
                 v-if="!isLoaded"
                 class="block is-rounded mx-15 my-5 mb-0" 
                 style="height:10px;border-radius: 0" />
-              <!--  top navigation -->
-              <nav class="mb-15">
-                <search-box/>
-              </nav>
               <!-- doctors table -->
               <table class="table is-hoverable is-fullwidth">
                 <tr>

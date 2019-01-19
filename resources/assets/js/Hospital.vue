@@ -28,7 +28,7 @@
           <custom-link 
             to="/doctors" 
             icon="osf osf-doctor-white" 
-            name="Departments"/>
+            name="Doctors "/>
           <custom-link 
             to="/profile" 
             icon="osf osf-hospital-white" 
@@ -50,7 +50,7 @@
 
     <section class="osq-content">
       <section id="content"> 
-        <keep-alive :exclude="['Modal', 'HospitalProfile', 'Patients','DoctorDirectory']">
+        <keep-alive :exclude="['Modal', 'HospitalProfile', 'Patients']">
           <router-view/>
         </keep-alive>
       </section>

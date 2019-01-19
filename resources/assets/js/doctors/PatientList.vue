@@ -1,12 +1,11 @@
 <template>
   <li class="osq-patient-list">
-    <div class="counter">{{ $props.key }}</div>
     <section>
       <img 
         :src="profile.patient.avatar" 
         class="image">
       <div>
-        <h4 class="profile-title">{{ profile.patient.name }} 
+        <h4 class="profile-title">{{ profile.patient.first_name }} {{ profile.patient.last_name }} 
           <span 
             v-if="isShared(profile)" 
             class="tag is-info">Shared</span>
@@ -17,7 +16,7 @@
     <div
       class="level options level-right">
       <button 
-        v-if="isHospital()"
+        v-if="canShowButton('assigned') && isHospital()"
         class="button is-outlined has-no-motion is-rounded"
         @click="emit('assign', profile)">
         Assign Doctor
@@ -25,10 +24,12 @@
       <template 
         v-if="isDoctor()">
         <router-link 
+          v-if="canShowButton('view')"
           :to="{name: 'patient-profile', params: {chcode: profile.patient.chcode, patient_id: profile.patient.id }}" 
           tag="button" 
           class="button has-no-motion is-primary is-rounded">View</router-link>
         <button 
+          v-if="canShowButton('refer')"
           class="button is-outlined has-no-motion is-rounded" 
           @click="$parent.makeRefer(profile.share.id)">
           Refer
@@ -42,6 +43,9 @@
 export default {
   name: 'PatientList',
   props: {
+    'view': {type: Boolean, default: true},
+    'assigned': {type: Boolean, default: true},
+    'assigned': {type: Boolean, default: true},
     'profile': {type: Object, required: true}
   },
   data: () => ({}),
@@ -54,7 +58,14 @@ export default {
         action, profile_share_id: profile.id 
       })
     },
-    isShared: (profile) => !profile.extensions || profile.extensions.length > 0
+    canShowButton(action) {
+      return !!this.$props[action]
+    },
+    isShared: (profile) => {
+      if (profile.extensions) 
+        return profile.extensions.length > 0
+      return false
+    }
   }
 }
 </script>
