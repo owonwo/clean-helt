@@ -6054,360 +6054,366 @@ module.exports = __webpack_require__(179);
 var __ = Object;
 
 var VuexError = function VuexError(message) {
-	return function (err) {
-		return console.error(err, '(source) vuex : ' + message);
-	};
+  return function (err) {
+    return console.error(err, '(source) vuex : ' + message);
+  };
 };
 
 // Object.freeze the patient profile
 var lockProfile = function lockProfile(person) {
-	return __.freeze(personalify(person));
+  return __.freeze(personalify(person));
 };
 
 // Extracts the Medical Record Data from Ajax payload
 var extractRecords = function extractRecords() {
-	var records = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var records = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	return records.map(function (e) {
-		return e.data;
-	}).filter(function (e) {
-		return e !== null;
-	}).map(APPEND_CRUD_METHODS);
+  return records.map(function (e) {
+    return e.data;
+  }).filter(function (e) {
+    return e !== null;
+  }).map(APPEND_CRUD_METHODS);
 };
 
 var extractErrors = function extractErrors(x) {
-	if (typeof x.response.data.errors === 'undefined') throw Error({ toString: function toString() {
-			return 'Error extract failed for XHR Response';
-		}, response: x });
-	return x.response.data.errors;
+  if (typeof x.response.data.errors === 'undefined') throw Error({ toString: function toString() {
+      return 'Error extract failed for XHR Response';
+    }, response: x });
+  return x.response.data.errors;
 };
 
 var __crud__methods = {
-	isEditing: false,
-	toggleEdit: function toggleEdit() {
-		return this.isEditing = !this.isEditing;
-	}
+  isEditing: false,
+  toggleEdit: function toggleEdit() {
+    return this.isEditing = !this.isEditing;
+  }
 };
 
 var REMOVE_CRUD_METHODS = function REMOVE_CRUD_METHODS(record) {
-	Object.keys(__crud__methods).forEach(function (e) {
-		return delete record[e];
-	});
-	return record;
+  Object.keys(__crud__methods).forEach(function (e) {
+    return delete record[e];
+  });
+  return record;
 };
 
 var APPEND_CRUD_METHODS = function APPEND_CRUD_METHODS(record) {
-	return __.assign({}, __crud__methods, record);
+  return __.assign({}, __crud__methods, record);
 };
 
 var extractPatientFromShare = function extractPatientFromShare(share) {
-	share.patient = personalify(share.patient);
-	return share;
+  share.patient = personalify(share.patient);
+  return share;
 };
 
 var personalify = function personalify(person) {
-	var person_proto = {
-		get name() {
-			return [this.first_name || '', this.last_name || ''].join(' ');
-		},
-		get fullname() {
-			return [this.first_name || '', this.middle_name || '', this.last_name || ''].join(' ');
-		},
-		get age() {
-			return Math.abs(__WEBPACK_IMPORTED_MODULE_0_moment___default()(Date.now()).year() - __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.dob).year());
-		},
-		get full_name() {
-			return this.fullname;
-		}
-	};
+  var person_proto = {
+    get name() {
+      return [this.first_name || '', this.last_name || ''].join(' ');
+    },
+    get fullname() {
+      return [this.first_name || '', this.middle_name || '', this.last_name || ''].join(' ');
+    },
+    get age() {
+      return Math.abs(__WEBPACK_IMPORTED_MODULE_0_moment___default()(Date.now()).year() - __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.dob).year());
+    },
+    get full_name() {
+      return this.fullname;
+    }
+  };
 
-	return __.assign(__.create(person_proto), person);
+  return __.assign(__.create(person_proto), person);
 };
 
 var delay = function delay(time) {
-	return function (result) {
-		return new Promise(function (resolve) {
-			return setTimeout(function () {
-				return resolve(result);
-			}, time);
-		});
-	};
+  return function (result) {
+    return new Promise(function (resolve) {
+      return setTimeout(function () {
+        return resolve(result);
+      }, time);
+    });
+  };
 };
 
 var shareFactory = function shareFactory(share) {
-	var pickName = function pickName() {
-		var _share$provider = share.provider,
-		    first_name = _share$provider.first_name,
-		    last_name = _share$provider.last_name,
-		    name = _share$provider.name;
+  var pickName = function pickName() {
+    var _share$provider = share.provider,
+        first_name = _share$provider.first_name,
+        last_name = _share$provider.last_name,
+        name = _share$provider.name;
 
-		return share.provider_type === 'App\\Models\\Doctor' ? 'Dr ' + first_name + ' ' + last_name : name;
-	};
-	var overwrites = {
-		provider_type: share.provider_type.replace('App\\Models\\', ''),
-		status: Number(share.status),
-		isSharedBy: function isSharedBy() {
-			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    return share.provider_type === 'App\\Models\\Doctor' ? 'Dr ' + first_name + ' ' + last_name : name;
+  };
+  var overwrites = {
+    provider_type: share.provider_type.replace('App\\Models\\', ''),
+    status: Number(share.status),
+    isSharedBy: function isSharedBy() {
+      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-			if (this.patient) {
-				return this.patient.id === id;
-			} else {
-				return false;
-			}
-		},
+      if (this.patient) {
+        return this.patient.id === id;
+      } else {
+        return false;
+      }
+    },
 
-		expiration: {
-			forHumans: function forHumans() {
-				var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(share.expired_at);
-				return date.isValid() ? date.format('Do MMMM YYYY') : share.expired_at.replace('00:00:00', '');
-			}
-		},
-		isAssigned: function isAssigned() {
-			return this.type === 'assigned';
-		},
-		isReferred: function isReferred() {
-			return this.type === 'referral';
-		},
+    expiration: {
+      forHumans: function forHumans() {
+        var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(share.expired_at);
+        return date.isValid() ? date.format('Do MMMM YYYY') : share.expired_at.replace('00:00:00', '');
+      }
+    },
+    isAssigned: function isAssigned() {
+      return this.type === 'assigned';
+    },
+    isReferred: function isReferred() {
+      return this.type === 'referral';
+    },
 
-		provider: __.assign(share.provider, { name: pickName() })
-	};
-	return __.assign({}, share, overwrites);
+    provider: __.assign(share.provider, { name: pickName() })
+  };
+  return __.assign({}, share, overwrites);
 };
 
 var categorizeShares = function categorizeShares() {
-	var shares = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var shares = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	var groups = {};
-	shares.map(function (e) {
-		var provider = e.provider_type;
-		Object.keys(groups).includes(provider) ? groups[provider].push(e) : (groups[provider] = []).push(e);
-	});
-	return groups;
+  var groups = {};
+  shares.map(function (e) {
+    var provider = e.provider_type;
+    Object.keys(groups).includes(provider) ? groups[provider].push(e) : (groups[provider] = []).push(e);
+  });
+  return groups;
 };
 
 //TODO: HERE FOR FUTURE UPDATES
 var lab_proto = {
-	offers: '',
-	services: function services() {
-		return this.offers.split(',');
-	}
+  offers: '',
+  services: function services() {
+    return this.offers.split(',');
+  }
 };
 
 // HERE FOR FUTURE UPDATES
 var buildLab = function buildLab(lab) {
-	return __.assign(__.create(lab_proto), lab);
+  return __.assign(__.create(lab_proto), lab);
 };
 
 var trace = function trace(x) {
-	return console.log(x);
+  return console.log(x);
 };
 
 var guessDataKey = function guessDataKey(_ref) {
-	var data = _ref.data;
+  var data = _ref.data;
 
-	data.data || (data.data = data['records']);
-	return data;
+  data.data || (data.data = data['records']);
+  return data;
 };
 
 var urlGenerator = function urlGenerator(routeGroup) {
-	var routes = {
-		allergies: allergies,
-		immunization: immunization,
-		family_history: family_history,
-		health_insurance: health_insurance,
-		hospital_contact: hospital_contact,
-		emergency_contacts: emergency_contacts,
-		medical_history: medical_history,
-		hospitalization: hospitalization,
-		medical_checkup: medical_checkup
-	};
-	if (!Object.keys(routes).includes(routeGroup)) {
-		throw Error('Invalid name provided for URL GENERATOR for ' + routeGroup);
-	}
-	return routes[routeGroup];
+  var routes = {
+    allergies: allergies,
+    immunization: immunization,
+    family_history: family_history,
+    health_insurance: health_insurance,
+    hospital_contact: hospital_contact,
+    emergency_contacts: emergency_contacts,
+    medical_history: medical_history,
+    hospitalization: hospitalization,
+    medical_checkup: medical_checkup
+  };
+  if (!Object.keys(routes).includes(routeGroup)) {
+    throw Error('Invalid name provided for URL GENERATOR for ' + routeGroup);
+  }
+  return routes[routeGroup];
 };
 
 var medical_checkup = function medical_checkup(_ref2) {
-	var rootGetters = _ref2.rootGetters,
-	    rootState = _ref2.rootState;
+  var rootGetters = _ref2.rootGetters,
+      rootState = _ref2.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return '/api/doctor/patients/' + patient.chcode + '/medical-checkups/' + id;
-		},
-		delete: function _delete(id) {
-			return this.update(id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-checkups' : '/api/patient/med-records?type=checkup';
-		}
-	};
+  return {
+    update: function update(id) {
+      return '/api/doctor/patients/' + patient.chcode + '/medical-checkups/' + id;
+    },
+    delete: function _delete(id) {
+      return this.update(id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-checkups' : '/api/patient/med-records?type=checkup';
+    }
+  };
 };
 
 var health_insurance = function health_insurance(_ref3) {
-	var rootGetters = _ref3.rootGetters,
-	    rootState = _ref3.rootState;
+  var rootGetters = _ref3.rootGetters,
+      rootState = _ref3.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return '/api/patient/record/health-insurance/' + id;
-		},
-		delete: function _delete(id) {
-			return '/api/patient/record/' + id + '/health-insurance';
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/health-insurance' : '/api/patient/record/health-insurance';
-		}
-	};
+  return {
+    update: function update(id) {
+      return '/api/patient/record/health-insurance/' + id;
+    },
+    delete: function _delete(id) {
+      return '/api/patient/record/' + id + '/health-insurance';
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/health-insurance' : '/api/patient/record/health-insurance';
+    }
+  };
 };
 
 var hospital_contact = function hospital_contact(_ref4) {
-	var rootGetters = _ref4.rootGetters,
-	    rootState = _ref4.rootState;
+  var rootGetters = _ref4.rootGetters,
+      rootState = _ref4.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return '/api/patient/record/hospital-contact/' + id;
-		},
-		delete: function _delete(id) {
-			return this.update(id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/hospital-contacts' : '/api/patient/record/hospital-contact';
-		}
-	};
+  return {
+    update: function update(id) {
+      return '/api/patient/record/hospital-contact/' + id;
+    },
+    delete: function _delete(id) {
+      return this.update(id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/hospital-contacts' : '/api/patient/record/hospital-contact';
+    }
+  };
 };
 
 var emergency_contacts = function emergency_contacts(_ref5) {
-	var rootGetters = _ref5.rootGetters,
-	    rootState = _ref5.rootState;
+  var rootGetters = _ref5.rootGetters,
+      rootState = _ref5.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return '/api/patient/record/emergency-contacts/' + id;
-		},
-		delete: function _delete(id) {
-			return this.update(id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/emergency-contacts' : '/api/patient/record/emergency-contacts';
-		}
-	};
+  return {
+    update: function update(id) {
+      return '/api/patient/record/emergency-contacts/' + id;
+    },
+    delete: function _delete(id) {
+      return this.update(id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/emergency-contacts' : '/api/patient/record/emergency-contacts';
+    }
+  };
 };
 
 var medical_history = function medical_history(_ref6) {
-	var rootGetters = _ref6.rootGetters,
-	    rootState = _ref6.rootState;
+  var rootGetters = _ref6.rootGetters,
+      rootState = _ref6.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-history/' + id : '/api/patient/record/' + id + '/medical-history';
-		},
-		delete: function _delete(id) {
-			return this.update(id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-history' : '/api/patient/record/medical-history';
-		}
-	};
+  return {
+    update: function update(id) {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-history/' + id : '/api/patient/record/' + id + '/medical-history';
+    },
+    delete: function _delete(id) {
+      return this.update(id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/medical-history' : '/api/patient/record/medical-history';
+    }
+  };
 };
 var allergies = function allergies(_ref7) {
-	var rootGetters = _ref7.rootGetters,
-	    rootState = _ref7.rootState;
+  var rootGetters = _ref7.rootGetters,
+      rootState = _ref7.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return isDoctor ? this.base() + ('/' + id) : '/api/patient/update/' + id + '/allergy';
-		},
-		delete: function _delete(id) {
-			return this.update(id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/allergies' : '/api/patient/record/allergy';
-		}
-	};
+  return {
+    update: function update(id) {
+      return isDoctor ? this.base() + ('/' + id) : '/api/patient/update/' + id + '/allergy';
+    },
+    delete: function _delete(id) {
+      return this.update(id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/allergies' : '/api/patient/record/allergy';
+    }
+  };
 };
 
 var hospitalization = function hospitalization(_ref8) {
-	var rootGetters = _ref8.rootGetters,
-	    rootState = _ref8.rootState;
+  var rootGetters = _ref8.rootGetters,
+      rootState = _ref8.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/hospitalizations' : '/api/patient/record/hospitalization';
-		}
-	};
+  return {
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/hospitalizations' : '/api/patient/record/hospitalization';
+    },
+    update: function update(id) {
+      return isDoctor || '/api/patient/record/' + id + '/hospitalization';
+    },
+    delete: function _delete(id) {
+      return isDoctor || '/api/patient/record/' + id + '/hospitalize';
+    }
+  };
 };
 
 var immunization = function immunization(_ref9) {
-	var rootGetters = _ref9.rootGetters,
-	    rootState = _ref9.rootState;
+  var rootGetters = _ref9.rootGetters,
+      rootState = _ref9.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations/' + id : '/api/patient/update/' + id + '/immunization';
-		},
-		delete: function _delete(id) {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations/' + id : '/api/patient/record/' + id + '/immunization';
-		},
+  return {
+    update: function update(id) {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations/' + id : '/api/patient/update/' + id + '/immunization';
+    },
+    delete: function _delete(id) {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations/' + id : '/api/patient/record/' + id + '/immunization';
+    },
 
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations' : '/api/patient/record/immunization';
-		}
-	};
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/immunizations' : '/api/patient/record/immunization';
+    }
+  };
 };
 
 var family_history = function family_history(_ref10) {
-	var rootGetters = _ref10.rootGetters,
-	    rootState = _ref10.rootState;
+  var rootGetters = _ref10.rootGetters,
+      rootState = _ref10.rootState;
 
-	var isDoctor = rootGetters.accountType === 'doctor';
-	var patient = rootState.manage_patient.currentPatient;
+  var isDoctor = rootGetters.accountType === 'doctor';
+  var patient = rootState.manage_patient.currentPatient;
 
 
-	return {
-		update: function update(id) {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/family-records/' + id : '/api/patient/record/' + id + '/family-history';
-		},
-		delete: function _delete(id) {
-			return this.base() + ('/' + id);
-		},
-		base: function base() {
-			return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/family-records' : '/api/patient/record/family-history';
-		}
-	};
+  return {
+    update: function update(id) {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/family-records/' + id : '/api/patient/record/' + id + '/family-history';
+    },
+    delete: function _delete(id) {
+      return this.base() + ('/' + id);
+    },
+    base: function base() {
+      return isDoctor ? '/api/doctor/patients/' + patient.chcode + '/family-records' : '/api/patient/record/family-history';
+    }
+  };
 };
 
 /***/ }),
@@ -37954,7 +37960,7 @@ module.exports = Vue;
           message = _crud$delete.message;
 
 
-      this.$store.dispatch(action, id).then(function () {
+      !confirm('Are you sure?') || this.$store.dispatch(action, id).then(function () {
         return _this3.success_message(message.success);
       }).then(function () {
         return _this3.$refs.modal.hide();
@@ -76856,9 +76862,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			var _this = this;
 
 			var form = this.form,
-			    index = this.index,
-			    diseases = this.diseases.concat([]);
+			    index = this.index;
 
+			var diseases = this.diseases.concat([]);
+
+			if (form.disease.length === 0) return;
 
 			form.carriers = typeof carriers === 'string' ? form.carriers.split(',').map(function (e) {
 				return e.trim();
@@ -77978,6 +77986,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -78005,17 +78022,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           message: { success: 'Hospitalization added!', error: 'Error adding Hospitalization' }
         },
         update: {
-          action: 'medicalRecord/UPDATE_ALLERGY',
+          action: 'medicalRecord/UPDATE_HOSPITALIZATION',
           message: { success: 'Hospitalization Update Sucessful', error: 'Error Updating Hospitalization' }
         },
         delete: {
-          action: 'medicalRecord/DELETE_ALLERGY',
+          action: 'medicalRecord/DELETE_HOSPITALIZATION',
           message: { success: 'Hospitalization truncated', error: 'Error Deleting Hospitalization' }
         }
       }
     };
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('medicalRecord', ['hospitalizations']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["e" /* mapState */])('medicalRecord', ['hospitalizations'])),
+  methods: {
+    show: function show() {
+      var entry = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      this.form = Object.assign({}, entry);
+      this.$refs.modal.showSelf();
+    }
+  }
 });
 
 /***/ }),
@@ -78076,19 +78101,42 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm._l(_vm.hospitalizations, function(entry) {
-        return _c("div", { key: entry.id, staticClass: "mb-20" }, [
-          _c("h1", { staticClass: "title mb-5 is-5" }, [
-            _vm._v(_vm._s(entry.hospitalization_type))
-          ]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Doctor: " + _vm._s(entry.doctor))]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Hospital: " + _vm._s(entry.hospital))]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Reason: " + _vm._s(entry.reason))]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Complications: " + _vm._s(entry.complications))])
-        ])
+        return _c(
+          "div",
+          { key: entry.id, staticClass: "mb-20" },
+          [
+            _c("h1", { staticClass: "title mb-5 is-5" }, [
+              _vm._v(_vm._s(entry.hospitalization_type))
+            ]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Doctor: " + _vm._s(entry.doctor))]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Hospital: " + _vm._s(entry.hospital))]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Reason: " + _vm._s(entry.reason))]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Complications: " + _vm._s(entry.complications))]),
+            _vm._v(" "),
+            _c("HoverRevealButton", {
+              attrs: { icon: "ti ti-pencil", text: "Edit" },
+              on: {
+                click: function($event) {
+                  _vm.show(entry)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("HoverRevealButton", {
+              attrs: { icon: "ti ti-trash", text: "Delete" },
+              on: {
+                click: function($event) {
+                  _vm.trash(entry)
+                }
+              }
+            })
+          ],
+          1
+        )
       }),
       _vm._v(" "),
       _c(
@@ -78098,7 +78146,7 @@ var render = function() {
           attrs: { show: _vm.opened },
           on: {
             closed: function($event) {
-              _vm.opened = false
+              _vm.clearForm()
             }
           }
         },
@@ -97442,35 +97490,26 @@ var actions = {
       return context.dispatch('FETCH_HOSPITALIZATIONS');
     }).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Creating Hospitalization'));
   },
-
-  // IMMUNIZATIONS
-  FETCH_IMMUNIZATIONS: function FETCH_IMMUNIZATIONS(context) {
-    __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(immunization(context).base()).then(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["h" /* guessDataKey */]).then(function (_ref10) {
-      var data = _ref10.data;
-
-      context.commit('set_immunization', Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["g" /* extractRecords */])(data));
-    }).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Fetching immunizations'));
-  },
-  CREATE_IMMUNIZATION: function () {
-    var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee7(context, payload) {
+  UPDATE_HOSPITALIZATION: function () {
+    var _ref10 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee7(context, payload) {
       return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.prev = 0;
               _context7.next = 3;
-              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post(immunization(context).base(), payload);
+              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.patch(hospitalize(context).update(payload.id), Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* REMOVE_CRUD_METHODS */])(payload));
 
             case 3:
-              context.dispatch('FETCH_IMMUNIZATIONS');
+              context.dispatch('FETCH_HOSPITALIZATIONS');
               return _context7.abrupt('return');
 
             case 7:
               _context7.prev = 7;
               _context7.t0 = _context7['catch'](0);
 
-              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Updating Immunization')();
-              throw _context7.t0;
+              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Updating Hospitalization')(_context7.t0);
+              throw Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["e" /* extractErrors */])(_context7.t0);
 
             case 11:
             case 'end':
@@ -97480,32 +97519,32 @@ var actions = {
       }, _callee7, this, [[0, 7]]);
     }));
 
-    function CREATE_IMMUNIZATION(_x13, _x14) {
-      return _ref11.apply(this, arguments);
+    function UPDATE_HOSPITALIZATION(_x13, _x14) {
+      return _ref10.apply(this, arguments);
     }
 
-    return CREATE_IMMUNIZATION;
+    return UPDATE_HOSPITALIZATION;
   }(),
-  UPDATE_IMMUNIZATION: function () {
-    var _ref12 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee8(context, payload) {
+  DELETE_HOSPITALIZATION: function () {
+    var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee8(context, payload) {
       return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
               _context8.prev = 0;
               _context8.next = 3;
-              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.patch(immunization(context).update(payload.id), Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* REMOVE_CRUD_METHODS */])(payload));
+              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete(hospitalize(context).delete(payload.id), Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* REMOVE_CRUD_METHODS */])(payload));
 
             case 3:
-              context.dispatch('FETCH_IMMUNIZATIONS');
+              context.dispatch('FETCH_HOSPITALIZATIONS');
               return _context8.abrupt('return');
 
             case 7:
               _context8.prev = 7;
               _context8.t0 = _context8['catch'](0);
 
-              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Updating Immunization')();
-              throw _context8.t0;
+              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Deleting Hospitalization')(_context8.t0);
+              throw Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["e" /* extractErrors */])(_context8.t0);
 
             case 11:
             case 'end':
@@ -97515,21 +97554,30 @@ var actions = {
       }, _callee8, this, [[0, 7]]);
     }));
 
-    function UPDATE_IMMUNIZATION(_x15, _x16) {
-      return _ref12.apply(this, arguments);
+    function DELETE_HOSPITALIZATION(_x15, _x16) {
+      return _ref11.apply(this, arguments);
     }
 
-    return UPDATE_IMMUNIZATION;
+    return DELETE_HOSPITALIZATION;
   }(),
-  DELETE_IMMUNIZATION: function () {
-    var _ref13 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee9(context, id) {
+
+  // IMMUNIZATIONS
+  FETCH_IMMUNIZATIONS: function FETCH_IMMUNIZATIONS(context) {
+    __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(immunization(context).base()).then(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["h" /* guessDataKey */]).then(function (_ref12) {
+      var data = _ref12.data;
+
+      context.commit('set_immunization', Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["g" /* extractRecords */])(data));
+    }).catch(Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Fetching immunizations'));
+  },
+  CREATE_IMMUNIZATION: function () {
+    var _ref13 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee9(context, payload) {
       return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
             case 0:
               _context9.prev = 0;
               _context9.next = 3;
-              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete(immunization(context).delete(id));
+              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post(immunization(context).base(), payload);
 
             case 3:
               context.dispatch('FETCH_IMMUNIZATIONS');
@@ -97539,7 +97587,7 @@ var actions = {
               _context9.prev = 7;
               _context9.t0 = _context9['catch'](0);
 
-              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Deleting Immunization')();
+              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Updating Immunization')();
               throw _context9.t0;
 
             case 11:
@@ -97550,8 +97598,78 @@ var actions = {
       }, _callee9, this, [[0, 7]]);
     }));
 
-    function DELETE_IMMUNIZATION(_x17, _x18) {
+    function CREATE_IMMUNIZATION(_x17, _x18) {
       return _ref13.apply(this, arguments);
+    }
+
+    return CREATE_IMMUNIZATION;
+  }(),
+  UPDATE_IMMUNIZATION: function () {
+    var _ref14 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee10(context, payload) {
+      return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              _context10.prev = 0;
+              _context10.next = 3;
+              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.patch(immunization(context).update(payload.id), Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["a" /* REMOVE_CRUD_METHODS */])(payload));
+
+            case 3:
+              context.dispatch('FETCH_IMMUNIZATIONS');
+              return _context10.abrupt('return');
+
+            case 7:
+              _context10.prev = 7;
+              _context10.t0 = _context10['catch'](0);
+
+              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Updating Immunization')();
+              throw _context10.t0;
+
+            case 11:
+            case 'end':
+              return _context10.stop();
+          }
+        }
+      }, _callee10, this, [[0, 7]]);
+    }));
+
+    function UPDATE_IMMUNIZATION(_x19, _x20) {
+      return _ref14.apply(this, arguments);
+    }
+
+    return UPDATE_IMMUNIZATION;
+  }(),
+  DELETE_IMMUNIZATION: function () {
+    var _ref15 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee11(context, id) {
+      return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              _context11.prev = 0;
+              _context11.next = 3;
+              return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete(immunization(context).delete(id));
+
+            case 3:
+              context.dispatch('FETCH_IMMUNIZATIONS');
+              return _context11.abrupt('return');
+
+            case 7:
+              _context11.prev = 7;
+              _context11.t0 = _context11['catch'](0);
+
+              Object(__WEBPACK_IMPORTED_MODULE_2__store_helpers_utilities__["b" /* VuexError */])('Error Deleting Immunization')();
+              throw _context11.t0;
+
+            case 11:
+            case 'end':
+              return _context11.stop();
+          }
+        }
+      }, _callee11, this, [[0, 7]]);
+    }));
+
+    function DELETE_IMMUNIZATION(_x21, _x22) {
+      return _ref15.apply(this, arguments);
     }
 
     return DELETE_IMMUNIZATION;
@@ -103009,13 +103127,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'HoverRevealButton',
     /**
      * @type <Array['string', toggleIcons: {open, close}]>
      */
-    props: ['text'],
+    props: {
+        text: { type: String, default: 'Action' },
+        icon: { type: String, default: 'ti ti-plus' }
+    },
     data: function data() {
         return {
             isOpen: false,
@@ -103072,11 +103195,16 @@ var render = function() {
         _c(
           "span",
           { staticClass: "hrb__icon" },
-          [_vm._t("icon", [_c("i", { staticClass: "ti ti-plus" })])],
+          [_vm._t("icon", [_c("i", { class: _vm.$props.icon })])],
           2
         ),
         _vm._v(" "),
-        _c("span", { staticClass: "hrb__text" }, [_vm._t("text")], 2)
+        _c(
+          "span",
+          { staticClass: "hrb__text" },
+          [_vm._t("text", [_vm._v(_vm._s(_vm.$props.text))])],
+          2
+        )
       ])
     ]
   )

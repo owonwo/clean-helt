@@ -44,7 +44,8 @@ export default {
     trash(id) {
       const { action, message } = this.crud.delete
 
-      this.$store.dispatch(action, id)
+        !confirm('Are you sure?') ||
+        this.$store.dispatch(action, id)
         .then(() => this.success_message(message.success))
         .then(() => this.$refs.modal.hide())
     }

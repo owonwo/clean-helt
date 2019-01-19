@@ -28,12 +28,21 @@
       <p>Hospital: {{ entry.hospital }}</p>
       <p>Reason: {{ entry.reason }}</p>
       <p>Complications: {{ entry.complications }}</p>
+
+      <HoverRevealButton 
+        icon="ti ti-pencil" 
+        text="Edit" 
+        @click="show(entry)"/>
+      <HoverRevealButton 
+        icon="ti ti-trash" 
+        text="Delete" 
+        @click="trash(entry)"/>
     </div>
 
     <modal 
       ref="modal"
       :show="opened"
-      @closed="opened = false">
+      @closed="clearForm()">
       <template 
         slot="modal-header" 
         class="title is-4 mb-0">Add Hospitalization
@@ -92,11 +101,11 @@ export default {
         message: { success: 'Hospitalization added!', error: 'Error adding Hospitalization' }
       },
       update: {
-        action: 'medicalRecord/UPDATE_ALLERGY',
+        action: 'medicalRecord/UPDATE_HOSPITALIZATION',
         message: { success: 'Hospitalization Update Sucessful', error: 'Error Updating Hospitalization' }
       },
       delete: {
-        action: 'medicalRecord/DELETE_ALLERGY',
+        action: 'medicalRecord/DELETE_HOSPITALIZATION',
         message: { success: 'Hospitalization truncated', error: 'Error Deleting Hospitalization' }
       }
     }
@@ -104,5 +113,11 @@ export default {
   computed: {
     ...mapState('medicalRecord', ['hospitalizations'])
   },
+  methods: {
+    show(entry = {}) {
+      this.form = Object.assign({}, entry)
+      this.$refs.modal.showSelf()
+    }
+  }
 }
 </script>

@@ -136,6 +136,26 @@ const actions = {
       .then(() => context.dispatch('FETCH_HOSPITALIZATIONS'))
       .catch(VuexError('Error Creating Hospitalization'))
   },
+  async UPDATE_HOSPITALIZATION(context, payload) {
+    try {
+      await axios.patch(hospitalize(context).update(payload.id), REMOVE_CRUD_METHODS(payload))
+      context.dispatch('FETCH_HOSPITALIZATIONS')
+      return
+    } catch (x) {
+      VuexError('Error Updating Hospitalization')(x)
+      throw extractErrors(x)
+    }
+  },
+  async DELETE_HOSPITALIZATION(context, payload) {
+    try {
+      await axios.delete(hospitalize(context).delete(payload.id), REMOVE_CRUD_METHODS(payload))
+      context.dispatch('FETCH_HOSPITALIZATIONS')
+      return
+    } catch (x) {
+      VuexError('Error Deleting Hospitalization')(x)
+      throw extractErrors(x)
+    }
+  },
   // IMMUNIZATIONS
   FETCH_IMMUNIZATIONS(context) {
     axios.get(immunization(context).base()).then(guessDataKey)

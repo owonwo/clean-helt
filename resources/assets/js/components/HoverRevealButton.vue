@@ -7,10 +7,12 @@
         @click="$emit('click', isOpen)" :style="{width: `${width}px`}">
         <span class="hrb__wrap">
             <span class="hrb__icon">
-                <slot name="icon"><i class="ti ti-plus"></i></slot>
+                <slot name="icon">
+                    <i :class="$props.icon"/>
+                </slot>
             </span>
             <span class="hrb__text">
-                <slot name="text"></slot>
+                <slot name="text">{{ $props.text }}</slot>
             </span>
         </span>
     </button>
@@ -68,7 +70,10 @@ export default {
     /**
      * @type <Array['string', toggleIcons: {open, close}]>
      */
-    props: ['text'],
+    props: {
+        text: { type: String, default: 'Action' },
+        icon: { type: String, default: 'ti ti-plus' }
+    },
     data() {return {
         isOpen: false,
         width: 40,

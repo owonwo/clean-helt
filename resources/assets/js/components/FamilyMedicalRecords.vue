@@ -151,19 +151,21 @@ export default {
 			this.$store.dispatch('medicalRecord/UPDATE_DISEASES')
 		},
 		addDisease() {
-			const {form, index} = this,
-				diseases = this.diseases.concat([])
+			const {form, index} = this
+      const diseases = this.diseases.concat([])
 
-			form.carriers = typeof(carriers) === 'string' 
+      if (form.disease.length === 0) return 
+
+      form.carriers = typeof(carriers) === 'string' 
         ? form.carriers.split(',').map(e => e.trim())
         : form.carriers
 
-			if(_.isNumber(index)) {
-				diseases[index] = form
-				this.index = false
-			} else {
-				diseases.push(form)
-			}
+      if(_.isNumber(index)) {
+        diseases[index] = form
+        this.index = false
+      } else {
+        diseases.push(form)
+      }
 			this.done(diseases).then(() => {
 				this.form = {}
 				this.$notify({text: 'Disease added to Family History', type: 'success'})
