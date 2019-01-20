@@ -14,16 +14,24 @@ import Laboratory from '@/Laboratory.vue'
 import Login from '@/Login.vue'
 import Register from '@/Register.vue'
 
+import WgDialog from '@/plugins/WgDialog'
+
 Vue.use(Router)
+Vue.use(WgDialog)
 Vue.use(VueMoment)
-Vue.use(Notification)
 Vue.use(Vuelidate)
+Vue.use(Notification)
 Vue.prototype.$http = axios
 
 import store from '@/store/'
 
 require('@/directives')
 require('@/Mixins/global')
+
+window.trace = (message) => (x) => {
+  console.log(x, message)
+  return x
+}
 
 new Vue({
   el: '#app',

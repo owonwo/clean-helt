@@ -5,7 +5,7 @@
       <h3>Health Services</h3>
     </section>
     
-    <section class="card is-fullheight">
+    <section class="card is-rounded is-fullheight">
       <div class="tabs mb-5">
         <ul v-pager-controls>
           <li><a href="#" >Hospitals</a></li>

@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		
-		<section class="card is-fullheight">
+		<section class="card is-rounded is-fullheight">
 			<div class="tabs mb-5">
 				<ul>
 					<li v-for="(group, key, index) in allShares" 

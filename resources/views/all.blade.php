@@ -21,6 +21,7 @@
 	<main id="app" v-cloak>
 		<section id="{{ auth($guard)->user()->chcode }}" is="{{ $guard }}"></section>
 		<notifications :position="['bottom', 'center']"></notifications>
+		<wg-dialog ref="dialog">
 	</main>
 </body>
 </html>

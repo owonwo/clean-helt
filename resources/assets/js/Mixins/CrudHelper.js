@@ -43,11 +43,15 @@ export default {
     },
     trash(id) {
       const { action, message } = this.crud.delete
-
-        !confirm('Are you sure?') ||
-        this.$store.dispatch(action, id)
-        .then(() => this.success_message(message.success))
-        .then(() => this.$refs.modal.hide())
+      const confirm_message = 'Deleting Record.'
+      const text = 'Are you sure you want to delete this record'
+      if (typeof id !== 'number') throw Error('Invalid arguemnt `id` provided for CrudHelper/trash method')
+      this.$confirm(confirm_message, text)
+        .then(() => {
+          this.$store.dispatch(action, id)
+            .then(() => this.success_message(message.success))
+            .then(() => this.$refs.modal.hide())
+        })
     }
   }
 }

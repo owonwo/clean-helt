@@ -4,7 +4,12 @@
       <!-- create contacts form -->
       <div 
         v-if="canEdit"
-        class="level level-right">
+        class="level">
+        <div>
+          <alert 
+            v-if="contacts.length < 1" 
+            type="info">No Emergency Contacts</alert>
+        </div>
         <HoverIconButton
           :active="opened"
           :icons="['ti-plus:Add', 'ti-minus:Close']"
@@ -65,8 +70,6 @@
             tabindex="5">Add to Contact</button>
         </div>
       </form>
-      <div v-if="contacts.length < 1"><i>No Emergency Contacts</i></div>
-      <div v-else class="menu-label p-5">Emergency Contact List</div>
       <!-- contacts list -->
       <div
         v-for="(contact, index) in contacts"

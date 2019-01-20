@@ -1,7 +1,7 @@
 $gray: #E5E5E5;
 $primary-color: #20B171;
-$accent-color: orange !default;
 $accent-color: #00E6A1;
+$link: $accent-color;
 
 $tabs-link-active-color: $primary-color;
 $tabs-link-active-border-bottom-color: $primary-color;
@@ -12,9 +12,9 @@ $text-color: #636b6f;
 
 // Bulma Primary Color
 $primary: $accent-color;
-$info: 	#8bbdef;
+$info: #8bbdef;
 // $success: #bce0c9;
-$red: 	#e6b3bd;
+$red: #e6b3bd;
 $blue: lightblue;
 
 //darker shades
@@ -34,4 +34,9 @@ $primary-gradient: linear-gradient(190deg, #f85f53, crimson);
 
 //Images
 $light-gray-border: solid 1px #ddd;
-$secondary-color: #319FE8 ;
+$secondary-color: #319FE8;
+
+//inputs
+$input-focus-border-color: transparent;
+$input-focus-box-shadow-color: rgba($link, .5);
+$input-shadow: none;

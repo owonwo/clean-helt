@@ -36,7 +36,7 @@
       <HoverRevealButton 
         icon="ti ti-trash" 
         text="Delete" 
-        @click="trash(entry)"/>
+        @click="trash(entry.id)"/>
     </div>
 
     <modal 
@@ -69,7 +69,7 @@
           v-model="form.complications"
           type="textarea"
           label="Complications of Hospitalization"/>
-        <button class="button is-primary">Add</button>
+        <button class="button is-primary">{{ form.id ? 'Update' : 'Add' }}</button>
       </form>
     </modal>
   </section>
