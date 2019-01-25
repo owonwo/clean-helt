@@ -29,6 +29,11 @@ $dark-gray: #555;
 //colors
 $link-color: yellowgreen;
 
+//colors transparent 
+$cs-transparent: (primary: rgba($primary-color, .3),
+accent: rgba($accent-color, .3));
+
+//gradients
 $gradient-one: linear-gradient(270deg, #fff 0%, whitesmoke 50%);
 $primary-gradient: linear-gradient(190deg, #f85f53, crimson);
 
@@ -37,6 +42,6 @@ $light-gray-border: solid 1px #ddd;
 $secondary-color: #319FE8;
 
 //inputs
+$input-shadow: none;
 $input-focus-border-color: transparent;
 $input-focus-box-shadow-color: rgba($link, .5);
-$input-shadow: none;

@@ -41,6 +41,9 @@ new Vue({
     user: {},
     sidebars: { nav: false, notif: true }
   },
+  mounted() {
+    this.toggleSidebar()
+  },
   methods: {
     toggleSidebar() {
       this.sidebars.nav = !this.sidebars.nav

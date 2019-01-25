@@ -50,12 +50,14 @@
     /* ICON selector */
     .wg-hrb .hrb__icon {
         width: 30px;
-        display: inline-block;
-        line-height: 30px;
         height: 30px;
-        text-align: center;
         margin-left: 5px;
+        margin-right: 5px;
+        line-height: 30px;
+        text-align: center;
         border-radius: 30px;
+        display: inline-block;
+        background-color: white;
     }
     .wg-hrb .hrb__text {
         opacity: 0;

@@ -3,7 +3,7 @@
     <div class="menu-label">User Information</div>
     <span 
       v-preload
-			v-if="!user.id"/>
+      v-if="!user.id"/>
     <accordion :show="true">
       <template slot="heading">Basic</template>
       <section slot="content">
@@ -48,7 +48,9 @@
           <tr class="">
             <th>Date of Birth</th>
             <td>
-              <span v-cloak v-if="!edit.basic && user.dob !== null">{{ [ user.dob, "YYYY-MM-DD" ] | moment("Do MMMM, YYYY") }}</span>
+              <span 
+                v-cloak 
+                v-if="!edit.basic && user.dob !== null">{{ [ user.dob, "YYYY-MM-DD" ] | moment("Do MMMM, YYYY") }}</span>
               <input
                 v-else 
                 v-model="user.dob" 
@@ -87,7 +89,7 @@
           </tr>
           <tr>
             <th>Address</th>
-            <td>
+            <td class="can-wrap">
               <span v-if="!edit.basic">{{ user.address }}</span>
               <textarea 
                 v-else 
@@ -97,25 +99,24 @@
             </td>
           </tr>
           <tr>
-            <th>City</th>
-            <td>
-              <span v-if="!edit.basic">{{ user.city }}</span>
-              <input 
-                v-else 
-                v-model="user.city" 
-                class="input is-small" 
-                type="text">
-            </td>
-          </tr>
-          <tr>
             <th>State</th>
             <td>
               <span v-if="!edit.basic">{{ user.state }}</span>
-              <input 
-                v-else 
+              <select-state
+                v-else
                 v-model="user.state" 
-                class="input is-small" 
-                type="text">
+                class="is-fullwidth"/>
+            </td>
+          </tr>
+          <tr>
+            <th>City</th>
+            <td>
+              <span v-if="!edit.basic">{{ user.city }}</span>
+              <select-city 
+                v-else 
+                v-model="user.city"
+                :state="user.state"
+                class="is-fullwidth" />
             </td>
           </tr>
           <tr>
@@ -182,7 +183,7 @@
             </tr>
             <tr>
               <td>Address</td> 
-              <td>{{ user.nok_address }}</td>
+              <td class="can-wrap">{{ user.nok_address }}</td>
             </tr>
             <tr>
               <td>State of Origin</td> 
@@ -259,43 +260,43 @@ import CanLock from '@/Mixins/CanLock.js'
 import EditProfile from '@/Mixins/EditProfile.js'
 
 export default {
-	mixins: [EditProfile, CanLock],
-	data() {return {
-		edit: {
-			url: '/api/patient/profile/update',
-			basic: false,
-			emergency: false,
-			whiteList: [
-				'first_name',
-				'middle_name',
-				'last_name',
-				'avatar',
-				'email',
-				'password',
-				'dob',
-				'gender',
-				'phone',
-				'address',
-				'city',
-				'state',
-				'country',
-				'religion',
-				'marital_status',
-				'nok_name',
-				'nok_phone',
-				'nok_email',
-				'nok_address',
-				'nok_city',
-				'nok_state',
-				'emergency_hospital_address',
-				'emergency_hospital_name',
-				'nok_country',
-				'nok_relationship'
-			],
-		}
-	}},
-	computed: {
-		user() {
+  mixins: [EditProfile, CanLock],
+  data() {return {
+    edit: {
+      url: '/api/patient/profile/update',
+      basic: false,
+      emergency: false,
+      whiteList: [
+        'first_name',
+        'middle_name',
+        'last_name',
+        'avatar',
+        'email',
+        'password',
+        'dob',
+        'gender',
+        'phone',
+        'address',
+        'city',
+        'state',
+        'country',
+        'religion',
+        'marital_status',
+        'nok_name',
+        'nok_phone',
+        'nok_email',
+        'nok_address',
+        'nok_city',
+        'nok_state',
+        'emergency_hospital_address',
+        'emergency_hospital_name',
+        'nok_country',
+        'nok_relationship'
+      ],
+    }
+  }},
+  computed: {
+    user() {
       return this.accountType === 'doctor' 
         ? this.patient
         : this.getUser
@@ -305,6 +306,6 @@ export default {
       patient: 'currentPatient',
       patients: 'patients'
     }),
-	}
+  }
 }
 </script>

@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
 	<section>
-		<section class="content-top-bar level">
+		<section class="content-top-bar level sm-has-button">
 			<h3>Profile Shares</h3>
 			<HoverIconButton 
 				:active="show"
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		
-		<section class="card is-rounded is-fullheight">
+		<section id="profile-share" class="card is-rounded is-fullheight">
 			<div class="tabs mb-5">
 				<ul>
 					<li v-for="(group, key, index) in allShares" 
@@ -30,7 +30,7 @@
 					</li>
 				</ul>
 			</div>
-			<div v-preload v-if="shares_loading" class="block is-rounded mx-15" style="height:10px;"/>	
+			<div v-preload v-if="shares_loading" class="is-rounded" style="height:10px;"/>	
 			<div v-if="allShares.length < 1">
 				<blockquote class="notification is-info p-5 mx-15">
 					<i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
@@ -38,7 +38,7 @@
 			</div>
 			<div class="card-body">
 			<pager align="top" class="is-absolute" :current="current">
-				<div :slot="'p'+(index+1)" :key="index" class="px-15"
+				<div :slot="'p'+(index+1)" :key="index"
 				   v-for="(non, shareKey, index) in allShares">
 					<table class="table is-hoverable is-fullwidth">
 						<tr>

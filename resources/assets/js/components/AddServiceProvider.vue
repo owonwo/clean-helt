@@ -161,15 +161,10 @@ export default {
   min-width: 55px;
   text-align: center;
   height: 80%;
-  transform: translateX(0px);
+  transform: translateX(-15px);
   transition: all .3s ease-out;
 }
 .control span.icon {
   pointer-events: all !important;
-}
-.control span.icon .button:hover,
-.control span.icon .button:focus
-{
-  transform: translateX(-15px);
 }
 </style>

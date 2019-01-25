@@ -3,58 +3,45 @@
     <section class="level level-right">
       <HoverRevealButton
         @click="modal.add_child = true">
-        <i class="ti ti-plus" slot="icon"/>
+        <i 
+          slot="icon" 
+          class="ti ti-plus"/>
         <span slot="text">ADD CHILD</span>
       </HoverRevealButton>
     </section>
     <div 
       v-if="children.length" 
-      class="menu-label">CHILDREN</div>
+      class="menu-label">ALL CHILDREN</div>
     <!-- If you have no child you can create one here. -->
-    <section class="columns is-wrapped">
-      <section 
+    <section class="osq-grid-patients">
+      <ProfileBox 
         v-for="(child, index) in children"  
-        class="column is-one-third">
-        <ProfileBox 
-          :key="index"
-          :avatar-src="child.avatar" 
-          class="is-portrait is-small is-flat is-rounded">
-          <span class="profile-title">
-            {{ child.first_name }}
-          </span>
-          <div class="mt-30">
-            <button
-              class="button is-primary is-rounded is-small" 
-              @click="retrieveToken(child.id)">Access
-            </button>
-            <button @click="showUnlinkModal(child.id)" class="button is-rounded is-small has-background-white-bis">
-              <i class="ti ti-link"/> Unlink
-            </button>
-          </div>
-        </ProfileBox>
-      </section>
+        :key="index"
+        :avatar-src="child.avatar" 
+        class="is-portrait is-small is-flat is-rounded">
+        <span class="profile-title">
+          {{ child.first_name }}
+        </span>
+        <div class="mt-30">
+          <button
+            class="button is-primary is-rounded is-small" 
+            @click="retrieveToken(child.id)">Access
+          </button>
+          <button 
+            class="button is-rounded is-small" 
+            @click="unlink(child.id)">
+            <i class="ti ti-link"/> Unlink
+          </button>
+        </div>
+      </ProfileBox>
     </section>
 
     <modal 
       ref="modal"
-      :show="modal.unlink || modal.add_child"
+      :show="modal.add_child"
       size="sm"
-      @closed="modal.unlink = modal.add_child = false">
-      <section 
-        v-if="modal.unlink" 
-        class="content is-center">
-        <h4 class="is-centered">Are you sure?</h4>
-        <p class="is-italic mb-15">Once the child account is unlinked, there is no rollback.</p>
-        <div class="buttons is-right">
-          <button
-            class="button"
-            @click="unlink()">Yes</button>
-          <button 
-            class="button is-success" 
-            @click="modal.unlink = false">No</button>
-        </div>
-      </section>
-      <section v-else>
+      @closed="modal.add_child = false">
+      <section>
         <h5 class="title is-5 mb-0">Register a Child</h5>
         <p>Fill the form to add a child.</p>
         <form @submit.prevent="submitChildForm(form)">
@@ -94,19 +81,6 @@
   </section>
 </template>
 
-<style lang="sass" scoped>
-table
-   tr
-      .button
-        transition-duration: 0s
-        text-decoration: none
-        &:last-child
-          visibility: hidden
-      &:hover 
-        .button:last-child
-          visibility: visible
-</style>
-
 <script>
 import { mapState, mapActions } from 'vuex'
 import Modal from '@/components/Modal.vue'
@@ -116,11 +90,9 @@ export default {
   data() {return {
     submitting: false,
     modal: {
-      unlink: false,
       add_child: false
     },
     form : { email: '', password: '', first_name: '', last_name: '', phone: '' },
-    selected: {}
   }},
   computed: {
     ...mapState('patient_share', ['children']),
@@ -129,21 +101,21 @@ export default {
     this.FETCH_CHILDREN()
   },
   methods: {
-    showUnlinkModal(child_id) {
-      this.selected.id = child_id
-      this.modal.unlink = true
-    },
-    unlink() {
-      if (this.selected.id)
-      this.unlinkChild(this.selected.id).then(message => {
-        this.success_message(message)
-        this.$refs.modal.hide()
-      }).catch((e) => {
-        this.error_message(e.message)
-        setTimeout(() => {
-          this.error_message('Please Try again later!')
-        }, 300)
-      })
+    unlink(id) {
+      if (id)
+      this.$confirm('Are you sure?', 'Once the child account is unlinked, there is no rollback.')
+        .then(() => {
+          this.unlinkChild(id)
+          .then(message => {
+            this.success_message(message)
+          })
+          .catch((e) => {
+            this.error_message(e.message)
+            setTimeout(() => {
+              this.error_message('Please Try again later!')
+            }, 300)
+          })
+        })
     },
     submitChildForm() {
       delete this.form.errors

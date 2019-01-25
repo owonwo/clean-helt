@@ -3,18 +3,19 @@
 @import './base/colors';
 @import './base/typography';
 
-@import 'bulma/bulma';
-@import 'vue-multiselect/dist/vue-multiselect.min';
+@import '~bulma/bulma';
+@import '~vue-multiselect/dist/vue-multiselect.min';
 @import './autoload';
 @import './icons.scss';
 @import './layout';
+@import './workspace';
 
 %avatar {
   overflow: hidden;
   object-fit: cover;
   border-radius: 50%;
   display: inline-block;
-  border: solid 2px $primary-color;
+  background-color: map-get($cs-transparent, primary);
 }
 
 :root {
@@ -123,6 +124,27 @@ h6 {
     align-items: center;
     color: $primary-color;
     font-size: x-large;
+
+    .osq-navbar-toggle {
+      width: 40px;
+      border: none;
+      display: none;
+      padding: 0 5px;
+      background: transparent;
+      font-size: larger;
+      border-radius: 8px;
+      color: $grey-lighter;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .osq-navbar-toggle {
+        display: block
+      }
+
+      img {
+        height: 18px !important;
+      }
+    }
   }
 
   .avatar {
@@ -181,22 +203,26 @@ ul {
 
   &.is-fullheight {
     @extend %fullheight-box;
+  }
 
-    display: flex;
-    flex-direction: column;
+  @include media-breakpoint-up(md) {
+    &.is-fullheight {
+      display: flex;
+      flex-direction: column;
 
-    .card-header {
-      flex: 0 0 50px;
-    }
+      .card-header {
+        flex: 0 0 50px;
+      }
 
-    .tabs {
-      flex: 0 0 50px;
-    }
+      .tabs {
+        flex: 0 0 50px;
+      }
 
-    .card-body {
-      flex-grow: 3;
-      position: relative;
-      flex-shrink: 0;
+      .card-body {
+        flex-grow: 3;
+        position: relative;
+        flex-shrink: 0;
+      }
     }
   }
 
@@ -245,8 +271,11 @@ ul {
   .osq-profile-card {
     margin: 5px;
   }
-}
 
+  @include media-breakpoint-down(sm) {
+    justify-content: center;
+  }
+}
 
 .osq-profile-card {
   z-index: 5;
@@ -355,7 +384,7 @@ ul {
   }
 
   &.is-rounded {
-    border-radius: 12px
+    border-radius: 8px;
   }
 
   &.is-flat {
@@ -363,7 +392,7 @@ ul {
     background: transparent;
 
     &:hover {
-      background-color: #eee;
+      background-color: map-get($cs-transparent, primary);
     }
   }
 
@@ -382,6 +411,10 @@ ul {
 
   &.is-landscape {
     align-items: center;
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: 100% !important;
   }
 }
 
@@ -609,50 +642,52 @@ ul {
   }
 }
 
-.osq-two-columns {
-  display: grid;
-  grid: "aside content"auto / 200px 1fr;
-  grid-gap: 15px;
-
-  aside {
-    background: #e5e5e5;
-    border-right: solid 1px $body-bg;
-  }
-}
-
-.osq-sidenav {
-  padding-bottom: 60px;
-
-  li {
-    margin-bottom: 0;
-
-    >a {
-      color: #7a7a7a;
-      border-bottom: solid 1px $hr-color;
-      padding: 1rem;
-      text-indent: 15px;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      border-radius: 0 !important;
-      outline: none !important;
-    }
-
-    &:hover {
-      a {
-        // background-color: white;
-      }
-    }
-
-    &.active>a {
-      color: $primary-color;
-      background-color: #F9F9F9;
-    }
-  }
-}
-
 //PROFILE
 .hospital-card {
   margin-bottom: 15px;
+}
+
+.insurance-card {
+  padding: 15px;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(black, .2);
+
+  .level {
+    margin: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    >* {
+      @extend .py-5;
+      width: 200px;
+    }
+  }
+
+  .under-label {
+    @extend .help;
+
+    color: $primary-color;
+  }
+
+  .actions-btn {
+    width: 50px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .level {
+      >* {
+        width: unset;
+        flex-basis: 100%;
+      }
+    }
+
+    .actions-btn {
+      padding: 0;
+      order: -2;
+    }
+  }
 }
 
 /*** login & registration ***/
@@ -678,10 +713,6 @@ ul {
     margin: 0 auto 30px;
   }
 
-  .field label {
-    display: none;
-  }
-
   >section,
   >form {
     width: 460px;
@@ -690,6 +721,10 @@ ul {
     hr {
       background-color: #8ab99a !important;
     }
+  }
+
+  label {
+    color: $grey-darker;
   }
 
   // notification
@@ -744,12 +779,17 @@ ul {
 
   .button {
     height: auto;
-    width: 100px;
-    border: none;
-    padding: 10px 15px;
+    min-width: 100px;
     text-align: center;
+    padding: 8px 15px;
     border-radius: 12px;
     text-transform: uppercase;
+    box-sizing: border-box;
+
+    &:not(.is-outlined) {
+      padding: 10px 15px;
+      border: none;
+    }
   }
 
   a:link {
@@ -774,11 +814,11 @@ ul {
   width: 100%;
   border: none;
   outline: none;
-  padding: 15px 0px;
-  border-bottom: solid 2px #ddd;
+  padding: 10px 10px;
+  border-bottom: solid 2px $input-border-color;
 
   &:focus {
-    border-color: $primary-color;
+    border-color: $input-focus-box-shadow-color;
   }
 }
 

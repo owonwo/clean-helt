@@ -57,7 +57,7 @@
         </div>
       </transition>
       <div class="field">
-        <label for="email">Email</label>
+        <label for="email" class="is-hidden">Email</label>
         <input 
           id="email" 
           v-model="username" 
@@ -67,7 +67,7 @@
           type="text">
       </div>
       <div class="field">
-        <label for="pass">Password</label>
+        <label for="pass" class="is-hidden">Password</label>
         <input 
           id="pass" 
           v-model="password" 
@@ -75,6 +75,9 @@
           placeholder="Password..." 
           class="input" 
           type="password">
+          <div class="help has-text-right">
+            <a :href="forgot_link">Forgot Password?</a>
+          </div>
       </div>
       <button 
         :class="{'is-loading': isLoading}" 
@@ -127,6 +130,11 @@ export default {
             let {model} = this.$props
             return !['DOCTOR', 'PATIENT'].includes(model) ? model : (this.type === 1) ? 'PATIENT' : 'DOCTOR'
         },
+        forgot_link() {
+          const { providerIs } = this
+          return providerIs('PATIENT') ? '/patients/password/reset' : 
+            providerIs('DOCTOR') ? '/password/reset/doctors' : ''
+        },
         auth() {
             return this.providerMap[this.provider].auth_key
         },
@@ -134,9 +142,15 @@ export default {
             return this.modelIs('PATIENT', 'DOCTOR')
         }
     },
+    mounted() {
+      document.title = 'Login - CleanHelt'
+    },
     methods: {
         modelIs(...args) {
             return args.includes(this.$props.model)
+        },
+        providerIs(provider) {
+          return this.provider === provider
         },
         login() {
             this.isLoading = true

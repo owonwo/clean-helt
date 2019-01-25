@@ -142,18 +142,16 @@
           </template>
           <div 
             v-if="canEdit" 
-            class="level level-right">
-            <div>
-              <button 
-                class="button is-pulled-right is-small is-outlined" 
-                @click="trash(contact.id)">
-                <i class="ti ti-trash"/>
-              </button>
-              <save-edit-button
-                :saved="contact.isEditing"
-                class="mr-5"
-                @click="saveContact(contact)"/> 
-            </div>
+            class="buttons is-right">
+            <save-edit-button
+              :saved="contact.isEditing"
+              class="mr-5"
+              @click="saveContact(contact)"/> 
+            <button 
+              class="button is-small is-outlined" 
+              @click="trash(contact.id)">
+              <i class="ti ti-trash"/> Delete
+            </button>
           </div>
         </div>
       </div>

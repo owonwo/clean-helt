@@ -1,9 +1,15 @@
 <template>
   <section>
     <section class="level">
+      <div>
+        <alert 
+          v-if="insurances.length < 1" 
+          type="info">
+          No Health Insurance present.
+        </alert>
+      </div>
       <HoverRevealButton 
-        v-if="canEdit"
-        class="is-pulled-right" 
+        v-if="canEdit" 
         @click="opened = !opened">
         <i 
           slot="icon" 
@@ -75,88 +81,86 @@
         </button>
       </div>
     </form>
-    <table 
+    <section
       v-for="(entry, index) in insurances" 
       :key="index"
-      class="table is-fullwidth">
-      <tr>
-        <td colspan="2">
-          <span class="title is-5">{{ entry.company_name }}
-          </span>
+      class="insurance-card">
+      <div class="level">
+        <div>
+          {{ entry.company_name }} 
+          <span class="under-label">Company Name</span>
+        </div>
+        <div>
+          {{ entry.insurance_type }}
+          <span class="under-label">Insurance Provider Type</span>
+        </div>
+        <div class="actions-btn">
           <HoverRevealButton 
             v-if="canEdit"
-            class="is-pulled-right"
-            @click="$store.dispatch('health_insurance/DELETE', entry)">
-            <i
-              slot="icon" 
-              class="ti ti-trash"/>
-            <span slot="text">Delete</span>
-          </HoverRevealButton>
-        </td>
-      </tr>
-      <tr>
-        <td>Insurance Provider Type</td>
-        <td>{{ entry.insurance_type }}</td>
-      </tr>
-      <tr>
-        <td>Company Name</td>
-        <td>{{ entry.company_name }}</td>
-      </tr>
-      <tr>
-        <td>Address</td>
-        <td>{{ entry.address }}</td>
-      </tr>
-      <tr>
-        <td>City</td>
-        <td>{{ entry.city }}</td>
-      </tr>
-      <tr>
-        <td>Phone</td>
-        <td>{{ entry.phone }}</td>
-      </tr>
-      <tr>
-        <td>Emergency Phone</td>
-        <td>{{ entry.emergency_phone }}</td>
-      </tr>
-    </table>
+            icon="ti ti-trash"
+            text="Delete"
+            class="is-pulled-right" 
+            @click="trash(entry.id)"/>
+        </div>
+      </div>
+      <div class="level">
+        <div>
+          <div class="mb-10">
+            {{ entry.phone }}
+            <span class="under-label">Phone</span>
+          </div>
+          <div>
+            {{ entry.emergency_phone }}
+            <span class="under-label">Emergency Phone</span>
+          </div>
+        </div>
+        <div>
+          {{ entry.address }}
+          <span class="under-label">Address</span>
+        </div>
+        <div>
+          {{ entry.city }}
+          <span class="under-label">City</span>
+        </div>
+      </div>
+    </section>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.table {
-	background-color: white;
-	border: solid 2px #ddd;
-}
-</style>
 
 <script>
 import { mapState } from 'vuex'
 import CanLock from '@/Mixins/CanLock'
 
 export default {
-	name: 'HealthInsurance',
+  name: 'HealthInsurance',
   mixins: [CanLock],
-	data() {return {
-		form: {},
-		opened: false
-	}},
-	computed: {
-		...mapState('health_insurance', {
-			insurances: (store) => store.insurances
-		})
-	},
-	mounted() {
-		this.$store.dispatch('health_insurance/FETCH')
-	},
-	methods: {
-		submit() {
-			this.$store.dispatch('health_insurance/CREATE', this.form).then(() => {
-				this.opened = false
-				this.$notify({text: 'Insurance provider created', type: 'success'})
-			}).catch(() => {
-				this.$notify({text: 'Error creating insurance provider', type: 'error'})
-			})
-		}
-	}
+  data() {return {
+    form: {},
+    opened: false
+  }},
+  computed: {
+    ...mapState('health_insurance', {
+      insurances: (store) => store.insurances
+    })
+  },
+  mounted() {
+    this.$store.dispatch('health_insurance/FETCH')
+  },
+  methods: {
+    trash(id) {
+      this.$confirm('Deleting Health Insurance', 'Please confirm delete.')
+        .then(() => {
+          this.$store.dispatch('health_insurance/DELETE', id)
+        })
+    },
+    submit() {
+      this.$store.dispatch('health_insurance/CREATE', this.form).then(() => {
+        this.opened = false
+        this.$notify({text: 'Insurance provider created', type: 'success'})
+      }).catch(() => {
+        this.$notify({text: 'Error creating insurance provider', type: 'error'})
+      })
+    }
+  }
 }
 </script>

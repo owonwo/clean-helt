@@ -50,6 +50,9 @@ export default {
   data: () => ({
     isLastPage: true,
   }),
+  mounted() {
+    document.title = 'Register - CleanHelt'
+  },
   methods: {
     modelIs(model) {
       return this.$props.model  === model

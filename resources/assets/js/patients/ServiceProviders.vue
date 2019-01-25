@@ -5,25 +5,23 @@
       <h3>Health Services</h3>
     </section>
     
-    <section class="card is-rounded is-fullheight">
+    <section 
+      id="health-service-provider" 
+      class="card is-rounded is-fullheight">
       <div class="tabs mb-5">
         <ul v-pager-controls>
-          <li><a href="#" >Hospitals</a></li>
-          <li><a href="#">Pharmacies</a></li>
-          <li><a href="#">Diagnostic Centres</a></li>
+          <li><a href="#hospital"><i class="osf osf-hospital"/> <span>Hospitals</span></a></li>
+          <li><a href="#pharmacy"><i class="osf osf-pharmacy"/> <span>Pharmacies</span></a></li>
+          <li><a href="#dianogistics"><i class="osf osf-lab"/> <span>Diagnostic Centres</span></a></li>
         </ul>
-        <ul class="is-right">
-          <li>
-            <SearchBox 
-              placeholder="Search by Name" 
-              @value="e => searchString = e.toLowerCase()"/>
-          </li>
-        </ul>
+        <SearchBox 
+          placeholder="Search by Name" 
+          v-model="searchString"/>
       </div>
-      <span
+      <span 
         v-preload
         v-if="loading"
-        class="block is-rounded mx-15"/>
+        class="is-rounded"/>
       <div v-if="entities.length < 1">
         <blockquote class="notification is-info p-5 mx-15">
           <i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
@@ -120,7 +118,7 @@ export default {
       const {searchString: search, currentPage, entities} = this
       return entities[currentPage].filter((e) => {
         const name = e.name || [e.first_name, e.last_name].join(' ') || ''
-        return !search || name.toLowerCase().includes(search)
+        return name.toLowerCase().includes(search.toLowerCase())
       })
     },
     ...mapGetters('service_providers', ['loading']),

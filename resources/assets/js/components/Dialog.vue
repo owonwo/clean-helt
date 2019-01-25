@@ -4,10 +4,10 @@
     :show="show" 
     size="sm"
     @close="action('rej')">
-    <h1 class="title is-5">{{ message }}</h1>
+    <h1 class="title is-5 mb-10">{{ message }}</h1>
     <p v-if="text.length > 0"><i>{{ text }}</i></p>
 
-    <div class="buttons is-right mt-10">
+    <div class="buttons is-right mt-20">
       <button 
         class="button is-primary"
         @click.prevent="action('res')">Confirm</button>
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-  import _ from 'lodash'
   import Modal from '@/components/Modal.vue'
 
   export default {
@@ -44,8 +43,8 @@
       },
       confirm(message = 'Are you Sure?', text = '') {
         return new Promise((res, rej) => {
-          this.message = _.capitalize(message || 'Are you sure?')
-          this.text = _.capitalize(text || '')
+          this.message = message || 'Are you sure?'
+          this.text = text || ''
           this.$refs.modal.showSelf()
 
           this.actions.res = res

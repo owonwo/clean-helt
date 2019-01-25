@@ -3,7 +3,14 @@
     <!-- create contacts form -->
     <div 
       v-if="canEdit"
-      class="level level-right">
+      class="level">
+      <div>
+        <alert 
+          v-if="contacts.length < 1" 
+          type="info">
+          No Hospital Contacts
+        </alert>
+      </div>
       <HoverIconButton 
         :active="opened"
         :icons="['ti-plus:Add', 'ti-minus:Close']"
@@ -54,24 +61,18 @@
       </div>
     </form>
     <!-- contacts list -->
-    <div v-if="contacts.length < 1"><i>No Hospital Contacts</i></div>
-    <div v-else class="menu-label p-5">Hospital Contact List</div>
     <div
       v-for="(contact, index) in contacts"
       :key="index"
-      class="card is-hospital m-5">
+      class="card is-rounded m-5">
       <div class="card-content">
         <form 
-          v-if="contact.isEditing"
-          class="field">
-          <div class="control mt-5">
-            <input
-              v-model="contact.name"
-              class="input"
-              placeholder="Hospital Name"
-              type="text">
-          </div>
-          <div class="control">
+          v-if="contact.isEditing">
+          <wgInput
+            v-model="contact.name"
+            placeholder="Hospital Name"
+            type="text"/>
+          <div class="field">
             <input 
               v-if="contact.isEditing" 
               v-model="contact.email" 
@@ -79,7 +80,7 @@
               placeholder="Email Address" 
               type="email">
           </div>
-          <div class="control">
+          <div class="field">
             <input 
               v-if="contact.isEditing" 
               v-model="contact.phone" 
@@ -87,7 +88,7 @@
               placeholder="Telephone" 
               type="text">
           </div>
-          <div class="control">
+          <div class="field">
             <input 
               v-if="contact.isEditing" 
               v-model="contact.location" 
@@ -99,7 +100,7 @@
         <template v-else> 
           <h3 class="title is-5 mt-0">
             <span 
-              v-text="(index + 1) + '. ' + contact.name"/>
+              v-text="contact.name"/>
           </h3>
           <p>
             <i class="ti ti-email mr-10"/>
@@ -116,18 +117,18 @@
             <span> {{ contact.location }} </span>
           </p>
         </template>
-        <div v-if="canEdit" class="level level-right">
-          <section>
-            <button 
-              class="button is-small is-pulled-right is-outlined" 
-              @click="trash(contact.id)">
-              <i class="ti ti-trash"/>
-            </button>
-            <save-edit-button
-              :saved="contact.isEditing"
-              class="mr-5 is-pulled-left"
-              @click="saveContact(contact)"/>
-          </section>
+        <div 
+          v-if="canEdit" 
+          class="my-5 buttons is-right">
+          <save-edit-button
+            :saved="contact.isEditing"
+            class="mr-5"
+            @click="saveContact(contact)"/>
+          <button 
+            class="button is-small is-outlined" 
+            @click="trash(contact.id)">
+            <i class="ti ti-trash"/>
+          </button>
         </div>
       </div>
     </div>
@@ -177,7 +178,6 @@ export default {
       contact.toggleEdit()
     },
     validate() {
-      console.log(Object.keys(this.form).length)
       return Object.keys(this.form).length === 4
     },
   }

@@ -42,10 +42,12 @@ export default {
         .catch(errors => this.logErrors(errors))
     },
     trash(id) {
+      if (typeof id !== 'number') throw Error('Invalid argument `id` provided for CrudHelper/trash method')
+
       const { action, message } = this.crud.delete
       const confirm_message = 'Deleting Record.'
       const text = 'Are you sure you want to delete this record'
-      if (typeof id !== 'number') throw Error('Invalid arguemnt `id` provided for CrudHelper/trash method')
+
       this.$confirm(confirm_message, text)
         .then(() => {
           this.$store.dispatch(action, id)

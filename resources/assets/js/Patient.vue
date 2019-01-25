@@ -5,6 +5,12 @@
     class="osq-wrapper">
     <header class="osq-main-navbar">
       <div class="osq-navbar-brand">
+        <button 
+          :class="{'is-hidden': $root.isMobile}"
+          class="osq-navbar-toggle mr-5" 
+          @click="$root.toggleSidebar">
+          <i class="ti ti-menu"/>
+        </button>
         <img 
           style="height: 25px" 
           src="@/../assets/logo-full@4.png" 
@@ -83,23 +89,23 @@ import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
 
 export default {
-	name: 'Patient',
-	mixins: [LoggedIn],
-	router: routes.patient,
-	data() {
-		return {
-			settings: {
-				profile: {
-					route: '/api/patient/profile',
-					key: 'data'
-				},
-				patients: {
-					route: '/api/patient',
-					key: 'data'
-				}
-			},
-		}
-	},
-	methods: {}
+  name: 'Patient',
+  mixins: [LoggedIn],
+  router: routes.patient,
+  data() {
+    return {
+      settings: {
+        profile: {
+          route: '/api/patient/profile',
+          key: 'data'
+        },
+        patients: {
+          route: '/api/patient',
+          key: 'data'
+        }
+      },
+    }
+  },
+  methods: {}
 }
 </script>
