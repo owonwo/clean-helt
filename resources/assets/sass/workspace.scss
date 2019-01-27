@@ -1,6 +1,6 @@
 %generics {
   @include media-breakpoint-down(sm) {
-    margin: 0 3px;
+    margin: 0;
 
     table.table {
       font-size: .8rem;
@@ -15,8 +15,18 @@
       }
     }
 
-    .wg-slider-page.px-15 {
-      padding: 0 !important;
+    .tabs {
+      li>a span {
+        display: none;
+      }
+    }
+
+    .wg-slider-page {
+      max-height: 100vh;
+
+      &.px-15 {
+        padding: 0 !important;
+      }
     }
   }
 }
@@ -45,15 +55,30 @@
         width: 100%;
         margin-bottom: 10px;
       }
-
-      li>a span {
-        display: none;
-      }
     }
   }
 }
 
 #profile-share {
+  @extend %generics;
+}
+
+#admin #all-users {
+  @extend %generics;
+
+  @include media-breakpoint-down(sm) {
+    .card-header {
+      flex-wrap: wrap;
+
+      >* {
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
+}
+
+#manage-admins {
   @extend %generics;
 }
 

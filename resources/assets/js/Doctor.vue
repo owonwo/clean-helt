@@ -5,6 +5,11 @@
     class="osq-wrapper">
     <header class="osq-main-navbar">
       <div class="osq-navbar-brand">
+        <button 
+          class="osq-navbar-toggle mr-5" 
+          @click="toggleSidebar">
+          <i class="ti ti-menu"/>
+        </button>
         <img 
           style="height: 25px" 
           src="@/../assets/logo-full@4.png" 
@@ -21,7 +26,8 @@
     </header>
 
     <aside 
-      :class="{collapse: $root.sidebars.nav}" 
+      :class="{collapse: sidebars.nav}" 
+      @click.prevent="handleAutoCollapse"
       class="osq-sidebar">
       <nav>
         <ul>
@@ -50,16 +56,17 @@
     <section class="osq-content">
       <section id="content">
         <!-- <keep-alive :exclude="['Patients']"> -->
-          <router-view/>
+        <router-view/>
         <!-- </keep-alive> -->
       </section>
 
       <aside 
         id="osq-logs" 
-        :class="{collapse: $root.sidebars.notif}">
+        :class="{collapse: sidebars.notif}">
         <router-view 
           id="osq-logs-content" 
-          name="logBar"/>
+          name="logBar"
+          @toggle-notif-bar="toggleNotification"/>
       </aside>
     </section>
   </main>
@@ -67,12 +74,13 @@
 
 <script>
 import routes from './routes'
-import LoggedIn from '@/Mixins/LoggedIn'
 import { mapState } from 'vuex'
+import LoggedIn from '@/Mixins/LoggedIn'
+import DashboardActions from '@/Mixins/DashboardActions'
 
 export default {
 	name: 'Doctor',
-	mixins: [LoggedIn],
+	mixins: [LoggedIn, DashboardActions],
 	props: {
 		id: {type: String, required: true }
 	},

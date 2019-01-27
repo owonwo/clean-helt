@@ -15,6 +15,7 @@ require('@/Mixins/global')
 import store from '@/store/admin_store'
 import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
+import DashboardActions from '@/Mixins/DashboardActions'
 
 Vue.prototype.$http = window.axios
 
@@ -23,7 +24,7 @@ window.addEventListener('load', () => {
     store,
     el: '#admin',
     router: routes.admin,
-    mixins: [LoggedIn],
+    mixins: [LoggedIn, DashboardActions],
     data: {
       settings: {
         profile: {
@@ -31,24 +32,12 @@ window.addEventListener('load', () => {
           key: 'data'
         },
       },
-      sidebars: { nav: false, notif: true },
     },
     computed: {
       ...mapState(['counts'])
     },
     mounted() {
       this.$store.dispatch('fetchCounts')
-    },
-    methods: {
-      toggleSidebar() {
-        this.sidebars.nav = !this.sidebars.nav
-      },
-      toggleNotification() {
-        this.sidebars.notif = !this.sidebars.notif
-      },
-      getIcon(name) {
-        return ['osf osf-'].concat(name.toLowerCase()).join('')
-      }
     },
   })
 })

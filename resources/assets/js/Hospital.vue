@@ -1,7 +1,7 @@
 <template>
   <main 
     v-cloak 
-    id="doctor" 
+    id="hospital" 
     class="osq-wrapper">
     <header class="osq-main-navbar">
       <div class="osq-navbar-brand">
@@ -13,7 +13,8 @@
     </header>
 
     <aside 
-      :class="{collapse: $root.sidebars.nav}" 
+      :class="{collapse: sidebars.nav}" 
+      @click="handleAutoCollapse"
       class="osq-sidebar">
       <nav>
         <ul>
@@ -57,7 +58,7 @@
 
       <aside 
         id="osq-logs" 
-        :class="{collapse: $root.sidebars.notif}">
+        :class="{collapse: sidebars.notif}">
         <router-view 
           id="osq-logs-content" 
           name="logBar"/>
@@ -69,11 +70,12 @@
 <script>
 import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
+import DashboardActions from '@/Mixins/DashboardActions'
 
 export default {
   name: 'Hospital',
   router: routes.hospital,
-  mixins: [LoggedIn],
+  mixins: [LoggedIn, DashboardActions],
   data: () => ({
     settings: {
       profile: {route: '/api/hospital/profile', key: 'hospital'},

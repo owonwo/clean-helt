@@ -27,57 +27,55 @@
           <i>Click the <b>Plus Button</b> (+) to add a Health Service Provider.</i>
         </blockquote>
       </div>
-      <section class="card-body">
-        <pager
-          :current="page"
-          class="is-absolute" 
-          align="top">
-          <div
-            v-for="(shareKey, index) in serviceProviderOrder" 
-            :slot="'p'+(index+1)"
-            :key="index">
-            <table class="table is-hoverable is-fullwidth">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th width="100">CHCODE</th>
-                  <th width="">Contact</th>
-                  <th width="">Location</th>
-                  <th v-if="shareKey == 'hospitals'" width="50"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr 
-                  v-for="(share, index) in filtered" 
-                  :key="index">
-                  <td><a @click.prevent="modal = true">{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</a></td>
-                  <td class="has-text-grey-darker">{{ share.chcode }}</td>
-                  <td>{{ share.phone }}</td>
-                  <td>{{ [share.city, share.state].join(' - ') }}</td>
-                  <td v-if="shareKey == 'hospitals'">
-                    <router-link
-                      :to="{name: 'profile-share', params: {chcode: share.chcode}}"
-                      tag="button"
-                      class="button is-small is-primary is-block">
-                      <i class="icon ti ti-share"/> <span>Share</span>
-                    </router-link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </pager>
-        <div class="px-5">
-          <alert 
-            v-if="!!searchString && filtered.length === 0" 
-            type="info"
-            class="is-italic">
-            <span 
-              class="tag" 
-              v-text="searchString"/> not available.
-          </alert>
+      <pager
+        :current="page"
+        style="height: 69vh"
+        align="top">
+        <div
+          v-for="(shareKey, index) in serviceProviderOrder" 
+          :slot="'p'+(index+1)"
+          :key="index">
+          <table class="table is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th width="100">CHCODE</th>
+                <th width="">Contact</th>
+                <th width="">Location</th>
+                <th v-if="shareKey == 'hospitals'" width="50"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr 
+                v-for="(share, index) in filtered" 
+                :key="index">
+                <td><a @click.prevent="modal = true">{{ share.name || [share.first_name, share.last_name].join(' ') || 'Unknown' }}</a></td>
+                <td class="has-text-grey-darker">{{ share.chcode }}</td>
+                <td>{{ share.phone }}</td>
+                <td>{{ [share.city, share.state].join(' - ') }}</td>
+                <td v-if="shareKey == 'hospitals'">
+                  <router-link
+                    :to="{name: 'profile-share', params: {chcode: share.chcode}}"
+                    tag="button"
+                    class="button is-small is-primary is-block">
+                    <i class="icon ti ti-share"/> <span>Share</span>
+                  </router-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </section>
+      </pager>
+      <div class="px-5">
+        <alert 
+          v-if="!!searchString && filtered.length === 0" 
+          type="info"
+          class="is-italic">
+          <span 
+            class="tag" 
+            v-text="searchString"/> not available.
+        </alert>
+      </div>
     </section>
 
     <modal :show="false">

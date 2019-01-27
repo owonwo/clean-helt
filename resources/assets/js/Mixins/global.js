@@ -46,6 +46,9 @@ Vue.mixin({
         form.append(key, value)
       return form
     },
+    getIcon(name) {
+      return ['osf osf-'].concat(name.toLowerCase()).join('')
+    },
     logErrors(err, options = {}) {
       for (const message of Object.values(err)) {
         message.map(msg => this.error_message(msg, options))

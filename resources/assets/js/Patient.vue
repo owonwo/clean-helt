@@ -1,14 +1,12 @@
 <template>
   <main 
     v-cloak 
-    id="doctor" 
     class="osq-wrapper">
     <header class="osq-main-navbar">
       <div class="osq-navbar-brand">
         <button 
-          :class="{'is-hidden': $root.isMobile}"
           class="osq-navbar-toggle mr-5" 
-          @click="$root.toggleSidebar">
+          @click="toggleSidebar">
           <i class="ti ti-menu"/>
         </button>
         <img 
@@ -27,10 +25,10 @@
     </header>
 
     <aside 
-      :class="{collapse: $root.sidebars.nav}" 
+      :class="{collapse: sidebars.nav}" 
       class="osq-sidebar">
       <nav>
-        <ul>
+        <ul @click="handleAutoCollapse">
           <custom-link 
             to="/dashboard" 
             icon="osf osf-dashboard-white" 
@@ -75,10 +73,11 @@
       
       <aside 
         id="osq-logs" 
-        :class="{collapse: $root.sidebars.notif}">
+        :class="{collapse: sidebars.notif}">
         <router-view 
           id="osq-logs-content" 
-          name="logBar" />
+          name="logBar" 
+          @toggle-notif-bar="toggleNotification()"/>
       </aside>
     </section>
   </main>
@@ -87,10 +86,11 @@
 <script>
 import routes from './routes'
 import LoggedIn from '@/Mixins/LoggedIn'
+import DashboardActions from '@/Mixins/DashboardActions'
 
 export default {
   name: 'Patient',
-  mixins: [LoggedIn],
+  mixins: [LoggedIn, DashboardActions],
   router: routes.patient,
   data() {
     return {

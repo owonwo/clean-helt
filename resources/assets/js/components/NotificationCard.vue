@@ -1,60 +1,48 @@
 <template>
-	<section @click="$emit('click', $event)" class="notification activity-notification" :class="[notif_type]">
-		<span v-if="$props.account !== 'bell'" class="notification-icon is-pulled-left">
-			<i class="icon" :class="[icon_name]"></i>
-		</span>
-		<slot class="content"></slot>
-		<small class="notification-time"><slot name="time">Just now</slot></small>
-	</section>
+  <section 
+    :class="[notif_type]" 
+    class="notification activity-notification" 
+    @click="$emit('click', $event)">
+    <div 
+      v-if="$props.account !== 'bell'" 
+      class="notification-icon">
+      <i 
+        :class="[icon_name]"
+        class="icon"/>
+    </div>
+    <div class="notification-text">
+	    <slot class="content"/>
+	    <div class="has-text-right">
+		    <small class="notification-time"><slot name="time">Just now</slot></small>	    	
+	    </div>
+    </div>
+  </section>
 </template>
 
 <script>
 export default {
 	props: {
-		'type': {type: String}, 
-		'account': {type: String, default: 'bell'},
+		'type': { type: String, default: 'light' }, 
+		'account': { type: String, default: 'bell' },
 	},
+	data() {return {
+		timestamp: {},
+		icon: '',
+		types: ['info','danger','dark','primary','link','warning','success'],
+		default_type: ['light']
+	}},
 	computed: {
 		icon_name() { return this.getIcon() },
 		notif_type() {
-			const {$props: {type}, types, default_type} = this;
-			return ["is"].concat(types.includes(type) ? type : default_type).join("-");
+			const {$props: {type}, types, default_type} = this
+			return ['is'].concat(types.includes(type) ? type : default_type).join('-')
 		}
 	},
 	methods: {
 		//Gets the icon for the type of notification
 		getIcon() {
-			return (['osf osf'].concat(this.$props.account).join('-') + '-white'); 
+			return (['osf osf'].concat(this.$props.account).join('-') + '-white') 
 		},
 	},
-	data() {return {
-		timestamp: {},
-		icon: "",
-		types: ["info","danger","dark","primary","link","warning","success"],
-		default_type: ['light']
-	}}
 }
 </script>
-
-<style lang="scss">
-	.activity-notification {
-		display: flex;
-		flex-wrap: wrap;
-		user-select: none;
-		align-items: flex-start;
-		padding: {left: 10px; right: 10px;}
-
-		.notification-time {
-			width: 100%;
-			opacity: 0.6;
-			text-align: right;
-			line-height: 15px;
-		}
-
-		&-icon {
-			margin-top: 3px;
-			margin-left: -1rem;
-			margin-right: 1rem;
-		}
-	}
-</style>

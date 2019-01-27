@@ -8,7 +8,7 @@
 				<div class="card short-card">
 					<h3 class="has-text-right osq-text-primary">{{ entry.count }}</h3>
 					<span>
-						<i class="icon" :class="[$root.getIcon(entry.icon_name)]"></i> 
+						<i class="icon" :class="[getIcon(entry.icon_name)]"></i> 
 						<span class="">{{ name }}</span>
 					</span>
 				</div>

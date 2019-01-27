@@ -23,6 +23,11 @@
     <main id="admin" v-cloak class="osq-wrapper">
         <header class="osq-main-navbar">
             <div class="osq-navbar-brand">
+                <button 
+                  class="osq-navbar-toggle mr-5" 
+                  @click="toggleSidebar">
+                  <i class="ti ti-menu"></i>
+                </button> 
                 CH<b>ADMIN</b>
             </div>
             <section class="level my-0">
@@ -60,7 +65,7 @@
         </header>
         <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
             <nav>
-                <ul>
+                <ul @click="handleAutoCollapse">
                     <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard">
                     </custom-link>
                     <custom-link to="/users" icon="osf osf-users-white" name="Users">
@@ -76,7 +81,7 @@
                 </ul>
             </nav>
             <footer>
-                <ul class="is-small">
+                <ul>
                     <li><a @click.prevent="logout"><i class="osf osf-back-alt-white"></i> Sign Out</a></li>
                     <li><a href="#"><i class="osf osf-forum-white"></i> Log into Forum</a></li>
                 </ul>

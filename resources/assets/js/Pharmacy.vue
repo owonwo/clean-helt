@@ -11,7 +11,7 @@
       </div>
     </header>
 
-    <aside :class="{collapse: $root.sidebars.nav}" class="osq-sidebar">
+    <aside :class="{collapse: sidebars.nav}" class="osq-sidebar">
       <nav>
         <ul>
           <custom-link to="/dashboard" icon="osf osf-dashboard-white" name="Dashboard"/>
@@ -35,7 +35,7 @@
         </keep-alive>
       </section>
 
-      <aside id="osq-logs" :class="{collapse: $root.sidebars.notif}">
+      <aside id="osq-logs" :class="{collapse: sidebars.notif}">
         <router-view id="osq-logs-content" name="logBar"/>
       </aside>
     </section>

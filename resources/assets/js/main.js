@@ -39,18 +39,8 @@ new Vue({
   components: { Doctor, Hospital, Patient, Pharmacy, Laboratory, Login, Register },
   data: {
     user: {},
-    sidebars: { nav: false, notif: true }
-  },
-  mounted() {
-    this.toggleSidebar()
   },
   methods: {
-    toggleSidebar() {
-      this.sidebars.nav = !this.sidebars.nav
-    },
-    toggleNotification() {
-      this.sidebars.notif = !this.sidebars.notif
-    },
     getIcon(name) {
       return ['osf osf-'].concat(name.toLowerCase()).join('')
     }

@@ -1,7 +1,6 @@
 <template>
 	<router-link :to="$props.to" tag="li">
-	    <a href="#"><i :class="[$props.icon]"></i> {{$props.name}}</a> 
-	    <span class="toggler" @click="$root.toggleSidebar"></span>
+	    <a href="#"><i :class="[$props.icon]"></i> {{$props.name}}</a>
 	</router-link>
 </template>
 

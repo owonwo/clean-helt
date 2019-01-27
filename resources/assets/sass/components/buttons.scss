@@ -3,135 +3,156 @@ $link-color: dodgerblue !default;
 
 
 button {
-	font-family: $input-font;
-	transition: all .3s ease-out;
-	
-	&:focus {
-		outline: none;
-	}
+  font-family: $input-font;
+  transition: all .3s ease-out;
+
+  &:focus {
+    outline: none;
+  }
 }
 
-button.no-style, button[ghost]{
+button.no-style,
+button[ghost] {
   border: none;
   background: transparent;
 }
 
 @mixin hovered($color, $type) {
-	&-#{$type} {
-		&:hover, &:focus {
-			border-color: $color;
-			// color: $color;
-		}
-	}
+  &-#{$type} {
+
+    &:hover,
+    &:focus {
+      border-color: $color;
+      // color: $color;
+    }
+  }
 }
 
 .button {
-	&:hover {
-		transform: translateY(-3px);
-	}
-	&.is-outlined { border-width: 2px !important }
-	&.has-no-motion {transform: translateY(0) !important }
-	&.is-hovered {
-		@include hovered($danger, 'danger');
-		@include hovered($success, 'success');
-	}
+  &:hover {
+    transform: translateY(-3px);
+  }
 
-	&.is-primary {
-		color: rgba(black, .7);
-	}
+  &.is-outlined {
+    border-width: 2px !important
+  }
+
+  &.has-no-motion {
+    transform: translateY(0) !important
+  }
+
+  &.is-hovered {
+    @include hovered($danger, 'danger');
+    @include hovered($success, 'success');
+  }
+
+  &.is-primary {
+    color: rgba(black, .7);
+  }
 }
 
-.circular-btn, .circle-btn, .btn-circle {
-	$height : 50px;
-	@include square($height);
-	@include ease-out(all);
+.circular-btn,
+.circle-btn,
+.btn-circle {
+  $height: 50px;
+  @include square($height);
+  @include ease-out(all);
 
-	background: white;
-	color: $link-color;
-	line-height: $height;
-	border-radius: 50%;
+  background: white;
+  color: $link-color;
+  line-height: $height;
+  border-radius: 50%;
 
-	&:hover, &.set {
-		background: fade-out($link-color, .55);
-		color: white
-	}
+  &:hover,
+  &.set {
+    background: fade-out($link-color, .55);
+    color: white
+  }
 }
 
 .bordered-btn,
 .bdd-btn {
-	@include ease-out(background);
+  @include ease-out(background);
 
-	background: $btn-color;
-	color: white;
-	border: none;
-	border: solid 3px white;
-	transform: translate3d(0,0,0);
-	box-shadow: 0 0 0 fade-out($black,1);
-	transition-property: color, box-shadow, transform;
+  background: $btn-color;
+  color: white;
+  border: none;
+  border: solid 3px white;
+  transform: translate3d(0, 0, 0);
+  box-shadow: 0 0 0 fade-out($black, 1);
+  transition-property: color, box-shadow, transform;
 
-	&.bdd-primary {
-		background: $primary-color;
-		&:hover {
-			transform: translate3d(0,10px,0);
-			background-color: lighten($primary-color, 10%);
-		}
-	}
+  &.bdd-primary {
+    background: $primary-color;
 
-	&:hover {
-		color: white;
-		box-shadow: 0 3px 3px fade-out($dark, .65);
-		background: lighten($btn-color, 10%);
-	}
+    &:hover {
+      transform: translate3d(0, 10px, 0);
+      background-color: lighten($primary-color, 10%);
+    }
+  }
+
+  &:hover {
+    color: white;
+    box-shadow: 0 3px 3px fade-out($dark, .65);
+    background: lighten($btn-color, 10%);
+  }
 }
 
 .md-btn {
-	@include ease-out(background);
+  @include ease-out(background);
 
-	background: $btn-color;
-	color: whitesmoke;
-	border: none;
-	box-shadow: 0 2px 8px rgba(black, 0.5);
-	transition-property: color, box-shadow;
+  background: $btn-color;
+  color: whitesmoke;
+  border: none;
+  box-shadow: 0 2px 8px rgba(black, 0.5);
+  transition-property: color, box-shadow;
 
-	&:hover {
-		color: white;
-		background: $btn-color;
-	}
+  &:hover {
+    color: white;
+    background: $btn-color;
+  }
 }
 
 .md-btn-circle {
-	@extend .circular-btn;
-	@extend .md-btn;
+  @extend .circular-btn;
+  @extend .md-btn;
 }
 
 .btn-grad {
-	color: white;
-	background-image: linear-gradient(90deg, $primary-color 50%, $accent-color);
-	border: none;
-	transition: all .3s ease-out;
+  color: white;
+  background-image: linear-gradient(90deg, $primary-color 50%, $accent-color);
+  border: none;
+  transition: all .3s ease-out;
 
-	&:hover {
-		background-image: linear-gradient(90deg, $primary-color 100%, $accent-color);
-	}
+  &:hover {
+    background-image: linear-gradient(90deg, $primary-color 100%, $accent-color);
+  }
 }
 
 .btn-outline {
-	color: $dark-gray;
-	border-color: $dark-gray;
-	border: solid 2px fade-out($dark-gray, .5);
-	background-color: transparent;
-	transition: all .3s ease-out;
+  color: $dark-gray;
+  border-color: $dark-gray;
+  border: solid 2px fade-out($dark-gray, .5);
+  background-color: transparent;
+  transition: all .3s ease-out;
 
-	&.radius {
-		border-radius: 30px;
-	}
+  &.radius {
+    border-radius: 30px;
+  }
 
-	&:hover {
-		border-color: $primary-color;
-		color: $primary-color;
-	}
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
 }
 
 .btn-expand {
-	width: 100% !important;
+  width: 100% !important;
+}
+
+
+.buttons.has-flat-top {
+  >.button {
+    border-radius: 0 0 20px 20px;
+  }
 }

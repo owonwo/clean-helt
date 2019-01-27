@@ -1,33 +1,36 @@
 <template>
-  <section class="card">
-    <div class="card-header">
-      <nav 
-        class="card-header-title level">
-        <span >All Users</span>
+  <section id="all-users">
+    <div class="content-top-bar">
+      <h3>
+        <span>All Clients </span>
+      </h3>
+    </div>
+    <section class="card is-rounded mb-10">
+      <div class="card-header">      
         <search-box 
           v-model="searchString" 
           style="width: 300px" 
           placeholder="Search CHCODE" />
-      </nav>
-    </div>
-    <div class="tabs mb-0">
-      <ul>
-        <li 
-          v-for="(type, name, index) in client_types" 
-          :key="index" 
-          :class="{'is-active': current == index}" 
-          @click="current=index">
-          <a href="#">
-            {{name}} <i
-            :class="[type.icon]"
-            class="icon"/>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <v-scrollbar style="max-height: 70vh">
+      </div>
+      <div class="tabs">
+        <ul class="py-10">
+          <li 
+            v-for="(type, name, index) in client_types" 
+            :key="index" 
+            :class="{'is-active': current == index}" 
+            @click="current=index">
+            <a href="#">
+              <i
+                :class="[type.icon]"
+                class="icon"/>
+              <span>{{ name }}</span> 
+            </a>
+          </li>
+        </ul>
+      </div>
       <pager 
         :current="current" 
+        style="height: 68vh"
         align="top">
         <!-- PATIENTS_TABLE -->
         <div 
@@ -245,7 +248,7 @@
           </table>
         </div>
       </pager>
-    </v-scrollbar>
+    </section>
 
     <modal 
       :show-header="true" 
@@ -263,126 +266,126 @@
 </template>
 
 <script>
-	import axios from 'axios'
-	import { mapState, mapActions } from 'vuex'
-	
-	const lockUrlMap = {
-		modelMaps: Object.freeze({
-			DOCTOR: '/api/admin/doctors/{chcode}/deactivate',
-			LABORATORY: '/api/admin/laboratories/{chcode}/deactivate',
-			PATIENT: '/api/admin/patients/{chcode}/deactivate',					
-		}),
-		__proto: { 
-			urlIsValid() { 
-				return this.isValid 
-			}, 
-			url(chcode) { 
-				return this._url.replace('{chcode}', chcode)
-			},
-			getUnlockUrl(chcode) {
-				return this._url.replace('deactivate', 'activate').replace('{chcode}', chcode)
-			},
-			_url: '' ,
-			isValid: false
-		},
-		find(model) {
-			return Object.assign(this.__proto, {
-				isValid: Object.keys(this.modelMaps).includes(model), 
-				_url: this.modelMaps[model]
-			})
-		}
-	}
+  import axios from 'axios'
+  import { mapState, mapActions } from 'vuex'
+  
+  const lockUrlMap = {
+    modelMaps: Object.freeze({
+      DOCTOR: '/api/admin/doctors/{chcode}/deactivate',
+      LABORATORY: '/api/admin/laboratories/{chcode}/deactivate',
+      PATIENT: '/api/admin/patients/{chcode}/deactivate',         
+    }),
+    __proto: { 
+      urlIsValid() { 
+        return this.isValid 
+      }, 
+      url(chcode) { 
+        return this._url.replace('{chcode}', chcode)
+      },
+      getUnlockUrl(chcode) {
+        return this._url.replace('deactivate', 'activate').replace('{chcode}', chcode)
+      },
+      _url: '' ,
+      isValid: false
+    },
+    find(model) {
+      return Object.assign(this.__proto, {
+        isValid: Object.keys(this.modelMaps).includes(model), 
+        _url: this.modelMaps[model]
+      })
+    }
+  }
 
-	export default {
-		name: 'AllUsers',
-		data() {return {
-			current: 0,
-			modal: false,
-			model: 'PATIENT',
-			client_types: {
-				Patients: {icon: 'osf osf-client-alt'},
-				Doctors: {icon: 'osf osf-doctor'},
-				Pharmacy: {icon: 'osf osf-pharmacy'},
-				Laboratory: {icon: 'osf osf-lab'},
-				Hospital: {icon: 'osf osf-hospital'},
-			},
-			preview: false,
-			searchString: '',
-		}},
-		computed: {
-			...mapState(['models']),
-			model_keys() { return Object.keys(this.models) }
-		},
-		mounted() {
-			const {personalify, addMethods} = this
+  export default {
+    name: 'AllUsers',
+    data() {return {
+      current: 0,
+      modal: false,
+      model: 'PATIENT',
+      client_types: {
+        Patients: {icon: 'osf osf-client-alt'},
+        Doctors: {icon: 'osf osf-doctor'},
+        Pharmacy: {icon: 'osf osf-pharmacy'},
+        Laboratory: {icon: 'osf osf-lab'},
+        Hospital: {icon: 'osf osf-hospital'},
+      },
+      preview: false,
+      searchString: '',
+    }},
+    computed: {
+      ...mapState(['models']),
+      model_keys() { return Object.keys(this.models) }
+    },
+    mounted() {
+      const {personalify, addMethods} = this
 
-			this.model_keys.map((model) => {
-				this.fetch(model).then((res) => {
-					let accounts = res.data.data.data
-					const users_info = accounts.map((d) => personalify(d)).map(addMethods)
-					this.$set(this.models, model, {data: users_info})
-				})
-			})
-		},
-		customMethods: {
-			setActive(state = false) {
-				(/^CHD/.test(this.chcode)) ? (this.profile.active = state) 
-				// : (/^CHH/.test(this.chcode)) ? (this.active = false) 
-				: (this.active = state)
-			},
-			activate() {
-				this.setActive(true)
-			},
-			deactivate() {
-				this.setActive(false)
-			},
-		},
-		methods: {
-			...mapActions(['fetch']),
+      this.model_keys.map((model) => {
+        this.fetch(model).then((res) => {
+          let accounts = res.data.data.data
+          const users_info = accounts.map((d) => personalify(d)).map(addMethods)
+          this.$set(this.models, model, {data: users_info})
+        })
+      })
+    },
+    customMethods: {
+      setActive(state = false) {
+        (/^CHD/.test(this.chcode)) ? (this.profile.active = state) 
+        // : (/^CHH/.test(this.chcode)) ? (this.active = false) 
+        : (this.active = state)
+      },
+      activate() {
+        this.setActive(true)
+      },
+      deactivate() {
+        this.setActive(false)
+      },
+    },
+    methods: {
+      ...mapActions(['fetch']),
 
-			addMethods(account) {
-				account = _.extend(Object.create(this.$options.customMethods), account)
-				console.assert(!Object.keys(account).includes('activate'), 'Error! AddMethods not appended to Object.')
+      addMethods(account) {
+        account = _.extend(Object.create(this.$options.customMethods), account)
+        console.assert(!Object.keys(account).includes('activate'), 'Error! AddMethods not appended to Object.')
 
-				return account
-			},
-			searchFilter(e) {
-				return (e ||  []).filter(e => 
-					e.chcode.toLowerCase()
-						.includes(this.searchString.toLowerCase())
-				)
-			},
-			verifyDoctor(doctor) {
-				doctor.validation = true
-				axios.patch(`/api/admin/doctors/verify/${doctor.chcode}`).catch((res) => {
-					doctor.validation = false
-					this.$notify({
-						group: 'main', text: 'Doctor verification failed!',
-						type: 'error'
-					})
-				})
-			},
-			lock(model, account) {
-				account.deactivate()
-				const lockState = lockUrlMap.find(model)
-				!lockState.urlIsValid() ||
-					axios.patch(lockState.url(account.chcode)).catch(err => {
-					account.activate()
-				})
-			},
-			unlock(model, account) {
-				account.activate()
-				const lockState = lockUrlMap.find(model)
-				!lockState.urlIsValid() ||
-					axios.patch(lockState.getUnlockUrl(account.chcode)).catch(err => {
-					account.deactivate()
-				})
-			},
-			showModal(model, chcode) {
-				this.model = model
-				this.preview = chcode
-				this.modal = true
-			}
-		}
-	}
+        return account
+      },
+      searchFilter(e) {
+        return (e ||  []).filter(e => 
+          e.chcode.toLowerCase()
+            .includes(this.searchString.toLowerCase())
+        )
+      },
+      verifyDoctor(doctor) {
+        doctor.validation = true
+        axios.patch(`/api/admin/doctors/verify/${doctor.chcode}`).catch((res) => {
+          doctor.validation = false
+          this.$notify({
+            group: 'main', text: 'Doctor verification failed!',
+            type: 'error'
+          })
+        })
+      },
+      lock(model, account) {
+        account.deactivate()
+        const lockState = lockUrlMap.find(model)
+        !lockState.urlIsValid() ||
+          axios.patch(lockState.url(account.chcode)).catch(err => {
+          account.activate()
+        })
+      },
+      unlock(model, account) {
+        account.activate()
+        const lockState = lockUrlMap.find(model)
+        !lockState.urlIsValid() ||
+          axios.patch(lockState.getUnlockUrl(account.chcode)).catch(err => {
+          account.deactivate()
+        })
+      },
+      showModal(model, chcode) {
+        this.model = model
+        this.preview = chcode
+        this.modal = true
+      }
+    }
+  }
 </script>

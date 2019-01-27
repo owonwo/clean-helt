@@ -2,7 +2,7 @@
   <aside class="content">
     <h5 
       class="notif-heading" 
-      @click.stop="$root.toggleNotification()">
+      @click.stop="$emit('toggle-notif-bar')">
       <i 
         :class="{'is-dotted': unread.length > 0}"
         class="icon osf osf-notification hoverable mr-20"/> 

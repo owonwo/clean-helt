@@ -1,26 +1,27 @@
 <template>
   <section class="content">
     <div 
-      class="content-top-bar is-flex" 
-      style="justify-content: space-between">
+      class="content-top-bar level">
       <span>Create a Service Provider</span>
-      <div class="buttons">
-        <button 
-          v-select-form="'hospital'" 
-          class="button is-normal is-rounded is-primary">
-          <i class="osf icon osf-hospital"/> <span>Hospital</span>
-        </button>
-        <button 
-          v-select-form="'pharmacy'" 
-          class="button is-normal is-rounded">
-          <i class="osf icon osf-pharmacy"/> <span>Pharmacy</span>
-        </button>
-        <button 
-          v-select-form="'laboratory'" 
-          class="button is-normal is-rounded">
-          <i class="osf icon osf-lab"/> <span>Laboratory</span>
-        </button>
-      </div>
+      <section>
+        <div class="buttons has-flat-top">
+          <button 
+            v-select-form="'hospital'" 
+            class="button is-normal is-rounded is-primary">
+            <i class="osf icon osf-hospital"/> <span>Hospital</span>
+          </button>
+          <button 
+            v-select-form="'pharmacy'" 
+            class="button is-normal is-rounded">
+            <i class="osf icon osf-pharmacy"/> <span>Pharmacy</span>
+          </button>
+          <button 
+            v-select-form="'laboratory'" 
+            class="button is-normal is-rounded">
+            <i class="osf icon osf-lab"/> <span>Laboratory</span>
+          </button>
+        </div>
+      </section>
     </div>
     <div id="create-user-form">
       <section>
@@ -108,12 +109,6 @@
               placeholder="https://hospital.care">
             <div class="help is-bold">Service provider website if any.</div>
           </div>
-          <button 
-            :class="{'is-loading': loading }" 
-            class="button is-primary" 
-            @click="register">
-            Register
-          </button>
         </div>
       </section>
       <!-- directors form -->
@@ -304,22 +299,22 @@
           </div>
         </div>
       </section>
+
+      <div class="buttons">
+        <button 
+          :class="{'is-loading': loading }" 
+          class="button is-primary" 
+          @click="register">
+          Register
+        </button>
+      </div>
     </div>
+    
     <notifications 
       :position="['right', 'bottom']" 
       group="create"/>
   </section>
 </template>
-
-<style lang="sass">
-    .buttons
-        > .button
-            margin-top: -16px
-            border-radius: 0 0 20px 20px
-
-            .icon 
-                height: 1.2em !important
-</style>
 
 <script>
 export default {
