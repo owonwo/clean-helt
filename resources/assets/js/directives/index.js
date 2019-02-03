@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import $ from 'jquery'
 import _ from 'lodash'
+import {trace} from '@/store/helpers/utilities'
 
 const preloadClass = ['slide', 'content-preloader']
 
@@ -42,41 +43,18 @@ Vue.directive('pager-controls', {
     if (typeof activeClass === 'undefined') {
       throw Error('Missing required prop `activeClass` for pager-controls')
     }
-    el.addEventListener('click', (evt) => {
-      if (modifiers.prevent) evt.preventDefault()
-      const { target, path } = evt
-      const parentAnchor = (target.matches('li > a *')) ?
-        path.find(e => e.matches('a')) :
-        target
 
-      changePage(parentAnchor)
-      changeHash(parentAnchor)
-    })
-    const elms = () => Array.from(el.querySelectorAll('li'))
-    const anchors = elms().map(e => e.querySelector('a'))
+    const control = PagerControl(el, {activeClass, modifiers})
+    control.init()
+    control.addEventListener('change-page', index => vnode.context.page = index)
 
-    const resetLinksState = () => {
-      elms().forEach(li => li.classList.remove(activeClass))
-    }
-    const changePage = (anchor) => {
-      resetLinksState()
-      const { parentElement: li } = anchor
-      li.classList.add(activeClass)
-      vnode.context.page = elms().indexOf(li)
-    }
-    const matchesHash = a => a.getAttribute('href') === window.location.hash
-    const changeHash = (anchor) => {
-      window.history.replaceState('', '', anchor.href)
-    }
-    const clickOnMatched = () => {
-      const matchedAnchor = anchors.find(matchesHash)
-      if (!matchedAnchor) {
-        anchors[0].click()
-      } else {
-        matchedAnchor.click()
-      }
-    }
-    context.$nextTick(() => setTimeout(clickOnMatched, 1000))
+    context.$nextTick(() => setTimeout(control.autoClickOnMatchedHash.bind(control), 1000))
+    context.pagerControl = control
+  },
+  update(el, binding, vnode) {
+    setTimeout(() => {
+      vnode.context.pagerControl.updateAnchors()      
+    }, 1000)
   }
 })
 
@@ -130,5 +108,62 @@ Vue.directive('preload', {
     const showValue = () => $(el).text(value);
     (!_.isEmpty(value) || 'undefined' !== typeof(value)) ?
     window.preloadClass.map(p => $(el).removeClass(p)) && showValue(): null
+  }
+})
+
+const PagerControl = (navEl, {modifiers, activeClass}) => ({
+  elms: null, 
+  events: [],
+  anchors: [],
+  init() {
+    if (!navEl) throw Error('Invalid Navigation Element given: PagerControlDirective')
+      
+    this.elms = () => Array.from(navEl.querySelectorAll('li'))
+    this.addEventsToAnchors()
+    this.navEl = navEl
+  },
+  addEventsToAnchors() {
+    this.elms()
+    .map(e => e.querySelector('a'))
+    // .map(trace({anchors: this.anchors, message: 'before filter'}))
+    .filter(anchor => {
+      return !this.anchors.includes(anchor)
+    })
+    // .map(trace('after filter'))
+    .forEach(anchor => {
+      this.anchors.push(anchor)
+      anchor.addEventListener('click', (evt) => {
+        this.updateAnchors()
+        this.changePage(anchor)
+        this.changeHash(anchor)
+      })
+    });
+  },
+  updateAnchors() {
+    this.addEventsToAnchors()
+  },
+  resetLinksState() {
+    this.elms().forEach(li => li.classList.remove(activeClass))
+  },
+  addEventListener (eventname, callback) {
+    this.events[eventname] = callback
+  },
+  changePage (anchor) {
+    this.resetLinksState()
+    const { parentElement: li } = anchor
+    li.classList.add(activeClass)
+    this.events['change-page']( this.elms().indexOf(li) )
+  },
+  matchesHash: (a) => a.getAttribute('href') === window.location.hash,
+  changeHash: (anchor) => {
+    window.history.replaceState('', '', anchor.href)
+  },
+  autoClickOnMatchedHash() {
+    const matchedAnchor = this.anchors.find(this.matchesHash)
+    if (!matchedAnchor && this.anchors.length) {
+      this.anchors[0].click()
+    } else {
+      matchedAnchor.click()
+    }
   }
 })

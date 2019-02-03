@@ -117,7 +117,10 @@ export const buildLab = (lab) => {
   return __.assign(__.create(lab_proto), lab)
 }
 
-export const trace = (x) => console.log(x)
+export const trace = (message = "") => (x) => {
+  console.log(message, x)
+  return x
+}
 
 export const guessDataKey = ({ data }) => {
   data.data || (data.data = data['records'])
